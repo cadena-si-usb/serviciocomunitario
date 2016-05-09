@@ -1,0 +1,14 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<h4 style="color:#4682B4">SIGESC / Home / Admin / Solicitudes</h4>
+<h4 style="color:#4682B4">{{=bienvenida}}</h4>
+<div class="col-md-1 botones">
+	<button type="button" onclick="location.href='{{=URL('solicitud_constancia_coordinacion')}}'" align="left" class="btn btn-lg0 btn-default perfil">
+		<h class="tittle-accion">Volver</h>
+	</button>
+</div>
+
+<div class="col-md-10" style="margin-left: 6%;">
+	<h2 class="detalles"><b>Solicitud aprobada satisfactoriamente</b></h2>
+</div>
+{{ end }}

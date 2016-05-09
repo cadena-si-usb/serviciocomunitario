@@ -1,0 +1,159 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+
+<html lang="en">
+  <head>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}"></script>
+  </head>
+   <body role="document">
+       <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-6" align="left">
+               <h4 style="color:#4682B4">
+               		<a href=".">SIGESC | Home</a>
+               		|<a href="{{=URL('vista_estudiante')}}"> Estudiante </a>
+               		|<a href="{{=URL('estado_estudiante')}}"> Estado </a> </h4>
+               <h4 style="color:#4682B4">{{=bienvenida}}</h4>
+
+            </div>
+            <div class="col-md-4" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    {{ if proyecto.f_valido=='Valido':}}
+   <div class="col-sm-12">
+       <div class="col-md-3">
+           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Estado</h4>
+            <hr>
+             <ul class="list-group">
+                <li class="list-group-item">
+                	Estado del proyecto:
+                	{{if proyecto.f_estado != "Retirado": }}
+                		<span style="color:green; font-weight: bold;"> {{=proyecto.f_estado}} </span>
+                    {{else:}}
+                		<span style="color:red; font-weight: bold;">{{=proyecto.f_estado}}</span>
+                    {{pass}}
+                </li>
+                {{if proyecto.f_fecha:}}
+                  <li class="list-group-item">
+                  Fecha:
+                    <span style="color:green; font-weight: bold;"> {{=proyecto.f_fecha}} </span>
+                  </li>
+                {{pass}}
+                <li class="list-group-item">
+                	Horas realizadas: {{= horas_realizadas}}
+                </li>
+             </ul>
+       </div>
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}
+        <div class="col-md-8">
+            <div class="row">
+                <div class="panel panel-primary">
+                      <div class="panel-heading no-decoracion"><a href="{{=URL('vista_estudiante')}}" style="color:#fff">
+                         <b><h class="detalles" ><span class="back glyphicon glyphicon-chevron-left"></span>
+                          Cursando proyecto {{=proyecto.f_proyecto.f_nombre }}</h></b></a>
+                      </div>
+                      <div class="panel-body">
+                          <table class="table table-striped">
+                            <tr><td><b>Tutores Académicos:</b>
+                              {{=tutor }}
+                            </td></tr>
+                            <tr><td><b>Tutores Comunitarios:</b>
+                              {{=tutor_comunitario }}
+                            </td></tr>
+                          </table>
+                      </div>
+
+                </div>
+            </div>
+
+        </div>
+  		{{ pass }}
+  </div>
+  <div class="col-sm-12">
+      <div class="panel panel-primary">
+          <div class="panel-heading class=detalles">
+             <b><h class="detalles" >Actividades</h></b>
+          </div>
+          <div class="panel-body"  >
+              {{if actividades: }}
+              <table class="table table-condensed table-proyectos"  >
+                <thead>
+                  <tr>
+                    <th>Actividad</th>
+                    <th>Horas</th>
+                    <th>Realizada</th>
+                    <th>Aceptada</th>
+                    <th>Finalizar</th>
+                  </tr>
+                </thead>
+                  {{for actividad,planlist in zip(actividades,planoperativo):}}
+                       <tr>
+                          <td>{{=actividad.f_actividad.f_nombre}}</td>
+                          <td>{{=actividad.f_horas}}</td>
+                          <td class="realizada_actividad">
+                              {{if actividad.f_realizada:}}
+                                  <span class="glyphicon glyphicon-ok" style="color:green;"></span>
+                              {{else:}}
+                                  <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                              {{pass}}
+                          </td>
+                          <td>
+                              {{if actividad.f_confirmada:}}
+                                  <span class="glyphicon glyphicon-ok" style="color:green;"></span>
+                              {{else:}}
+                                  <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                              {{pass}}
+                          </td>
+                          {{if proyecto.f_estado=='Aprobado':}}
+                          <td id="{{=actividad.id}}" class="completar_actividad">
+                          {{else:}}
+                          <td >
+                          {{pass}}
+                              <span class="glyphicon glyphicon-thumbs-up" style="color:green;"></span>
+                          </td>
+                      </tr>
+                  {{pass}}
+              </table>
+              {{else:}}
+                <br><div class="alert alert-info"> No hay actividades.</div>
+              {{pass}}
+          </div>
+      </div>
+  </div>
+  {{elif proyecto.f_valido=='Invalido':}}
+      <div class="col-sm-12" align="center">
+          <h2>¡Su solicitud se encuentra en proceso!</h2>
+          <a class="btn btn-info" href="{{=URL(r=request,f='vista_estudiante',args=estudianteId)}}">
+              Volver
+          </a>
+      </div>
+  {{else:}}
+	<div class="col-sm-12" align="center">
+		<h2>¡Aún no tienes un proyecto inscrito!</h2>
+		<h4>Inscribe uno ahora.</h2>
+		<a class="btn btn-info" href="{{=URL(r=request,f='estudianteInscribeProyectos',args=estudianteId)}}">
+        	Inscribir Proyecto
+    	</a>
+	</div>
+  {{pass}}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".completar_actividad").click(function(){
+            var act = $(this);
+        $.ajax({
+          url:'completar_actividad?id=' + this.id
+        }).done(function(data) {
+                act.parent().find(".realizada_actividad").prop("innerHTML",'<span class="glyphicon glyphicon-ok" style="color:green;"></span>');
+        });
+      });
+  });
+</script>
+{{ end }}

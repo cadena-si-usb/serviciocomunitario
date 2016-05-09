@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+
+	<div align="center">
+		<div class="col-md-2"><a href="../">Inicio</a></div>
+		<div class="col-md-2"><a href="{% url 'estudiante' %}">Estudiantes</a></div>
+		<div class="col-md-2"><a href="{% url 'tutor' %}">Tutores</a></div>
+		<div class="col-md-2"><a href="{% url 'proyecto' %}">Proyectos</a></div>
+		<div class="col-md-2"><a href="{% url 'proponente' %}">Proponentes</a></div>
+		<div class="col-md-2"><a href="#">Iniciar Sesion</a></div>	
+	</div>
+	<div class="col-md-6" style="text-align: left; margin-top: 44px; width: 50%">
+		<table>
+		<h3> Detalles del proponente: </h3>
+	    Id: {{ proponente.id }}</br>
+	    Nombre: {{proponente.nombre}}{{proponente.apellido}} </br>
+	    Email: {{proponente.email}}</br> 
+	    Sexo: {{proponente.sexo}}</br>
+	    Teléfono: {{proponente.telefono}}</br></br>
+	    
+		<form enctype="multipart/form-data" method="post" action="">
+		{% csrf_token %}
+		<input type="submit" value="Eliminar Proponente"/>
+		</table>
+	</div>
+{% endblock %}

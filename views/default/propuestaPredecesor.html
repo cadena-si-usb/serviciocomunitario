@@ -1,0 +1,65 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/propuestas.css')}}">
+     <link rel="stylesheet" href="{{=URL('static', 'css/web2py.css')}}">
+
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+
+  </head>
+  
+  <body role="document">
+   
+
+    <!-- Contenido -->
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'proyects2.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+                <h4 style="color:#4682B4"><a href=".">Home</a> /<a href="{{=URL('vista_admin')}}"> Admin </a> / <a href="#">Propuestas </a> </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+    {{else:}}
+        
+    <div class="col-sm-12">
+      <form action="" method="POST">
+        <div class="form-group">
+          <select name="proyectoPredecesor" id="" class="form-control">
+            {{for proyecto in proyectos:}}
+            <option value="{{=proyecto.t_proyecto.id}}">{{=proyecto.t_proyecto.f_nombre}}</option>
+            {{pass}}
+          </select>
+        </div>
+        <input type="submit" class="btn btn-default" value="Hacer propuesta en base a este proyecto">
+        <span>ó</span>
+        <a href="{{=URL('propuestasCrear')}}" class="btn btn-default">Crear una nueva propuesta</a>
+      </form>
+    </div>
+    {{ pass }}
+{{ end }}

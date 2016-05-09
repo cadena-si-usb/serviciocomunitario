@@ -1,0 +1,164 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/proponentes.css')}}">
+    
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    
+    
+    
+    <!-- Bootstrap core CSS -->    
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap theme -->    
+    <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}">
+    </script>
+    
+    <!-- Custom styles for this template -->
+    
+    <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">    
+    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+    
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+    
+  </head>
+  
+  <body role="document">
+    <!-- Fixed navbar -->
+    
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">
+              Toggle navigation
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+          </button>
+<a href="https://sc.cesma.usb.ve/SIGESC/default/vista_admin"><img class="home" src="/SIGESC/static/img/home.png">
+</a>/>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#">
+                ¿Qui&eacute;nes somos?
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#about">
+                Formatos SC
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Reglamentos SC
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Decanato de extensión
+              </a>
+            </li>
+      <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Proyectos
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'sedes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+               <h4 style="color:#4682B4"><a href=".">Home</a> /<a href="{{=URL('vista_admin')}}"> Admin </a> / <a href="#">Sedes </a> </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+   <div class="col-sm-12">
+       <div class="col-md-3">
+           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
+            <hr>
+             <ul class="nav nav-stacked">
+                 <li>
+                      <a href="{{=URL('sedes')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Volver a Sedes</a>
+                     <a href="{{=URL('proyectos')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Proyectos </a>
+                      <a href="{{=URL('proponentes')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Proponentes </a>
+                      <a href="{{=URL('areas')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Áreas</a>
+                     <a href="{{=URL('tutores')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Tutores</a>
+                     <a href="{{=URL('estudiantes')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Estudiantes</a>
+                     <a href="{{=URL('comunidades')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Comunidades</a>
+                 </li>
+             </ul>
+       </div>
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}
+        <div class="col-md-5">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <b><h class="detalles" >Detalles de la Sede</b></h>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+
+                            {{for sede in rows:}}
+                            <tr><td><b>Nombre:</b> {{=sede.f_nombre}}</td></tr>
+                          {{pass}}
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+      </div>
+  {{ pass }}
+{{ end }}

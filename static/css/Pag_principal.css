@@ -1,0 +1,342 @@
+.mainScreen {
+   width: 600px;
+   height: 800px;
+   margin:100px;   
+   border: 3px solid black;
+   border-radius: 25px; 
+   text-align:center;
+}
+
+
+.barra {
+  position:absolute;
+  top:0px;
+  left:0px;
+  border:none;
+}
+
+.home {
+  position:absolute;
+  top:0px;
+  left:0px;
+  border:none;
+} 
+
+.micontainer {
+   background-color: #F5F5F5;
+   border: 1px solid black;
+   border-radius: 10px;
+   position: relative;
+   opacity: .8;
+   height: 230px;
+   width:300px;
+   float:right;
+}
+
+.home{
+	margin-top:8px;
+	margin-left:3px;
+}
+
+@media (max-width: 767px) {
+	.micontainer {
+   		background-color: #F5F5F5;
+	   	border: 1px solid black;
+   		border-radius: 10px;
+   		position: relative;
+   		opacity: .8;
+   		width:300px;
+		float:none;
+}	
+	
+}
+
+.loggin {
+  position:absolute
+  top:100px;
+  margin-left:865px;
+  border:none;
+} 
+
+
+input[type="text"] {
+  display: block;
+  position: relative;
+  left: 15px;
+  margin-top:3%;
+  width: 80%;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-color: black;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  text-align: left;
+}
+
+input[type="password"] {
+  display: block;
+  position: relative;
+  left: 15px;
+  margin-top:3%;
+  width: 80%;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-color: black;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  text-align: left;
+  
+}
+.margin{ 
+  margin-left: 15px;  
+}
+
+.acces{ 
+  position:absolute;
+  margin-left: 0px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.estudiante{ 
+  margin-left: 15px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.cfcg{ 
+  position:absolute;
+  margin-left: 9px;  
+  margin-top: 3px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.otros{ 
+  position:absolute;
+  margin-left: 75px;  
+  margin-top: 3px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.log{ 
+  position:absolute;
+  margin-left: 15px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.ini{ 
+  position:absolute;
+  margin-left: 12px;  
+  margin-top: 0px;  
+}
+
+.clean{ 
+  position:absolute;
+  margin-left: 140px;  
+  margin-top: 5px;  
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.est{ 
+  position:relative;
+  margin-left: 500px;  
+  margin-top: 20px;
+}  
+
+.hnew{ 
+  position:relative;  
+  font-family: sans-serif;
+  font-size: 18px;
+  margin-left: 0px;  
+  margin-top: 20px;
+}
+
+.notice{ 
+  position:absolute;
+  margin-left: 175px;  
+  margin-top: -220px;  
+  font-family: sans-serif;
+  font-size: 24px;
+  
+}
+
+.textnews{ 
+  position:relative;
+  margin-left: 5px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.button{ 
+  position:relative;
+  margin-left: 0px;  
+  margin-top: 2px;  
+}
+
+
+.hp{ 
+  position:absolute;
+  margin-left: 175px;  
+  margin-top: 20px; 
+  font-family: sans-serif;
+  font-size: 20px;
+}
+
+.lp{ 
+  position:absolute;
+  margin-left: 850px;  
+  margin-top: 10px; 
+  font-family: sans-serif;
+  font-size: 20px;
+}
+
+.tree{ 
+  position:absolute;
+  margin-left: 0px;  
+  margin-top: 100px;  
+}
+
+.bar{ 
+  position:relative;
+  margin-left: 405px;  
+  margin-top: 20px;  
+  height: 420px;
+}
+
+.ptittle{ 
+  position:absolute;
+  margin-left: 30px;  
+  margin-top: 25px;  
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+.tipos{ 
+  position:absolute;
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.infproy{ 
+  position:relative;
+  padding-top:60px;
+  font-family: sans-serif;
+  font-size: 14px;
+  text-align: justify;
+  text-justify: inter-word;
+  width:300px;
+}
+
+.rollb{ 
+  position:relative;
+  margin-left: 570px;  
+  margin-top: 70px;  
+}
+
+.cebolla{
+position:relative;
+border:none;
+}
+
+
+.bottom{ 
+  position:relative;
+ 
+}
+
+
+.titulo-izquierdo{
+  font-size:18px;
+  font-family: sans-serif;
+  width:300;
+  height:60;
+  font-color: #4682B4;
+}
+
+.informacion{
+  width:300;
+  font-size:24px;
+}
+
+.detalles{
+  width:300;
+  font-size:14px;
+}
+
+.acces{ 
+  position:absolute;
+  margin-left: 15px;  
+  margin-top: -5px;  
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.estudiante{ 
+  margin-left: 15px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.cfcg{ 
+  position:absolute;
+  margin-left: 9px;  
+  margin-top: 3px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.otros{ 
+  position:absolute;
+  margin-left: 75px;  
+  margin-top: 3px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.log{ 
+  position:absolute;
+  margin-left: 15px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.ini{ 
+  position:absolute;
+  margin-left: 12px;  
+  margin-top: 0px;  
+}
+
+.link-proy{ 
+  font-size:16px;
+  font-color:#4682B4;
+}
+
+.container-princ {
+  padding-top: 20px;
+  padding-right: 15px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.clean{ 
+  position:absolute;
+  margin-left: 140px;  
+  margin-top: 5px;  
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+

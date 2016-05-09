@@ -1,0 +1,69 @@
+{{ extend 'base.html'}}
+{{ block contenido }}
+
+    
+<script>
+    cambiar()
+    var count=1;
+    function cambiar(){
+        if (count ==1){
+            $("#contrasena2").css("display","block");
+            count=0;
+        }else{
+            $("#contrasena2").css("display","None");
+            count=1;
+        }
+    }
+
+</script>
+
+<div class="container">
+
+  <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-11">
+
+                
+                <h4 style="color:#4682B4"> SIGESC / 
+                    <a href="{{=URL('home')}}"> Home </a>/ 
+                      <a href="{{=URL('perfil')}}"> Perfil </a>/
+                      <a href="#"> Editar </a>
+                </h4>
+                <hr>
+            </div>
+            <div class="col-md-1" align="right">
+                <a href="{{=URL('default', 'logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+    </div>
+
+
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-3">
+    </div>
+    <!-- edit form column -->
+    <div class="col-md-8 personal-info">
+    
+      
+      <div class="form-horizontal" role="form">
+
+
+</script>
+      
+        <h3>Editar Información Personal</h3>
+        <!-- <input class="form-control" value="janeuser" type="text"> -->
+        {{=form}}
+        
+            
+            <a class="btn btn-default" href="{{=URL('perfil')}}"> 
+                Regresar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,52 @@
+{{ extend 'default/vista_estudiante.html' }}
+{{ block contenido }}
+<div class="col-md-1 botones">
+  <button type="button" onclick="location.href='{{=URL('vista_estudiante')}}'" align="left" class="btn btn-lg0 btn-default perfil">
+    <h class="tittle-accion">Volver</h>
+  </button>
+</div>
+<div class="col-md-10" style="margin-left: 6%;">
+	<h2 class="detalles"><b>Plan de actividades Propuesto</b></h2>
+	<table class="table table-condensed text-center">
+        <thead>
+            <tr>
+                <th class="text-center">Actividad</i></th>
+                <th class="text-center">Descripción</th>
+                <th class="text-center">Alumnos Requeridos</th>
+                <th class="text-center">Requerimientos</th>
+				<th class="text-center">Horas</th>
+            </tr>
+        </thead>
+        <tbody>
+			{{ for lista in listaActividades:}}
+		            <tr>
+						<td>
+							{{=lista.f_actividad.f_nombre}}
+						</td>
+						<td>
+							{{=lista.f_actividad.f_resumen}}
+						</td>
+						<td>
+							{{=lista.f_actividad.f_alumnos}}
+						</td>
+						<td>
+							{{=lista.f_actividad.f_requerimientos}}
+						</td>
+						<td>
+					    {{=lista.f_horas}}
+						</td>
+		            </tr>
+			{{ pass }}
+        </tbody>
+    </table>
+
+</div>
+<div class="col-md-12 text-center">
+  <button id="btn-prueba" class="btn btn-success" onclick="location.href='{{=URL(r=request,f='aceptarPlanTrabajo',args=['aceptado',idEstudiante])}}'" style="margin-top:5%;">
+     <i class="glyphicon glyphicon-ok"></i> <b>Aceptar</b>
+  </button>
+  <button id="btn-prueba" class="btn btn-danger" onclick="location.href='{{=URL(r=request,f='aceptarPlanTrabajo',args=['rechazado',idEstudiante])}}'" style="margin-top:5%;">
+     <i class="glyphicon glyphicon-remove"></i> <b>Rechazar</b>
+  </button>
+</div>
+{{ end }}

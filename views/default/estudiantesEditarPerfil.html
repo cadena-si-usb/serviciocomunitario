@@ -1,0 +1,48 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+    
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+               <h4 style="color:#4682B4"><a href="."><a href="{{=URL('vista_estudiante')}}"> Home</a> </a> | <a href="">Estudiantes | Editar Perfil</a> </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+   <div class="col-sm-12">
+       <div class="col-md-3">
+           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
+            <hr>
+             <ul class="nav nav-stacked">
+             </ul>
+       </div>
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}
+        <div class="col-md-8">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <b><h class="detalles" >Editar el estudiante</b></h>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+
+                            {{=form}}
+                          
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </div>
+  {{ pass }}
+{{ end }}

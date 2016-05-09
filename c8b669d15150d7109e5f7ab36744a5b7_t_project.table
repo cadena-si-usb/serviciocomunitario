@@ -1,0 +1,475 @@
+(dp1
+S'f_estado'
+p2
+(dp3
+S'length'
+p4
+I512
+sS'unique'
+p5
+I00
+sS'sortable'
+p6
+I5
+sS'sql'
+p7
+S'INTEGER REFERENCES t_estado (id) ON DELETE CASCADE'
+p8
+sS'notnull'
+p9
+I01
+sS'type'
+p10
+S'reference t_estado'
+p11
+ssS'f_descripcion'
+p12
+(dp13
+g4
+I32768
+sg5
+I00
+sg6
+I3
+sg7
+S'TEXT NOT NULL'
+p14
+sg9
+I01
+sg10
+S'text'
+p15
+ssS'f_area'
+p16
+(dp17
+g4
+I512
+sg5
+I00
+sg6
+I4
+sg7
+S'INTEGER REFERENCES t_area (id) ON DELETE CASCADE'
+p18
+sg9
+I01
+sg10
+S'reference t_area'
+<<<<<<< HEAD
+p26
+ssS'f_fechaini'
+p27
+(dp28
+g15
+=======
+p19
+ssS'f_fechaini'
+p20
+(dp21
+g4
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+I512
+sg5
+I00
+<<<<<<< HEAD
+sg17
+I7
+sg18
+S'DATE NOT NULL'
+p29
+sg20
+I01
+sg21
+S'date'
+p30
+=======
+sg6
+I7
+sg7
+S'DATE NOT NULL'
+p22
+sg9
+I01
+sg10
+S'date'
+p23
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+ssS'f_version'
+p24
+(dp25
+g4
+I512
+sg5
+I00
+sg6
+I9
+sg7
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p26
+sg9
+I01
+sg10
+S'id'
+p27
+ssS'accnum'
+p28
+(dp29
+S'sortable'
+p30
+I12
+sS'sql'
+p31
+S'INTEGER'
+p32
+sS'length'
+p33
+S'_id'
+p34
+sS'notnull'
+p35
+I00
+sS'unique'
+p36
+I00
+sS'type'
+p37
+S'integer'
+p38
+ssS'is_active'
+p39
+(dp40
+g4
+I512
+sg5
+I00
+<<<<<<< HEAD
+sg17
+I12
+sg18
+S'CHAR(1)'
+p41
+sg20
+I00
+sg21
+=======
+sg6
+I12
+sg7
+S'CHAR(1)'
+p41
+sg9
+I00
+sg10
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+S'boolean'
+p42
+ssS'created_on'
+p43
+(dp44
+g4
+I512
+sg5
+I00
+sg6
+I13
+sg7
+S'TIMESTAMP'
+p45
+sg9
+I00
+sg10
+S'datetime'
+p46
+ssS'created_by'
+p47
+(dp48
+g4
+I512
+sg5
+I00
+<<<<<<< HEAD
+sg17
+I14
+sg18
+S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE'
+p49
+sg20
+I00
+sg21
+=======
+sg6
+I14
+sg7
+S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE'
+p49
+sg9
+I00
+sg10
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+S'reference auth_user'
+p50
+ssS'modified_on'
+p51
+(dp52
+g4
+I512
+sg5
+I00
+sg6
+I15
+sg7
+S'TIMESTAMP'
+p53
+sg9
+I00
+sg10
+g46
+ssS'id'
+p54
+(dp55
+S'sortable'
+p56
+I12
+sS'sql'
+p57
+S'INTEGER NOT NULL'
+p58
+sS'length'
+p59
+I512
+sS'notnull'
+p60
+I01
+sS'unique'
+p61
+I00
+sS'type'
+p62
+S'integer'
+p63
+ssS'f_codigo'
+p64
+(dp65
+g4
+I512
+sg5
+I00
+sg6
+I1
+sg7
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p66
+sg9
+I01
+sg10
+g27
+ssS'modified_by'
+p67
+(dp68
+g4
+I512
+sg5
+I00
+sg6
+I16
+sg7
+S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE'
+p69
+sg9
+I00
+<<<<<<< HEAD
+sg21
+=======
+sg10
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+g50
+ssS'f_fechafin'
+p70
+(dp71
+<<<<<<< HEAD
+g15
+=======
+g4
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+I512
+sg5
+I00
+sg6
+I8
+sg7
+S'DATE NOT NULL'
+p72
+<<<<<<< HEAD
+sg20
+I01
+sg21
+g30
+ssS'f_comunidad'
+p73
+(dp74
+g15
+=======
+sg9
+I01
+sg10
+g23
+ssS'f_comunidad'
+p73
+(dp74
+g4
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+I512
+sg5
+I00
+sg6
+I10
+sg7
+S'INTEGER REFERENCES t_comunidad (id) ON DELETE CASCADE'
+p75
+<<<<<<< HEAD
+sg20
+=======
+sg9
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+I01
+sg10
+S'reference t_comunidad'
+p76
+ssS'f_proponente'
+p77
+(dp78
+<<<<<<< HEAD
+g15
+=======
+g4
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+I512
+sg5
+I00
+sg6
+I11
+sg7
+S'INTEGER REFERENCES t_proponente (id) ON DELETE CASCADE'
+p79
+<<<<<<< HEAD
+sg20
+=======
+sg9
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+I01
+sg10
+S'reference t_proponente'
+p80
+ssS'nversion'
+p81
+(dp82
+S'sortable'
+p83
+I9
+sS'sql'
+p84
+S'INTEGER NOT NULL'
+p85
+sS'length'
+p86
+I512
+sS'notnull'
+p87
+I01
+sS'unique'
+p88
+I00
+sS'type'
+p89
+S'integer'
+p90
+ssS'f_nombre'
+p91
+(dp92
+<<<<<<< HEAD
+g15
+=======
+g4
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+I512
+sg5
+I00
+<<<<<<< HEAD
+sg17
+I2
+sg18
+S'CHAR(512) NOT NULL'
+p93
+sg20
+I01
+sg21
+=======
+sg6
+I2
+sg7
+S'CHAR(512) NOT NULL'
+p93
+sg9
+I01
+sg10
+>>>>>>> c6cd7215a6dcafa34c5dd88f7fa6e113851c2af0
+S'string'
+p94
+ssS'f_tutor'
+p95
+(dp96
+g4
+I512
+sg5
+I00
+sg6
+I6
+sg7
+S'INTEGER REFERENCES t_tutor (id) ON DELETE CASCADE'
+p97
+sg9
+I01
+sg10
+S'reference t_tutor'
+p98
+ssS'codigo'
+p99
+(dp100
+g83
+I1
+sg84
+S'CHAR(512) NOT NULL'
+p101
+sg86
+I512
+sg87
+I01
+sg88
+I00
+sg89
+S'string'
+p102
+ssS'f_name'
+p103
+(dp104
+S'sortable'
+p105
+I2
+sS'sql'
+p106
+S'CHAR(512) NOT NULL'
+p107
+sS'length'
+p108
+I512
+sS'notnull'
+p109
+I01
+sS'unique'
+p110
+I00
+sS'type'
+p111
+S'string'
+p112
+ss.

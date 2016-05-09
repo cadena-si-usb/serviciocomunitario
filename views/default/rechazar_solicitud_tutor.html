@@ -1,0 +1,42 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<h4 style="color:#4682B4"> <a href="{{=URL('vista_proponente')}}">Home</a> / Proyectos Registrados / Solicitudes</h4>
+<div class="col-md-1 botones">
+	<button type="button" onclick="location.href='{{=URL('solicitudes_tutor')}}'" align="left" class="btn btn-lg0 btn-default perfil">
+		<h class="tittle-accion">Volver</h>
+	</button>
+</div>
+
+<div class="col-md-10" style="margin-left: 6%;">
+	<table class="table table-condensed text-center" id="estuds">
+        <thead>
+            <tr>
+                <th class="text-center">Nombre</i></th>
+                <th class="text-center">Carné</th>
+                <th class="text-center">Proyecto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+				<td>
+					{{=estudiante.f_universitario.f_usuario.first_name}} {{=estudiante.f_universitario.f_usuario.last_name}}
+				</td>
+				<td>
+					{{=estudiante.f_universitario.f_usbid}}
+				</td>
+				<td>
+					<a href="{{=URL(r=request,f='proyectosDetalles',args=proyecto.id)}}">{{=proyecto.f_nombre}}</a>
+				</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="alert alert-warning text-center" role="alert">
+      <b>¿Está seguro de rechazar ésta solicutd?</b>
+      </br>
+      </br>
+	  <button type="button" onclick="location.href='{{=URL(r=request,f='eliminar_inscripcion',args=[proyecto.id,estudiante.id])}}'" align="left" class="btn btn-success btn-default">SI</button>
+	  <button type="button" onclick="location.href='{{=URL('solicitudes_tutor')}}'" align="right" class="btn btn-danger btn-default">No</button>
+    </div>
+</div>
+
+{{ end }}

@@ -1,0 +1,465 @@
+.mainScreen {
+
+
+   width: 600px;
+   height: 800px;
+   margin:100px;   
+   border: 3px solid black;
+   border-radius: 25px; 
+   text-align:center;
+}
+
+.formulario{
+  position:relative;
+  margin-top:10px;
+  
+}
+
+.detalles{
+  margin-bottom:0px;
+  margin-top:0px;
+  font-size: 20px;
+}
+
+.help{
+color:#c0c0c0;
+
+}
+.campos{
+    width:300px;
+    margin-bottom:5px;
+    margin-top:-10px;
+}
+#up{
+  position:relative;
+  margin-top:-35px;
+  margin-left:260px;
+}
+
+
+.barra {
+  position:absolute;
+  top:0px;
+  left:0px;
+  border:none;
+}
+
+.home {
+  position:absolute;
+  top:0px;
+  left:0px;
+  border:none;
+} 
+
+.micontainer {
+   width: 400%; 
+   background-color: #F5F5F5;
+   border: 1px solid black;
+   border-radius: 25px;
+   position: relative;
+   opacity: .8;
+   height: 230px;
+}
+
+
+.loggin {
+  position:absolute
+  top:100px;
+  margin-left:865px;
+  border:none;
+} 
+
+
+.icon {
+  position:relative;
+  size:50px;
+} 
+
+/*
+input[type="text"] {
+  display: block;
+  position: relative;
+  left: 0px;
+  margin-top:3%;
+  width: 80%;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-color: black;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  text-align: left;
+}
+
+input[type="password"] {
+  display: block;
+  position: relative;
+  left: 0px;
+  margin-top:3%;
+  width: 80%;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-color: black;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  text-align: left;
+  
+}
+*/
+
+.margin{ 
+  margin-left: 15px;  
+}
+
+.acces{ 
+  position:absolute;
+  margin-left: 0px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.estudiante{ 
+  margin-left: 15px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.cfcg{ 
+  position:absolute;
+  margin-left: 9px;  
+  margin-top: 3px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.otros{ 
+  position:absolute;
+  margin-left: 75px;  
+  margin-top: 3px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.log{ 
+  position:absolute;
+  margin-left: 15px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.ini{ 
+  position:absolute;
+  margin-left: 12px;  
+  margin-top: 0px;  
+}
+
+.clean{ 
+  position:absolute;
+  margin-left: 140px;  
+  margin-top: 5px;  
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.est{ 
+  position:relative;
+  margin-left: 500px;  
+  margin-top: 20px;
+}  
+
+.hnew{ 
+  position:relative;  
+  font-family: sans-serif;
+  font-size: 18px;
+  margin-left: 0px;  
+  margin-top: 20px;
+}
+
+.notice{ 
+  position:absolute;
+  margin-left: 175px;  
+  margin-top: -220px;  
+  font-family: sans-serif;
+  font-size: 24px;
+  
+}
+
+.textnews{ 
+  position:relative;
+  margin-left: 5px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.button{ 
+  position:relative;
+  margin-left: 0px;  
+  margin-top: 2px;  
+}
+
+
+.hp{ 
+  position:absolute;
+  margin-left: 175px;  
+  margin-top: 20px; 
+  font-family: sans-serif;
+  font-size: 20px;
+}
+
+.lp{ 
+  position:absolute;
+  margin-left: 850px;  
+  margin-top: 10px; 
+  font-family: sans-serif;
+  font-size: 20px;
+}
+
+.tree{ 
+  position:absolute;
+  margin-left: 0px;  
+  margin-top: 100px;  
+}
+
+.bar{ 
+  position:relative;
+  margin-left: 405px;  
+  margin-top: 20px;  
+  height: 420px;
+}
+
+.ptittle{ 
+  position:absolute;
+  margin-left: 30px;  
+  margin-top: 25px;  
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+.tipos{ 
+  position:absolute;
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.infproy{ 
+  position:relative;
+  padding-top:140px;
+  font-family: sans-serif;
+  font-size: 14px;
+
+}
+
+.rollb{ 
+  position:relative;
+  margin-left: 570px;  
+  margin-top: 70px;  
+}
+
+.cebolla{
+position:relative;
+border:none;
+}
+
+
+.bottom{ 
+  position:relative;
+  margin-top:30px;
+ 
+}
+
+
+.subtitulo{
+  margin-top:88px;
+  
+  margin-left:20px;
+  font-size:18px;
+  font-family: sans-serif;
+  width:300;
+  height:60;
+}
+
+.reg{
+
+  font-size:18px;
+  font-family: sans-serif;
+  width:300;
+  height:60;
+}
+
+.nombres{
+  font-size:16px;
+  font-family: sans-serif;
+}
+
+
+.exit{
+  position:relative;
+  top:85px;
+  left:20px;
+}
+
+.detalles{
+  width:300;
+  font-size:20px;
+}
+
+.acces{ 
+  position:absolute;
+  margin-left: 15px;  
+  margin-top: -5px;  
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.estudiante{ 
+  margin-left: 15px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.cfcg{ 
+  position:absolute;
+  margin-left: 9px;  
+  margin-top: 3px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.otros{ 
+  position:absolute;
+  margin-left: 75px;  
+  margin-top: 3px;  
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.log{ 
+  position:absolute;
+  margin-left: 15px;  
+  margin-top: -10px;  
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.ini{ 
+  position:absolute;
+  margin-left: 12px;  
+  margin-top: 0px;  
+}
+
+.link-proy{ 
+  font-size:16px;
+  font-color:#4682B4;
+}
+
+.clean{ 
+  position:absolute;
+  margin-left: 140px;  
+  margin-top: 5px;  
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+
+#props tr:nth-child(even) {
+	  font-size:12px;
+	background-color: #F0F8FF;
+	border-style:none;
+ 
+}
+
+#props tr:nth-child(odd) {
+	font-size:12px;
+	background-color: white;
+	border-style:none;
+
+}
+
+#props th {
+   position:relative;
+   font-family: sans-serif;
+   background-color: #73DB7F;
+   font-size:12px;
+}
+
+
+#estuds tr:nth-child(even) {
+	font-size:12px;
+	background-color: #F0F8FF;
+	border-style:none;
+ 
+}
+
+#estuds tr:nth-child(odd) {
+	font-size:12px;
+	background-color: white;
+	border-style:none;
+
+}
+
+#estuds th {
+   position:relative;
+   background-color:#357EBD;
+   color:#ffffff;
+   font-size:16px;
+}
+
+
+
+#proponentes{
+   position:relative;
+   top:50px; 
+}
+
+
+#line{
+   position:relative;
+   top:-50px; 
+}
+/* Comentado por Auyantepui
+
+.form-control{
+  width: 80% !important; 
+}
+*/
+.campo-comentario{
+  margin-top: -10px;
+}
+.form-comentario{
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+.table-proyectos a{
+  text-decoration: none;
+  color: #333;
+}
+.table-proyectos a:hover{
+  text-decoration: none;
+  color: #337ab7;
+}
+.no-decoracion a:hover{
+  text-decoration: none;
+}
+.hr-margin{
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+.center-table{
+  margin: 0 auto !important;
+  float: none !important;
+}
+.completar_actividad{
+  cursor:pointer; 
+  cursor: hand;
+}

@@ -1,0 +1,56 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<h4 style="color:#4682B4">SIGESC / Home / Admin / Solicitudes</h4>
+<h4 style="color:#4682B4">{{=bienvenida}}</h4>
+<div class="col-md-1 botones">
+	<button type="button" onclick="location.href='{{=URL('home')}}'" align="left" class="btn btn-lg0 btn-default perfil">
+		<h class="tittle-accion">Volver</h>
+	</button>
+</div>
+
+<div class="col-md-10" style="margin-left: 6%;">
+	<h2 class="detalles"><b>Solicitudes pendientes</b></h2>
+	<table class="table table-condensed text-center" id="estuds">
+        <thead>
+            <tr>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Carné</th>
+                <th class="text-center">Proyecto</th>
+				<th class="text-center">Trimestre</th>
+                <th class="text-center">Aprobar</th>
+				<!--<th class="text-center">Rechazar</th>-->
+            </tr>
+        </thead>
+        <tbody>
+            {{ for ins in estudianteCursa: }}
+                {{ if ins.f_valido == 'Pendiente':}}
+                    <tr>
+                        <td>
+                            <a>{{=ins.f_estudiante.f_universitario.f_usuario.first_name}} {{=ins.f_estudiante.f_universitario.f_usuario.last_name}}</a>
+                        </td>
+                        <td>
+                            <a>{{=ins.f_estudiante.f_universitario.f_usbid}}</a>
+                        </td>
+                        <td>
+                            <a>{{=ins.f_proyecto.f_nombre}}</a>
+                        </td>
+                        <td>
+                            {{ if 1 <= ins.created_on.month <= 3:}}
+                                Abril-Julio {{=ins.created_on.year}}
+                            {{ elif 4 <= ins.created_on.month <= 8:}}
+                                Septiembre-Diciembre {{=ins.created_on.year}}
+                            {{ else:}}
+                                Enero-Marzo {{=ins.created_on.year+1}}
+                            {{ pass }}
+                        </td>
+                        <td class="text-center">
+                            <a href="{{=URL(r=request,f='aprobar_solicitud_coordinacion',args=[ins.f_estudiante.id])}}"><i class="glyphicon glyphicon-check text-center"></i></a>
+                        </td>
+                    </tr>
+                {{ pass }}
+            {{ pass }}
+
+        </tbody>
+    </table>
+</div>
+{{ end }}
