@@ -76,9 +76,10 @@
             <a class="btn btn-default btn-pag {{='active-pag' if pag == i else ''}}" href="{{='?pag={}&proyecto_id={}'.format(i,proyecto_id) if proyecto_id else ('?pag={}'.format(i) if pag > 1 else '#')}}" data-toggle="tooltip" title="" data-pag="{{=i}}">{{=i}}</a>
           {{pass}}
           </div>
+          <br>
           <div class="form formulario row" id="formulario" osubmit="control_form()">
             <div class="alert alert-danger" id="fail" style="display:none; height:45px">
-              <b>Solicitud fallida.</b> El formulario contiene errores
+              <b>Solicitud fallida.</b> El formulario contiene errores. Para mas detalles: Posicione el cursor sobre las etapas del indice que se muestra arriba.
             </div>
             <div>{{=BEAUTIFY(form.errors) if form.errors else ''}}</div>
             {{=form.custom.begin}}
