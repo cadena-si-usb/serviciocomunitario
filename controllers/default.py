@@ -1698,7 +1698,10 @@ def propuestasCrear():
         print("Validación suave")
         print(form.vars.f_nombre,proyecto_id)
         if not form.vars.f_nombre and pag == 1:
-            form.errors.f_nombre = "Este campo no puede estar vacío"
+            form.errors.f_nombre = "Este campo no puede estar vacío"         
+        if form.vars.f_fechaini > form.vars.f_fechafin:
+            form.errors.f_fechaini = 'La fecha final del proyecto es menor que la inicial'
+            form.errors.f_fechafin = 'La fecha final del proyecto es menor que la inicial'
 
         return form
 
