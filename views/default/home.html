@@ -50,7 +50,7 @@
                 <hr>
             </div>
             <div class="col-md-2" align="right">
-                <a href="{{=URL('default', 'logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+                <a href="{{=URL('default', 'logout')}}"> <spam class="glyphicon glyphicon-log-out">Salida</spam></a>
             </div>
         </div>
     </div>
@@ -63,9 +63,6 @@
             <img class="img-responsive" src="{{=URL('static', 'proyects2.png')}}" height="155" width="265"/>
             </div>
             <div class="col-md-4">
-
-
-
                   <h3>Proyectos</h3>
 
                  <p style="color: #808080">
@@ -200,7 +197,7 @@
         </div>
 
         <hr>
-        
+       <!-- 
         <div class="row">
             <div class="col-md-4">
                 <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
@@ -244,7 +241,7 @@
             </div>
         </div>
         <hr>
-
+-->
         <div class="row">
             <div class="col-md-4">
                 <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
@@ -266,7 +263,7 @@
 
         </div>
         <hr>
-
+<!--
         <div class="row">
             <div class="col-md-4">
                 <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
@@ -285,7 +282,7 @@
                           Ir a Comunidades  >> </button>
                 </div>
             </div>
-        </div>
+        </div>-->
         <hr>
 {{else: }}
     <!-- Usuarios no administradores -->
@@ -310,27 +307,6 @@
     </div>
 
     <hr>
-
-<div class="row">
-    <div class="col-md-4">
-        <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
-    </div>
-    <div class="col-md-4">
-        <h3 style="color: #4682B4"> Consultar Estado </h3>
-        <p style="color: #808080">
-           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
-        </p>
-    </div>
-    <div class="col-md-3">
-        <div class="row">
-              <a href="#">
-                <button class="btn btn-primary boton_link"  onclick="location.href=''" style="width: 250px; height:30px" margin-top="70px">
-                  Ir a Estado >> </button>
-              </a>
-        </div>
-    </div>
-</div>
-<hr>
 {{pass}}
 
 {{if tipo_usuario == "Docente":}}
@@ -348,7 +324,7 @@
           <div class="row">
                 <a href="#">
                   <button class="btn btn-primary boton_link"  onclick="location.href=''" style="width: 250px; height:30px" margin-top="70px">
-                    Ir a Estado >> </button>
+                    Ir a Supervisar >> </button>
                 </a>
           </div>
       </div>
@@ -371,7 +347,7 @@
           <div class="row">
                 <a href="#">
                   <button class="btn btn-primary boton_link"  onclick="location.href=''" style="width: 250px; height:30px" margin-top="70px">
-                    Ir a Estado >> </button>
+                    Ir a Inscribir >> </button>
                 </a>
           </div>
       </div>

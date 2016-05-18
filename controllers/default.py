@@ -95,7 +95,7 @@ def login_cas():
     try:
         import ssl
         import urllib2
-        #ssl._create_default_https_context = ssl._create_unverified_context
+        ssl._create_default_https_context = ssl._create_unverified_context
         url = "https://secure.dst.usb.ve/validate?ticket="+\
               request.vars.getfirst('ticket') +\
               "&service=http%3A%2F%2F"+ request.env.http_host +"%2FSIGESC%2Fdefault%2Flogin_cas"
