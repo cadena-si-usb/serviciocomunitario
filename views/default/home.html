@@ -57,7 +57,54 @@
 
 <div class="row">
     <div class="col-sm-10">
+    
+    {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
+    <div class="row">
+      <div class="col-md-4">
+          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
+      </div>
+      <div class="col-md-4">
+          <h3 style="color: #4682B4"> Proyecto Servicio Comunitario </h3>
+          <p style="color: #808080">
+             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
+          </p>
+      </div>
+      <div class="col-md-3">
+          <div class="row">
+                <a href="{{=URL('vista_estudiante')}}">
+                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                    Ir a Proyecto >> </button>
+                </a>
+          </div>
+      </div>
+    </div>
+    <hr>
+  {{pass}}
 
+    <div class="row">
+        <div class="col-md-4">
+            <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
+        </div>
+        <div class="col-md-4">
+            <h3> Proponer Proyectos</h3>
+             <p style="color: #808080">
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus non incidunt ducimus assumenda? Deserunt tenetur, ea
+            </p>
+        </div>
+         <div class="col-md-3">
+            <div class="row">
+                  <a href="{{=URL('propuestas')}}">
+                  <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                      Ir a Proponer  >> </button>
+                  </a>
+            </div>
+        </div>
+    </div>
+
+    <hr>  
+
+
+    {{if tipo_usuario == "Externo":}}
     <div class="row">
         <div class="col-md-4">
             <img class="img-responsive" src="{{=URL('static', 'proyects2.png')}}" height="155" width="265"/>
@@ -66,29 +113,26 @@
                   <h3>Proyectos</h3>
 
                  <p style="color: #808080">
-                   Ver lista de las sedes existentes<br>
-                   de la Universidad Simón Bolívar.<br>
-                   Agregar una nueva sede de la USB.<br>
-                   Eliminar/Desactivar una sede de la USB.
+                   Ver lista de proyectos donde es tutor<br>
+                   comunitario.<br>
+                   Gestionar proyectos.<br>.
                 </p>
             </div>
             <div class="col-md-3">
                 <div class="row">
-                    {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
-                      <a href="{{=URL('vista_estudiante')}}">
-                    {{elif tipo_usuario == "Externo":}}
+                    
                       <a href="{{=URL('proyectos_tutor_comunitario')}}">
-                    {{else:}}
-                      <a href="{{=URL('solicitudes_tutor')}}">
-                    {{pass}}
+                    
                       <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                           Ir a Proyectos  >> </button>
                       </a>
                 </div>
             </div>
       </div>
-<hr>
-{{if is_admin:}}
+      <hr>
+      {{pass}}
+
+{{if "Administrador" in roles:}}
         <div class="row">
             <div class="col-md-4">
                 <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
@@ -111,25 +155,6 @@
         </div>
 
         <hr>
-        <div class="row">
-
-            <div class="col-md-4">
-                <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
-            </div>
-            <div class="col-md-4">
-                <h3 onclick="location.href='{{=URL('solicitud_constancia_coordinacion')}}'"><a href="#"> Solicitudes</h3></a>
-                <p style="color: #808080">
-                   <br>Ver solicitudes de inscripción.<br>
-                </p>
-            </div>
-            <div class="col-md-3">
-                <div class="row">
-                      <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('solicitud_constancia_coordinacion')}}'" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Solicitudes  >></button>
-                </div>
-            </div>
-        </div>
-        <hr>
 
         <div class="row">
 
@@ -148,7 +173,7 @@
                 <div class="row">
                       <a href="{{=URL('roles_usuarios')}}">
                         <button class="btn btn-primary boton_link"  onclick="location.href=''" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Roles de Usuarios </button>
+                          Ir a Roles de Usuarios >> </button>
                       </a>
                 </div>
             </div>
@@ -177,25 +202,48 @@
         </div>
         <hr>
 
-
         <div class="row">
             <div class="col-md-4">
-                <img class="img-responsive" src="{{=URL('static', 'proyects2.png')}}" height="155" width="265"/>
+                <img class="img-responsive" src="{{=URL('static', 'proyectos.png')}}" height="155" width="265"/>
             </div>
             <div class="col-md-4">
-                <h3>Proyectos</h3>
+                <h3> Carreras </h3>
                  <p style="color: #808080">
-                   Ver lista de proyectos existentes<br>
+                   <br>Ver la lista de las áreas de proyectos.<br>
+                   Agregar una nueva área de proyecto.<br>
+                   Modificar un área de proyecto.<br>
+                   Eliminar un área de proyecto.
                 </p>
             </div>
-                          <div class="col-md-3">
+             <div class="col-md-3">
                 <div class="row">
-                      <button onclick="location.href='{{=URL('solicitudes_tutor')}}'" class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Proyectos  >> </button>
+                      <button onclick="location.href='#'" class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                          Ir a Carreras  >> </button>
                 </div>
             </div>
         </div>
+        <hr>
 
+        <div class="row">
+            <div class="col-md-4">
+                <img class="img-responsive" src="{{=URL('static', 'proyectos.png')}}" height="155" width="265"/>
+            </div>
+            <div class="col-md-4">
+                <h3> Sedes</h3>
+                 <p style="color: #808080">
+                   <br>Ver la lista de las áreas de proyectos.<br>
+                   Agregar una nueva área de proyecto.<br>
+                   Modificar un área de proyecto.<br>
+                   Eliminar un área de proyecto.
+                </p>
+            </div>
+             <div class="col-md-3">
+                <div class="row">
+                      <button onclick="location.href='#'" class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                          Ir a Sedes >> </button>
+                </div>
+            </div>
+        </div>
         <hr>
        <!-- 
         <div class="row">
@@ -219,94 +267,54 @@
         </div>
         
         <hr>
-        <div class="row">
-            <div class="col-md-4">
-
-                <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
-            </div>
-            <div class="col-md-4">
-                <h3 onclick="location.href='{{=URL('proponentes')}}'"> <a href="#"> Proponentes</h3></a>
-                 <p style="color: #808080">
-                   Ver la lista de los proponentes inscritos
-                   en el programa de servicio comunitario.
-                   Agregar un nuevo proponente al programa.
-                   Eliminar un proponente del sistema.
-                </p>
-            </div>
-             <div class="col-md-3">
-                <div class="row">
-                      <button  onclick="location.href='{{=URL('proponentes')}}'" class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Proponentes  >> </button>
-                </div>
-            </div>
-        </div>
-        <hr>
 -->
+
+{{pass}}
+{{if ("Asistente" in roles) or ("Coordinador" in roles):}}
         <div class="row">
+
             <div class="col-md-4">
                 <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
             </div>
             <div class="col-md-4">
-                <h3>Tutores</h3>
-                 <p style="color: #808080">
-                   <br>Ver lista de tutores inscritos.<br>
-                       Ver detalles de tutores.<br>
-                       Modificar.<br>
+                <h3 >Solicitudes</h3>
+                <p style="color: #808080">
+                   <br>Ver solicitudes de inscripción.<br>
                 </p>
             </div>
-             <div class="col-md-3">
+            <div class="col-md-3">
                 <div class="row">
-                      <button onclick="location.href='{{=URL('tutores')}}'" class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Tutores  >> </button>
+                      <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('solicitud_constancia_coordinacion')}}'" style="width: 250px; height:30px" margin-top="70px">
+                          Ir a Solicitudes  >></button>
                 </div>
             </div>
-
         </div>
         <hr>
-<!--
+
+{{pass}}
+
+{{if "Administrador Dex" in roles:}}
         <div class="row">
+
             <div class="col-md-4">
-                <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
+                <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
             </div>
             <div class="col-md-4">
-                <h3>Comunidades</h3>
-                 <p style="color: #808080">
-                   Ver la lista de las comunidades en el programa de servicio comunitario.
-                   Agregar una nueva comunidad al programa.
-                   Eliminar una comunidad del sistema.
+                <h3 >Tutores Academicos</h3>
+                <p style="color: #808080">
+                   <br>Ver Tutores academicos por pagar.<br>
                 </p>
             </div>
-             <div class="col-md-3">
+            <div class="col-md-3">
                 <div class="row">
-                      <button  onclick="location.href='{{=URL('comunidades')}}'" class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Comunidades  >> </button>
+                  <a href="#">
+                      <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                          Ir a Tutores Academicos >></button></a>
                 </div>
             </div>
-        </div>-->
+        </div>
         <hr>
-{{else: }}
-    <!-- Usuarios no administradores -->
-    <div class="row">
-        <div class="col-md-4">
-            <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
-        </div>
-        <div class="col-md-4">
-            <h3> Proponer Proyectos</h3>
-             <p style="color: #808080">
-               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus non incidunt ducimus assumenda? Deserunt tenetur, ea
-            </p>
-        </div>
-         <div class="col-md-3">
-            <div class="row">
-                  <a href="{{=URL('propuestas')}}">
-                  <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                      Ir a Proponer  >> </button>
-                  </a>
-            </div>
-        </div>
-    </div>
 
-    <hr>
 {{pass}}
 
 {{if tipo_usuario == "Docente":}}
@@ -323,7 +331,7 @@
       <div class="col-md-3">
           <div class="row">
                 <a href="#">
-                  <button class="btn btn-primary boton_link"  onclick="location.href=''" style="width: 250px; height:30px" margin-top="70px">
+                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                     Ir a Supervisar >> </button>
                 </a>
           </div>
@@ -332,13 +340,13 @@
     <hr>
 {{pass}}
 
-{{if tipo_usuario in ["Pregrado",["Postgrado"]]:}}
+{{if "Coordinador" in roles:}}""
     <div class="row">
       <div class="col-md-4">
           <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Inscribir Proyecto </h3>
+          <h3 style="color: #4682B4"> Gestionar Estudiantes </h3>
           <p style="color: #808080">
              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
@@ -346,14 +354,36 @@
       <div class="col-md-3">
           <div class="row">
                 <a href="#">
-                  <button class="btn btn-primary boton_link"  onclick="location.href=''" style="width: 250px; height:30px" margin-top="70px">
-                    Ir a Inscribir >> </button>
+                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                    Ir a Gestionar Estudiantes >> </button>
+                </a>
+          </div>
+      </div>
+    </div>
+    <hr>
+        <div class="row">
+      <div class="col-md-4">
+          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
+      </div>
+      <div class="col-md-4">
+          <h3 style="color: #4682B4"> Gestionar Propuestas </h3>
+          <p style="color: #808080">
+             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
+          </p>
+      </div>
+      <div class="col-md-3">
+          <div class="row">
+                <a href="#">
+                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                    Ir a Gestionar Propuestas >> </button>
                 </a>
           </div>
       </div>
     </div>
     <hr>
 {{pass}}
+
+
 </div>
     <div class="col-md-2 admin"  align="right">
 

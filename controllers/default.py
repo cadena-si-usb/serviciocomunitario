@@ -21,14 +21,6 @@ from cgi import escape
 ### required - do no delete
 crud = Crud(db)
 
-def has_admin(user_id):
-    is_admin = False
-    for ad in ['Asistente','Coordinador','Administrador','Administrador Dex']:
-        if auth.has_membership(None, user_id,ad):
-            is_admin = True
-            break
-    return is_admin
-
 def representsInt(s):
     try:
         sint = int(s)
@@ -173,12 +165,19 @@ def login_cas():
 # Contolador de redireccion de usuarios
 @auth.requires_login()
 def home():
-    is_admin = has_admin(auth.user_id)
+
+    rolesUsuario=[]
+
+    for rol in db(db.auth_membership.user_id==auth.user_id).select():
+        rolesUsuario.append(db(db.auth_group.id==rol.group_id).select()[0].role)
+    
+    
+
     usuario  = db.auth_user(auth.user_id)
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     tipo = db.auth_user(auth.user_id)['f_tipo']
 
-    return dict(is_admin=is_admin,tipo_usuario=tipo,bienvenida=msj, host=request.env.http_host)
+    return dict(roles=rolesUsuario,tipo_usuario=tipo,bienvenida=msj, host=request.env.http_host)
 
 # @ticket_in_session
 def mostrar_credencial():
@@ -190,8 +189,13 @@ def registro():
 
 @auth.requires_login()
 def perfil():
+    rolesUsuario=[]
+
+    for rol in db(db.auth_membership.user_id==auth.user_id).select():
+        rolesUsuario.append(db(db.auth_group.id==rol.group_id).select()[0].role)
+    
     if request.args(0) == 'search':
-        if not has_admin(auth.user_id):
+        if not ("Administrador" in rolesUsuerio):
             redirect(URL('home'))
         user_id = request.args(1)
     else:
