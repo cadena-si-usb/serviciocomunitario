@@ -6,7 +6,7 @@
                 <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
             <div class="col-md-6" align="left">
-               <h4 style="color:#4682B4"><a href=".">SIGESC | Home</a> |<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> | Culminar</h4>
+               <h4 style="color:#4682B4">SIGESC /<a href="."> Home</a> /<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> / Culminar Proyecto</h4>
                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
 
             </div>
@@ -18,14 +18,14 @@
     </div>
 
    <div class="col-sm-12">
-       <div class="col-md-3">
+       <div class="col-md-4">
            <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
             <hr>
              <ul class="nav nav-stacked">
                 <li>
-                                        <a href="{{=URL(r=request,f='estudiantesEditarPerfil',args=estudiante)}}">
+                                        <a href="{{=URL('editar_perfil')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Editar Perfil</a>
-                      <a href="{{=URL('proyectosEstudiante')}}">
+                      <a href="{{=URL('propuestas')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>
                       {{if proyecto:}}
                           <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.id])}}">

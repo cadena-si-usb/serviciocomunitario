@@ -16,7 +16,7 @@ from gluon.tools   import Crud
 from uuid import uuid4
 from cgi  import escape
 from usbutils import get_ldap_data, random_key
-from cgi import escape
+from cgi import escape 
 
 ### required - do no delete
 crud = Crud(db)
@@ -105,7 +105,7 @@ def login_cas():
     else:
         # session.casticket = request.vars.getfirst('ticket')
         data  = the_page.split()
-        usbid = data[1]
+        usbid = data[1] 
         tablaUs  = db.t_universitario
         consulta = db(tablaUs.f_usbid==usbid)
         print(consulta)
@@ -171,13 +171,16 @@ def home():
     for rol in db(db.auth_membership.user_id==auth.user_id).select():
         rolesUsuario.append(db(db.auth_group.id==rol.group_id).select()[0].role)
     
+    esTutorAcademico= db(db.t_tutor_academico.f_universitario==auth.user_id).select().first() !=None
+
+    usuario = db.auth_user(auth.user_id)
     
+    esTutorComunitario = db(db.t_proyecto_tutor_comunitario.f_tutor==usuario).select().first() !=None
 
-    usuario  = db.auth_user(auth.user_id)
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
-    tipo = db.auth_user(auth.user_id)['f_tipo']
+    tipo = usuario['f_tipo']
 
-    return dict(roles=rolesUsuario,tipo_usuario=tipo,bienvenida=msj, host=request.env.http_host)
+    return dict(esTutorComunitario=esTutorComunitario,esTutorAcademico=esTutorAcademico,roles=rolesUsuario,tipo_usuario=tipo,bienvenida=msj, host=request.env.http_host)
 
 # @ticket_in_session
 def mostrar_credencial():
@@ -1887,7 +1890,7 @@ def estudianteCursa():
 
     #formulario = SQLFORM(db.kldhbvjgfe)
 
-    return dict(proyectos=db(db.t_proyecto_aprobado.id==idProyecto).select(),estudianteId=idEstudiante,idProyecto=idProyecto)
+    return dict(proyecto=db(db.t_proyecto_aprobado.id==idProyecto).select()[0],estudianteId=idEstudiante,idProyecto=idProyecto)
 
 def cursa():
     idProyecto = long(request.args[0])
@@ -2133,7 +2136,7 @@ def tutoresDetalles():
 
 def proyectosDetalles():
     x = long (request.args[0])
-    return dict(rows = db(db.t_project.id==x).select())
+    return dict(rows = db(db.t_proyecto.id==x).select())
 
 def proyectosDetallesEstudiantes():
     x = long (request.args[0])

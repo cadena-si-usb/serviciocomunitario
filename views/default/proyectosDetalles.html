@@ -148,16 +148,15 @@
                     <div class="panel-body">
                         <table class="table table-striped">
 
-                            {{for propuesta in propuestas:}}
+                            {{for proyecto in rows:}}
                             <tr><td><b>Código:</b> {{=proyecto.f_codigo}}</td></tr>
-                            <tr><td><b>Nombre:</b> {{=propuesta.t_nombre}}</td></tr>
+                            <tr><td><b>Nombre:</b> {{=proyecto.t_nombre}}</td></tr>
                             <tr><td><b>Descipción:</b> {{=proyecto.f_descripcion}}</td></tr>
                             <tr><td><b>Área:</b> {{=proyecto.f_area}}</td></tr>
                             <tr><td><b>Estado:</b> {{=proyecto.f_estado}}</td></tr>
                             <tr><td><b>Tutor:</b> {{=proyecto.f_tutor}}</td></tr>
                             <tr><td><b>Fecha de Inicio:</b> {{=proyecto.f_fechaini}}</td></tr>
                             <tr><td><b>Fecha de Finalización:</b> {{=proyecto.f_fechafin}}</td></tr>
-                            <tr><td><b>Versión:</b> {{=proyecto.f_version}}</td></tr>
                             <tr><td><b>Comunidad:</b> {{=proyecto.f_comunidad}}</td></tr>
                             <tr><td><b>Proponente:</b> {{=proyecto.f_proponente}}</td></tr>
                           {{pass}}

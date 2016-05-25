@@ -10,26 +10,26 @@
                 <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
             <div class="col-md-6" align="left">
-               <h4 style="color:#4682B4"><a href=".">SIGESC | Home</a> |<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> </h4>
+               <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> /<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> </h4>
                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
 
             </div>
             <div class="col-md-4" align="right">
-                <a href="{{=URL('default', 'logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+                <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
             </div>
         </div>
         <hr>
     </div>
 
    <div class="col-sm-12">
-       <div class="col-md-3">
+       <div class="col-md-4">
            <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
             <hr>
              <ul class="nav nav-stacked">
                  <li>
-                      <a href="{{=URL(r=request,f='estudiantesEditarPerfil',args=estudiante)}}">
+                      <a href="{{=URL('editar_perfil')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Editar Perfil</a>
-                      <a href="{{=URL('proyectosEstudiante')}}">
+                      <a href="{{=URL('propuestas')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>
                       {{if cursa:}}
                           <a href="{{=URL('estado_estudiante')}}">
@@ -63,7 +63,7 @@
                                   <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
                               <a class="btn disabled" style="margin-left: -104px;" target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
                                   <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
-                              <a class="btn disabled" style="margin-left: -61px;"href="#">
+                              <a class="btn disabled" style="margin-left: -61px;" href="#">
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
                           {{pass}}
 

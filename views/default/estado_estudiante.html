@@ -13,14 +13,14 @@
             </div>
             <div class="col-md-6" align="left">
                <h4 style="color:#4682B4">
-               		<a href=".">SIGESC | Home</a>
-               		|<a href="{{=URL('vista_estudiante')}}"> Estudiante </a>
-               		|<a href="{{=URL('estado_estudiante')}}"> Estado </a> </h4>
+               		SIGESC /<a href="."> Home</a>
+               		/<a href="{{=URL('vista_estudiante')}}"> Estudiante </a>
+               		/ Estado</h4>
                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
 
             </div>
             <div class="col-md-4" align="right">
-                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+                <a href="."><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
             </div>
         </div>
         <hr>
@@ -55,7 +55,7 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="panel panel-primary">
-                      <div class="panel-heading no-decoracion"><a href="{{=URL('vista_estudiante')}}" style="color:#fff">
+                      <div class="panelheading no-decoracion"><a href="{{=URL('vista_estudiante')}}" style="color:#fff">
                          <b><h class="detalles" ><span class="back glyphicon glyphicon-chevron-left"></span>
                           Cursando proyecto {{=proyecto.f_proyecto.f_nombre }}</h></b></a>
                       </div>
