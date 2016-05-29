@@ -1,0 +1,110 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+  <head>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}"></script>
+  </head>
+   <body role="document">
+       <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-6" align="left">
+               <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> /<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> </h4>
+               <h4 style="color:#4682B4">{{=bienvenida}}</h4>
+
+            </div>
+            <div class="col-md-4" align="right">
+                <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+   <div class="col-sm-12">
+       <div class="col-md-4">
+           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
+            <hr>
+             <ul class="nav nav-stacked">
+                 <li>
+                      <a href="{{=URL('editar_perfil')}}">
+                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Editar Perfil</a>
+                      <a href="{{=URL('propuestas')}}">
+                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>
+                      {{if cursa:}}
+                          <a href="{{=URL('estado_estudiante')}}">
+                             <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Estado de Inscripción</a>
+                          {{if (cursa.f_estado=='Aprobado') and (cursa.f_valido=='Valido'):}}
+                              <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudianteId,proyecto.id])}}">
+                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
+                             <a href="{{=URL('retirar_proyecto',args=[proyecto.id])}}">
+                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Retirar</a>
+                             <a href="{{=URL('culminar_proyecto',args=[proyecto.id])}}">
+                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Culminar</a>
+                          {{elif (cursa.f_valido=='Pendiente') and (aprob_tutor=='Aprobado'):}}
+                                 <a class="btn disabled" style="margin-left: -61px;" href="#">
+                                     <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
+                                 <a class="btn disabled" style="margin-left: 0px;" target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
+                                     <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
+                                 <a class="btn disabled" style="margin-left: -149px;"href="#">
+                                     <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
+                          {{elif (cursa.f_estado=='Retirado') and (cursa.f_valido=='Valido'):}}
+                              <a target="_blank" href="{{=URL('generarPdfConstanciaRetiro',args=[estudiante.id,proyecto.id])}}">
+                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Retiro</a>
+                                 <a href="{{=URL(r=request,f='estudianteInscribeProyectos',args=estudiante.id)}}">
+                                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
+                          {{elif (cursa.f_estado=='Culminado') and (cursa.f_valido=='Valido'):}}
+                              <a target="_blank" href="{{=URL('generarPdfConstanciaCulminacion',args=[estudiante.id,proyecto.id])}}">
+                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Culminación</a>
+                                 <a href="{{=URL(r=request,f='estudianteInscribeProyectos',args=estudiante.id)}}">
+                                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
+                          {{else:}}
+                              <a class="btn disabled" style="margin-left: -61px;" href="#">
+                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
+                              <a class="btn disabled" style="margin-left: -104px;" target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
+                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
+                              <a class="btn disabled" style="margin-left: -61px;" href="#">
+                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
+                          {{pass}}
+
+                         {{if (pActividad=='si') and (aprob_tutor=='Pendiente'):}}
+                     <a href="{{=URL(r=request,f='estudiante_plan_trabajo',args=[estudianteId])}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Plan de Trabajo</a>
+                         {{else:}}
+                     <a class="btn disabled" style="margin-left: -166px;" href="{{=URL(r=request,f='estudiante_plan_trabajo',args=[estudianteId])}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Plan de Trabajo</a>
+                        {{pass}}
+                      {{else:}}
+                        <a href="{{=URL(r=request,f='estudianteInscribeProyectos',args=estudiante.id)}}">
+                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
+                      {{pass}}
+                  </li>
+             </ul>
+       </div>
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}
+        <div class="col-md-8">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <b><h class="detalles" >Detalles del estudiante</h></b>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                              <tr><td><b>USBID:</b> {{=estudiante.f_universitario.f_usbid}}</td></tr>
+                              <tr><td><b>Nombre:</b> {{=estudiante.f_universitario.f_usuario.first_name}}</td></tr>
+                              <tr><td><b>Apellido:</b> {{=estudiante.f_universitario.f_usuario.last_name}}</td></tr>
+                              <tr><td><b>Carrera:</b> {{=estudiante.f_carrera}}</td></tr>
+                              <tr><td><b>Sede:</b> {{=estudiante.f_sede}}</td></tr>
+                        </table>
+                        <div class="alert alert-info" style="margin-bottom: 5px">
+                          Total de horas realizadas:<b> {{=horas}}</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+      </div>
+  {{ pass }}
+{{ end }}

@@ -1,0 +1,67 @@
+
+#estuds thead {
+  background-color:#357EBD;
+  color:#FFF;
+}
+.tbl th {
+  background-color:#F1C40F;
+  color:#FFF;
+}
+.tbl tr:nth-child(odd) {
+  background-color:#FFF !important;
+}
+.tbl tr:nth-child(even) {
+  background-color:#FFF9E0;
+}
+
+.btns-form, #agregar_act {
+  margin-bottom:15px;
+}
+
+.tbl .glyphicon-pencil {
+  margin-right:20px;
+  visibility: hidden;
+}
+
+.btn-crear-propuesta {
+	text-align:right;
+}
+
+.btn-crear-propuesta a, .btn-crear-propuesta a:focus{
+	color: #FFF !important;
+	text-decoration: none !important;
+	font-size:14px;
+}
+
+.propuestas-acciones {
+  text-align:right;
+}
+.propuestas-acciones a:nth-child(1){
+  margin-right:35px;
+}
+.paginado a.active-pag {
+  font-weight: bold !important;
+}
+
+#no_table_f_continuacion {
+  display: inline !important;
+  width: 10px;
+  height:10px;
+  margin-right:5px;
+  position: relative;
+}
+
+.red {
+  color:red;
+}
+
+select.form-error,
+input.form-error,
+textarea.form-error {
+  border: 1px solid red;
+}
+
+.tooltip-inner {
+    white-space:pre-wrap;
+    max-width: 350px;
+}

@@ -1,0 +1,138 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/Estudiante.css')}}">
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/bootstrap.js')}}' %} "></script>
+
+    <!-- Custom styles for this template -->
+    <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">
+    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+
+  </head>
+
+  <style type="text/css">
+  </style>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$('#btn-prueba').on('click', function(){
+		var listCheck = "";
+		var listHours = "";
+		var inputElements = document.getElementsByName('check');
+		var inputHours = document.getElementsByName('horas');
+		var sumaHoras = 0;
+		var hola = {{=inscripcion.f_horas}};
+		for (i=0; inputElements[i]; ++i){
+			if (inputElements[i].checked){
+				listCheck += "1" + "/";
+				sumaHoras += parseInt(inputHours[i].value);
+			}
+			else {
+				listCheck += "0" + "/";
+			}
+			listHours += inputHours[i].value.toString() + '/';
+		}
+		if (sumaHoras == hola) {
+			$(location).attr('href','{{=URL(r=request,f='enviarPlanTrabajo',args=[idProyecto,estudianteID,listaStringActividades])}}'+listCheck + listHours);
+		}
+		else {
+			alert('EL número de horas a enviar debe ser igual al número de horas solicitadas.');
+		}
+	});
+  }
+)
+</script>
+<h4 style="color:#4682B4"> <a href="{{=URL('home')}}">Home</a> / Proyectos Registrados / Solicitudes / Plan de Actividades</h4>
+<h4 style="color:#4682B4">{{=bienvenida}}</h4>
+
+<div class="col-md-1 botones">
+	<button type="button" onclick="location.href='{{=URL('home')}}'" align="left" class="btn btn-lg0 btn-default perfil">
+		<h class="tittle-accion">Volver</h>
+	</button>
+</div>
+
+<div class="col-md-10" style="margin-left: 6%;">
+	<h2 class="detalles"><b>Plan de actividades</b></h2>
+	<table class="table table-condensed text-center" id="estuds">
+        <thead>
+            <tr>
+                <th class="text-center">Nombre</i></th>
+                <th class="text-center">Carné</th>
+                <th class="text-center">Proyecto</th>
+				<th class="text-center">Horas a Cursar</th>
+            </tr>
+        </thead>
+		<tbody>
+            <tr>
+				<td>
+					{{=estudiante.f_universitario.f_usuario.first_name}} {{=estudiante.f_universitario.f_usuario.last_name}}
+				</td>
+				<td>
+					{{=estudiante.f_universitario.f_usbid}}
+				</td>
+				<td>
+					{{=proyecto.f_nombre}}
+				</td>
+				<td>
+					{{=inscripcion.f_horas}}
+				</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-10" style="margin-left: 16%;">
+	<table class="table table-condensed text-center" id="estuds">
+        <thead>
+            <tr>
+                <th class="text-center">Actividad</i></th>
+                <th class="text-center">Descripción</th>
+                <th class="text-center">Horas</th>
+				<th class="text-center">Seleccionar</th>
+            </tr>
+        </thead>
+        <tbody>
+			{{ for lista in listaActividades:}}
+		            <tr>
+						<td>
+							{{=lista.f_nombre}}
+						</td>
+						<td>
+							{{=lista.f_resumen}}
+						</td>
+						<td>
+							<input type="number" name="horas" value="0">
+						</td>
+						<td>
+							<input class="text-center" type="checkbox" name="check">
+						</td>
+		            </tr>
+			{{ pass }}
+        </tbody>
+    </table>
+</div>
+<div class="col-md-12 text-center">
+	<button id="btn-prueba" class="btn btn-success" style="margin-top:5%;">
+		 <i class="glyphicon glyphicon-send"></i> <b>Enviar Plan de Trabajo</b>
+	</button>
+</div>
+{{ end }}

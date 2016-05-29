@@ -1,0 +1,11 @@
+{{extend 'base.html'}}
+
+{{ block contenido }}
+<h2>Introduzca nuevamente su carnet:</h2>
+    <form method="post"  action="verificar_usbid">
+        USBID:<br>
+        <input type="text" name="usbid"><br>
+        <button>Send</button>
+    </form>
+<p>Vista provisional. Sera sustituida cuando CAS provea mas informacion</p>
+{{ end }}

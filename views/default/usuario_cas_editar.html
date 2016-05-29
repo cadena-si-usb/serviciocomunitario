@@ -1,0 +1,13 @@
+{{ extend 'control.html' }}
+{{ block lista }}
+
+/ <a href="{{=URL('usuarios_cas')}}">Usuarios USB </a> 
+/ <a href="#"> Editar </a>
+
+{{ end lista}}
+
+
+{{ block contenido2}}
+    <h1>Editar usuario</h1>
+    {{=form}}
+{{ end block }}

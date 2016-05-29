@@ -1,0 +1,53 @@
+{{ extend 'default/vista_admin.html' }}
+{{ block vista_actores_detalles }}
+<h4 style="color:#4682B4"> <a href="{{=URL('vista_proponente')}}">Home</a> / Proyectos Registrados</h4>
+<h4 style="color:#4682B4">{{=bienvenida}}</h4>
+{{ end }}
+
+{{ block funciones_vista_actores }}
+<div class="col-md-2 botones">
+	<div class="row">
+	<button type="button" align="left" class="btn btn-lg0 btn-default perfil">
+	<h class="tittle-accion">Proponer proyecto
+	</button>
+	</div><br>
+
+	<div class="row">
+	<button type="button" onclick="location.href='{{=URL('solicitudes_tutor')}}'" align="left" class="btn btn-lg2 btn-default">
+	<h class="tittle-accion"> Ver solicitudes
+	</button>
+	</div><br>
+
+</div>
+<div class="col-md-9" align="left" >
+	<table class="table table-condensed" id="estuds">
+                <thead>
+                    <tr>
+                        <th> Proyectos registrados</i></th>
+                        <th align="right"></th>
+                        <th align="right"></th>
+                        <th align="right"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ for proyecto in proyectos:}}
+                    <tr>
+                        <td>
+                            <a href="{{=URL(r=request,f='proyectosDetalles',args=proyecto.id)}}">{{=proyecto.f_nombre}}</a>
+                        </td>
+                        <td>
+                         <a href="{{=URL(r=request,f='proyectosDetalles',args=proyecto.id)}}"><i class="glyphicon glyphicon-search"></i></a>
+                        </td>
+                        <td>
+                        <a href="{{=URL(r=request,f='proyectosEditar',args=proyecto.id)}}"><i class="glyphicon glyphicon-pencil"></i></a>
+                        </td>
+                        <td>
+                        <a href="{{=URL(r=request,f='proyectosEditar',args=proyecto.id)}}"><i class="glyphicon glyphicon-trash"></i></a>
+                        </td>
+                    </tr>
+                    {{ pass }}
+
+                </tbody>
+            </table>
+</div>
+{{ end }}

@@ -1,0 +1,49 @@
+/** these MUST stay **/
+
+
+[type="text"], [type="password"], select {
+  margin-right: 5px;
+}
+
+/*********** web2py specific ***********/
+div.flash {
+    font-weight:bold;
+    display:none;
+    position:fixed;
+    padding:10px;
+    top:48px;
+    right:250px;
+    min-width:280px;
+    opacity:0.95;
+    margin:0px 0px 10px 10px;
+    vertical-align:middle;
+    cursor:pointer;
+    color:#fff;
+    background-color:#000;
+    border:2px solid #fff;
+    border-radius:8px;
+    -o-border-radius: 8px;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    background-image: -webkit-linear-gradient(top,#222,#000);
+    background-image: -o-linear-gradient(top,#222,#000);
+    background-image: -moz-linear-gradient(90deg, #222, #000);
+    background-image: linear-gradient(top,#222,#000);
+    background-repeat: repeat-x;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    z-index:2000;
+}
+
+div.flash #closeflash{color:inherit; float:right; margin-left:15px;}
+.ie-lte7  div.flash #closeflash
+{color:expression(this.parentNode.currentStyle['color']);float:none;position:absolute;right:4px;}
+
+div.flash:hover { opacity:0.25; }
+
+div.error_wrapper {display:block}
+.error {
+    color:red;
+    padding:5px;
+   
+}

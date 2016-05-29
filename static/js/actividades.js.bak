@@ -1,0 +1,48 @@
+$(document).ready(function() {
+		$('select[multiple]').multiselect({
+		    columns: 1,
+		    search: true,
+		    placeholder: 'Seleccione uno o más tutores'
+		});
+		$('#agregar_act').click(function(){
+			nro_actividades = $("[name='nro_actividades']").val();
+			nombre_act = $("[name='nombre_act_"+nro_actividades+"']").val();
+
+			$('.tbl_actividades tbody').append(
+				"<tr><td><span>"+nombre_act+"</span>"+
+				"<a href='#' class='act_remove glyphicon glyphicon-remove pull-right' data-id='"+nro_actividades+"'></a>"+
+				"<a href='#' class='act_edit glyphicon glyphicon-pencil pull-right' data-id='"+nro_actividades+"'></a></td></tr>");
+
+			$("[name='nro_actividades']").val(++nro_actividades);
+
+			$(".secc_actividades input[type='text'], .secc_actividades textarea").filter(":visible").each(function(i,e) {
+			  basename = $(this).attr("name").substr(0,$(this).attr("name").lastIndexOf("_"));
+			  $(this).clone().val("").attr("name",basename+"_"+nro_actividades).attr('data-id',nro_actividades).insertAfter($(this));
+			  $(this).hide();
+			})
+		})
+		$('body').on('click', '.act_remove', function(e) {
+			e.preventDefault();
+			nro_act = $(this).data('id');
+			fila = $(this).parent().parent();
+			$(".secc_actividades input[type='text'][data-id='"+nro_act+"'],"+
+			".secc_actividades textarea[data-id='"+nro_act+"']").each(function(i,e) {
+			  $(this).val("");
+			  fila.remove();
+			})
+		})
+		editing = false;
+		$('body').on('click', '.act_edit', function(e) {
+			e.preventDefault();
+			nro_act = $(this).data('id');
+			fila = $(this).parent().parent();
+			$(".secc_actividades input[type='text'][data-id='"+nro_act+"'],"+
+			".secc_actividades textarea[data-id='"+nro_act+"']").each(function(i,e) {
+				  basename = $(this).attr("name").substr(0,$(this).attr("name").lastIndexOf("_"));
+				  campo_visible = $('[name="'+basename+"_"+nro_act+'"]:visible');
+				  $(this).clone().insertAfter(campo_visible).show();
+				  campo_visible.hide();
+				  $(this).remove();
+			})
+		})
+	})

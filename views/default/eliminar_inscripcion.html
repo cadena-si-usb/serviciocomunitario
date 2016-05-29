@@ -1,0 +1,16 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<h4 style="color:#4682B4"> <a href="{{=URL('home')}}">Home</a> / Proyectos Registrados / Solicitudes / Rechazar Solicitud</h4>
+<div class="col-md-1 botones">
+	<button type="button" onclick="location.href='{{=URL('home')}}'" align="left" class="btn btn-lg0 btn-default perfil">
+		<h class="tittle-accion">Volver</h>
+	</button>
+</div>
+
+<div class="col-md-10" style="margin-left: 6%;">
+    <div class="alert alert-danger col-sm-offset-1 text-center" role="alert">
+      <a href="{{=URL('solicitudes_tutor')}}" class="alert-link">{{=mensaje}}</a>
+    </div>
+</div>
+
+{{ end }}

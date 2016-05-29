@@ -1,0 +1,128 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
+
+    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/proponentes.css')}}">
+
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}">
+    </script>
+
+    <!-- Custom styles for this template -->
+
+    <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">
+    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('#btn-descarga').on('click', function(){
+        $(location).attr('href','{{=URL(r=request,f='generarPdfConstanciaInscripcion',args=[estudianteID,proyecto])}}');
+      });
+    })
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('#btn-validar').on('click', function(){
+        $(location).attr('href','{{=URL(r=request,f='solicitarValidacionEstudiante',args=[estudianteID,proyecto])}}');
+      });
+    })
+    </script>
+
+
+  </head>
+
+  <body role="document">
+    <!-- Fixed navbar -->
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+            <h4 style="color:#4682B4"><a href="."> Home</a> | <a href="{{=URL('vista_estudiante')}}">Estudiante</a>  | Registro Proyecto </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href="."><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+
+
+   <div class="col-sm-12">
+       <div class="col-md-3">
+           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
+            <hr>
+             <ul class="nav nav-stacked">
+             </ul>
+       </div>
+       {{if mensaje=="Usted ya tiene un proyecto inscrito. Volver al Menú":}}
+          <div class="alert alert-danger col-sm-5 col-md-offset-1 text-center" role="alert">
+            <a href="{{=URL('vista_estudiante')}}" class="alert-link">{{=mensaje}}</a>
+         </div>
+         <!--<button id="btn-validar" class="btn btn-success" style="width: 300px;" align="right">
+              <i class="glyphicon glyphicon-plus-sign"></i> <b>Solicitar validación de proyecto al tutor</b>
+         </button>-->
+       {{else:}}
+         <div class="alert alert-success col-sm-5 col-md-offset-1 text-center" role="alert">
+            <a href="{{=URL('vista_estudiante')}}" class="alert-link">{{=mensaje}}</a>
+         </div>
+         <div class="alert alert-success col-sm-5 col-md-offset-4 text-center" role="alert">Se ha enviado una solicitud de validación de inscripción en el proyecto.
+         </div>
+         <div class="alert alert-success col-sm-5 col-md-offset-4 text-center" role="alert">
+            <a target="_blank" href="http://www.cce.sl.usb.ve/sites/default/files/Pasos_a_seguir_para_la_inscripcion_del_Servicio_Comunitario.pdf" class="alert-link">Pasos a seguir para la inscripcion del Servicio Comunitario</a>
+         </div>
+         <!--<div>
+             <button id="btn-descarga" class="btn btn-success" style="width: 300px;" align="right">
+                   <i class="glyphicon glyphicon-plus-sign"></i> <b>Descargar constancia de inscripción</b>
+              </button>
+          </div>
+          <div style="padding-top:10px;">
+            <button id="btn-validar" class="btn btn-success" style="width: 300px;" align="right">
+                 <i class="glyphicon glyphicon-plus-sign"></i> <b>Solicitar validación de proyecto al tutor</b>
+            </button>
+          </div>-->
+       {{pass}}
+
+
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}
+
+        </div>
+
+      </div>
+	{{ pass }}
+{{ end }}

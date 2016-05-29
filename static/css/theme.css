@@ -1,0 +1,37 @@
+body {
+	margin:	auto;
+  padding-bottom: 30px;
+}
+
+.navbar-default{
+	background-image: linear-gradient(to bottom, #3498db 0%, #3498db 100%) !important; 
+}
+
+.navbar a{
+	color:white !important;
+}
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+
+form{
+  margin:15px;
+}
+.w2p_fw {
+    padding: 2.5px;
+}
+.micontainer{
+  width: 270px;
+  text-align: center;
+}

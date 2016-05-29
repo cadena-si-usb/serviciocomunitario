@@ -1,0 +1,350 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<style type="text/css" media="print">
+  .oculto {display:none}
+</style>
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/propuestas.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/jquery.multiselect.css')}}">
+    
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    
+    
+    
+    <!-- Bootstrap core CSS -->    
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap theme -->    
+    <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}">
+    </script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery.multiselect.js')}}">
+    </script>
+    
+    <script type="text/javascript" src="{{=URL('static', 'js/propuestas.js')}}">
+    </script>
+    
+    <!-- Custom styles for this template -->
+    
+    <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">    
+    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+    
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+    
+  </head>
+  
+  <body role="document">
+  
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2 oculto">
+                <img src="{{=URL('static', 'proyects2.png')}}" class="img-responsive " width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+               <div class ="oculto"><h4 style="color:#4682B4"><a href="{{=URL('home')}}"> Home </a> / <a href="../propuestas">Propuestas </a> / <a href="#">Detalles de la propuesta</a></h4></div>
+            </div>
+            <div class="col-md-6" align="right">
+                <div class = "oculto"><a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a></div>
+            </div>
+        </div>
+        <hr>
+    </div>
+  
+   <div class="col-sm-12">
+       <div class="col-md-3 oculto">
+           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
+            <hr>
+            
+             <ul class="nav nav-stacked">
+                 <li>
+                      <a href="{{=URL('propuestas')}}" >
+                         <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Volver a Propuestas</a>
+                     <a href="{{=URL('estudiantes')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Estudiantes </a>
+                     <a href="{{=URL('areas')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true" class = "oculto"></span> Ir a Áreas </a>
+                      <a href="{{=URL('proponentes')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Proponentes </a>
+                      <a href="{{=URL('sedes')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Sedes</a>
+                      <a href="{{=URL('proyectos')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Proyectos</a>
+                     <a href="{{=URL('tutores')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Tutores</a>
+                     <a href="{{=URL('comunidades')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Comunidades</a>
+                     
+                 </li>
+                 
+            
+             </ul>
+             
+       </div>
+       
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}
+        <div class="col-md-8">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <b><h class="detalles" >Consulta de la propuesta</b></h>
+                    </div>
+                <div class="panel-body">
+
+                <div class="form formulario row" id="formulario" osubmit="control_form()">
+                
+                <div class="col-md-12">
+                  
+                  <div class="form-group">
+                    <label> Nombre: </label>
+                    {{=proyecto.f_nombre}}
+                  </div>
+                <div class="form-group">
+                    <label> Estado de la propuesta: </label>
+                    {{=propuesta.f_estado_propuesta}}
+                  </div>
+                  <div class="form-group">
+                    <label> Resumen: </label>
+                    {{=proyecto.f_resumen}}
+                  </div>
+                   <div class="form-group">
+                    <label> Relación con planes nacionales: </label>
+                    {{=proyecto.f_relacion_planes}}
+                  </div>
+                  <div class="form-group">
+                    <label> Antecedentes: </label>
+                    {{=proyecto.f_antecedentes}}
+                  </div>
+                  <div class="form-group">
+                    <label> Objetivos Generales: </label>
+                    {{=proyecto.f_obj_generales}}
+                  </div>
+                  <div class="form-group">
+                    <label> Población beneficiaria: </label>
+                    {{=proyecto.f_poblacion_beneficiaria}}
+                  </div>
+                   <div class="form-group">
+                    <label> Justificación: </label>
+                    {{=proyecto.f_justificacion}}
+                  </div>
+                  <div class="form-group">
+                    <label> Logros sociales: </label>
+                    {{=proyecto.f_logros_sociales}}
+                  </div>
+                  <div class="form-group">
+                    <label> Impacto social: </label>
+                    {{=proyecto.f_impacto_social}}
+                  </div>
+                  <div class="form-group">
+                    <label> Evaluación: </label>
+                    {{=proyecto.f_evaluacion}}
+                  </div>
+                  <div class="form-group">
+                    <label> Difusión de resultados: </label>
+                    {{=proyecto.f_difusion_resultados}}
+                  </div>
+                  <div class="form-group">
+                    <label> Aplicación de las directrices y valores expuestos en la ley: </label>
+                    {{=proyecto.f_aplicacion_dir_ley}}
+                  </div>
+                  <div class="form-group">
+                    <label> Objetivos de aprendizaje: </label>
+                    {{=proyecto.f_obj_aprendizaje}}
+                  </div>
+                  <div class="form-group">
+                    <label> Número de estudiantes requeridos: </label>
+                    {{=proyecto.f_num_requeridos}}
+                  </div>
+                  <div class="form-group">
+                    <label> Relevancia: </label>
+                    {{=proyecto.f_relevancia}}
+                  </div>
+                  <div class="form-group">
+                    <label> Originalidad: </label>
+                    {{=proyecto.f_originalidad}}
+                  </div>
+                  <div class="form-group">
+                    <label> Capacidad ejecutora: </label>
+                    {{=proyecto.f_capacidad_ejecutora}}
+                  </div>
+                   <div class="form-group">
+                    <label> Asociatividad externa: </label>
+                    {{=proyecto.f_asoc_externa}}
+                  </div>
+                   <div class="form-group">
+                    <label> Asociatividad interna: </label>
+                    {{=proyecto.f_asoc_interna}}
+                  </div>
+                   <div class="form-group">
+                    <label> Incorporación estudiantes: </label>
+                    {{=proyecto.f_incorporacion_estudiantes}}
+                  </div>
+                   <div class="form-group">
+                    <label> Incorporación profesores: </label>
+                    {{=proyecto.f_incorporacion_profesores}}
+                  </div>
+                   <div class="form-group">
+                    <label> Incorporación empleados: </label>
+                    {{=proyecto.f_incorporacion_empleados}}
+                  </div>
+                   <div class="form-group">
+                    <label> Incorporación obreros: </label>
+                    {{=proyecto.f_incorporacion_obreros}}
+                  </div>
+                  <div class="form-group">
+                    {{if proyecto.f_area != None:}} 
+                    <label> Área de atención social: </label>
+                    {{=proyecto.f_area.f_nombre}}
+                  </div>{{else:}}
+                  <label> Área de atención social: </label>
+                    {{=proyecto.f_area}}{{pass}}
+                  <div class="form-group">
+                    {{if proyecto.f_area != None:}} 
+                    <label> Área de competencia: </label>
+                    {{=proyecto.f_area.f_nombre}}
+                  </div>{{else:}}
+                  <label> Área de competencia: </label>
+                    {{=proyecto.f_area}}{{pass}}
+                  <div class="form-group">
+                  {{if proyecto.f_estado != None:}} 
+                    <label> Estado: </label>
+                    {{=proyecto.f_estado.f_nombre}}
+                  </div>{{else:}}
+                  <label> Estado: </label>
+                    {{=""}}{{pass}}
+                  
+                   <div class="form-group">
+                    <label> Fecha de inicio: </label>
+                    {{=proyecto.f_fechaini}}
+                  </div>
+                   <div class="form-group">
+                    <label> Fecha de finalización: </label>
+                    {{=proyecto.f_fechafin}}
+                  </div>
+                   <div class="form-group">
+                    <label> Comunidad: </label>
+                    {{=proyecto.f_comunidad}}
+                  </div>
+  
+                   <div class="form-group">
+                    <label> Sede: </label>
+                    {{=proyecto.f_sede}}
+                  </div>
+  
+                       
+                  <div class="form-group">
+                    <label>Tutores académicos: </label>
+                    <ul>
+                    {{for tutor in tutores:}}
+                      <li>{{=tutor.auth_user.first_name + ' ' + tutor.auth_user.last_name}}</li>
+                    {{pass}}
+                    </ul>
+                  </div>
+                  <div class="form-group">
+                    <label>Tutores comunitarios: </label>
+                    <ul>
+                     {{for tutor in tutores_comunitarios:}}
+                      <li>{{=tutor.auth_user.first_name + ' ' + tutor.auth_user.last_name}}</li>
+                    {{pass}}
+                    </ul>
+                  </div>
+                  
+                  
+                  
+                  <div class="secc_actividades">
+                    
+                      <table class="table table-striped tbl_actividades">
+                        <thead><th> Actividades: </th></thead>
+                        <tbody>
+                          {{for i in range(1,len(actividades)+1):}}
+                          {{actividad = actividades[i-1]}}
+                          <tr>
+                            <td>
+                                <span>{{=actividad.f_nombre}}</span>
+                               </td>
+                          </tr>
+                          {{pass}}
+                        </tbody>
+                      </table>
+                  <table class="table table-striped tbl_actividades">  
+                  <div class="form-group">
+                    <thead><th>Objetivos:</th></thead>
+                    <tbody>
+                          {{for i in range(1,len(objetivos)+1):}}
+                          {{objetivo = objetivos[i-1]}}
+                          <tr>
+                            <td>
+                                <span>{{=objetivo.f_objetivo}}</span>
+                               </td>
+                          </tr>
+                          {{pass}}
+                        </tbody>
+                      </table>
+                  </div>
+               
+                   <table class="table table-striped tbl_actividades">  
+                  <div class="form-group">
+                    <thead><th>Plan operativo:</th></thead>
+                    <tbody>
+                          {{for i in range(1,len(plan_operativo)+1):}}
+                          {{plan = plan_operativo[i-1]}}
+                          <tr>
+                            
+                            <td>
+                                <span>{{=plan.f_actividad.f_nombre}}</span>
+                                <span style="float:right;">{{=plan.f_objetivo.f_objetivo}}</span>
+                               </td>
+                          </tr>
+                          {{pass}}
+                        </tbody>
+                      </table>
+                  </div>
+                  <div class="form-group">
+                    <label> Observaciones: </label>
+                    {{=propuesta.f_observaciones}}
+                  </div>
+                  <div class="form-group">
+                    <label> Fecha de creacion de la propuesta: </label>
+                    {{=propuesta.created_on}}
+                  </div>
+                 
+            </div>
+          </div>
+          <a href="#" class="btn btn-success btn-md imprimir oculto">
+      <span class="glyphicon glyphicon-print oculto"></span> Imprimir 
+    </a>
+        </div>
+        <form action="../propuestaPDF" class='formulario-pagina' method="POST">
+          <input type="hidden" class='contenido-pagina' name='html'>
+        </form>
+      
+        
+      </div>
+    
+      
+
+  {{ pass }}
+{{ end }}

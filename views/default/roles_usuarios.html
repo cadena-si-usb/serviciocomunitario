@@ -1,0 +1,70 @@
+{{extend 'base2.html'}}
+
+{{ block contenido }}
+<div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'proponente.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+                <h4 style="color:#4682B4"><a href=".">Home</a> /<spam> Roles de Usuarios </spam>  </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href="{{=URL('default', 'logout')}}">Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+</div>
+
+
+    <div class="col-sm-12">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Roles de Usuarios</h2>  
+            <a style="float:right;font-size:25px;margin-right:50px" href="{{=URL('default','agregar_rol')}}" title="Agregar rol a usuarios del sistema."><span class="glyphicon glyphicon-plus"></span></a>
+            <table class="table table-condensed" id="estuds">
+                <thead>
+                    <tr>
+                        <th> Usuario </i></th>
+                        <th align="right">Rol</th>                        
+                        <th align="right"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {{for usuario in registrados:}}
+
+                    {{ for roles in db(db.auth_group.id==usuario.group_id).select():}}
+                    <tr>
+                        <td>
+                            {{=db(db.auth_user.id==usuario.user_id).select()[0].username}}
+
+                        </td>
+                        <td>
+                            {{=roles.role}} 
+                        </td>
+
+<script language="Javascript"> 
+function confirmarEliminar(){
+
+confirmar=confirm("¿Seguro que desea eliminar este rol?"); 
+if (confirmar)
+  window.location="{{=URL(r=request,f='eliminar_rol',args=usuario.id)}}"; 
+
+
+} 
+</script>
+
+                        <td>
+                        <a style="cursor:pointer" onclick="confirmarEliminar()"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                    </tr>
+                    {{ pass }}
+                    {{ pass }}
+              </tbody>
+            </table>
+        </div>
+
+
+{{ end contenido }}
+

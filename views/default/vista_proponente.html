@@ -1,0 +1,116 @@
+{{ extend 'default/vista_admin.html' }}
+<!--  block vista_actores_detalles 
+<h4 style="color:#4682B4">Home</h4>
+<h4 style="color:#4682B4">{{=bienvenida}}</h4>
+ end  -->
+
+<<<<<<< HEAD
+<div class="col-sm-10">
+	{{ block funciones_vista_actores }}
+    <div class="row">
+        <div class="col-md-4">
+            <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
+        </div>
+        <div class="col-md-4">
+            <h3> <a href="#"> Proponer Proyectos</h3></a>
+             <p style="color: #808080">
+               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus non incidunt ducimus assumenda? Deserunt tenetur, ea 
+            </p>
+        </div>
+         <div class="col-md-3">
+            <div class="row">
+                  <a href="#">     
+                  <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                      Ir a Proponer  >> </button>
+                  </a>
+            </div>
+        </div>
+    </div>
+        <hr>
+=======
+{{ block funciones_vista_actores }}
+<div class="col-md-2 botones">
+	<div class="row">
+	<button type="button" align="left" class="btn btn-lg0 btn-default perfil">
+	<h class="tittle-accion">Proponer proyecto
+	</button>
+	</div><br>
+
+	<div class="row">
+	<button type="button" onclick="location.href='{{=URL('proponenteProyecto')}}'" align="left" class="btn btn-lg2 btn-default">
+	<h class="tittle-accion"> Consultar proyectos 
+	</button>
+	</div><br>
+>>>>>>> GestionDeProyecto
+
+<div class="row">
+	
+    <div class="col-md-4">
+        <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
+    </div>
+    <div class="col-md-4">
+        <h3 style="color: #4682B4"> Consultar Estado </h3>
+        <p style="color: #808080">
+           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti 
+        </p>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+              <a href="#">
+                <button class="btn btn-primary boton_link"  onclick="location.href=''" style="width: 250px; height:30px" margin-top="70px">
+                  Ir a Estado >> </button>
+              </a>
+        </div>
+    </div>
+</div>
+        <hr>
+        
+<div class="row">
+    <div class="col-md-4">
+        <img class="img-responsive" src="{{=URL('static', 'proyects2.png')}}" height="155" width="265"/>
+    </div>
+    <div class="col-md-4">
+        <h3 onclick="location.href='#'"><a href="#"> Gestionar Proyectos</h3></a>
+         <p style="color: #808080">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam error dolore mollitia aut repellendus blanditiis 
+    </div>
+                  <div class="col-md-3">
+        <div class="row">
+              <button onclick="location.href='#'" class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                  Ir a Proyectos  >> </button>
+        </div>
+    </div>
+</div>
+
+<<<<<<< HEAD
+        
+</div>
+    
+<div class="col-md-2" align="right">
+    <div class="row">
+        <br><img class="img-responsive" src="{{=URL('static', 'somosUsb.png')}}" height="50" width="150"/><br>
+    </div>
+    <div class="row">
+        <br><br><img class="img-responsive" src="{{=URL('static', 'calendario.png')}}" height="50" width="150"/><br>
+    </div>
+    <div class="row">
+        <br><br><img class="img-responsive" src="{{=URL('static', 'preguntas.png')}}" height="50" width="150"/><br>
+    </div>
+    <div class="row">
+        <br><br><img class="img-responsive" src="{{=URL('static', 'reglamento.png')}}" height="50" width="150"/><br>
+    </div>
+    <div class="row">
+        <br><br><img class="img-responsive" src="{{=URL('static', 'aporte.png')}}" height="50" width="150"/><br>
+    </div>
+</div>
+<style>
+	.col-md-2.admin{
+		display: none !important;
+	}
+</style>
+=======
+<div class="col-md-9" align="left" >
+	{{=form}}
+</div>
+{{ end }}
+>>>>>>> GestionDeProyecto

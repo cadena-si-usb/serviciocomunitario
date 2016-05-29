@@ -1,0 +1,15 @@
+cairocffi==0.7.2
+CairoSVG==1.0.20
+cffi==1.5.2
+cssselect==0.9.1
+html5lib==0.9999999
+lxml==3.5.0
+Pillow==3.1.1
+pycparser==2.14
+Pyphen==0.9.4
+python-ldap==2.4.25
+reportlab==3.3.0
+requirements==0.1
+six==1.10.0
+tinycss==0.3
+WeasyPrint==0.26
