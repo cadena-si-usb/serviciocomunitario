@@ -10,7 +10,10 @@ $(document).ready(function() {
 			    placeholder: 'Seleccione uno o más tutores'
 			});
 		}
-
+        function process(date){
+            var parts = date.split("/");
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
 		function enviarPropuesta(accion) {
 			pag = parseInt($("#siguiente").data('pag'));
 
@@ -161,14 +164,63 @@ $(document).ready(function() {
 
 		$('body').on("click", "#guardar", function(e) {
 			e.preventDefault();
-			ajaxResult = enviarPropuesta('guardar');
-       	  	if (ajaxResult.proyecto_id) {
-			  	$("[name='proyecto_id'],[name='f_proyecto']").val(ajaxResult.proyecto_id);
-			  	console.log(ajaxResult);
-			  	if (ajaxResult.errors_count == 0) {
-			  		alert("La propuesta ha sido guardada exitosamente. Puede seguir llenándola cuando le plazca");
-			  	}
-			}
+            function process(date){
+   var parts = date.split("/");
+   return new Date(parts[2], parts[1] - 1, parts[0]);
+}
+            var ini = process($('#no_table_f_fechaini').val());
+            var fin = process($('#no_table_f_fechafin').val());
+            var duracion = fin - ini;
+            var duracionEnAnios = duracion/(1000*60*60*24*365);
+            console.log("INI");
+            console.log(ini);
+            console.log("FIN");
+            console.log(fin);
+            console.log("DURACION");
+            console.log(duracion);
+            console.log("DURACION EN ANIOS");
+            console.log(duracionEnAnios);
+            
+			if ($('#no_table_f_nombre').val() == ''){
+                alert("El nombre del proyecto no puede estar vacio");
+                return false;
+            }
+            else if (duracion < 0){
+                alert("La fecha de inicio no puede ser posterior a la de finalizacion");
+                return false;
+            }
+            else if (duracionEnAnios > 2){
+                alert("El proyecto no puede durar mas de 2 años");
+                return false;
+            }
+            else {
+                ajaxResult = enviarPropuesta('guardar');
+                
+            for (var p in ajaxResult.errors) {
+                if (Object.keys(ajaxResult.errors[p]).length) {
+                    $(".btn-pag[data-pag='"+p+"']").css("color","red");
+                }
+                else {
+                    $(".btn-pag[data-pag='"+p+"']").css("color","green");
+                }
+                for (var k in ajaxResult.errors[p]) {
+                    // Obtener nuevo contenido del tooltip 
+                    cur_title = $(".btn-pag[data-pag='"+p+"']").attr("data-original-title");
+                    new_title = cur_title ? cur_title + "\n\n" + k + ": " + ajaxResult.errors[p][k] : k + ": " + ajaxResult.errors[p][k];
+                    // set new tooltip
+                    $('.btn-pag[data-pag="'+p+'"]').attr('data-original-title', new_title).tooltip('fixTitle');
+                    $("#no_table_"+k).addClass('form-error');
+                    $("#no_table_"+k).parent().append('<span class="form-error red">*'+ajaxResult.errors[p][k]+'</span>')
+                }
+            }
+                if (ajaxResult.proyecto_id) {
+                    $("[name='proyecto_id'],[name='f_proyecto']").val(ajaxResult.proyecto_id);
+                    console.log(ajaxResult);
+                    if (ajaxResult.errors_count == 0) {
+                        alert("La propuesta ha sido guardada exitosamente. Puede seguir llenándola cuando le plazca");
+                    }
+                }
+            }
 		})
 
 
