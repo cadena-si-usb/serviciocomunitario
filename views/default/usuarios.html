@@ -1,78 +1,50 @@
-{{extend 'base2.html'}}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Usuarios</h2>
+        <table class="table table-condensed" id="estuds">
+            <thead>
+                <tr>
+                    <th> Usuario</i></th>
+                    <th align="right">Nombres y Apellidos</th>
+                    <th align="right">Email</th>
+                    <th align="right">Telefono</th>
+                    <th align="right"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for usuario in registrados:}}
 
-{{ block contenido }}
-<div class="col-sm-12">
-        <div class="row">
-            <div class="col-md-2">
-                <img src="{{=URL('static', 'proponente.png')}}" class="img-responsive" width="150" height="110"/>
-            </div>
-            <div class="col-md-4" align="left">
-                <h4 style="color:#4682B4"><a href=".">Home</a> /<spam> Usuarios </spam>  </h4>
-            </div>
-            <div class="col-md-6" align="right">
-                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
-            </div>
-        </div>
-        <hr>
+                <tr>
+                    <td>
+                        <a href="{{=URL(r=request,f='usuarios_detalles',args=usuario.id)}}">{{=usuario.username}}</a>
+                    </td>
+                    <td>
+                        {{=usuario.first_name}} {{=usuario.last_name}}
+                    </td>
+                    <td>
+                        {{=usuario.email}}
+                    </td>
+                    <td>
+                        {{=usuario.f_telefono}}
+                    </td>
+                    <td>
+                     <a href="{{=URL(r=request,f='usuarios_detalles',args=usuario.id)}}"><i class="glyphicon glyphicon-search"></i></a>
+                    </td>
+
+                    <td>
+                    <div style="display:none" >
+                    <input name="idusuario" value={{=usuario.id}} /></div>
+                    <a style="cursor:pointer" onclick="confirmarEliminar('{{=usuario.id}}')"><i class="glyphicon glyphicon-remove"></i></a>
+                    </td>
+                </tr>
+                {{ pass }}
+        <div class="alert alert-success" id="exito" style="display:none; height:45px">
+            <b>Registro exitoso.</b> El estudiante se ha agregado a la base de datos </div>
+          </tbody>
+        </table>
+    </div>
 </div>
 
 
-    <div class="col-sm-12">
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Usuarios</h2>
-            <table class="table table-condensed" id="estuds">
-                <thead>
-                    <tr>
-                        <th> Usuario</i></th>
-                        <th align="right">Nombres y Apellidos</th>
-                        <th align="right">Email</th>
-                        <th align="right">Telefono</th>
-                        <th align="right"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{for usuario in registrados:}}
-
-                    <tr>
-                        <td>
-                            <a href="{{=URL(r=request,f='usuarios_detalles',args=usuario.id)}}">{{=usuario.username}}</a>
-                        </td>
-                        <td>
-                            {{=usuario.first_name}} {{=usuario.last_name}}
-                        </td>
-                        <td>
-                            {{=usuario.email}}
-                        </td>
-                        <td>
-                            {{=usuario.f_telefono}}
-                        </td>
-                        <td>
-                         <a href="{{=URL(r=request,f='usuarios_detalles',args=usuario.id)}}"><i class="glyphicon glyphicon-search"></i></a>
-                        </td>
-
-<script language="Javascript"> 
-function confirmarEliminar(){ 
-confirmar=confirm("¿Seguro que quieres eliminar este usuario?"); 
-if (confirmar)
-  window.location="{{=URL(r=request,f='eliminar_usuario',args=usuario.id)}}"; 
-
-
-} 
-</script>
-
-                        <td>
-                        <a style="cursor:pointer" onclick="confirmarEliminar()"><i class="glyphicon glyphicon-remove"></i></a>
-                        </td>
-                    </tr>
-                    {{ pass }}
-            <div class="alert alert-success" id="exito" style="display:none; height:45px">
-                <b>Registro exitoso.</b> El estudiante se ha agregado a la base de datos </div>
-              </tbody>
-            </table>
-        </div>
-
-
-{{ end contenido }}
 
 

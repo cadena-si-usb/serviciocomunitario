@@ -320,7 +320,8 @@ def usuarios_detalles():
     return dict(form=tabla,picture=picture,dpto=dpto, sede=sede,carrera=carrera)
 
 def eliminar_usuario():
-    idUsuario=request.args(0)
+    idUsuario=request.vars.id
+    print idUsuario
     db(db.auth_user.id==idUsuario).delete()
     redirect(URL('usuarios'))
 
@@ -688,11 +689,12 @@ def sedesEditar():
         return dict('La sede ha sido eliminada')
     return dict(form = form)
 
-# def vista_admin():
-#     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
+def administrador():
+    msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
+    return dict(msj = msj)
 
-#     if auth.has_membership('Proponentes'):
-#         redirect(URL('vista_proponente'))
+def home_admin():
+    return dict()  
 
 def proponentesEditar():
     def my_form_processing(form):
