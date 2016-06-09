@@ -23,17 +23,19 @@
 		            <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
 		        </div>
 	    	</div>
+	    	<hr>
 		</div>
 
 	   <div class="col-sm-12 principal">
-	       	<div class="col-md-4">
-	       	<a id="menu-admin" class="enlace">
-	           <h4 style="color:#337AB7"><span class="glyphicon glyphicon-briefcase"></span> Menú</h4>
-	           </a>
-	             <ul class="nav nav-stacked">
-	                 <li>
-	                      	<a href="{{=URL('editar_perfil')}}">
-	                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Editar Perfil</a>
+	   		<div class="row">
+		       	<div class="col-md-4">
+		       	<a id="menu-admin" class="enlace">
+		           <h4 style="color:#337AB7"><span class="glyphicon glyphicon-briefcase"></span> Menú</h4>
+		           </a>
+		             <ul class="nav nav-stacked">
+		                 <li>
+	                      	<a href="{{=URL('perfil')}}">
+	                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ver Perfil</a>
 	                      	<a id="usuarios-admin" class="enlace">
 	                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Usuarios
 	                      	</a>
@@ -49,14 +51,19 @@
 							<a id="roles-admin" class="enlace">
 								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Roles de Usuarios
 							</a>
-							
-	                  </li>
-	             </ul>
+								
+		                  </li>
+		             </ul>
+		             <hr>
+		       	</div>
+		       	<div id="vista-admin" class="col-md-8">
+		       	</div>
 	       	</div>
-	       	<div id="vista-admin" class="col-md-8">
-	       	</div>
-	    </div>
 
+	    </div>
+	    <div class="col-sm-12">
+	    	<hr>
+	    </div>
 	</body>
 {{ pass }}
 {{ end }}

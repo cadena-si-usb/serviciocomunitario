@@ -16,7 +16,7 @@
 
                 <tr>
                     <td>
-                        <a href="{{=URL(r=request,f='usuarios_detalles',args=usuario.id)}}">{{=usuario.username}}</a>
+                        {{=usuario.username}}
                     </td>
                     <td>
                         {{=usuario.first_name}} {{=usuario.last_name}}
@@ -28,21 +28,44 @@
                         {{=usuario.f_telefono}}
                     </td>
                     <td>
-                     <a href="{{=URL(r=request,f='usuarios_detalles',args=usuario.id)}}"><i class="glyphicon glyphicon-search"></i></a>
+                    <a class="enlace" onclick="mostrarDetallesUsuario('{{=usuario.id}}')" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-search"></i></a>
                     </td>
 
                     <td>
                     <div style="display:none" >
                     <input name="idusuario" value={{=usuario.id}} /></div>
-                    <a style="cursor:pointer" onclick="confirmarEliminar('{{=usuario.id}}')"><i class="glyphicon glyphicon-remove"></i></a>
+                    <a class="enlace" onclick="confirmarEliminar('{{=usuario.id}}')"><i class="glyphicon glyphicon-remove"></i></a>
                     </td>
                 </tr>
                 {{ pass }}
-        <div class="alert alert-success" id="exito" style="display:none; height:45px">
-            <b>Registro exitoso.</b> El estudiante se ha agregado a la base de datos </div>
           </tbody>
         </table>
     </div>
+</div>
+
+<div class="row container">
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Información Usuario</h4>
+        </div>
+        <div class="modal-body">
+          <div id="detalles-usuario"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
 </div>
 
 

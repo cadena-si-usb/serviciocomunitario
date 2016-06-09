@@ -299,7 +299,7 @@ def usuarios():
     return dict(registrados=db(db.auth_user.id!=auth.user_id).select())
 
 def usuarios_detalles():
-    idUsuario=request.args(0)
+    idUsuario=request.args(0) or request.vars.id
 
     if db.auth_user(idUsuario)['f_foto']:
         picture = URL('default', 'download', args=db.auth_user(idUsuario)['f_foto'])
@@ -689,12 +689,122 @@ def sedesEditar():
         return dict('La sede ha sido eliminada')
     return dict(form = form)
 
+# Administrador
 def administrador():
     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
     return dict(msj = msj)
 
 def home_admin():
-    return dict()  
+    return dict() 
+
+def admin_usuarios_detalles():
+    idUsuario=request.vars.id
+
+    if db.auth_user(idUsuario)['f_foto']:
+        picture = URL('default', 'download', args=db.auth_user(idUsuario)['f_foto'])
+    else:
+        picture = URL('static', 'img/user.png')
+
+    sede,dpto,carrera = "","",""
+    univ = db.t_universitario(f_usuario=idUsuario)
+
+    if db.auth_user(idUsuario)['f_tipo'] == "Docente":
+        sede = univ.t_tutor_academico.select()[0]['f_sede']
+        dpto = univ.t_tutor_academico.select()[0]['f_departamento']
+    elif db.auth_user(idUsuario)['f_tipo'] in ["Pregrado","Postgrado"]:
+        sede    = univ.t_estudiante.select()[0]['f_sede']
+        carrera = univ.t_estudiante.select()[0]['f_carrera']
+
+    tabla= db(db.auth_user.id==idUsuario).select()[0]
+    return dict(form=tabla,picture=picture,dpto=dpto, sede=sede,carrera=carrera) 
+
+@auth.requires_login()
+def admin_perfil():
+    rolesUsuario=[]
+
+    for rol in db(db.auth_membership.user_id==auth.user_id).select():
+        rolesUsuario.append(db(db.auth_group.id==rol.group_id).select()[0].role)
+    
+    if request.args(0) == 'search':
+        if not ("Administrador" in rolesUsuerio):
+            redirect(URL('home'))
+        user_id = request.args(1)
+    else:
+        user_id = auth.user_id
+
+
+    if db.auth_user(auth.user_id)['f_foto']:
+        picture = URL('default', 'download', args=db.auth_user(user_id)['f_foto'])
+    else:
+        picture = URL('static', 'img/user.png')
+
+    sede,dpto,carrera = None,None,None
+    univ = db.t_universitario(f_usuario=user_id)
+
+    if db.auth_user(auth.user_id)['f_tipo'] == "Docente":
+        sede = univ.t_tutor_academico.select()[0]['f_sede']
+        dpto = univ.t_tutor_academico.select()[0]['f_departamento']
+    elif db.auth_user(auth.user_id)['f_tipo'] in ["Pregrado","Postgrado"]:
+        sede    = univ.t_estudiante.select()[0]['f_sede']
+        carrera = univ.t_estudiante.select()[0]['f_carrera']
+    user = db.auth_user(auth.user_id)
+    return dict(form=user,picture=picture,dpto=dpto, sede=sede,carrera=carrera)
+
+
+@auth.requires_login()
+def admin_editar_perfil():
+    db.auth_user.username.writable=False
+    db.auth_user.f_foto.writable  =True
+    form = auth.profile()
+    form.element('input', _type = 'submit')['_class'] = 'btn btn-primary'
+
+    estudiante = None
+    docente    = None
+    if auth.user['f_tipo'] in ["Pregrado","Postgrado"]:
+        estudiante = db.auth_user(auth.user_id)['t_universitario'].select()[0]['t_estudiante'].select()[0]
+        form[0].insert(-1, TR(LABEL(T('Carrera:')),
+                             INPUT(_id='carrera',
+                                   _name='carrera',
+                                   _value=estudiante['f_carrera']
+                            )))
+        form[0].insert(-1, TR(LABEL(T('Sede:')),
+                             SELECT(estudiante['f_sede'],
+                                OPTGROUP('Sartenejas','Litoral'),
+                                _id='sede',
+                                _name='sede'
+                            )))
+    elif auth.user['f_tipo']== "Docente":
+        docente = db.auth_user(auth.user_id)['t_universitario'].select()[0]['t_tutor_academico'].select()[0]
+        form[0].insert(-1, TR(LABEL(T('Departamento:')),
+                             INPUT(_id='departamento',
+                                   _name='departamento',
+                                   _value=docente['f_departamento']
+                            )))
+        form[0].insert(-1, TR(LABEL(T('Sede:')),
+                             SELECT(docente['f_sede'],
+                                OPTGROUP('Sartenejas','Litoral'),
+                                _id='sede',
+                                _name='sede'
+                            )))
+
+    if form.accepts(request.vars, session, formname='form1'):
+        response.flash = 'form accepted'
+
+        if estudiante:
+            f_univ = db.auth_user(auth.user_id)['t_universitario'].select()[0]
+            db(db.t_estudiante.f_universitario == f_univ['id']).update(
+                f_sede=form.vars['sede'],
+                f_carrera=form.vars['carrera'])
+        elif docente:
+            f_univ = db.auth_user(auth.user_id)['t_universitario'].select()[0]
+            db(db.t_tutor_academico.f_universitario == f_univ['id']).update(
+                f_sede=form.vars['sede'],
+                f_departamento=form.vars['departamento'])
+    elif form.errors:
+        response.flash = 'form has errors'
+
+
+    return dict(form=form,contrasena=auth.change_password())
 
 def proponentesEditar():
     def my_form_processing(form):
