@@ -1,0 +1,57 @@
+{{ extend 'base.html' }}
+{{ include 'web2py_ajax.html' }}
+{{ block contenido }}
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left" style="color:#4682B4">
+               <h4 ><a href=".">SIGESC | Home</a> | Tutor Académico</h4>
+               <h4 >{{=bienvenida}}</h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href="{{=URL('default', 'logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+  <div class="col-sm-12">
+       <div class="col-xs-3">
+           <h4 style="color:#337AB7" align="center"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
+            <hr>
+             <ul class="nav nav-stacked">
+                <li><a href="{{=URL('propuestas')}}">
+                        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto
+                    </a>
+                </li>
+             </ul>
+       </div>
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}
+        <div class="col-xs-9" id="proyectos">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <b><h class="detalles" >Proyectos:</h></b>
+                    </div>
+                    <div class="panel-body">
+                      {{if proyectos: }}
+                      <div class="list-group">
+                            {{for proyecto in proyectos:}}
+                              <a href="{{=URL(c='default', f='proyecto_tutor_academico',vars={'proy': proyecto.f_proyecto.id})}}" class="list-group-item">
+                                {{=proyecto.f_proyecto.f_nombre}}
+                              </a>
+                            {{pass}}
+                      {{else:}}
+                          <br><div class="alert alert-info"> No hay proyectos.</div>
+                      {{pass}}
+                </div>
+            </div>
+        </div>
+      </div>
+  {{ pass }}
+{{ end }}
+
