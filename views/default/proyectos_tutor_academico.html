@@ -7,12 +7,12 @@
             <div class="col-md-2">
                 <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
-            <div class="col-md-4" align="left" style="color:#4682B4">
-               <h4 ><a href=".">SIGESC | Home</a> | Tutor Académico</h4>
+            <div class="col-md-6" align="left" style="color:#4682B4">
+               <h4 >SIGESC / <a href=".">Home</a> / Tutor Académico</h4>
                <h4 >{{=bienvenida}}</h4>
             </div>
-            <div class="col-md-6" align="right">
-                <a href="{{=URL('default', 'logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            <div class="col-md-4" align="right">
+                <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
             </div>
         </div>
         <hr>
@@ -52,6 +52,12 @@
             </div>
         </div>
       </div>
+
+      </div>
+
+
+    </div>
+
   {{ pass }}
 {{ end }}
 
