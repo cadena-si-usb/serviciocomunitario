@@ -1,0 +1,205 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/proponentes.css')}}">
+    
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    
+    
+    
+    <!-- Bootstrap core CSS -->    
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap theme -->    
+    <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}">
+    </script>
+	
+    <script type="text/javascript">
+		function mostrar_form(){
+		document.getElementById('formulario').style.display = 'block';
+		document.getElementById('up').style.display = 'block';
+		}
+	</script>
+      
+      <script type="text/javascript">
+		function ocultar_form(){
+		document.getElementById('formulario').style.display = 'none';
+		document.getElementById('up').style.display = 'none';
+		}
+	</script>	
+     
+     
+    
+    <!-- Custom styles for this template -->
+    
+    <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">    
+    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+    
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+    
+  </head>
+  
+  <body role="document">
+    <!-- Fixed navbar -->
+    
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">
+              Toggle navigation
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+          </button>
+<a href="https://sc.cesma.usb.ve/SIGESC/default/vista_admin"><img class="home" src="/SIGESC/static/img/home.png">
+</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#">
+                ¿Qui&eacute;nes somos?
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#about">
+                Formatos SC
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Reglamentos SC
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Decanato de extensión
+              </a>
+            </li>
+			<li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Proyectos
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+                <h4 style="color:#4682B4"><a href=".">Home</a> /<a href="{{=URL('vista_admin')}}"> Admin </a> / <a href="#">Estudiantes </a> </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+	{{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+	{{else:}}
+		
+    <div class="col-sm-12">
+    <div class="row">
+        <div class="col-md-7">
+            <table class="table table-condensed" id="estuds">
+                <thead>
+                    <tr>
+                        <th> Estudiantes registrados</i></th>
+                        <th align="right"></th>
+                        <th align="right"></th>
+                        <th align="right"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{ for estudiante in est:}}
+                    <tr>
+                        <td>
+                            <a href="{{=URL(r=request,f='estudiantesDetalles',args=estudiante.id)}}">{{=estudiante.f_nombre}}</a>
+                        </td>
+                        <td>
+                         <a href="{{=URL(r=request,f='estudiantesDetalles',args=estudiante.id)}}"><i class="glyphicon glyphicon-search"></i></a>
+                        </td>
+                        <td>
+                        <a href="{{=URL(r=request,f='estudiantesDetalles',args=estudiante.id)}}"><i class="glyphicon glyphicon-pencil"></i></a>
+                        </td>
+                        <td>
+                        <a href="{{=URL(r=request,f='estudiantesDetalles',args=estudiante.id)}}"><i class="glyphicon glyphicon-trash"></i></a>
+                        </td>
+                    </tr>
+                    {{ pass }}
+                </tbody>
+            </table>
+        </div>
+	
+        <div class="col-md-5">
+             <button class="btn btn-success" style="width: 240px;" onclick="mostrar_form()" align="right">
+                 <i class="glyphicon glyphicon-plus-sign"></i> <b>Registrar un nuevo esudiante</b>
+            </button>
+            <button class="btn btn-warning" id="up" style="width: 100px; display:none" onclick="ocultar_form()">
+                 </i> <b>Ocultar </b><i class="glyphicon glyphicon-chevron-up"></i>
+            </button>
+            <div class="form formulario" id="formulario" style="display:none">
+            {{=form.custom.begin}}
+                <label for="f_usbid"><span>Usbid:</span></label>
+                {{=form.custom.widget.f_usbid}}
+                <label for="f_nombre"><span>Nombre:</span></label>
+                {{=form.custom.widget.f_nombre}}
+                <label for="f_apellido"><span>Apellido:</span></label>
+                {{=form.custom.widget.f_apellido}}
+                <label for="f_cedula"><span>Cédula:</span></label>
+                {{=form.custom.widget.f_cedula}}
+                <label for="f_carrera"><span>Carrera:</span></label>
+                {{=form.custom.widget.f_carrera}}
+                <label for="f_sede"><span>Sede:</span></label>
+                {{=form.custom.widget.f_sede}}
+                <label for="f_email"><span>E-mail:</span></label>
+                {{=form.custom.widget.f_email}}
+                <label for="f_sexo"><span>Sexo:</span></label>
+                {{=form.custom.widget.f_sexo}}
+                <label for="f_telefono"><span>Teléfono:</span></label>
+                {{=form.custom.widget.f_telefono}}
+                <label for="f_direccion"><span>Dirección:</span></label>
+                {{=form.custom.widget.f_direccion}}
+
+                <input id="formContatoBt" name="ok" type="submit" value="Guardar" />
+
+        {{=form.custom.end}}
+  </div>
+  </div>
+	{{ pass }}
+{{ end }}

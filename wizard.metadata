@@ -1,0 +1,384 @@
+(dp0
+S'table_proyecto'
+p1
+(lp2
+S'codigo required'
+p3
+asS'table_relacionestproy'
+p4
+(lp5
+S'tipo required'
+p6
+asS'page_condicion_manage'
+p7
+S'## Manage condicion\r\n\r\n{{=form}}'
+p8
+sS'table_tipoprop'
+p9
+(lp10
+S'tipo required'
+p11
+asS'page_carrera_manage'
+p12
+S'## Manage carrera\r\n\r\n{{=form}}'
+p13
+sS'page_estudiante_manage'
+p14
+S'## Manage estudiante\r\n\r\n{{=form}}'
+p15
+sS'page_estado_manage'
+p16
+S'## Manage estado\r\n\r\n{{=form}}'
+p17
+sS'table_comunidad'
+p18
+(lp19
+S'nombre required'
+p20
+aS'estado estado required'
+p21
+aS'descripcion text required'
+p22
+aS'cantidadbeneficiados integer required'
+p23
+asS'table_auth_user'
+p24
+(lp25
+S'username'
+p26
+aS'first_name'
+p27
+aS'last_name'
+p28
+aS'email'
+p29
+aS'password'
+p30
+asS'page_relacionestproy_manage'
+p31
+S'## Manage relacionestproy\r\n\r\n{{=form}}'
+p32
+sS'tables'
+p33
+(lp34
+S'auth_user'
+p35
+aS'estado'
+p36
+aS'sede'
+p37
+aS'comunidad'
+p38
+aS'area'
+p39
+aS'sexo'
+p40
+aS'carrera'
+p41
+aS'estudiante'
+p42
+aS'tipoprop'
+p43
+aS'proponente'
+p44
+aS'tutor'
+p45
+aS'proyecto'
+p46
+aS'condicion'
+p47
+aS'caracterisicas'
+p48
+aS'relacionestproy'
+p49
+aS'cursa'
+p50
+asS'page_area_manage'
+p51
+S'## Manage area\r\n\r\n{{=form}}'
+p52
+sS'page_proyecto_manage'
+p53
+S'## Manage proyecto\r\n\r\n{{=form}}'
+p54
+sS'page_tutor_manage'
+p55
+S'## Manage tutor\r\n\r\n{{=form}}'
+p56
+sS'page_proponente_manage'
+p57
+S'## Manage proponente\r\n\r\n{{=form}}'
+p58
+sS'table_area'
+p59
+(lp60
+S'nombre required'
+p61
+asS'page_error'
+p62
+S'# Error: the document does not exist'
+p63
+sS'table_estudiante'
+p64
+(lp65
+S'usbid required'
+p66
+aS'nombre required'
+p67
+aS'apellido required'
+p68
+aS'cedula required'
+p69
+aS'carrera carrera required'
+p70
+aS'sede sede required'
+p71
+aS'email required'
+p72
+aS'sexo sexo required'
+p73
+aS'telefono required'
+p74
+aS'direccion text required'
+p75
+asS'table_sede'
+p76
+(lp77
+S'nombre required'
+p78
+asS'params'
+p79
+(lp80
+(S'title'
+p81
+S'SIGESC'
+p82
+tp83
+a(S'subtitle'
+p84
+S'Sistema de Gestion del Servicio Comunitario'
+p85
+tp86
+a(S'author'
+p87
+S'Roraima Tech'
+p88
+tp89
+a(S'author_email'
+p90
+S'you@example.com'
+p91
+tp92
+a(S'keywords'
+p93
+S''
+p94
+tp95
+a(S'description'
+p96
+g94
+tp97
+a(S'layout_theme'
+p98
+S'Default'
+p99
+tp100
+a(S'database_uri'
+p101
+S'sqlite://storage.sqlite'
+p102
+tp103
+a(S'security_key'
+p104
+S'5edcae18-341b-432d-8f4e-28a0f7e146d6'
+p105
+tp106
+a(S'email_server'
+p107
+S'localhost'
+p108
+tp109
+a(S'email_sender'
+p110
+S'you@example.com'
+p111
+tp112
+a(S'email_login'
+p113
+g94
+tp114
+a(S'login_method'
+p115
+S'local'
+p116
+tp117
+a(S'login_config'
+p118
+g94
+tp119
+a(S'plugins'
+p120
+(lp121
+tp122
+asS'table_caracterisicas'
+p123
+(lp124
+S'proyecto proyecto required'
+p125
+aS'nombre required'
+p126
+aS'descripcion text required'
+p127
+aS'area area required'
+p128
+aS'estado condicion required'
+p129
+aS'tutor tutor required'
+p130
+aS'fechaini date required'
+p131
+aS'fechafin date required'
+p132
+aS'version required'
+p133
+aS'comunidad comunidad required'
+p134
+aS'proponente proponente required'
+p135
+asS'table_condicion'
+p136
+(lp137
+S'tipo required'
+p138
+asS'page_caracterisicas_manage'
+p139
+S'## Manage caracterisicas\r\n\r\n{{=form}}'
+p140
+sS'table_tutor'
+p141
+(lp142
+S'usbid required'
+p143
+aS'cedula required'
+p144
+aS'nombre required'
+p145
+aS'apellido required'
+p146
+aS'sede sede required'
+p147
+aS'email required'
+p148
+aS'sexo sexo required'
+p149
+aS'telefono required'
+p150
+aS'direccion text required'
+p151
+asS'table_proponente'
+p152
+(lp153
+S'tipoprop tipoprop required'
+p154
+aS'cedula required'
+p155
+aS'nombre required'
+p156
+aS'apellido required'
+p157
+aS'email required'
+p158
+aS'sexo sexo required'
+p159
+aS'telefono required'
+p160
+asS'page_tipoprop_manage'
+p161
+S'## Manage tipoprop\r\n\r\n{{=form}}'
+p162
+sS'page_sexo_manage'
+p163
+S'## Manage sexo\r\n\r\n{{=form}}'
+p164
+sS'page_cursa_manage'
+p165
+S'## Manage cursa\r\n\r\n{{=form}}'
+p166
+sS'pages'
+p167
+(lp168
+S'index'
+p169
+aS'error'
+p170
+aS'estado_manage'
+p171
+aS'sede_manage'
+p172
+aS'comunidad_manage'
+p173
+aS'area_manage'
+p174
+aS'sexo_manage'
+p175
+aS'estudiante_manage'
+p176
+aS'proponente_manage'
+p177
+aS'tutor_manage'
+p178
+aS'proyecto_manage'
+p179
+aS'condicion_manage'
+p180
+aS'caracterisicas_manage'
+p181
+aS'cursa_manage'
+p182
+aS'carrera_manage'
+p183
+aS'tipoprop_manage'
+p184
+aS'relacionestproy_manage'
+p185
+asS'page_comunidad_manage'
+p186
+S'## Manage comunidad\r\n\r\n{{=form}}'
+p187
+sS'name'
+p188
+S'SIGESC'
+p189
+sS'table_sexo'
+p190
+(lp191
+S'tipo required'
+p192
+asS'table_cursa'
+p193
+(lp194
+S'estudiante estudiante required'
+p195
+aS'proyecto proyecto required'
+p196
+aS'state relacionestproy required'
+p197
+asS'table_carrera'
+p198
+(lp199
+S'codigo required'
+p200
+asS'page_index'
+p201
+S'# Welcome to my new app'
+p202
+sS'page_sede_manage'
+p203
+S'## Manage sede\r\n\r\n{{=form}}'
+p204
+sS'table_estado'
+p205
+(lp206
+S'nombre required'
+p207
+as.

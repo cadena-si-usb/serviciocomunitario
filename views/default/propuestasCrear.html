@@ -1,0 +1,412 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/propuestas.css')}}">
+     <link rel="stylesheet" href="{{=URL('static', 'css/web2py.css')}}">
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery.multiselect.js')}}">
+    </script>
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery.serialize-object.js')}}">
+    </script>
+    
+
+    <script type="text/javascript">
+      var actividades = {{=XML(actividades_js)}};
+      var objetivos = {{=XML(obj_especificos_js)}};
+      var filas = {{=XML(plan_operativo_js)}};
+    </script>
+    <script type="text/javascript" src="{{=URL('static', 'js/actividades.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/bootstrap-datepicker.js')}}"></script>
+
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/jquery.multiselect.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/datepicker.css')}}">
+    
+  </head>
+  
+  <body role="document">
+   
+
+    <!-- Contenido -->
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'proyects2.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+                <h4 style="color:#4682B4"><a href="{{=URL('home')}}"> Home </a> / <a href="{{=URL('propuestas')}}">Propuestas </a> / <a href="#">Propuesta</a> </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+    {{else:}}
+        
+    <div class="col-sm-12">
+      
+      <a href="{{=URL('propuestas')}}" >
+      <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Volver a Propuestas</a>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="paginado">
+          {{for i in range(1,7):}}
+            <a class="btn btn-default btn-pag {{='active-pag' if pag == i else ''}}" href="{{='?pag={}&proyecto_id={}'.format(i,proyecto_id) if proyecto_id else ('?pag={}'.format(i) if pag > 1 else '#')}}" data-toggle="tooltip" title="" data-pag="{{=i}}">{{=i}}</a>
+          {{pass}}
+          </div>
+          <br>
+          <div class="form formulario row" id="formulario" osubmit="control_form()">
+            <div class="alert alert-danger" id="fail" style="display:none; height:45px">
+              <b>Solicitud fallida.</b> El formulario contiene errores. Para mas detalles: Posicione el cursor sobre las etapas del indice que se muestra arriba.
+            </div>
+            <div>{{=BEAUTIFY(form.errors) if form.errors else ''}}</div>
+            {{=form.custom.begin}}
+            <div class="col-md-12">
+              {{if pag == 1:}}
+
+              <div class="form-group">
+                  <label> Nombre del proyecto: <span class="red">*</span></label> {{=form.custom.widget.f_nombre}} </div>
+             
+              <div class="form-group">
+                  <label> Resumen: </label>
+                  <p>Haga un breve resumen de su propuesta. Destaque el problema que quiere intervenir, los 
+              objetivos, actividades, población objetivo y resultados esperados</p>
+                  {{=form.custom.widget.f_resumen}} </div>
+              <div class="form-group">
+                  <label> Área de atención social: </label> {{=form.custom.widget.f_area}} </div>
+              <div class="form-group">
+                  <label> Área de competencia por carreras: </label> {{=form.custom.widget.f_area_carrera}} </div>
+              <div class="form-group">
+                  <label> Relación con planes nacionales: </label> 
+                  <p>Haga una breve reseña</p>
+                  {{=form.custom.widget.f_relacion_planes}} </div>
+              <div class="form-group">
+                  <label> Estado: </label> {{=form.custom.widget.f_estado}} </div>
+              <div class="form-group">
+                  <label> Fecha de inicio: </label> {{=form.custom.widget.f_fechaini}} </div>
+              <div class="form-group">
+                  <label> Fecha de finalización (máximo 2 años):</label> {{=form.custom.widget.f_fechafin}} </div>
+              <div class="form-group">
+                  <label> Sede: </label> {{=form.custom.widget.f_sede}} </div>
+              <!--
+              Problemas con modificaciones del campo proponente
+              <div class="form-group {{='hidden' if not es_adm else ''}}">
+                <label> Proponente:</label>
+                {{=form.custom.widget.f_proponente}}
+              </div>
+              !-->
+              {{elif pag == 2:}}
+              
+              <div class="form-group">
+                  <label> Antecedentes: </label> 
+                  <p>Describa brevemente cualquier experiencia asociada o parecida a su proyecto </p>
+                  {{=form.custom.widget.f_antecedentes}} </div>
+              <div class="form-group">
+                  <label> Comunidad: </label>
+                  <p>Describa el ámbito geográfico donde se ejecutará la propuesta, así como cualquier característica adicional de la misma (aplica también para una institución)</p>
+                  {{=form.custom.widget.f_comunidad}} </div>
+              <div class="form-group">
+                  <label> Objetivo general: </label>
+                  <p>Describa qué y para qué se desea ejecutar la propuesta</p>
+                  {{=form.custom.widget.f_obj_generales}} </div>
+              <div class="form-group">               
+                <div class="secc_objetivos">
+                
+                  <table class="table table-striped tbl tbl_objetivos">
+                    <thead><th>Objetivos específicos:</th></thead>
+                    <tbody>
+                      {{for i in range(len(obj_especificos)):}}
+                      {{obj = obj_especificos[i]}}
+                      <tr>
+                        <td>
+                            <span>{{=obj['f_objetivo']}}</span>
+                            <a href='#' class='act_remove glyphicon glyphicon-remove pull-right' data-id='{{=i}}' data-toggle="tooltip" title="Eliminar"></a>
+                            <a href='#' class='act_edit glyphicon glyphicon-pencil pull-right' data-id='{{=i}}' data-toggle="tooltip" title="Editar"></a>
+                           </td>
+                      </tr>
+                      {{pass}}
+                    </tbody>
+                  </table>
+                  <div class="form-group">
+                    <label> Objetivo: </label>
+                    <p>Identifique en forma más precisa aquello que se pretende alcanzar con la ejecución del proyecto</p>
+                    <input type="text" name="objetivo_obj" class="form-objetivos form-control objetivo_obj">
+                  </div>
+                  
+                  <button type="button" id="agregar_obj" class="btn btn-default btn-block">Agregar objetivo</button>
+                </div>
+              </div> <!--cerrando -->
+              <div class="form-group">
+                  <label> Población beneficiaria: </label>
+                  <p>Favor indique perfil sociodemográfico (sexo, edad, cantidad de beneficiarios), u otra condición específica que focalice los beneficiarios o participantes</p>
+                  {{=form.custom.widget.f_poblacion_beneficiaria}} </div>
+              <div class="form-group">
+                  <label> Justificación: </label>
+                  <p>Exponer las razones por las cuales se quiere realizar. Definir por qué es conveniente el proyecto y qué o cuáles son los beneficios y su importancia.</p>
+                  {{=form.custom.widget.f_justificacion}} </div>
+              <div class="form-group">
+                  <label> Logros sociales: </label>
+                  <p>Resultados ¿Cuáles serán los productos (demostrables) de su propuesta?</p>
+                  {{=form.custom.widget.f_logros_sociales}} </div>
+              <div class="form-group">
+                  <label> Impacto social: </label>
+                  <p>Impacto social (Productos) ¿Cuáles serán los productos (demostrables) de su propuesta?</p>
+                  {{=form.custom.widget.f_impacto_social}} </div> 
+              <div class="form-group">
+                  <label> Evaluación: </label>
+                  <p>¿Cómo sabrá que su propuesta ha sido exitosa? ¿Qué indicadores, objetivamente verificables, le permitirían en el futuro evaluar su propuesta?</p>{{=form.custom.widget.f_evaluacion}} </div>
+              <div class="form-group">
+                  <label> Difusión de resultados: </label>
+                  <p>¿Qué acciones tomará para difundir la experiencia?</p>
+                  {{=form.custom.widget.f_difusion_resultados}} </div>
+              {{elif pag == 3:}}
+              <div class="form-group">
+                <label> Tutores académicos:</label>
+                <p>Mencione el o los Tutores Académicos que forman parte de su proyecto (Puede ser un profesor, empleado, o una persona de la Universidad con comprobada experticia en el área del proyecto. Puede ser el mismo proponente en caso de cumplir con lo antes mencionado)</p>
+                {{=form.custom.widget.f_tutores}}
+              </div>
+              <div class="form-group">
+                <label> Tutores comunitarios:</label>
+                <p>Mencione el o los Tutores Comunitarios que avalan su proyecto (Puede ser un representante institucional o comunitario que velará por la ejecución del mismo.)</p>
+                {{=form.custom.widget.f_tutores_comunitarios}}
+              </div>
+              <div class="form-group">
+                  <label> Aplicación de las directrices y valores expuestos en la ley: </label>
+                  <p>Describa cómo el estudiante se vincula con la comunidad. ¿Se genera sensibilización en el estudiante?, ¿Cómo se logra aprendizaje de servicio? </p>
+                  {{=form.custom.widget.f_aplicacion_dir_ley}}
+              </div>
+              <div class="form-group">
+                  <label> Objetivos de aprendizaje: </label>
+                  <p>Identifique en forma más precisa aquello que se pretende alcanzar en el estudiante con la ejecución del proyecto</p>
+                  {{=form.custom.widget.f_obj_aprendizaje}} </div>
+              <div class="form-group">
+                  <label> Número de estudiantes requeridos: </label>
+                  <p>Identifique en forma precisa la cantidad de estudiantes que se necesitan para la ejecución del proyecto.</p>
+                  {{=form.custom.widget.f_num_requeridos}} </div>
+              {{elif pag == 4:}}
+              <div class="form-group">
+                  <label> Relevancia: </label>
+                  <p>¿Cómo responde su propuesta a las necesidades de la comunidad, organizaciones u otra población beneficiada? ¿cuenta con aval o solicitudes de las mismas?</p>
+                  {{=form.custom.widget.f_relevancia}} </div>
+              <div class="form-group">
+                  <label> Originalidad: </label>
+                  <p>¿De qué manera su idea es innovadora u ofrece soluciones creativas a los enfoques existentes que usted conoce? ¿En qué se diferencia su propuesta de otros proyectos o programas similares?</p>
+                  {{=form.custom.widget.f_originalidad}} </div>
+              <div class="form-group">
+                  <label> Capacidad ejecutora: </label>
+                  <p>¿Qué experiencia tiene usted, su organización o las instituciones con quienes se asocia para ejecutar su propuesta?</p>
+                  {{=form.custom.widget.f_capacidad_ejecutora}} </div>
+              <div class="form-group">
+                  <label> Asociatividad externa: </label>
+                  <p>Describa si esta propuesta ha logrado el apoyo de otras fuentes financieras (socios), asociación con otras instituciones, redes, consorcios, entre otras formas de acción cooperativa y de asociación, al nivel local, regional o nacional. Puede implicar alianzas con instituciones gubernamentales, académicas, empresariales, gremiales, religiosas, internacionales, entre otras. Si no ha logrado otras asociaciones, indique por qué no obtuvo el apoyo.</p>
+                  {{=form.custom.widget.f_asoc_externa}} </div>
+              <div class="form-group">
+                  <label> Asociatividad interna: </label>
+                  <p>Describa si su propuesta ha logrado el apoyo o ha generado formas de acción cooperativa o de asociación con otras instancias o dependencias de la USB.</p>
+                  {{=form.custom.widget.f_asoc_interna}} </div>
+              <div class="form-group">
+                  <label> Incorporación estudiantes: </label>
+                  <p>Señale la cantidad</p>
+                  {{=form.custom.widget.f_incorporacion_estudiantes}} </div>
+              <div class="form-group">
+                  <label> Incorporación profesores: </label>
+                  <p>Señale la cantidad</p>
+                  {{=form.custom.widget.f_incorporacion_profesores}} </div>
+              <div class="form-group">
+                  <label> Incorporación empleados: </label>
+                  <p>Señale la cantidad</p>
+                  {{=form.custom.widget.f_incorporacion_empleados}} </div>
+              <div class="form-group">
+                  <label> Incorporación obreros: </label>
+                  <p>Señale la cantidad</p>
+                  {{=form.custom.widget.f_incorporacion_obreros}} </div>
+              {{elif pag == 5:}}
+              <div class="form-group">               
+                <div class="secc_actividades">
+                
+                  <table class="table table-striped tbl tbl_actividades">
+                    <thead><th>Actividades:</th></thead>
+                    <tbody>
+                      {{for i in range(len(actividades)):}}
+                      {{actividad = actividades[i]}}
+                      <tr>
+                        <td>
+                      	    <span>{{=actividad['f_nombre']}}</span>
+                      	    <a href='#' class='act_remove glyphicon glyphicon-remove pull-right' data-id='{{=i}}'></a>
+                            <a href='#' class='act_edit glyphicon glyphicon-pencil pull-right' data-id='{{=i}}'></a>
+                      	   </td>
+                      </tr>
+                      {{pass}}
+                    </tbody>
+                  </table>
+                  <div class="form-group">
+                    <label> Nombre: </label>
+                    <input type="text" name="nombre_act" class="form-actividades form-control nombre_act">
+                  </div>
+                  <div class="form-group">
+                    <label> Resumen: </label>
+                    <textarea name="resumen_act"  class="form-actividades resumen_act form-control" cols="30" rows="10"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label> Número de alumnos: </label>
+                    <input type="text" name="alumnos_act"  class="form-actividades form-control alumnos_act">
+                  </div>
+                  <div class="form-group">
+                    <label> Recursos: </label>
+                    <textarea name="recursos_act"  class="form-actividades form-control recursos_act" cols="30" rows="4"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label> Costo: </label>
+                    <input type="text" name="costo_act" class="form-actividades form-control costo_act">
+                  </div>
+                  <div class="form-group">
+                    <label> Recursos propios: </label>
+                    <textarea name="recursos_propios_act"  class="form-actividades form-control recursos_propios_act" cols="30" rows="4"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label> Aportes de otros donantes: </label>
+                    <textarea name="aportes_otros_act"  class="form-actividades form-control aportes_otros_act" cols="30" rows="4"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label> Aporte solicitado a la DEx: </label>
+                    <textarea name="aportes_dex_act"  class="form-actividades form-control aportes_dex_act" cols="30" rows="4"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label> Monto total: </label>
+                    <input type="text" name="monto_total_act" class="form-actividades form-control monto_total_act"></textarea>
+                  </div>
+                  <button type="button" id="agregar_act" class="btn btn-default btn-block">Agregar actividad</button>
+                </div>
+              </div> <!--cerrando form-group-->
+              
+              {{elif pag == 6:}}
+              <div class="form-group">               
+                <div class="secc_plan">
+                  <h3>Plan operativo:</h3>
+                  <p>Relacione los objetivos y las metas  del proyecto  con todas sus actividades y demás ítems requeridos</p>
+                  <table class="table table-striped tbl tbl_filas">
+                    <thead>
+                      <th>Actividad:</th>
+                      <th>Objetivo:</th>
+                    </thead>
+                    <tbody>
+                      {{i = 0}}
+                      {{for fila in plan_operativo:}}
+                      {{for a in actividades:}}
+                        {{if a['id'] == fila['f_actividad']:}}
+                          {{act = a }}
+                        {{pass}}
+                      {{pass}}
+                      {{for o in obj_especificos:}}
+                        {{if o['id'] == fila['f_objetivo']:}}
+                          {{obj = o }}
+                        {{pass}}
+                      {{pass}}
+                      <tr>
+                        <td>
+                            <span>{{=act['f_nombre']}}</span>
+                        </td>
+                        <td>
+                             <span>{{=obj['f_objetivo']}}</span>                     
+                            <a href='#' class='act_remove glyphicon glyphicon-remove pull-right' data-id='{{=i}}'></a>
+                            <a href='#' class='act_edit glyphicon glyphicon-pencil pull-right' data-id='{{=i}}'></a>
+                           </td>
+                      </tr>
+                      {{i+=1}}
+                      {{pass}}
+                    </tbody>
+                  </table>
+                  <div class="form-group">
+                    <label> Actividad: </label>
+                    {{=form.custom.widget.f_actividad}}
+                  </div>
+                  <div class="form-group">
+                    <label> Objetivo específico: </label>
+                    {{=form.custom.widget.f_objetivo}}
+                  </div>
+                  <div class="form-group">
+                    <label> Meta: </label>
+                    {{=form.custom.widget.f_meta}}
+                  </div>
+                  <div class="form-group">
+                    <label> Tiempo de ejecución: </label>
+                    <p>En horas</p>
+                    {{=form.custom.widget.f_tiempo}}
+                  </div>
+                  <div class="form-group">
+                    <label> Recursos humanos y materiales: </label>
+                    {{=form.custom.widget.f_recursos}}
+                  </div>
+                  <div class="form-group">
+                    <label> Resultados esperados: </label>
+                    {{=form.custom.widget.f_resultados_esperados}}
+                  </div>
+                  <div class="form-group">
+                    <label> Responsable: </label>
+                    {{=form.custom.widget.f_responsable}}
+                  </div>
+                  <button type="button" id="agregar_plan" class="btn btn-default btn-block">Agregar fila</button>
+              </div> <!--cerrando form-group-->
+              <div class="form-group {{='hidden' if not es_adm else ''}}">
+                <label> Observaciones: </label>
+                {{=form.custom.widget.f_observaciones}}
+              </div>
+              <div class="form-group {{='hidden' if not es_adm else ''}}">
+                <label> Estado de la propuesta: </label>
+                {{=form.custom.widget.f_estado_propuesta}}
+              </div>
+              {{else: pass}}
+              
+              <a href="{{=URL('propuestas')}}" >
+              <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Volver a Propuestas</a>
+              
+              <div class="row">
+              <div class="col-md-12">
+              <div class="paginado">
+          {{for i in range(1,7):}}
+            <a class="btn btn-default {{='active-pag' if pag == i else ''}}" href="{{='?pag={}&proyecto_id={}'.format(i,proyecto_id) if proyecto_id else ('?pag={}'.format(i) if pag > 1 else '#')}}">{{=i}}</a>
+          {{pass}}
+          </div>
+          
+          </div>
+          </div>
+          <br>
+              <input type="hidden" name="f_proyecto" value="{{=proyecto_id}}">    
+              <input type="hidden" name="proyecto_id" value="{{=proyecto_id}}">
+              <button type="button" class="btn btn-primary" id="guardar"  data-pag="{{=pag}}" name="guardar" style="width:200px">Guardar</button>
+              {{if pag==6:}}    
+              <button type="button" class="btn btn-primary" id="siguiente" data-pag="{{=pag}}" style="width:200px">Completar solicitud</button>
+              {{else:}}
+              <button type="button" class="btn btn-primary" id="siguiente" data-pag="{{=pag}}" style="width:200px">Siguiente</button>
+              {{pass}}
+              {{=form.custom.end}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <input type="text" id="mensaje" value="{{=message}}" style="display:none">
+    {{ pass }}
+{{ end }}

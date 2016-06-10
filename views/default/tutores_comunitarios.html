@@ -1,0 +1,83 @@
+{{ extend 'base2.html' }}
+{{ block contenido }}
+
+
+    <!-- Contenido -->
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-6" align="left">
+                <h4 style="color:#4682B4"><a href=".">Home</a> /<a href="{{=URL('vista_admin')}}"> Admin </a> / <a href="#">Tutores Comunitarios </a> </h4>
+            </div>
+            <div class="col-md-4" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+
+    <div class="col-sm-12">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Estudiantes registrados</h2>
+            <table class="table table-condensed" id="estuds">
+                <thead>
+                    <tr>
+                        <th> Usuario</i></th>
+                        <th align="right">Nombres y Apellidos</th>
+                        <th align="right">Email</th>
+                        <th align="right">Telefono</th>
+                        <th align="right"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{for usuario in registrados:}}
+                    <tr>
+                        <td>
+                            <a href="{{=URL(r=request,f='tutor_comunitario_detalles',args=usuario.id)}}">{{=usuario.f_nombre_usuario}}</a>
+                        </td>
+                        <td>
+                            {{=usuario.f_nombres}} {{=usuario.f_apellidos}}
+                        </td>
+                        <td>
+                            {{=usuario.f_email}}
+                        </td>
+                        <td>
+                            {{=usuario.f_telefono}}
+                        </td>
+                        <td>
+                         <a href="{{=URL(r=request,f='tutor_comunitario_detalles',args=usuario.id)}}"><i class="glyphicon glyphicon-search"></i></a>
+                        </td>
+                        <td>
+                        <a href="{{=URL(r=request,f='tutor_comunitario_editar',args=usuario.id)}}"><i class="glyphicon glyphicon-pencil"></i></a>
+                        </td>
+                    </tr>
+                    {{ pass }}
+            <div class="alert alert-success" id="exito" style="display:none; height:45px">
+                <b>Registro exitoso.</b> El estudiante se ha agregado a la base de datos </div>
+              </tbody>
+            </table>
+        </div>
+    
+        <!-- <div class="col-md-5">
+                <!-- {{=URL('default','usuario_cas_registar')}} -->
+                <!-- Requerimos de ldap para un registro exitoso -->
+
+             <!--  <a href="{{=URL('default','tutor_comunitario_registrar')}} ">  
+
+
+                <button class="btn btn-success" style="width: 240px;"  align="right">
+                 <i class="glyphicon glyphicon-plus-sign"></i> <b>Registrar un nuevo usuario</b>
+                </button>
+              </a>
+            <button class="btn btn-warning" id="up" style="width: 100px; display:none" onclick="ocultar_form()">
+                  <b>Ocultar </b><i class="glyphicon glyphicon-chevron-up"></i>
+            </button>
+            <br>
+      
+                       
+      </div> -->
+{{ end contenido}}

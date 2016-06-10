@@ -1,0 +1,300 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css'%}">
+    <link href="{{=URL('static', 'css/font-awesome.min.css', scheme='https')}}" rel="stylesheet" type="text/css" />
+
+    <link href="{{=URL('static', 'css/bootstrap.min.css', scheme='https')}}" rel="stylesheet" type="text/css" />
+    <link href="{{=URL('static', 'css/Pag_principal.css', scheme='https')}}" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    
+    <!-- Bootstrap core CSS -->
+    <!--<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">-->
+    <link href="{{=URL('static', 'css/bootstrap.css', scheme='https')}}" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap theme -->
+    <!--<link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">-->
+	<link href="{{=URL('static', 'css/bootstrap-theme.css', scheme='https')}}" rel="stylesheet" type="text/css" />
+    <!--<script type="text/javascript" src="{% static 'js/jquery-1.11.2.js'%}">
+    </script>-->
+    <link href="{{=URL('static', 'js/jquery-1.11.2.js')}}" type="text/javascript" />
+    
+    <!-- Custom styles for this template -->
+    <link href="{{=URL('static', 'css/theme.css', scheme='https')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'js/bootstrap.js', scheme='https')}}" rel="stylesheet" />
+    
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='https')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='https')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='https')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='https')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='https')}}" rel="stylesheet" />
+    
+  </head>
+  
+  <body role="document">
+    <!-- Fixed navbar -->
+    
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">
+              Toggle navigation
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+          </button>
+
+          <img class="home" src="{{=URL('static', 'img/home.png')}}" />
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#">
+                ¿Qui&eacute;nes somos?
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#about">
+                Formatos SC
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Reglamentos SC
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Decanato de extensión
+              </a>
+            </li>
+			<li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Proyectos
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </nav>
+    
+    <!-- Contenido -->
+    <div class="micontainer">
+      <form method="post" action="{{=URL('vista_admin')}}">
+        <br>
+        <b>
+          <h class="acces" style="color:#4682B4">
+            Acceso:
+          </h>
+          <br>
+        </b>
+        <br>
+        <b>
+          <h class="log" style="color:#A9A9A9">
+            USBID:
+          </h>
+        </b>
+        <input type="text"  name="username">
+        <br>
+        <h class="log" style="color:#A9A9A9">
+          Contrase&ntilde;a:
+        </h>
+        <input type="password"  name="password">
+        
+        <BR>
+        <input type="submit" class="btn btn-lg2 btn-default ini">
+        <!--<a href="{{=URL('vista_admin')}}">
+          <img class="ini" class="img-responsive" src="{{=URL('static', 'img/log.png')}}" width="120" height="25"/>
+        </a>-->
+        <h class="clean" style="color:#808080">
+          | Limpiar
+        </h>        
+      </form>
+	</div>
+    <div class="row">
+      <div class="col-md-3"  style="color:#4682B4">
+        <b>
+          Noticias destacadas
+        </b>
+        <br>
+        <br>
+        <p class="informacion" align="left" style="color:#1E90FF">
+          Inscripciones abiertas
+          <br>
+          para el SC...
+        </p>
+        <p class="detalles" align="left" style="color:#808080">
+          Revisa la lista de proyectos
+          <br>
+          y registrate ahora!
+        </p>
+        <button type="button" class="btn btn-lg btn-default">
+          leer mas
+        </button>
+      </div>
+      
+      <div class="col-md-4">
+
+        <img class="img-responsive" src="{{=URL('static', 'img/estudiante.png')}}" width="350" hspace="25"/>
+      </div>
+      
+      
+    </div>
+    
+    <div class="container-princ">
+      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="list-group">
+            <b>
+              <a href="http://getbootstrap.com/examples/theme/#" class="list-group-item active">
+                Proyectos
+              </a>
+            </b>
+            <a href="#" class="list-group-item">
+              
+              <span class="glyphicon glyphicon-map-marker" style="color:#006400">
+              </span>
+              Ambientales
+              <span class="badge">
+                10
+              </span>
+              
+              <a href="#" class="list-group-item">
+                  <span class="glyphicon glyphicon-map-marker" style="color:#000080">             
+                  </span>
+                Apoyo comunitario
+                <span class="badge">
+                  15
+                </span>
+                  <a href="#" class="list-group-item">
+                      <span class="glyphicon glyphicon-map-marker" style="color:#696969">
+                      </span>
+                      Apoyo tecnol&oacute;gico
+                      <span class="badge">
+                          7
+                      </span>
+                <a href="#" class="list-group-item">
+                  <span class="glyphicon glyphicon-map-marker" style="color:#FF4500">
+                  </span>
+                  Cultura 
+                  <span class="badge">
+                    15
+                  </span>
+                  
+                  <a href="#" class="list-group-item">
+                    <span class="glyphicon glyphicon-map-marker" style="color:#00FF00">
+                    </span>
+                    Desarrollo sustentable 
+                    <span class="badge">
+                      18
+                    </span>
+                    
+                    <a href="#" class="list-group-item">
+                      <span class="glyphicon glyphicon-map-marker" style="color:#FFD700">
+                      </span>
+                      Educativos 
+                      <span class="badge">
+                        13
+                      </span>
+                      
+                      <a href="#" class="list-group-item">
+                        <span class="glyphicon glyphicon-map-marker" style="color:#8B4513">
+                        </span>
+                        Infraestrusctura 
+                        <span class="badge">
+                          16
+                        </span>
+                        
+                        <a href="#" class="list-group-item">
+                          <span class="glyphicon glyphicon-map-marker" style="color:#FF0000">
+                          </span>
+                          Prevenci&oacute;n de emergencias 
+                          <span class="badge">
+                            19
+                          </span>
+                          
+                          <a href="#" class="list-group-item">
+                            <span class="glyphicon glyphicon-map-marker">
+                            </span>
+                            Salud 
+                            <span class="badge">
+                              16
+                            </span>
+                            
+                            <a href="#" class="list-group-item">
+                              <span class="glyphicon glyphicon-map-marker">
+                              </span>
+                              Seguridad industrial 
+                              <span class="badge">
+                                17
+                              </span>
+                            </a>
+                          </div>
+                        </div>
+                        <!-- /.col-sm-4 -->
+                        
+                        
+                        <br>
+                        <div class="col-sm-4">
+                          <h4>
+                            <b>
+                              Calidad del aire y su importancia para la vida
+                            </b>
+                          </h2>
+
+                          <img class="img-responsive" src="{{=URL('static', 'img/arbol.png')}}"/>
+                          <img class="img-responsive" style="margin:auto" src="{{=URL('static', 'img/rollbar.png')}}" />
+                          
+                          
+                        </div>
+                        <div class="col-sm-4">
+                        
+                          
+                          <p class="infproy" >
+                            
+                            Este proyecto consiste en realizar 
+                            campañas de concientización
+                            sobre la importancia de la calidad 
+                            del aire y la responsabilidad de cada 
+                            uno de nosotros en la contaminación
+                            <br>
+                            Tutor: Yudith Cardinale.
+                            <br>
+                          </p>
+                          <div class="link-proy" style="color:#4682B4" >
+                            
+                            <b>
+                              Ver este proyecto >>
+                            </b>
+                          </div>
+                          
+                        </div>
+                        
+                    </div>
+                    
+                  </div>
+                  
+                  
+                  
+                </html>
+                
+                {{ end }}

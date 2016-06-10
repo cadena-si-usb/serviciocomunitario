@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6"><h2>Areas de Proyectos</h2></div><div class="col-md-6" style="padding-top: 25px;"><a id="nueva-area" class="enlace"> <i class="glyphicon glyphicon-plus"></i> Nueva Area</a></div>
+        <table class="table table-condensed" id="estuds">
+            <thead>
+                <tr>
+                    <th> Nombre</i></th>
+                    <th align="right">Codigo</th>
+                    <th align="right">Estado</th>
+                    <th align="right"></th>
+                    <th align="right"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for area in areas:}}
+
+                <tr>
+                    <td>
+                        {{=area.f_nombre}}
+                    </td>
+                    <td>
+                        {{=area.f_codigo}}
+                    </td>
+                    <td>
+                        {{=area.f_estado}}
+                    </td>
+                    <td>
+                    <a class="enlace" onclick="mostrarDetallesArea('{{=area.id}}')" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-search"></i></a>
+                    </td>
+
+                    <td>
+                    <a class="enlace" onclick="confirmarEliminarArea('{{=area.id}}')"><i class="glyphicon glyphicon-remove"></i></a>
+                    </td>
+                </tr>
+                {{ pass }}
+          </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row container">
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Información Area de Proyecto</h4>
+        </div>
+        <div class="modal-body">
+          <div id="detalles-areas"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>

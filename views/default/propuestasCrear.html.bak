@@ -1,0 +1,334 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/propuestas.css')}}">
+     <link rel="stylesheet" href="{{=URL('static', 'css/web2py.css')}}">
+
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    
+    
+    
+    <!-- Bootstrap core CSS -->    
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap theme -->    
+    <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}">
+    </script>
+    
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery.multiselect.js')}}">
+    </script>
+    
+    <script type="text/javascript">
+        function mostrar_form(){
+        document.getElementById('formulario').style.display = 'block';
+        document.getElementById('up').style.display = 'block';
+        }
+    </script>
+      
+     <script type="text/javascript">
+        function ocultar_mensaje(){
+        document.getElementById('exito').style.display = 'none';
+        document.getElementById('fail').style.display = 'none';
+        }
+    </script>
+      
+      
+
+    <script type="text/javascript">
+        window.onload = control_form;
+        function control_form(){
+            if (document.getElementById('mensaje').value == "0"){
+                document.getElementById('formulario').style.display = 'block';
+                document.getElementById('up').style.display = 'block';
+                document.getElementById('fail').style.display = 'block';
+                setTimeout(function(){ ocultar_mensaje(); }, 3000);
+                }
+            
+            if (document.getElementById('mensaje').value == "1"){
+                document.getElementById('exito').style.display = 'block';
+                setTimeout(function(){ ocultar_mensaje(); }, 3000);
+                }
+            }
+        
+    </script>
+
+      <script type="text/javascript">
+        function ocultar_form(){
+        document.getElementById('formulario').style.display = 'none';
+        document.getElementById('up').style.display = 'none';
+        }
+    </script>  
+     
+     
+    
+    <!-- Custom styles for this template -->
+    
+    <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">    
+    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+    
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+    
+        <link rel="stylesheet" href="{{=URL('static', 'css/jquery.multiselect.css')}}">
+
+  </head>
+  
+  <body role="document">
+    <!-- Fixed navbar -->
+    
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">
+              Toggle navigation
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+            <span class="icon-bar">
+            </span>
+          </button>
+<a href="https://sc.cesma.usb.ve/SIGESC/default/vista_admin"><img class="home" src="/SIGESC/static/img/home.png">
+</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#">
+                ¿Quiénes somos?
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#about">
+                Formatos SC
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Reglamentos SC
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Decanato de extensión
+              </a>
+            </li>
+            <li>
+              <a href="http://getbootstrap.com/examples/theme/#contact">
+                Proyectos
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'proyects2.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+                <h4 style="color:#4682B4"><a href=".">Home</a> /<a href="{{=URL('vista_admin')}}"> Admin </a> / <a href="#">Propuestas </a> </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+    {{else:}}
+        
+    <div class="col-sm-12">
+    <div class="row">
+           
+        <div class="col-md-12">
+              <div class="alert alert-danger" id="fail" style="display:none; height:45px">
+                <b>Registro fallido.</b> El formulario contiene errores </div>
+            <div class="form formulario row" id="formulario" osubmit="control_form()">
+                {{=form.custom.begin}}
+                <div class="col-md-12">
+                  {{=BEAUTIFY(form.errors)}}
+                    <div class="form-group">
+                        <label> Nombre del proyecto <span class="red">*</span></label> {{=form.custom.widget.f_nombre}} </div>
+                    <div class="form-group">
+                        <label> Resumen </label> {{=form.custom.widget.f_resumen}} </div>
+                    <div class="form-group">
+                        <label> Relación con planes nacionales </label> {{=form.custom.widget.f_relacion_planes}} </div>
+                    <div class="form-group">
+                        <label> Antecedentes </label> {{=form.custom.widget.f_antecedentes}} </div>
+                    <div class="form-group">
+                        <label> Objetivos Generales </label> {{=form.custom.widget.f_obj_generales}} </div>
+                    <div class="form-group">
+                        <label> Población beneficiaria </label> {{=form.custom.widget.f_poblacion_beneficiaria}} </div>
+                    <div class="form-group">
+                        <label> Justificación </label> {{=form.custom.widget.f_justificacion}} </div>
+                    <div class="form-group">
+                        <label> Evaluación </label> {{=form.custom.widget.f_evaluacion}} </div>
+                    <div class="form-group">
+                        <label> Difusión de resultados </label> {{=form.custom.widget.f_difusion_resultados}} </div>
+                    <div class="form-group">
+                        <label> Aplicación de las directrices y valores expuestos en la ley </label> {{=form.custom.widget.f_aplicacion_dir_ley}} </div>
+                    <div class="form-group">
+                        <label> Objetivos de aprendizaje </label> {{=form.custom.widget.f_obj_aprendizaje}} </div>
+                    <div class="form-group">
+                        <label> Número de estudiantes requeridos </label> {{=form.custom.widget.f_num_requeridos}} </div>
+                    <div class="form-group">
+                        <label> Relevancia </label> {{=form.custom.widget.f_relevancia}} </div>
+                    <div class="form-group">
+                        <label> Originalidad </label> {{=form.custom.widget.f_originalidad}} </div>
+                    <div class="form-group">
+                        <label> Capacidad ejecutora </label> {{=form.custom.widget.f_capacidad_ejecutora}} </div>
+                    <div class="form-group">
+                        <label> Asociatividad externa </label> {{=form.custom.widget.f_asoc_externa}} </div>
+                    <div class="form-group">
+                        <label> Asociatividad interna </label> {{=form.custom.widget.f_asoc_interna}} </div>
+                    <div class="form-group">
+                        <label> Incorporación estudiantes </label> {{=form.custom.widget.f_incorporacion_estudiantes}} </div>
+                    <div class="form-group">
+                        <label> Incorporación profesores </label> {{=form.custom.widget.f_incorporacion_profesores}} </div>
+                    <div class="form-group">
+                        <label> Incorporación empleados </label> {{=form.custom.widget.f_incorporacion_empleados}} </div>
+                    <div class="form-group">
+                        <label> Incorporación obreros </label> {{=form.custom.widget.f_incorporacion_obreros}} </div>
+                    <div class="form-group">
+                        <label> Area </label> {{=form.custom.widget.f_area}} </div>
+                    <div class="form-group">
+                        <label> Estado </label> {{=form.custom.widget.f_estado}} </div>
+                    <div class="form-group">
+                        <label> Fecha de inicio </label> {{=form.custom.widget.f_fechaini}} </div>
+                    <div class="form-group">
+                        <label> Fecha de finalización (máximo 2 años)</label> {{=form.custom.widget.f_fechafin}} </div>
+                    <div class="form-group">
+                        <label> Comunidad </label> {{=form.custom.widget.f_comunidad}} </div>
+                    <div class="form-group">
+                        <label> Sede </label> {{=form.custom.widget.f_sede}} </div>
+                    <div class="form-group {{='hidden' if not es_adm else ''}}">
+                      <label> Proponente</label>
+                      {{=form.custom.widget.f_proponente}}
+                    </div>
+                    <div class="form-group">
+                      <label> Tutores académicos</label>
+                      {{=form.custom.widget.f_tutores}}
+                    </div>
+                    <div class="form-group">
+                      <label> Tutores comunitarios</label>
+                      {{=form.custom.widget.f_tutores_comunitarios}}
+                    </div>
+                    <div class="form-group {{='hidden' if not es_adm else ''}}">
+                      <label> Estado de la propuesta </label>
+                      {{=form.custom.widget.f_estado_propuesta}}
+                    </div>
+                    <div class="form-group {{='hidden' if not es_adm else ''}}">
+                      <label> Observaciones </label>
+                      {{=form.custom.widget.f_observaciones}}
+                    </div>
+
+                    <div class="form-group">               
+                    <div class="secc_actividades">
+                    
+                      <table class="table table-striped tbl_actividades">
+                        <thead><th>Actividades</th></thead>
+                        <tbody>
+                          {{for i in range(1,len(actividades)+1):}}
+                          {{actividad = actividades[i-1]}}
+                          <tr>
+                            <td>
+                          	    <span>{{=actividad.f_nombre}}</span>
+                          	    <a href='#' class='act_remove glyphicon glyphicon-remove pull-right' data-id='{{=i}}'></a>
+                                <a href='#' class='act_edit glyphicon glyphicon-pencil pull-right' data-id='{{=i}}'></a>
+                          	   </td>
+                          </tr>
+                          {{pass}}
+                        </tbody>
+                      </table>
+                        {{nro_actividades = len(actividades)}}
+                        {{ for i in range(1,nro_actividades+1): }}
+                        {{actividad = actividades[i-1]}}
+                        <div style="display:none;">
+                          <input type="text" name="nombre_act_{{=i}}" class="nombre_act" value="{{=actividad.f_nombre}}" data-id='{{=i}}'>
+                          <textarea name="resumen_act_{{=i}}" class="resumen_act" cols="30" rows="10" data-id='{{=i}}'>{{=actividad.f_resumen}}</textarea>
+                          <input type="text" name="alumnos_act_{{=i}}" class="alumnos_act" value="{{=actividad.f_alumnos}}" data-id='{{=i}}'>
+                          <textarea name="requerimientos_act_{{=i}}" class="requerimientos_act" cols="30" rows="10" data-id='{{=i}}'>{{=actividad.f_requerimientos}}</textarea>
+                          
+                        </div>
+                        {{pass}}
+                        {{nro_actividades+=1}}
+                        <div class="form-group">
+                          <label> Nombre </label>
+                          <input type="text" name="nombre_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control nombre_act">
+                        </div>
+                        <div class="form-group">
+                          <label> Resumen </label>
+                          <textarea name="resumen_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="resumen_act form-control" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label> Número de alumnos </label>
+                          <input type="text" name="alumnos_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control alumnos_act">
+                        </div>
+                        <div class="form-group">
+                          <label> Recursos </label>
+                          <textarea name="recursos_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control recursos_act" cols="30" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label> Costo </label>
+                          <input type="text" data-id="{{=nro_actividades}}" class="form-control costo_act">
+                        </div>
+                        <div class="form-group">
+                          <label> Recursos propios </label>
+                          <textarea name="recursos_propios_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control recursos_propios_act" cols="30" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label> Aportes de otros donantes </label>
+                          <textarea name="aportes_otros_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control aportes_otros_act" cols="30" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label> Aporte solicitado a la DEx </label>
+                          <textarea name="aportes_dex_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control aportes_dex_act" cols="30" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label> Monto total </label>
+                          <input type="text" data-id="{{=nro_actividades}}" class="form-control monto_total_act"></textarea>
+                        </div>
+               
+                    <input type="hidden" name="nro_actividades" value="{{=nro_actividades}}">
+                    <button type="button" id="agregar_act" class="btn btn-default btn-block">Agregar actividad</button>
+                    </div>
+                  
+                  
+                </div> <!--cerrando tabla--> 
+                <input class="btn btn-primary" name="guardar" type="submit" style="width:200px" value="Registrar"/>
+              {{=form.custom.end}}
+            </div>
+      </div>
+      <input type="text" id="mensaje" value="{{=message}}" style="display:none">
+    {{ pass }}
+<script type="text/javascript" src="{{=URL('static', 'js/actividades.js')}}"></script>
+{{ end }}

@@ -1,0 +1,70 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+  <head>
+  	<link rel="stylesheet" href="{{=URL('static', 'css/administrador.css')}}">
+  	<script type="text/javascript" src="{{=URL('static', 'js/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/administrador.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/web2py.js')}}"></script>
+    
+
+  </head>
+	<body class="row" >
+	   <div class="col-sm-12">
+	    	<div class="row">
+		        <div class="col-md-2">
+		            <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+		        </div>
+		        <div class="col-md-6" align="left">
+		           <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / Administrador </a> </h4>
+		           <h4 style="color:#4682B4">{{=msj}}</h4>
+
+		        </div>
+		        <div class="col-md-4" align="right">
+		            <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+		        </div>
+	    	</div>
+	    	<hr>
+		</div>
+
+	   <div class="col-sm-12 principal">
+	   		<div class="row">
+		       	<div class="col-md-4">
+		       	<a id="menu-admin" class="enlace">
+		           <h4 style="color:#337AB7"><span class="glyphicon glyphicon-briefcase"></span> Menú</h4>
+		           </a>
+		           <hr>
+		             <ul class="nav nav-stacked">
+		                 <li>
+	                      	<a href="{{=URL('perfil')}}">
+	                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ver Perfil</a>
+	                      	<a id="usuarios-admin" class="enlace">
+	                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Usuarios
+	                      	</a>
+							<a id="areas-admin" class="enlace">
+							 	<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Areas de Proyectos
+							</a>
+							<a id="sedes-admin" class="enlace">
+								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Sedes
+							</a>
+							<a id="proyectos-admin" class="enlace">
+								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Proyectos
+							</a>
+							<a id="roles-admin" class="enlace">
+								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Roles de Usuarios
+							</a>
+								
+		                  </li>
+		             </ul>
+		             <hr>
+		       	</div>
+		       	<div id="vista-admin" class="col-md-8">
+		       	</div>
+	       	</div>
+
+	    </div>
+	    <div class="col-sm-12">
+	    	<hr>
+	    </div>
+	</body>
+{{ pass }}
+{{ end }}

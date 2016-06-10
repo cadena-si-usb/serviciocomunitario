@@ -1,0 +1,197 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/proponentes.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/web2py.css')}}">
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    
+    
+    
+    <!-- Bootstrap core CSS -->    
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap theme -->    
+    <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}">
+    </script>
+
+    <script type="text/javascript">
+        function mostrar_form(){
+        document.getElementById('formulario').style.display = 'block';
+        document.getElementById('up').style.display = 'block';
+        }
+    </script>
+      
+     <script type="text/javascript">
+        function ocultar_mensaje(){
+        document.getElementById('exito').style.display = 'none';
+        document.getElementById('fail').style.display = 'none';
+        }
+    </script>
+      
+      
+
+    <script type="text/javascript">
+        window.onload = control_form;
+        function control_form(){
+            if (document.getElementById('mensaje').value == "0"){
+                document.getElementById('formulario').style.display = 'block';
+                document.getElementById('up').style.display = 'block';
+                document.getElementById('fail').style.display = 'block';
+                setTimeout(function(){ ocultar_mensaje(); }, 3000);
+                }
+            
+            if (document.getElementById('mensaje').value == "1"){
+                document.getElementById('exito').style.display = 'block';
+                setTimeout(function(){ ocultar_mensaje(); }, 3000);
+                }
+            }
+        
+    </script>
+
+      <script type="text/javascript">
+        function ocultar_form(){
+        document.getElementById('formulario').style.display = 'none';
+        document.getElementById('up').style.display = 'none';
+        }
+    </script>   
+     
+     
+    
+    <!-- Custom styles for this template -->
+    
+    <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">    
+    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+    
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+    
+  </head>
+  
+  <body role="document">
+    <!-- Fixed navbar -->
+    
+    <!-- Contenido -->
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'proyectos.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+                <h4 style="color:#4682B4"><a href="{{=URL('home')}}">Home</a>  / <a href="#">Áreas </a> </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+    {{else:}}
+        
+    <div class="col-sm-12">
+    <div class="row">
+        <div class="col-md-7">
+            <table class="table table-condensed" id="estuds">
+                <thead>
+                    <tr>
+                        <th> Áreas registradas</i></th>
+                        <th align="right"></th>
+                        <th align="right"></th>
+                        <th align="right"></th>
+                    </tr>
+                </thead>
+                <tbody>
+    {{ for area in areas:}}
+                    <tr>
+                        <td>
+                            <a href="{{=URL(r=request,f='areasDetalles',args=area.id)}}">{{=area.f_nombre}}</a>
+                        </td>
+                        <td>
+                         <a href="{{=URL(r=request,f='areasDetalles',args=area.id)}}"><i class="glyphicon glyphicon-search"></i></a>
+                        </td>
+                        <td>
+                        <a href="{{=URL(r=request,f='areasEditar',args=area.id)}}"><i class="glyphicon glyphicon-pencil"></i></a>
+                        </td>
+                     </tr>
+                    {{ pass }}
+            <div class="alert alert-success" id="exito" style="display:none; height:45px">
+                <b>Registro exitoso.</b> El area se ha agregado a la base de datos </div>
+                </tbody>
+            </table>
+        </div>
+    
+        <div class="col-md-5">
+             <button class="btn btn-success" style="width: 240px;" onclick="mostrar_form()" align="right">
+                 <i class="glyphicon glyphicon-plus-sign"></i> <b>Registrar Área</b>
+            </button>
+            <button class="btn btn-warning" id="up" style="width: 100px; display:none" onclick="ocultar_form()">
+                 </i> <b>Ocultar </b><i class="glyphicon glyphicon-chevron-up"></i>
+            </button><br>
+      <div class="alert alert-danger" id="fail" style="display:none; height:45px">
+                <b>Registro fallido.</b> El formulario contiene errores </div>
+            <div class="form formulario" id="formulario" style="display:none" osubmit="control_form()">
+                {{=form.custom.begin}}
+                <div class="table">
+                   
+                        <tr>
+                            <td>
+                                <b> Nombre </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>                               
+                                    {{=form.custom.widget.f_nombre}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b> Código </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>                               
+                                    {{=form.custom.widget.f_codigo}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b> Estado </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>                               
+                                    {{=form.custom.widget.f_estado}}
+                            </td>
+                        </tr>
+                </div> <!--cerrando tabla--> 
+
+                        <input class="btn btn-primary" name="guardar" type="submit" style="width:200px" value="Registrar"/>
+                    {{=form.custom.end}}
+            </div>
+      </div>
+      <input type="text" id="mensaje" value="{{=message}}" style="display:none">
+    {{ pass }}
+{{ end }}

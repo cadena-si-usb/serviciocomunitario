@@ -1,0 +1,239 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
+    
+    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/propuestas.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/jquery.multiselect.css')}}">
+    
+    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    
+    
+    
+    <!-- Bootstrap core CSS -->    
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap theme -->    
+    <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}">
+    </script>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery.multiselect.js')}}">
+    </script>
+    <!-- Custom styles for this template -->
+    
+    <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">    
+    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+    
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg', scheme='http')}}" rel="stylesheet"/>
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot', scheme='http')}}" rel="stylesheet" />
+
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.ttf', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff', scheme='http')}}" rel="stylesheet" />
+    <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2', scheme='http')}}" rel="stylesheet" />
+    
+  </head>
+  
+  <body role="document">
+   
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'proyects2.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+               <h4 style="color:#4682B4"><a href=".">Home</a> /<a href="{{=URL('vista_admin')}}"> Admin </a> / <a href="#">Propuestas </a> </h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+   <div class="col-sm-12">
+       <div class="col-md-3">
+           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
+            <hr>
+             <ul class="nav nav-stacked">
+                 <li>
+                      <a href="{{=URL('propuestas')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> Volver a Propuestas</a>
+                     <a href="{{=URL('estudiantes')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Estudiantes </a>
+                     <a href="{{=URL('areas')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Áreas </a>
+                      <a href="{{=URL('proponentes')}}">
+                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Proponentes </a>
+                      <a href="{{=URL('sedes')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Sedes</a>
+                      <a href="{{=URL('proyectos')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Proyectos</a>
+                     <a href="{{=URL('tutores')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Tutores</a>
+                     <a href="{{=URL('comunidades')}}">
+                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ir a Comunidades</a>
+                 </li>
+             </ul>
+       </div>
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}
+        <div class="col-md-8">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <b><h class="detalles" >Editar la propuesta</b></h>
+                    </div>
+                <div class="panel-body">
+
+                <div class="form formulario row" id="formulario" osubmit="control_form()">
+                {{=form.custom.begin}}
+                <div class="col-md-12">
+                  {{=BEAUTIFY(form.errors)}}
+                  <div class="form-group">
+                    <label> Nombre </label>
+                    {{=form.custom.widget.f_nombre}}
+                  </div>
+                  <div class="form-group">
+                    <label> Descripcion </label>
+                    {{=form.custom.widget.f_descripcion}}
+                  </div>
+                  <div class="form-group">
+                    <label> Área</label>
+                    {{=form.custom.widget.f_area}}
+                  </div>
+                  <div class="secc_actividades">
+                    
+                      <table class="table table-striped tbl_actividades">
+                        <thead><th>Actividades</th></thead>
+                        <tbody>
+                          {{for i in range(1,len(actividades)+1):}}
+                          {{actividad = actividades[i-1]}}
+                          <tr>
+                            <td>
+                          	    <span>{{=actividad.f_nombre}}</span>
+                          	    <a href='#' class='act_remove glyphicon glyphicon-remove pull-right' data-id='{{=i}}'></a>
+                                <a href='#' class='act_edit glyphicon glyphicon-pencil pull-right' data-id='{{=i}}'></a>
+                          	   </td>
+                          </tr>
+                          {{pass}}
+                        </tbody>
+                      </table>
+                        {{nro_actividades = len(actividades)}}
+                        {{ for i in range(1,nro_actividades+1): }}
+                        {{actividad = actividades[i-1]}}
+                        <div style="display:none;">
+                          <input type="text" name="nombre_act_{{=i}}" class="nombre_act" value="{{=actividad.f_nombre}}" data-id='{{=i}}'>
+                          <textarea name="resumen_act_{{=i}}" class="resumen_act" cols="30" rows="10" data-id='{{=i}}'>{{=actividad.f_resumen}}</textarea>
+                          <input type="text" name="alumnos_act_{{=i}}" class="alumnos_act" value="{{=actividad.f_alumnos}}" data-id='{{=i}}'>
+                          <textarea name="requerimientos_act_{{=i}}" class="requerimientos_act" cols="30" rows="10" data-id='{{=i}}'>{{=actividad.f_requerimientos}}</textarea>
+                        </div>
+                        {{pass}}
+                        {{nro_actividades+=1}}
+                        <div class="form-group">
+                          <label> Nombre </label>
+                          <input type="text" name="nombre_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control nombre_act">
+                        </div>
+                        <div class="form-group">
+                          <label> Resumen </label>
+                          <textarea name="resumen_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="resumen_act form-control" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label> Número de alumnos </label>
+                          <input type="text" name="alumnos_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control alumnos_act">
+                        </div>
+                        <div class="form-group">
+                          <label> Requerimientos </label>
+                          <textarea name="requerimientos_act_{{=nro_actividades}}" data-id="{{=nro_actividades}}" class="form-control requerimientos_act" cols="30" rows="10"></textarea>
+                        </div>                    
+                    <input type="hidden" name="nro_actividades" value="{{=nro_actividades}}">
+                    <button type="button" id="agregar_act" class="btn btn-default btn-block">Agregar actividad</button>
+                    </div>
+                  <div class="form-group">
+                    <label> Estado </label>
+                    {{=form.custom.widget.f_estado}}
+                  </div>                    
+                  <div class="form-group">
+                    <label> Fecha de inicio <h class="help"> DD/MM/AAAA</h></label>
+                    {{=form.custom.widget.f_fechaini}}
+                  </div>
+                  <div class="form-group">
+                    <label> Fecha de finalización <h class="help"> DD/MM/AAAA</h></label>
+                    {{=form.custom.widget.f_fechafin}}
+                  </div>
+                  <div class="form-group">
+                    <label> Comunidad</label>
+                    {{=form.custom.widget.f_comunidad}}
+                  </div>
+                  <div class="form-group">
+                    <label> Sede</label>
+                    {{=form.custom.widget.f_sede}}
+                  </div>
+                  <div class="form-group {{='hidden' if not es_adm else ''}}">
+                    <label> Proponente</label>
+                    {{=form.custom.widget.f_proponente}}
+                  </div>
+                  <div class="form-group">
+                    <label>Tutores académicos </label>
+                        <select name="f_tutores" class="form-control" multiple>
+                          {{for tutor in tutores:}}
+                          <option
+                            value="{{=tutor.f_usbid}}"
+                            {{if tutor.f_usbid in tutores_propuesta:}}
+                            {{="selected"}}
+                            {{else:pass}}>
+                            {{=tutor.f_nombre}}
+                          </option>
+                          {{pass}}
+                        </select>
+                    </div>
+                  <div class="form-group">
+                    <label>Tutores comunitarios </label>
+                        <select name="f_tutores_comunitarios" class="form-control" multiple>
+                          {{for tutor in tutores_comunitarios:}}
+                          <option
+                            value="{{=tutor.f_cedula}}"
+                            {{if tutor.f_cedula in tutores_comunitarios_propuesta:}}
+                            {{="selected"}}
+                            {{else:pass}}>
+                            {{=tutor.f_nombres}}
+                          </option>
+                          {{pass}}
+                        </select>
+                    </div>
+
+                  <div class="form-group {{='hidden' if not es_adm else ''}}">
+                    <label> Estado de la propuesta </label>
+                    {{=form.custom.widget.f_estado_del}}
+                  </div>
+                  <div class="form-group {{='hidden' if not es_adm else ''}}">
+                    <label> Observaciones </label>
+                    {{=form.custom.widget.f_observaciones}}
+                  </div>
+                </div> <!--cerrando tabla--> 
+                <input class="btn btn-primary" name="guardar" type="submit" style="width:200px" value="Registrar"/>
+              {{=form.custom.end}}
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+<script type="text/javascript" src="{{=URL('static', 'js/actividades.js')}}"></script>
+  {{ pass }}
+{{ end }}

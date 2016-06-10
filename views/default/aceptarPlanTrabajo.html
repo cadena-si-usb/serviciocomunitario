@@ -1,0 +1,18 @@
+{{ extend 'default/vista_estudiante.html' }}
+{{ block contenido }}
+
+{{if estado=='aceptado':}}
+<div class="col-md-10" style="margin-left: 6%;">
+    <div class="alert alert-success col-sm-offset-1 text-center" role="alert">
+      <a href="{{=URL('vista_estudiante')}}" class="alert-link">{{=mensaje}}</a>
+    </div>
+</div>
+{{else:}}
+<div class="col-md-10" style="margin-left: 6%;">
+    <div class="alert alert-warning col-sm-offset-1 text-center" role="alert">
+      <a href="{{=URL('vista_estudiante')}}" class="alert-link">{{=mensaje}}</a>
+    </div>
+</div>
+{{pass}}
+
+{{ end }}

@@ -1,0 +1,82 @@
+{{ extend 'base.html' }}
+{{ include 'web2py_ajax.html' }}
+{{ block contenido }}
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-6" align="left">
+               <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> /<a href="{{=URL('proyectos_tutor_academico')}}"> Tutor Académico </a> /Proyecto</h4>
+               <h4 style="color:#4682B4">{{=bienvenida}}</h4>
+            </div>
+            <div class="col-md-4" align="right">
+                <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+  <div class="col-sm-12">
+        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+        {{else:}}  
+        <div class="col-xs-12" >
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <a href="{{=URL('proyectos_tutor_academico')}}" style="color:#fff">
+                        <span class="back glyphicon glyphicon-chevron-left" ></span>
+                        <b><h class="detalles" >
+                          Estudiantes 
+                       </h></b>
+                     </a>
+                    </div>
+                      <div class="panel-body">
+                        {{if estudiantes: }}
+
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>Apellido</th>
+                              <th>Carnet</th>
+                              <th><span class="glyphicon glyphicon-pencil" ></span></th>
+                            </tr>
+                          </thead>
+                          {{for estudiante in estudiantes:}}
+                            <tr>
+                                <td>{{=estudiante.t_estudiante.f_universitario.f_usuario.first_name}}</td>
+                                <td>{{=estudiante.t_estudiante.f_universitario.f_usuario.last_name}}</td>
+                                <td>{{=estudiante.t_estudiante.f_universitario.f_usbid}}</td>
+                                <td><a href="{{=URL(c='default', f='bitacora_de_estudiante',vars={'est': estudiante.t_estudiante.id, 'proy': proyecto.id})}}">Editar Bitacora</a></td>
+                            </tr>
+                          {{pass}}
+                        </table>
+                        {{else:}}
+                          <br><div class="alert alert-info"> No hay estudiantes.</div>
+                        {{pass}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <b><h class="detalles" >{{=proyecto.f_nombre}}</h></b>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tr><td><b>Resumen:</b> {{=proyecto.f_resumen}}</td></tr>
+                            <tr><td><b>Área:</b> {{=proyecto.f_area.f_nombre}}</td></tr>
+                            <tr><td><b>Objetivos generales:</b> {{=proyecto.f_obj_generales}}</td></tr>
+                            <tr><td><b>Antecedentes:</b> {{=proyecto.f_antecedentes}}</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+  {{ pass }}

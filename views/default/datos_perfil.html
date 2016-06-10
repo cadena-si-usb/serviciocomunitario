@@ -1,0 +1,94 @@
+
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Usuario:</label>
+          <div class="col-lg-8">
+            {{=form.username}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Nombres:</label>
+          <div class="col-lg-8">
+            {{=form.first_name}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Apellidos:</label>
+          <div class="col-lg-8">
+            {{=form.last_name}}
+          </div>
+        </div>
+        {{if form.f_cedula:}}
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Cédula:</label>
+          <div class="col-lg-8">
+            {{=form.f_cedula}}
+          </div>
+        </div>
+        {{pass}}
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Email:</label>
+          <div class="col-lg-8">
+            {{=form.email}}
+          </div>
+        </div>
+        {{if form.f_tipo == "Externo":}}
+        <div class="form-group">
+          <label class="col-md-3 control-label">Nombre de usuario:</label>
+          <div class="col-md-8">
+            {{=form.username}}
+          </div>
+        </div>
+        {{else:}}
+        <div class="form-group">
+          <label class="col-md-3 control-label">Tipo:</label>
+          <div class="col-md-8">
+            {{=form.f_tipo}}
+          </div>
+        </div>
+        {{pass}}
+        
+        {{if form.f_tipo == "Docente":}}
+        <div class="form-group">
+            <label class="col-md-3 control-label">Sede:</label>
+            <div class="col-md-8">
+              {{=sede}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label">Departamento:</label>
+            <div class="col-md-8">
+              {{=dpto}}
+            </div>
+        </div>
+        {{pass}}
+
+        {{if form.f_tipo in ["Postgrado","Pregrado"]:}}
+        <div class="form-group">
+            <label class="col-md-3 control-label">Sede:</label>
+            <div class="col-md-8">
+              {{=sede}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-3 control-label">Carrera:</label>
+            <div class="col-md-8">
+              {{=carrera}}
+            </div>
+        </div>
+        {{pass}}
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Dirección:</label>
+          <div class="col-md-8">
+            {{=form.f_direccion}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Teléfono:</label>
+          <div class="col-md-8">
+            {{=form.f_telefono}}
+          </div>
+        </div>

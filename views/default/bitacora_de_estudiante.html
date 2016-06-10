@@ -1,0 +1,144 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+<html lang="en">
+  <head>
+    <script type="text/javascript" src="{{=URL('static', 'js/jquery-1.11.2.js')}}"></script>   
+  </head>
+  <body role="document">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            </div>
+            <div class="col-md-4" align="left">
+               <h4 style="color:#4682B4"><a href=".">SIGESC | Home</a> |<a href="{{=URL('vista_tutor_comunitario')}}"> Tutor Comunitario </a></h4>
+               <h4 style="color:#4682B4">{{=bienvenida}}</h4>
+            </div>
+            <div class="col-md-6" align="right">
+                <a href="{{=URL('default', 'logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+        <hr>
+    </div>
+
+    <div class="col-sm-12">
+      <div class="col-xs-3">
+           <h4 style="color:#337AB7" ><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
+            <hr>
+             <ul class="nav nav-stacked">
+                <li>
+                    <a href="{{=URL('proyectosEstudiante')}}">
+                        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto
+                    </a>
+                </li>
+             </ul>
+      </div>
+      {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
+      {{else:}}
+
+      <div class="col-xs-9" id="estudiantes" hidden>
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading class=detalles">
+                       <b><h class="detalles" >
+                          <span class="back glyphicon glyphicon-chevron-left"></span> Bitacora de {{=estudiante.f_universitario.f_usuario.first_name}} {{=estudiante.f_universitario.f_usuario.last_name}}
+                       </h></b>
+                    </div>
+                        {{if bitacora: }}
+                        <table class="table table-condensed table-proyectos">
+                          <thead>
+                            <tr>
+                              <th>Actividad</th>
+                              <th><span class="glyphicon glyphicon-ok" ></span></th>
+                            </tr>
+                          </thead>
+                          {{for actividad in bitacora:}}
+                            <tr>
+                                <td>
+                                  <ul>
+                                    <li>{{=actividad.f_actividad.f_nombre}}</li>
+                                    <li>Resumen: {{=actividad.f_actividad.f_resumen}}</li>
+                                  </ul>
+                                </td>
+                                <td><a href="#">check</a></td>
+                            </tr>
+                          {{pass}}
+                        </table>
+                        {{else:}}
+                          <br><div class="alert alert-info"> No hay actividades realizadas.</div>
+                        {{pass}}
+                </div>
+            </div>
+        </div>
+
+      <div class="col-xs-9">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading no-decoracion" >
+                      <a href="{{=URL(c='default', f='proyecto_tutor_comunitario',vars={'proy': proyecto.f_proyecto})}}" style="color:#fff">
+                        <span class="back glyphicon glyphicon-chevron-left" ></span>
+                        <b class="detalles">Proyecto: {{=proyecto.f_proyecto.f_nombre}}</b>
+                      </a>
+                      <br><hr class="hr-margin">
+                      <b class="detalles">Bitacora de {{=estudiante.f_universitario.f_nombres}} {{=estudiante.f_universitario.f_apellidos}}</b>
+                    </div>
+                      <div class="panel-body"  >
+                        {{if bitacora: }}
+                        <table class="table table-condensed table-proyectos"  >
+                          <thead>
+                            <tr>
+                              <th>Actividad</th>
+                              <th>Horas</th>
+                              <th>Aceptada</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                            {{for actividad in bitacora:}}
+                                 <tr>
+                                    <td>{{=actividad.f_actividad.f_nombre}}</td>
+                                    <td>{{=actividad.f_horas}}</td>
+                                    <td class="realizada_actividad">
+                                        {{if actividad.f_confirmada:}}
+                                            <span class="glyphicon glyphicon-ok" style="color:green;"></span>
+                                        {{else:}}
+                                            <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                                        {{pass}}
+                                    </td>
+                                    <td id="{{=actividad.id}}" class="completar_actividad">
+                                        <span class="glyphicon glyphicon-thumbs-up" style="color:green;"></span>
+                                    </td>
+                                </tr>
+                            {{pass}}
+                        </table>
+                        {{else:}}
+                          <br><div class="alert alert-info"> No hay actividades.</div>
+                        {{pass}}
+                      <div class="list-group-item">
+                        Estado del estudiante: 
+                        {{if proyecto.f_estado != "Retirado": }}
+                          <span style="color:green; font-weight: bold;"> {{=proyecto.f_estado}} </span>
+                          {{else:}}
+                          <span style="color:red; font-weight: bold;">{{=proyecto.f_estado}}</span>
+                          {{pass}}
+                      </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+    </div>
+    
+  {{ pass }}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".completar_actividad").click(function(){ 
+            var act = $(this);
+        $.ajax({
+          url:'confirmar_actividad?id=' + this.id
+        }).done(function(data) {
+                act.parent().find(".realizada_actividad").prop("innerHTML",'<span class="glyphicon glyphicon-ok" style="color:green;"></span>');
+        });     
+      });
+  });
+</script> 
+{{ end }}

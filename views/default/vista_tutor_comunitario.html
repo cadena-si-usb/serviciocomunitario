@@ -1,0 +1,79 @@
+{{ extend 'base.html'}}
+{{ block contenido }}
+
+  <style type="text/css">
+
+  </style>
+
+  
+    <!-- Contenido -->
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-md-11">
+                
+                <!-- <h4 style="color:#4682B4">SIGESC / Home / Admin </h4> -->
+                <h4 style="color:#4682B4"> SIGESC / Home / Tutor comunitario </h4>
+                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
+                {{ block vista_actores_detalles }}
+                {{ end }}
+                <a href="{{=URL('/perfil')}}">Ver perfil</a>
+                <hr>
+            </div>
+            <div class="col-md-1" align="right">
+                <a href="{{=URL('logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-10">
+      {{ block funciones_vista_actores }}
+        
+        
+        
+         
+        <div class="row">
+            <div class="col-md-4">
+                <img class="img-responsive" src="{{=URL('static', 'proyects2.png')}}" height="155" width="265"/>
+            </div>
+            <div class="col-md-4">
+                <a href="{{=URL('proyectos_tutor_comunitario')}}'"> <h3>Proyectos</h3></a>
+                 <p style="color: #808080">
+                   Ver lista de las sedes existentes<br>
+                   de la Universidad Simón Bolívar.<br>
+                   Agregar una nueva sede de la USB.<br>
+                   Eliminar/Desactivar una sede de la USB.
+                </p>
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                      <button onclick="location.href='{{=URL('proyectos_tutor_comunitario')}}'" class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
+                          Ir a Proyectos  >> </button>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        
+        
+         {{ end }}
+        <hr>
+    </div>
+    
+    <div class="col-md-2 admin"  align="right">
+        <div class="row">
+            <br><img class="img-responsive" src="{{=URL('static', 'somosUsb.png')}}" height="50" width="150"/><br>
+        </div>
+        <div class="row">
+            <br><br><img class="img-responsive" src="{{=URL('static', 'calendario.png')}}" height="50" width="150"/><br>
+        </div>
+        <div class="row">
+            <br><br><img class="img-responsive" src="{{=URL('static', 'preguntas.png')}}" height="50" width="150"/><br>
+        </div>
+        <div class="row">
+            <br><br><img class="img-responsive" src="{{=URL('static', 'reglamento.png')}}" height="50" width="150"/><br>
+        </div>
+        <div class="row">
+            <br><br><img class="img-responsive" src="{{=URL('static', 'aporte.png')}}" height="50" width="150"/><br>
+        </div>
+    </div>
+
+{{ end }}

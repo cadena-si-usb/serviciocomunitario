@@ -1,0 +1,72 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Usuarios</h2>
+        <table class="table table-condensed" id="estuds">
+            <thead>
+                <tr>
+                    <th> Usuario</i></th>
+                    <th align="right">Nombres y Apellidos</th>
+                    <th align="right">Email</th>
+                    <th align="right">Telefono</th>
+                    <th align="right"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for usuario in registrados:}}
+
+                <tr>
+                    <td>
+                        {{=usuario.username}}
+                    </td>
+                    <td>
+                        {{=usuario.first_name}} {{=usuario.last_name}}
+                    </td>
+                    <td>
+                        {{=usuario.email}}
+                    </td>
+                    <td>
+                        {{=usuario.f_telefono}}
+                    </td>
+                    <td>
+                    <a class="enlace" onclick="mostrarDetallesUsuario('{{=usuario.id}}')" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-search"></i></a>
+                    </td>
+
+                    <td>
+                    <div style="display:none" >
+                    <input name="idusuario" value={{=usuario.id}} /></div>
+                    <a class="enlace" onclick="confirmarEliminar('{{=usuario.id}}')"><i class="glyphicon glyphicon-remove"></i></a>
+                    </td>
+                </tr>
+                {{ pass }}
+          </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row container">
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Información Usuario</h4>
+        </div>
+        <div class="modal-body">
+          <div id="detalles-usuario"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+
