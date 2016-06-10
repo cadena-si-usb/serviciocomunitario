@@ -9,6 +9,7 @@
                     <th align="right">Estado</th>
                     <th align="right"></th>
                     <th align="right"></th>
+                    <th align="right"></th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +31,9 @@
 
                     <td>
                     <a class="enlace" onclick="confirmarEliminarArea('{{=area.id}}')"><i class="glyphicon glyphicon-remove"></i></a>
+                    </td>
+                    <td>
+                    <a class="enlace" onclick="editarArea('{{=area.id}}')"><i class="glyphicon glyphicon-pencil"></i></a>
                     </td>
                 </tr>
                 {{ pass }}

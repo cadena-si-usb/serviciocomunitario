@@ -911,6 +911,12 @@ def proyectos_tutor_comunitario():
     return dict(bienvenida=msj,proyectos=proyectos)
 
 
+def proyectos_tutor_academico():
+    tutor     = db.auth_user(auth.user_id)
+    msj       = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
+    proyectos = db(db.t_proyecto_tutor.f_tutor==tutor).select()
+    return dict(bienvenida=msj,proyectos=proyectos)
+
 def proyecto_tutor_academico():
     tutor       = db.auth_user(auth.user_id)
     id_proy     = request.vars.proy
@@ -918,7 +924,6 @@ def proyecto_tutor_academico():
     msj         = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     estudiantes = db(db.t_estudiante.id==db.t_cursa.f_estudiante)(db.t_cursa.f_proyecto==id_proy).select()
     return dict(estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
-
 
 def proyecto_tutor_comunitario():
     tutor       = db.auth_user(auth.user_id)
