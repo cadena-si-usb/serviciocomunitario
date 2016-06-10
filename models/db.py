@@ -281,4 +281,3 @@ auth.messages.invalid_login = 'Login invalido'
 auth.messages.invalid_user = 'Usuario invalido'
 auth.messages.is_empty = "No puede tener campos vacios"
 auth.messages.mismatched_password = "Las contraseñas con coinciden"
->>>>>>> origin/david
