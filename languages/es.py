@@ -167,7 +167,10 @@
 'Deployment Recipes': 'Recetas de despliegue',
 'Descripcion': 'Descripcion',
 'Descripción': 'Descripción',
+<<<<<<< HEAD
 'Descripcíon': 'Descripcíon',
+=======
+>>>>>>> origin/david
 'Description': 'Descripción',
 'design': 'diseño',
 'DESIGN': 'DISEÑO',
@@ -256,6 +259,10 @@
 'help': 'ayuda',
 'Home': 'Inicio',
 'horas': 'horas',
+<<<<<<< HEAD
+=======
+'Horas a realizar': 'Horas a realizar',
+>>>>>>> origin/david
 'How did you get here?': '¿Cómo llegaste aquí?',
 'htmledit': 'htmledit',
 'Id': 'Id',

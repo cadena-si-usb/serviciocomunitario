@@ -1,0 +1,25 @@
+<head>
+	<script type="text/javascript">
+
+	$(document).ready(function(){
+		$('#btn-prueba').on('click', function(){
+			$(location).attr('href','{{=URL(r=request,f='enviarPlanTrabajo',args=[idProyecto,estudianteID])}}');
+		});
+	  }
+	)
+	</script>
+</head>
+{{ extend 'base.html' }}
+{{ block contenido }}
+<h4 style="color:#4682B4"> <a href="{{=URL('vista_proponente')}}">Home</a> / Proyectos Registrados / Solicitudes / Plan de Actividades</h4>
+<h4 style="color:#4682B4">{{=bienvenida}}</h4>
+<div class="col-md-1 botones">
+	<button type="button" onclick="location.href='{{=URL('solicitudes_tutor')}}'" align="left" class="btn btn-lg0 btn-default perfil">
+		<h class="tittle-accion">Volver</h>
+	</button>
+</div>
+
+<div class="col-md-10" style="margin-left: 6%;">
+	<h2 class="detalles"><b>{{=mensaje}}</b></h2>
+</div>
+{{ end }}

@@ -11,7 +11,9 @@
                 <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
             <div class="col-md-6" align="left">
+
                <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> /<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> / Retirar Proyecto</h4>
+
                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
 
             </div>
@@ -33,16 +35,19 @@
                       <a href="{{=URL('propuestas')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>
                       {{if proyecto:}}
-                          <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.id])}}">
+
+                          <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.f_proyecto])}}">
                               <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
                           <a href="{{=URL('estado_estudiante')}}">
                              <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Estado de Inscripción</a>
                           {{if (proyecto.f_estado=='Aprobado') and (proyecto.f_valido=='Valido'):}}
-                              <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.id])}}">
+
+                              <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.f_proyecto])}}">
                                   <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
-                             <a href="{{=URL('retirar_proyecto',args=[proyecto.id])}}">
+                             <a href="{{=URL('retirar_proyecto',args=[proyecto.f_proyecto])}}">
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Retirar</a>
-                             <a href="{{=URL('culminar_proyecto',args=[proyecto.id])}}">
+                             <a href="{{=URL('culminar_proyecto',args=[proyecto.f_proyecto])}}">
+
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Culminar</a>
                           {{elif (proyecto.f_estado=='Retirado') and (proyecto.f_valido=='Valido'):}}
                               <a target="_blank" href="{{=URL('generarPdfConstanciaRetiro',args=[estudiante.id,proyecto.f_proyecto.id])}}">
@@ -71,19 +76,22 @@
               </div>
                 <a target="_blank" href="{{=URL('generarPdfConstanciaRetiro',args=[estudiante.id,proyecto.f_proyecto])}}">
                 <button type="button" class="btn btn-primary">Imprimir constancia</button></a>
-            {{elif 40>horas:}}
+
+            <!--{{elif 40>horas:}}
                 <div class="alert alert-warning" >
                   <p>No puede retirar el proyecto si tiene menos de 40 horas realizadas.</p>
-                </div>
+                </div>-->
             {{elif proyecto.f_estado=='Culminado':}}
                 <div class="alert alert-warning" >
-                  <p>Usted ya ha culminado su servicion comunitario.</p>
+                  <p>Usted ya ha culminado su servicio comunitario.</p>
                 </div>
             {{else:}}
                 <div class="alert alert-warning" >
-                  <p>¿Esta seguro de retirar el proyecto {{=proyecto.f_proyecto.f_nombre}}?</p>
+                  <p>¿Está seguro de retirar el proyecto {{=proyecto.f_proyecto.f_nombre}}?</p>
                 </div>
-                <button type="button" class="retirar btn btn-primary" id="{{=estudiante.id}}">Si</button>
+                <a href="{{=URL('retiro',args=[estudiante.id,proyecto.f_proyecto])}}">
+                    <button type="button" class="retirar btn btn-primary" id="{{=estudiante.id}}">Sí</button>
+                </a>
             {{ pass }}
 
           </div>

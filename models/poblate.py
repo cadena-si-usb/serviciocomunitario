@@ -17,6 +17,7 @@ if len(db().select(db.auth_group.ALL)) == 0:
         role='Administrador',
         description='Administrador',
     )
+
 if len(db().select(db.t_area.ALL)) == 0:
     db.t_area.insert(
         f_nombre='Ambiental',

@@ -10,10 +10,13 @@ $(document).ready(function() {
 			    placeholder: 'Seleccione uno o más tutores'
 			});
 		}
+
         function process(date){
             var parts = date.split("/");
             return new Date(parts[2], parts[1] - 1, parts[0]);
         }
+
+
 		function enviarPropuesta(accion) {
 			pag = parseInt($("#siguiente").data('pag'));
 
@@ -221,6 +224,7 @@ $(document).ready(function() {
                     }
                 }
             }
+
 		})
 
 

@@ -44,7 +44,9 @@
                           {{elif (cursa.f_valido=='Pendiente') and (aprob_tutor=='Aprobado'):}}
                                  <a class="btn disabled" style="margin-left: -61px;" href="#">
                                      <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
-                                 <a class="" style="margin-left: 0px;" target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
+
+                                 <a class="btn disabled" style="margin-left: 0px;" target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
+
                                      <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
                                  <a class="btn disabled" style="margin-left: -149px;"href="#">
                                      <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>

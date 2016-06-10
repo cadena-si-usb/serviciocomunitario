@@ -1,0 +1,835 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> 'NoneType' object has no attribute 'f_estado'"
+p3
+sS'layer'
+p4
+S'/home/www-data/web2py/applications/SIGESC/views/default/retirar_proyecto.html'
+p5
+sS'code'
+p6
+S'response.write(\'<!--{% load staticfiles %}-->\\n<!DOCTYPE html>\\n<html>\\n<head>\\n\\t<meta charset="utf-8">\\n\\t<meta https-equiv="Content-Type" content="text/html; charset=UTF-8">\\n\\t<meta https-equiv="X-UA-Compatible" content="IE=edge">\\n\\t<meta name="viewport" content="width=device-width, initial-scale=1.0">\\n\\t<title>CFCG</title>\\n\\n\\t<!-- Compiled and minified CSS -->\\n\\t<link href="\', escape=False)\nresponse.write(URL(\'static\', \'css/bootstrap.min.css\'))\nresponse.write(\'" rel="stylesheet" />\\n\\t<!-- Optional theme -->\\n\\t<link href="\', escape=False)\nresponse.write(URL(\'static\', \'css/bootstrap-theme.min.css\'))\nresponse.write(\'" rel="stylesheet" />\\n\\t<link href="\', escape=False)\nresponse.write(URL(\'static\', \'css/theme.css\'))\nresponse.write(\'" rel="stylesheet">\\n\\n\\t<!-- Latest compiled and minified JavaScript -->\\n    <script type="text/javascript" src="\', escape=False)\nresponse.write(URL(\'static\', \'js/jquery.js\'))\nresponse.write(\'"></script>\\n    <script type="text/javascript" src="\', escape=False)\nresponse.write(URL(\'static\', \'js/bootstrap.js\'))\nresponse.write(\'"></script>\\n\\n    <link href="\', escape=False)\nresponse.write(URL(\'static\', \'fonts/glyphicons-halflings-regular.svg\'))\nresponse.write(\'" rel="stylesheet"/>\\n    <link href="\', escape=False)\nresponse.write(URL(\'static\', \'fonts/glyphicons-halflings-regular.eot\'))\nresponse.write(\'" rel="stylesheet" />\\n\\n    <link href="\', escape=False)\nresponse.write(URL(\'static\', \'fonts/glyphicons-halflings-regular.ttf\'))\nresponse.write(\'" rel="stylesheet" />\\n    <link href="\', escape=False)\nresponse.write(URL(\'static\', \'fonts/glyphicons-halflings-regular.woff\'))\nresponse.write(\'" rel="stylesheet" />\\n    <link href="\', escape=False)\nresponse.write(URL(\'static\', \'fonts/glyphicons-halflings-regular.woff2\'))\nresponse.write(\'" rel="stylesheet" />\\n\\n</head>\\n<body>\\n\\t<header>\\n\\t\\t<div align="center">\\n\\t\\t\\t\\t<img src="\', escape=False)\nresponse.write(URL(\'static\', \'img/top.png\'))\nresponse.write(\'" class="img-responsive" alt="top" width="73%">\\n\\t\\t\\t</a>\\n\\t\\t</div>\\n\\t\\t<div class="container" style="width: 75%;">\\n\\t\\t\\t<nav class="navbar navbar-inverse" style="border-color:#3498DB;">\\n\\t\\t\\t  <div class="container-fluid" style="background-color:#3498DB;">\\n\\t\\t\\t    <div class="navbar-header">\\n\\t\\t\\t      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" style="border-color:#fff;">\\n\\t\\t\\t        <span class="icon-bar"></span>\\n\\t\\t\\t        <span class="icon-bar"></span>\\n\\t\\t\\t        <span class="icon-bar"></span>\\n\\t\\t\\t      </button>\\n\\t\\t\\t      \', escape=False)\nif auth.has_membership(\'Estudiantes\'):\n    response.write(\'\\n\\t\\t\\t      <a class="navbar-brand" href="\', escape=False)\n    response.write(URL(\'vista_estudiante\'))\n    response.write(\'"><span class="glyphicon glyphicon-home"></span></a>\\n\\t\\t\\t      \', escape=False)\nelif auth.has_membership(\'Proponentes\'):\n    response.write(\'\\n\\t\\t\\t      <a class="navbar-brand" href="\', escape=False)\n    response.write(URL(\'vista_proponente\'))\n    response.write(\'"><span class="glyphicon glyphicon-home"></span></a>\\n\\t\\t\\t      \', escape=False)\nelse:\n    response.write(\'\\n\\t\\t\\t      <a class="navbar-brand" href="\', escape=False)\n    response.write(URL(\'\'))\n    response.write(\'"><span class="glyphicon glyphicon-home"></span></a>\\n\\t\\t\\t      \', escape=False)\n    pass\nresponse.write(\'\\n\\t\\t\\t    </div>\\n\\t\\t\\t    <div class="collapse navbar-collapse" id="myNavbar">\\n\\t\\t\\t      <ul class="nav navbar-nav">\\n\\t\\t\\t        <li><a href="#">\\xc2\\xbfQui\\xc3\\xa9nes somos?</a></li>\\n\\t\\t\\t        <li><a href="#">Formatos SC</a></li>\\n\\t\\t\\t        <li><a href="#">Reglamentos SC</a></li>\\n\\t\\t\\t        <li><a href="#">Decanato de extensi\\xc3\\xb3n</a></li>\\n\\t\\t\\t        <li><a href="#">Proyectos</a></li>\\n\\t\\t\\t      </ul>\\n\\t\\t\\t    </div>\\n\\t\\t\\t  </div>\\n\\t\\t\\t</nav>\\n\\t\\t</div>\\n\\t</header>\\n\\n\\t<div class="container" style="width: 75%;">\\n\\t\\t\', escape=False)\nresponse.write(\'\\n<html lang="en">\\n  <head>\\n    <script type="text/javascript" src="\', escape=False)\nresponse.write(URL(\'static\', \'js/jquery-1.11.2.js\'))\nresponse.write(\'"></script>      \\n  </head>\\n   <body role="document">\\n       <div class="col-sm-12">\\n        <div class="row">\\n            <div class="col-md-2">\\n                <img src="\', escape=False)\nresponse.write(URL(\'static\', \'estudiantes.png\'))\nresponse.write(\'" class="img-responsive" width="150" height="110"/>\\n            </div>\\n            <div class="col-md-6" align="left">\\n               <h4 style="color:#4682B4">SIGESC / <a href="\', escape=False)\nresponse.write(URL(\'home\'))\nresponse.write(\'">Home</a> /<a href="\', escape=False)\nresponse.write(URL(\'home\'))\nresponse.write(\'"> Estudiante </a> / Retirar Proyecto</h4>\\n               <h4 style="color:#4682B4">\', escape=False)\nresponse.write(bienvenida)\nresponse.write(\'</h4>\\n\\n            </div>\\n            <div class="col-md-4" align="right">\\n                <a href="\', escape=False)\nresponse.write(URL(\'default\', \'logout\'))\nresponse.write(\'"> Salir <img src="\', escape=False)\nresponse.write(URL(\'static\', \'img/salida_icon.png\'))\nresponse.write(\'"/></a>\\n            </div>\\n        </div>\\n        <hr>\\n    </div>\\n\\n   <div class="col-sm-12">\\n       <div class="col-md-4">\\n           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Men\\xc3\\xba</h4>\\n            <hr>\\n             <ul class="nav nav-stacked">\\n                <li>\\n                      <a href="\', escape=False)\nresponse.write(URL(\'editar_perfil\'))\nresponse.write(\'">\\n                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Editar Perfil</a>\\n                      <a href="\', escape=False)\nresponse.write(URL(\'propuestas\'))\nresponse.write(\'">\\n                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>\\n                      \', escape=False)\nif proyecto:\n    response.write(\'\\n                          <a target="_blank" href="\', escape=False)\n    response.write(URL(\'generarPdfConstanciaInicio\',args=[estudiante.id,proyecto.id]))\n    response.write(\'">\\n                              <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>\\n                          <a href="\', escape=False)\n    response.write(URL(\'estado_estudiante\'))\n    response.write(\'">\\n                             <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Estado de Inscripci\\xc3\\xb3n</a>\\n                          \', escape=False)\n    if (proyecto.f_estado==\'Aprobado\') and (proyecto.f_valido==\'Valido\'):\n        response.write(\'\\n                              <a target="_blank" href="\', escape=False)\n        response.write(URL(\'generarPdfConstanciaInicio\',args=[estudiante.id,proyecto.id]))\n        response.write(\'">\\n                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>\\n                             <a href="\', escape=False)\n        response.write(URL(\'retirar_proyecto\',args=[proyecto.id]))\n        response.write(\'">\\n                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Retirar</a>\\n                             <a href="\', escape=False)\n        response.write(URL(\'culminar_proyecto\',args=[proyecto.f_proyecto]))\n        response.write(\'">\\n                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Culminar</a>\\n                          \', escape=False)\n    elif (proyecto.f_estado==\'Retirado\') and (proyecto.f_valido==\'Valido\'):\n        response.write(\'\\n                              <a target="_blank" href="\', escape=False)\n        response.write(URL(\'generarPdfConstanciaRetiro\',args=[estudiante.id,proyecto.f_proyecto.id]))\n        response.write(\'">\\n                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Retiro</a>\\n                          \', escape=False)\n    elif (proyecto.f_estado==\'Culminado\') and (proyecto.f_valido==\'Valido\'):\n        response.write(\'\\n                              <a target="_blank" href="\', escape=False)\n        response.write(URL(\'generarPdfConstanciaCulminacion\',args=[estudiante.id,proyecto.f_proyecto.id]))\n        response.write(\'">\\n                                 <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Culminaci\\xc3\\xb3n</a>\\n                          \', escape=False)\n    else:\n        response.write(\'\\n                              <a class="btn disabled" style="margin-left: -61px;" href="#">\\n                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>\\n                          \', escape=False)\n        pass\n    response.write(\'\\n                      \', escape=False)\nelse:\n    response.write(\'\\n                        <a href="\', escape=False)\n    response.write(URL(r=request,f=\'estudianteInscribeProyectos\',args=estudiante.id))\n    response.write(\'">\\n                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>\\n                      \', escape=False)\n    pass\nresponse.write(\'\\n                 </li>\\n             </ul>\\n       </div>\\n        \', escape=False)\nif globals().get(\'msj\', False):\n    response.write(\' <p><strong>\', escape=False)\n    response.write(msj)\n    response.write(\'</strong></p>\\n        \', escape=False)\nelse:\n    response.write(\'\\n        <div class="col-md-8">\\n          <div class="row" style="text-align: center;">\\n            \', escape=False)\n    if proyecto.f_estado==\'Retirado\':\n        response.write(\'\\n              <div class="alert alert-info">\\n                <p>Su proyecto ha sido retirado.</p>\\n              </div>\\n                <a target="_blank" href="\', escape=False)\n        response.write(URL(\'generarPdfConstanciaRetiro\',args=[estudiante.id,proyecto.f_proyecto]))\n        response.write(\'">\\n                <button type="button" class="btn btn-primary">Imprimir constancia</button></a>\\n            <!--\', escape=False)\n    elif 40>horas:\n        response.write(\'\\n                <div class="alert alert-warning" >\\n                  <p>No puede retirar el proyecto si tiene menos de 40 horas realizadas.</p>\\n                </div>-->\\n            \', escape=False)\n    elif proyecto.f_estado==\'Culminado\':\n        response.write(\'\\n                <div class="alert alert-warning" >\\n                  <p>Usted ya ha culminado su servicio comunitario.</p>\\n                </div>\\n            \', escape=False)\n    else:\n        response.write(\'\\n                <div class="alert alert-warning" >\\n                  <p>\\xc2\\xbfEst\\xc3\\xa1 seguro de retirar el proyecto \', escape=False)\n        response.write(proyecto.f_proyecto.f_nombre)\n        response.write(\'?</p>\\n                </div>\\n                <a href="\', escape=False)\n        response.write(URL(\'retiro\',args=[estudiante.id,proyecto.f_proyecto]))\n        response.write(\'">\\n                    <button type="button" class="retirar btn btn-primary" id="\', escape=False)\n        response.write(estudiante.id)\n        response.write(\'">S\\xc3\\xad</button>\\n                </a>\\n            \', escape=False)\n        pass\n    response.write(\'\\n\\n          </div>\\n  </div>\\n  \', escape=False)\n    pass\nresponse.write(\'\\n\\n<script type="text/javascript">\\n  $(document).ready(function(){\\n    $(".retirar").click(function(){ \\n        var a = window.location.host; \\n        $.ajax("http://"+a+"/SIGESC/default/retiro", {\\n          data: {\\\'id\\\': this.id},\\n        }).done(function(data) {location.reload();});     \\n      });\\n  });\\n</script> \\n\\n\', escape=False)\nresponse.write(\'\\n\\t</div>\\n\\n\\n<footer style="margin-top: 5%">\\n<div align="">\\n\\t<div>\\n\\t\\t<div>\\n\\t\\t\\t<div>\\n\\t\\t\\t\\t<table align="center" border="0" cellpadding="1" cellspacing="1"><tbody><tr><td valign="bottom" width="95">\\n\\t\\t\\t\\t<a href="https://www.usb.ve"><img alt="" src="\', escape=False)\nresponse.write(URL(\'static\', \'cebolla.jpg\'))\nresponse.write(\'"></a></td>\\n\\t\\t\\t\\t<td valign="bottom">\\n\\t\\t\\t\\t<a href="https://www.usb.ve/estudios/calendario.html" target="_blank">Calendario </a>|<a href="https://www.usb.ve/telefonico/telefonico.php?tipo=personal" target="_blank"> Directorio USB </a>|<a href="https://asignaturas.usb.ve/" target="_blank"> Aula Virtual USB</a> |<a href="https://webmail.usb.ve/" target="_blank"> Webmail</a>|<a href="https://www.usb.ve/buscador.php" target="_blank"> Buscador</a> |<br>\\n\\t\\t\\t\\tSartenejas, Baruta, Edo. Miranda - Apartado 89000 - Cable Unibolivar - Caracas Venezuela. Telefono +58 0212-9063111<br>\\n\\t\\t\\t\\tDisenada y desarrollada por la Direccion de Servicios Multimedia <a href="mailto:webmaster@usb.ve">webmaster@usb.ve</a></td>\\n\\t\\t\\t\\t</tr></tbody></table><p>\\n\\t\\t\\t\\t&nbsp;</p>\\n\\t\\t\\t</div>\\n\\t\\t</div>\\n\\t</div>\\n</div>\\n</footer>\\n</body>\\n\', escape=False)'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__hash__'
+p12
+S"<method-wrapper '__hash__' of exceptions.AttributeError object>"
+p13
+sS'__setattr__'
+p14
+S"<method-wrapper '__setattr__' of exceptions.AttributeError object>"
+p15
+sS'__reduce_ex__'
+p16
+S'<built-in method __reduce_ex__ of exceptions.AttributeError object>'
+p17
+sS'__getslice__'
+p18
+S"<method-wrapper '__getslice__' of exceptions.AttributeError object>"
+p19
+sS'__getitem__'
+p20
+S"<method-wrapper '__getitem__' of exceptions.AttributeError object>"
+p21
+sS'__setstate__'
+p22
+S'<built-in method __setstate__ of exceptions.AttributeError object>'
+p23
+sS'args'
+p24
+S'("\'NoneType\' object has no attribute \'f_estado\'",)'
+p25
+sS'__reduce__'
+p26
+S'<built-in method __reduce__ of exceptions.AttributeError object>'
+p27
+sS'__str__'
+p28
+S"<method-wrapper '__str__' of exceptions.AttributeError object>"
+p29
+sS'__format__'
+p30
+S'<built-in method __format__ of exceptions.AttributeError object>'
+p31
+sS'__getattribute__'
+p32
+S"<method-wrapper '__getattribute__' of exceptions.AttributeError object>"
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.AttributeError'>"
+p35
+sS'__unicode__'
+p36
+S'<built-in method __unicode__ of exceptions.AttributeError object>'
+p37
+sS'__delattr__'
+p38
+S"<method-wrapper '__delattr__' of exceptions.AttributeError object>"
+p39
+sS'__subclasshook__'
+p40
+S'<built-in method __subclasshook__ of type object>'
+p41
+sS'__repr__'
+p42
+S"<method-wrapper '__repr__' of exceptions.AttributeError object>"
+p43
+sS'__dict__'
+p44
+S'{}'
+p45
+sS'__sizeof__'
+p46
+S'<built-in method __sizeof__ of exceptions.AttributeError object>'
+p47
+sS'__doc__'
+p48
+S"'Attribute not found.'"
+p49
+sS'__init__'
+p50
+S"<method-wrapper '__init__' of exceptions.AttributeError object>"
+p51
+sS'__new__'
+p52
+S'<built-in method __new__ of type object>'
+p53
+ssS'evalue'
+p54
+S"'NoneType' object has no attribute 'f_estado'"
+p55
+sS'request'
+p56
+cgluon.html
+XML_unpickle
+p57
+(S's\x1cq\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>SIGESC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>12</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>186.90.59.99</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>default</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>186.90.59.99-549f9cb9-7ce6-4e4a-8bec-cc45dd4258b4<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_sigesc</td><td style="vertical-align:top;">:</td><td><div>186.90.59.99-61e06ca1-74bc-4019-8f69-76a5b783a96f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTEXT_DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/var/www/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTEXT_PREFIX</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/var/www/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">GATEWAY_INTERFACE</td><td style="vertical-align:top;">:</td><td><div>CGI/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch, br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>es-ES,es;q=0.8,en;q=0.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>_ga=GA1.2.286164031.1456444264; __utma=69842068.286164031.1456444264.1456444264.1462999129.2; __utmz=69842068.1456444264.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utma=158998949.286164031.1456444264.1463448840.1463448840.1; __utmz=158998949.1463448840.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); session_id_admin=186.90.59.99-549f9cb9-7ce6-4e4a-8bec-cc45dd4258b4; session_id_sigesc=186.90.59.99-61e06ca1-74bc-4019-8f69-76a5b783a96f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>persevera.dex.usb.ve</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>https://persevera.dex.usb.ve/SIGESC/default/retirar_proyecto/3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/SIGESC/default/retirar_proyecto/12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_TRANSLATED</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py/SIGESC/default/retirar_proyecto/12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>186.90.59.99</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>52752</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_SCHEME</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_URI</td><td style="vertical-align:top;">:</td><td><div>/SIGESC/default/retirar_proyecto/12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_FILENAME</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_ADDR</td><td style="vertical-align:top;">:</td><td><div>159.90.211.174</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_ADMIN</td><td style="vertical-align:top;">:</td><td><div>[no address given]</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>persevera.dex.usb.ve</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SIGNATURE</td><td style="vertical-align:top;">:</td><td><div>&lt;address&gt;Apache/2.4.10 (Debian) Server at persevera.dex.usb.ve Port 443&lt;/address&gt;\n</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Apache/2.4.10 (Debian)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SSL_TLS_SNI</td><td style="vertical-align:top;">:</td><td><div>persevera.dex.usb.ve</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">apache.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>2</div></td></tr><tr><td><div>4</div></td></tr><tr><td><div>10</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">apache_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>2</div></td></tr><tr><td><div>4</div></td></tr><tr><td><div>10</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/www-data/web2py/applications/welcome/&#x27;, &#x27;/home/www-data/web2py/applications/SIGESC/&#x27;, &#x27;/home/www-data/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">context_document_root</td><td style="vertical-align:top;">:</td><td><div>/var/www/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">context_prefix</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">document_root</td><td style="vertical-align:top;">:</td><td><div>/var/www/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gateway_interface</td><td style="vertical-align:top;">:</td><td><div>CGI/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch, br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>es-ES,es;q=0.8,en;q=0.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>_ga=GA1.2.286164031.1456444264; __utma=69842068.286164031.1456444264.1456444264.1462999129.2; __utmz=69842068.1456444264.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utma=158998949.286164031.1456444264.1463448840.1463448840.1; __utmz=158998949.1463448840.1.1.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); session_id_admin=186.90.59.99-549f9cb9-7ce6-4e4a-8bec-cc45dd4258b4; session_id_sigesc=186.90.59.99-61e06ca1-74bc-4019-8f69-76a5b783a96f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>persevera.dex.usb.ve</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>https://persevera.dex.usb.ve/SIGESC/default/retirar_proyecto/3</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>persevera</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>persevera.dex.usb.ve</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.application_group</td><td style="vertical-align:top;">:</td><td><div>persevera.dex.usb.ve|</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.callable_object</td><td style="vertical-align:top;">:</td><td><div>application</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.daemon_connects</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.daemon_restarts</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.daemon_start</td><td style="vertical-align:top;">:</td><td><div>1464406641900289</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.enable_sendfile</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.handler_script</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.input_chunked</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.listener_host</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.listener_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.process_group</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.queue_start</td><td style="vertical-align:top;">:</td><td><div>1464406641900176</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.request_handler</td><td style="vertical-align:top;">:</td><td><div>wsgi-script</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.request_start</td><td style="vertical-align:top;">:</td><td><div>1464406641899978</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.script_reloading</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.script_start</td><td style="vertical-align:top;">:</td><td><div>1464406641900338</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>4</div></td></tr><tr><td><div>3</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_application_group</td><td style="vertical-align:top;">:</td><td><div>persevera.dex.usb.ve|</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_callable_object</td><td style="vertical-align:top;">:</td><td><div>application</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_daemon_connects</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_daemon_restarts</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_daemon_start</td><td style="vertical-align:top;">:</td><td><div>1464406641900289</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_enable_sendfile</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_handler_script</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_input_chunked</td><td style="vertical-align:top;">:</td><td><div>0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_listener_host</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_listener_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_process_group</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_queue_start</td><td style="vertical-align:top;">:</td><td><div>1464406641900176</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_request_handler</td><td style="vertical-align:top;">:</td><td><div>wsgi-script</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_request_start</td><td style="vertical-align:top;">:</td><td><div>1464406641899978</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_script_reloading</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_script_start</td><td style="vertical-align:top;">:</td><td><div>1464406641900338</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">mod_wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>4</div></td></tr><tr><td><div>3</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/SIGESC/default/retirar_proyecto/12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_translated</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py/SIGESC/default/retirar_proyecto/12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>186.90.59.99</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>52752</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/SIGESC/default/retirar_proyecto/12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_filename</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/wsgihandler.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_addr</td><td style="vertical-align:top;">:</td><td><div>159.90.211.174</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_admin</td><td style="vertical-align:top;">:</td><td><div>[no address given]</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>persevera.dex.usb.ve</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_signature</td><td style="vertical-align:top;">:</td><td><div>&lt;address&gt;Apache/2.4.10 (Debian) Server at persevera.dex.usb.ve Port 443&lt;/address&gt;\n</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Apache/2.4.10 (Debian)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">ssl_tls_sni</td><td style="vertical-align:top;">:</td><td><div>persevera.dex.usb.ve</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Log object at 0x7f5c93901d68&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;type &#x27;mod_wsgi.FileWrapper&#x27;&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Input object at 0x7f5c893a7570&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Log object at 0x7f5c93901d68&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;type &#x27;mod_wsgi.FileWrapper&#x27;&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;mod_wsgi.Input object at 0x7f5c893a7570&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/applications/SIGESC/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>retirar_proyecto</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/www-data/web2py/applications/welcome/&#x27;, &#x27;/home/www-data/web2py/applications/SIGESC/&#x27;, &#x27;/home/www-data/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>persevera</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>persevera.dex.usb.ve</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 27, 23, 7, 21, 900485)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div>12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/SIGESC/default/retirar_proyecto/12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 28, 3, 37, 21, 900507)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f5c8928ef50&gt;</div></td></tr></table></div>'
+tRp58
+sS'frames'
+p59
+(lp60
+(dp61
+S'file'
+p62
+S'/home/www-data/web2py/gluon/restricted.py'
+p63
+sS'dump'
+p64
+(dp65
+S'environment'
+p66
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}"
+p67
+sS'ccode'
+p68
+S'<code object <module> at 0x7f5c896ca2b0, file "/...ESC/views/default/retirar_proyecto.html", line 1>'
+p69
+ssS'lnum'
+p70
+I227
+sS'lines'
+p71
+(dp72
+I224
+S'            ccode = code'
+p73
+sI225
+S'        else:'
+p74
+sI226
+S'            ccode = compile2(code, layer)'
+p75
+sI227
+S'        exec ccode in environment'
+p76
+sI228
+S'    except HTTP:'
+p77
+sI229
+S'        raise'
+p78
+sI230
+S'    except RestrictedError:'
+p79
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p80
+sI222
+S'    try:'
+p81
+sI223
+S'        if isinstance(code, types.CodeType):'
+p82
+ssS'call'
+p83
+S'(code=r"response.write(\'<!--{% load staticfiles %}-->\\n<...iv>\\n</div>\\n</footer>\\n</body>\\n\', escape=False)", environment={\'A\': <class \'gluon.html.A\'>, \'ANY_OF\': <class \'gluon.validators.ANY_OF\'>, \'ASSIGNJS\': <function ASSIGNJS>, \'Auth\': <class \'gluon.tools.Auth\'>, \'B\': <class \'gluon.html.B\'>, \'BEAUTIFY\': <class \'gluon.html.BEAUTIFY\'>, \'BODY\': <class \'gluon.html.BODY\'>, \'BR\': <class \'gluon.html.BR\'>, \'BUTTON\': <class \'gluon.html.BUTTON\'>, \'CAT\': <class \'gluon.html.CAT\'>, ...}, layer=\'/home/www-data/web2py/applications/SIGESC/views/default/retirar_proyecto.html\')'
+p84
+sS'func'
+p85
+S'restricted'
+p86
+sa(dp87
+g62
+S'/home/www-data/web2py/applications/SIGESC/views/default/retirar_proyecto.html'
+p88
+sg64
+(dp89
+S'builtintype'
+p90
+S"<type 'type'>"
+p91
+sS'script'
+p92
+S'undefined'
+p93
+ssg70
+I95
+sg71
+(dp94
+I96
+S'        response.write(\'\\n              <div class="alert alert-info">\\n                <p>Su proyecto ha sido retirado.</p>\\n              </div>\\n                <a target="_blank" href="\', escape=False)'
+p95
+sI97
+S"        response.write(URL('generarPdfConstanciaRetiro',args=[estudiante.id,proyecto.f_proyecto]))"
+p96
+sI98
+S'        response.write(\'">\\n                <button type="button" class="btn btn-primary">Imprimir constancia</button></a>\\n            <!--\', escape=False)'
+p97
+sI99
+S'    elif 40>horas:'
+p98
+sI100
+S'        response.write(\'\\n                <div class="alert alert-warning" >\\n                  <p>No puede retirar el proyecto si tiene menos de 40 horas realizadas.</p>\\n                </div>-->\\n            \', escape=False)'
+p99
+sI101
+S"    elif proyecto.f_estado=='Culminado':"
+p100
+sI102
+S'        response.write(\'\\n                <div class="alert alert-warning" >\\n                  <p>Usted ya ha culminado su servicio comunitario.</p>\\n                </div>\\n            \', escape=False)'
+p101
+sI103
+S'    else:'
+p102
+sI104
+S'        response.write(\'\\n                <div class="alert alert-warning" >\\n                  <p>\\xc2\\xbfEst\\xc3\\xa1 seguro de retirar el proyecto \', escape=False)'
+p103
+sI105
+S'        response.write(proyecto.f_proyecto.f_nombre)'
+p104
+sI86
+S'    response.write(\'">\\n                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>\\n                      \', escape=False)'
+p105
+sI87
+S'    pass'
+p106
+sI88
+S"response.write('\\n                 </li>\\n             </ul>\\n       </div>\\n        ', escape=False)"
+p107
+sI89
+S"if globals().get('msj', False):"
+p108
+sI90
+S"    response.write(' <p><strong>', escape=False)"
+p109
+sI91
+S'    response.write(msj)'
+p110
+sI92
+S"    response.write('</strong></p>\\n        ', escape=False)"
+p111
+sI93
+S'else:'
+p112
+sI94
+S'    response.write(\'\\n        <div class="col-md-8">\\n          <div class="row" style="text-align: center;">\\n            \', escape=False)'
+p113
+sI95
+S"    if proyecto.f_estado=='Retirado':"
+p114
+ssg83
+S'()'
+p115
+sg85
+S'<module>'
+p116
+sasS'pyver'
+p117
+S'Python 2.7.9: /usr/bin/python (prefix: /usr)'
+p118
+sS'session'
+p119
+g57
+(S's\xb5\x0c\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>0a7a73cd-9304-403f-a853-a5ad4f904fa8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 5, 27, 23, 6, 46, 972912)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remember_me</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>maria@ramirez.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">f_cedula</td><td style="vertical-align:top;">:</td><td><div>2918291</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">f_direccion</td><td style="vertical-align:top;">:</td><td><div>Mexico</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">f_foto</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">f_telefono</td><td style="vertical-align:top;">:</td><td><div>0239-2388765</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">f_tipo</td><td style="vertical-align:top;">:</td><td><div>Pregrado</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>Maria</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>12L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>Ramirez</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">username</td><td style="vertical-align:top;">:</td><td><div>maria</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_orderby</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_query</td><td style="vertical-align:top;">:</td><td><div>db.t_cursa.id&gt;0</div></td></tr></table></div>'
+tRp120
+sS'etype'
+p121
+S"<type 'exceptions.AttributeError'>"
+p122
+sS'date'
+p123
+S'Fri May 27 23:07:22 2016'
+p124
+sS'response'
+p125
+g57
+(S's\xdd\'\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f5c897247d8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_sigesc</td><td style="vertical-align:top;">:</td><td><div>186.90.59.99-61e06ca1-74bc-4019-8f69-76a5b783a96f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div>: </div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>table3cols</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>\xc3\x8dndice</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Estado</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/estado_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Sede</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/sede_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Comunidad</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/comunidad_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Area</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/area_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Sexo</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/sexo_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Estudiante</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/estudiante_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Proponente</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/proponente_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Tutor</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/tutor_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Proyecto</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/proyecto_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Condicion</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/condicion_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Caracterisicas</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/caracterisicas_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Cursa</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/cursa_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Carrera</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/carrera_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Tipoprop</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/tipoprop_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Relacionestproy</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/SIGESC/default/relacionestproy_manage</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Roraima Tech &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^default/\\w+\\.py$</div></td></tr><tr><td><div>^default/retirar_proyecto/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>186.90.59.99</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_sigesc</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/www-data/web2py/applications/SIGESC/sessions/092/1f6/186.90.59.99-61e06ca1-74bc-4019-8f69-76a5b783a96f&#x27;, mode &#x27;rb+&#x27; at 0x7f5c89171db0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/www-data/web2py/applications/SIGESC/sessions/186.90.59.99-61e06ca1-74bc-4019-8f69-76a5b783a96f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>e44a4240e92c1e357c3aad5673da163e</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>186.90.59.99-61e06ca1-74bc-4019-8f69-76a5b783a96f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_sigesc</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>SIGESC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div>Sistema de Gestion del Servicio Comunitario</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>SIGESC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>default/retirar_proyecto.html</div></td></tr></table></div>'
+tRp126
+sS'locals'
+p127
+(dp128
+S'Service'
+p129
+S"<class 'gluon.tools.Service'>"
+p130
+sS'OBJECT'
+p131
+S"<class 'gluon.html.OBJECT'>"
+p132
+sS'SQLDB'
+p133
+S"<class 'pydal.base.DAL'>"
+p134
+sg119
+S"<Storage {'last_query': 'db.t_cursa.id>0', '_use...7f6dd', 'e56ad337-101d-4ece-8045-525a13e636a6']}>"
+p135
+sS'LINK'
+p136
+S"<class 'gluon.html.LINK'>"
+p137
+sS'BR'
+p138
+S"<class 'gluon.html.BR'>"
+p139
+sS'local_import'
+p140
+S'<function <lambda>>'
+p141
+sS'OPTGROUP'
+p142
+S"<class 'gluon.html.OPTGROUP'>"
+p143
+sS'__package__'
+p144
+S'None'
+p145
+sS'areas_carrera'
+p146
+S"['Ciencias B\\xc3\\xa1sicas', 'Ciencias Sociales y Humanidades', 'Ingenier\\xc3\\xada y Ciencias Aplicadas', 'Industrial', 'Administraci\\xc3\\xb3n']"
+p147
+sS'PRE'
+p148
+S"<class 'gluon.html.PRE'>"
+p149
+sS'IS_INT_IN_RANGE'
+p150
+S"<class 'gluon.validators.IS_INT_IN_RANGE'>"
+p151
+sS'IS_LOWER'
+p152
+S"<class 'gluon.validators.IS_LOWER'>"
+p153
+sS'IS_STRONG'
+p154
+S"<class 'gluon.validators.IS_STRONG'>"
+p155
+sS'cache'
+p156
+S'<gluon.cache.Cache object>'
+p157
+sS'estudiante'
+p158
+S"<Row {'f_informe': '', 't_inscripcion': <Set (t_...sa': <Set (t_cursa.f_estudiante = 7)>, 'id': 7L}>"
+p159
+sS'IS_IN_DB'
+p160
+S"<class 'gluon.validators.IS_IN_DB'>"
+p161
+sS'TAG'
+p162
+S'<gluon.html.__TAG__ object>'
+p163
+sS'SQLField'
+p164
+S"<class 'pydal.objects.Field'>"
+p165
+sS'mail'
+p166
+S'<gluon.tools.Mail object>'
+p167
+sS'BODY'
+p168
+S"<class 'gluon.html.BODY'>"
+p169
+sS'IS_DATE_IN_RANGE'
+p170
+S"<class 'gluon.validators.IS_DATE_IN_RANGE'>"
+p171
+sS'IFRAME'
+p172
+S"<class 'gluon.html.IFRAME'>"
+p173
+sS'URL'
+p174
+S'<function URL>'
+p175
+sS'__file__'
+p176
+S"'/home/www-data/web2py/applications/SIGESC/views/default/retirar_proyecto.html'"
+p177
+sS'db'
+p178
+S'<DAL uri="sqlite://storage.sqlite">'
+p179
+sS'auth'
+p180
+S'<gluon.tools.Auth object>'
+p181
+sS'P'
+S"<class 'gluon.html.P'>"
+p182
+sS'TFOOT'
+p183
+S"<class 'gluon.html.TFOOT'>"
+p184
+sS'XHTML'
+p185
+S"<class 'gluon.html.XHTML'>"
+p186
+sS'ON'
+p187
+S'True'
+p188
+sS'OL'
+p189
+S"<class 'gluon.html.OL'>"
+p190
+sS'TEXTAREA'
+p191
+S"<class 'gluon.html.TEXTAREA'>"
+p192
+sS'settings'
+p193
+S"<Storage {'layout_theme': 'Default', 'subtitle':...l_server': 'localhost', 'login_method': 'local'}>"
+p194
+sS'MENU'
+p195
+S"<class 'gluon.html.MENU'>"
+p196
+sS'IS_IMAGE'
+p197
+S"<class 'gluon.validators.IS_IMAGE'>"
+p198
+sS'estados'
+p199
+S"['Amazonas', 'Anzoategui', 'Apure', 'Aragua', 'Barinas', 'Bolivar', 'Carabobo', 'Cojedes', 'Delta Amacuro', 'Distrito Capital', 'Falcon', 'Guarico', 'Lara', 'Merida', 'Miranda', 'Monagas', 'Nueva Esparta', 'Portuguesa', 'Sucre', 'Tachira', ...]"
+p200
+sS'EM'
+p201
+S"<class 'gluon.html.EM'>"
+p202
+sS'CODE'
+p203
+S"<class 'gluon.html.CODE'>"
+p204
+sS'HTTP'
+p205
+S"<class 'gluon.http.HTTP'>"
+p206
+sS'HR'
+p207
+S"<class 'gluon.html.HR'>"
+p208
+sS'bienvenida'
+p209
+S"'Bienvenid@ Maria Ramirez'"
+p210
+sS'IS_DATETIME'
+p211
+S"<class 'gluon.validators.IS_DATETIME'>"
+p212
+sS'Storage'
+p213
+S"<class 'gluon.storage.Storage'>"
+p214
+sS'STYLE'
+p215
+S"<class 'gluon.html.STYLE'>"
+p216
+sS'LABEL'
+p217
+S"<class 'gluon.html.LABEL'>"
+p218
+sS'CLEANUP'
+p219
+S"<class 'gluon.validators.CLEANUP'>"
+p220
+sS'plugins'
+p221
+S'<gluon.tools.PluginManager object>'
+p222
+sS'SELECT'
+p223
+S"<class 'gluon.html.SELECT'>"
+p224
+sS'use_janrain'
+p225
+S'<function use_janrain>'
+p226
+sS'CENTER'
+p227
+S"<class 'gluon.html.CENTER'>"
+p228
+sS'Auth'
+p229
+S"<class 'gluon.tools.Auth'>"
+p230
+sS'__builtins__'
+p231
+S"{'ArithmeticError': <type 'exceptions.ArithmeticError'>, 'AssertionError': <type 'exceptions.AssertionError'>, 'AttributeError': <type 'exceptions.AttributeError'>, 'BaseException': <type 'exceptions.BaseException'>, 'BufferError': <type 'exceptions.BufferError'>, 'BytesWarning': <type 'exceptions.BytesWarning'>, 'DeprecationWarning': <type 'exceptions.DeprecationWarning'>, 'EOFError': <type 'exceptions.EOFError'>, 'Ellipsis': Ellipsis, 'EnvironmentError': <type 'exceptions.EnvironmentError'>, ...}"
+p232
+sS'HTML'
+p233
+S"<class 'gluon.html.HTML'>"
+p234
+sS'SQLFORM'
+p235
+S"<class 'gluon.sqlhtml.SQLFORM'>"
+p236
+sS'LOAD'
+p237
+S'<function LOAD>'
+p238
+sS'redirect'
+p239
+S'<function redirect>'
+p240
+sS'FIELDSET'
+p241
+S"<class 'gluon.html.FIELDSET'>"
+p242
+sS'IS_EQUAL_TO'
+p243
+S"<class 'gluon.validators.IS_EQUAL_TO'>"
+p244
+sS'embed64'
+p245
+S'<function embed64>'
+p246
+sS'IS_LIST_OF'
+p247
+S"<class 'gluon.validators.IS_LIST_OF'>"
+p248
+sS'INPUT'
+p249
+S"<class 'gluon.html.INPUT'>"
+p250
+sS'EMBED'
+p251
+S"<class 'gluon.html.EMBED'>"
+p252
+sS'H2'
+p253
+S"<class 'gluon.html.H2'>"
+p254
+sS'H3'
+p255
+S"<class 'gluon.html.H3'>"
+p256
+sS'BUTTON'
+p257
+S"<class 'gluon.html.BUTTON'>"
+p258
+sS'H1'
+p259
+S"<class 'gluon.html.H1'>"
+p260
+sS'H6'
+p261
+S"<class 'gluon.html.H6'>"
+p262
+sS'H4'
+p263
+S"<class 'gluon.html.H4'>"
+p264
+sS'H5'
+p265
+S"<class 'gluon.html.H5'>"
+p266
+sS'UL'
+p267
+S"<class 'gluon.html.UL'>"
+p268
+sS'IS_UPPER'
+p269
+S"<class 'gluon.validators.IS_UPPER'>"
+p270
+sS'xmlescape'
+p271
+S'<function xmlescape>'
+p272
+sS'proyecto'
+p273
+S'None'
+p274
+sS'horas'
+p275
+S'50'
+p276
+sS'IS_TIME'
+p277
+S"<class 'gluon.validators.IS_TIME'>"
+p278
+sS'OPTION'
+p279
+S"<class 'gluon.html.OPTION'>"
+p280
+sS'TITLE'
+p281
+S"<class 'gluon.html.TITLE'>"
+p282
+sS'CRYPT'
+p283
+S"<class 'gluon.validators.CRYPT'>"
+p284
+sS'IS_EMPTY_OR'
+p285
+S"<class 'gluon.validators.IS_EMPTY_OR'>"
+p286
+sS'MARKMIN'
+p287
+S"<class 'gluon.html.MARKMIN'>"
+p288
+sS'__name__'
+p289
+S"'__restricted__'"
+p290
+sS'STRONG'
+p291
+S"<class 'gluon.html.STRONG'>"
+p292
+sS'COL'
+p293
+S"<class 'gluon.html.COL'>"
+p294
+sS'service'
+p295
+S'<gluon.tools.Service object>'
+p296
+sS'SCRIPT'
+p297
+S"<class 'gluon.html.SCRIPT'>"
+p298
+sS'TABLE'
+p299
+S"<class 'gluon.html.TABLE'>"
+p300
+sS'IS_IPV4'
+p301
+S"<class 'gluon.validators.IS_IPV4'>"
+p302
+sS'IS_LENGTH'
+p303
+S"<class 'gluon.validators.IS_LENGTH'>"
+p304
+sS'IS_IPV6'
+p305
+S"<class 'gluon.validators.IS_IPV6'>"
+p306
+sS'XML'
+p307
+S"<class 'gluon.html.XML'>"
+p308
+sS'B'
+S"<class 'gluon.html.B'>"
+p309
+sS'IMG'
+p310
+S"<class 'gluon.html.IMG'>"
+p311
+sS'SQLTABLE'
+p312
+S"<class 'gluon.sqlhtml.SQLTABLE'>"
+p313
+sS'IS_MATCH'
+p314
+S"<class 'gluon.validators.IS_MATCH'>"
+p315
+sS'IS_ALPHANUMERIC'
+p316
+S"<class 'gluon.validators.IS_ALPHANUMERIC'>"
+p317
+sS'SPAN'
+p318
+S"<class 'gluon.html.SPAN'>"
+p319
+sS'IS_JSON'
+p320
+S"<class 'gluon.validators.IS_JSON'>"
+p321
+sS'IS_IPADDRESS'
+p322
+S"<class 'gluon.validators.IS_IPADDRESS'>"
+p323
+sS'IS_SLUG'
+p324
+S"<class 'gluon.validators.IS_SLUG'>"
+p325
+sS'BEAUTIFY'
+p326
+S"<class 'gluon.html.BEAUTIFY'>"
+p327
+sS'META'
+p328
+S"<class 'gluon.html.META'>"
+p329
+sS'IS_DATE'
+p330
+S"<class 'gluon.validators.IS_DATE'>"
+p331
+sS'IS_EMAIL'
+p332
+S"<class 'gluon.validators.IS_EMAIL'>"
+p333
+sS'IS_NOT_EMPTY'
+p334
+S"<class 'gluon.validators.IS_NOT_EMPTY'>"
+p335
+sS'IS_FLOAT_IN_RANGE'
+p336
+S"<class 'gluon.validators.IS_FLOAT_IN_RANGE'>"
+p337
+sS'TBODY'
+p338
+S"<class 'gluon.html.TBODY'>"
+p339
+sS'CAT'
+p340
+S"<class 'gluon.html.CAT'>"
+p341
+sS'Field'
+p342
+S"<class 'pydal.objects.Field'>"
+p343
+sS'IS_LIST_OF_EMAILS'
+p344
+S"<class 'gluon.validators.IS_LIST_OF_EMAILS'>"
+p345
+sS'DIV'
+p346
+S"<class 'gluon.html.DIV'>"
+p347
+sS'LEGEND'
+p348
+S"<class 'gluon.html.LEGEND'>"
+p349
+sS'COLGROUP'
+p350
+S"<class 'gluon.html.COLGROUP'>"
+p351
+sS'DAL'
+p352
+S"<class 'pydal.base.DAL'>"
+p353
+sS'ASSIGNJS'
+p354
+S'<function ASSIGNJS>'
+p355
+sS'TR'
+p356
+S"<class 'gluon.html.TR'>"
+p357
+sS'LI'
+p358
+S"<class 'gluon.html.LI'>"
+p359
+sS'TH'
+p360
+S"<class 'gluon.html.TH'>"
+p361
+sS'TD'
+p362
+S"<class 'gluon.html.TD'>"
+p363
+sS'PluginManager'
+p364
+S"<class 'gluon.tools.PluginManager'>"
+p365
+sS'IS_URL'
+p366
+S"<class 'gluon.validators.IS_URL'>"
+p367
+sS'A'
+S"<class 'gluon.html.A'>"
+p368
+sS'HEAD'
+p369
+S"<class 'gluon.html.HEAD'>"
+p370
+sS'IS_DATETIME_IN_RANGE'
+p371
+S"<class 'gluon.validators.IS_DATETIME_IN_RANGE'>"
+p372
+sS'FORM'
+p373
+S"<class 'gluon.html.FORM'>"
+p374
+sS'I'
+S"<class 'gluon.html.I'>"
+p375
+sS'IS_NOT_IN_DB'
+p376
+S"<class 'gluon.validators.IS_NOT_IN_DB'>"
+p377
+sg125
+S"<Storage {'body': <cStringIO.StringO object at 0...85a28>, 'view': 'default/retirar_proyecto.html'}>"
+p378
+sS'THEAD'
+p379
+S"<class 'gluon.html.THEAD'>"
+p380
+sS'ANY_OF'
+p381
+S"<class 'gluon.validators.ANY_OF'>"
+p382
+sS'IS_NULL_OR'
+p383
+S"<class 'gluon.validators.IS_EMPTY_OR'>"
+p384
+sg56
+S"<Storage {'_vars': None, 'function': 'retirar_pr...': '/home/www-data/web2py/applications/SIGESC/'}>"
+p385
+sS'IS_EXPR'
+p386
+S"<class 'gluon.validators.IS_EXPR'>"
+p387
+sS'T'
+S'<gluon.languages.translator object>'
+p388
+sS'IS_IN_SET'
+p389
+S"<class 'gluon.validators.IS_IN_SET'>"
+p390
+sS'IS_UPLOAD_FILENAME'
+p391
+S"<class 'gluon.validators.IS_UPLOAD_FILENAME'>"
+p392
+sS'TT'
+p393
+S"<class 'gluon.html.TT'>"
+p394
+sS'IS_DECIMAL_IN_RANGE'
+p395
+S"<class 'gluon.validators.IS_DECIMAL_IN_RANGE'>"
+p396
+sssS'traceback'
+p397
+S'Traceback (most recent call last):\n  File "/home/www-data/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/www-data/web2py/applications/SIGESC/views/default/retirar_proyecto.html", line 95, in <module>\n    <script type="text/javascript">\nAttributeError: \'NoneType\' object has no attribute \'f_estado\'\n'
+p398
+s.

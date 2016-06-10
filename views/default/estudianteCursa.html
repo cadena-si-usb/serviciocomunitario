@@ -55,7 +55,9 @@
             var hora = 120 - strUser.value;
             if ((hora >= 0) && (hora <= 90)) {
                 a = 1;
-                $(location).attr('href','{{=URL(r=request,f='registrarProyectoComoEstudiante',args=[idProyecto,estudianteId])}}'+'/'+strUser.value);
+
+
+                $(location).attr('href','{{=URL(r=request,f='registrarProyectoComoEstudiante',args=[proyecto.f_proyecto,estudianteId])}}'+'/'+strUser.value);
             } else {
                 alert('EL número de horas debe estar comprendido entre 30 y 120')
             };

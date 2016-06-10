@@ -167,15 +167,17 @@ def login_cas():
 def home():
 
     rolesUsuario=[]
-
+    
+    
     for rol in db(db.auth_membership.user_id==auth.user_id).select():
         rolesUsuario.append(db(db.auth_group.id==rol.group_id).select()[0].role)
     
-    esTutorAcademico= db(db.t_tutor_academico.f_universitario==auth.user_id).select().first() !=None
+    esTutorAcademico= db(db.t_proyecto_tutor.f_tutor==auth.user_id).select().first() !=None
 
     usuario = db.auth_user(auth.user_id)
     
-    esTutorComunitario = db(db.t_proyecto_tutor_comunitario.f_tutor==usuario).select().first() !=None
+    esTutorComunitario = db(db.t_proyecto_tutor_comunitario.id==auth.user_id).select().first() !=None
+
 
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     tipo = usuario['f_tipo']
@@ -689,6 +691,7 @@ def sedesEditar():
         return dict('La sede ha sido eliminada')
     return dict(form = form)
 
+
 # Administrador
 def administrador():
     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
@@ -813,6 +816,7 @@ def areas_admin():
     return dict(areas=areas) 
 
 
+
 def proponentesEditar():
     def my_form_processing(form):
         if not re.match('[1-9][0-9]{0,8}$', form.vars.f_cedula):
@@ -906,11 +910,6 @@ def proyectos_tutor_comunitario():
     proyectos = db(db.t_proyecto_tutor_comunitario.f_tutor==tutor).select()
     return dict(bienvenida=msj,proyectos=proyectos)
 
-def proyectos_tutor_academico():
-    tutor     = db.auth_user(auth.user_id)
-    msj       = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
-    proyectos = db(db.t_proyecto_tutor.f_tutor==tutor).select()
-    return dict(bienvenida=msj,proyectos=proyectos)
 
 def proyecto_tutor_academico():
     tutor       = db.auth_user(auth.user_id)
@@ -919,6 +918,7 @@ def proyecto_tutor_academico():
     msj         = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     estudiantes = db(db.t_estudiante.id==db.t_cursa.f_estudiante)(db.t_cursa.f_proyecto==id_proy).select()
     return dict(estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
+
 
 def proyecto_tutor_comunitario():
     tutor       = db.auth_user(auth.user_id)
@@ -1053,7 +1053,7 @@ def retirar_proyecto():
     estt    = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
     proyecto  = db(db.t_cursa.f_estudiante==usuario)(db.t_cursa.f_proyecto==x).select().first()
-    horas = 0
+    horas = 50
     todas_actividades = db(db.t_actividad_estudiante.f_cursa==proyecto).select()
     for acti in todas_actividades:
         if acti.f_realizada:
@@ -1061,7 +1061,9 @@ def retirar_proyecto():
     return dict(estudiante=usuario, bienvenida=msj,proyecto=proyecto,horas=horas)
 
 def retiro():
+    x = long (request.args[1])
     retiro = db(db.t_cursa.f_estudiante==request.vars.id and db.t_cursa.f_estado=='Aprobado').update(f_estado='Retirado',f_fecha=datetime.datetime.today())
+    redirect(URL('retirar_proyecto',args=[x]))
     return ""
 
 def culminar_proyecto():
@@ -2154,7 +2156,8 @@ def registrarProyectoComoEstudiante():
     idEstudiante = long(request.args[1])
     dropdown = request.args[2]
     proyectoInscrito = db(db.t_cursa.f_estudiante==idEstudiante).select()
-    if not proyectoInscrito:
+
+    if not proyectoInscrito or (proyectoInscrito[0].f_estado=="Retirado"):
         db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente")
         mensaje = "Registro de proyecto exitoso. Volver al Menú"
         db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown)
@@ -2458,43 +2461,41 @@ def comunidadesEditar():
 def generarPdfConstanciaInicio():
     x = long (request.args[0])
     y = long (request.args[1])
+    est = db(db.t_estudiante.id==x).select()[0]
+    iduniv = est.f_universitario
+    universitario = db(db.t_universitario.id==iduniv).select()[0]
+    userest = db(db.auth_user.id==universitario.f_usuario).select()[0]
+    proyecto = db(db.t_proyecto.id==y).select()[0]
+    proyectotutor = db(db.t_proyecto_tutor.f_proyecto==proyecto.id).select()[0]
+    tutor = db(db.auth_user.id==proyectotutor.f_tutor).select()[0]
+    USBID = universitario.f_usbid
+    Nombre = userest.first_name
+    Apellido = userest.last_name
+    Cedula = userest.f_cedula
+    tlf = userest.f_telefono
+    direccion = userest.f_direccion
 
-    #est = db(db.t_estudiante.id==x).select()
-    carr = 'Ing. de Computación'
-    # sed = db(est[0].f_sede==db.t_sede.id).select()
-    # genero = db(est[0].f_sexo==db.t_sexo.id).select()
-    #
-    # proy = db(db.t_proyecto.id==y).select()
-    # tut = db(proy[0].f_tutor==db.t_tutor.id).select()
-    # comu = db(proy[0].f_comunidad==db.t_comunidad.id).select()
+    Carrera = est.f_carrera
 
-    USBID = '09-11086'
-    Nombre = 'Luis Edgardo'
-    Apellido = 'Colorado Sánchez'
-    Cedula = '21203424'
-    tlf = '0424-3218265'
-    direccion = 'Maracay'
-
-    Carrera = 'Ing. de la Computación'
-
-    Sede = 'Sartenejas'
+    Sede = est.f_sede
 
     Sexo = 'Masculino'
 
     codigo_pr = 'PS1115'
-    nombre_pr = 'Soñar Despierto'
-    descripcion_pr = 'Descrpción de Servicio Comunitario'
-    area_pr = 'Salud y Ambiente'
+
+    nombre_pr = proyecto.f_nombre
+    descripcion_pr = proyecto.f_resumen
+    area_pr = proyecto.f_area
     estado_pr = 'Activo'
     fecha_ini = '12/01/2016'
     fecha_fin = '26/08/2016'
     #version_pr = proy[0].f_version
     proponente_pr = 'Nombre proponente'
 
-    tutor_pr_nombre = 'Nombres Tutor'
-    tutor_pr_apellido = 'Apellidos Tutor'
+    tutor_pr_nombre = tutor.first_name
+    tutor_pr_apellido = tutor.last_name
 
-    comunidad_pr = 'Santa Fe'
+    comunidad_pr = proyecto.f_comunidad
     PAGE_HEIGHT=defaultPageSize[1]; PAGE_WIDTH=defaultPageSize[0]
     u = inch/10.0
 
@@ -2575,11 +2576,13 @@ def generarPdfConstanciaInscripcion():
 
     est = db(db.t_estudiante.id==x).select()
     #carr = db(est[0].f_carrera==db.t_carrera.id).select()
-    sed = db(est[0].f_sede==db.t_sede.id).select()
-    genero = db(est[0].f_sexo==db.t_sexo.id).select()
 
-    proy = db(db.t_project.id==y).select()
-    tut = db(proy[0].f_tutor==db.t_tutor.id).select()
+    #sed = db(est[0].f_sede==db.t_sede.id).select()
+    sed = est[0].f_sede
+    #genero = db(est[0].f_sexo==db.t_sexo.id).select()
+    #genero = est[0].f_sexo
+
+    proy = db(db.t_proyecto.id==y).select()
     comu = db(proy[0].f_comunidad==db.t_comunidad.id).select()
 
     USBID = est[0].f_usbid
@@ -2593,7 +2596,7 @@ def generarPdfConstanciaInscripcion():
 
     Sede = sed[0].f_nombre
 
-    Sexo = genero[0].f_tipo
+    #Sexo = genero[0].f_tipo
 
     codigo_pr = proy[0].f_codigo
     nombre_pr = proy[0].f_nombre
@@ -2604,9 +2607,6 @@ def generarPdfConstanciaInscripcion():
     fecha_fin = proy[0].f_fechafin
     version_pr = proy[0].f_version
     proponente_pr = proy[0].f_proponente
-
-    tutor_pr_nombre = tut[0].f_nombre
-    tutor_pr_apellido = tut[0].f_apellido
 
     comunidad_pr = comu[0].f_nombre
 
@@ -2637,12 +2637,8 @@ def generarPdfConstanciaInscripcion():
     telfOficRepComunidad= '0212-555 55 55'
     celRepComunidad= '0416-555 55 55'
     emailRepComunidad= 'juan@gmail.com'
-    tutorAca = tut[0].f_nombre
-    ciTutorAca = tut[0].f_cedula
     dependencia = 'CFCG'
-    telfOficTutorAca = tut[0].f_telefono
     celTutorAca = '555 55 55'
-    emailTutorAca = tut[0].f_email
     direccionOrgDesSoc = 'Santa Fe Valle Arriba'
     telfOficOrgDesSoc = '0000 555 55 55'
     celOrgDesSoc = '555 55 55'
@@ -2673,5 +2669,4 @@ def generarPdfConstanciaInscripcion():
     response.headers['Content-Type']='application/pdf'
     # Muestra el PDF en la URL
     return data
-
 
