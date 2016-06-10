@@ -82,6 +82,8 @@ db.define_table('t_comunidad_archive',db.t_comunidad,Field('current_record','ref
 db.define_table('t_area',
     Field('f_nombre', type='string', notnull=True,
           label=T('Nombre')),
+    Field('f_descripcion', type='string', notnull=False,
+          label=T('Descripcíon')),
     Field('f_codigo', type='string', notnull=True,
           label=T('Código')),
     Field('f_estado', requires=IS_IN_SET(['Activo', 'Inactivo']), notnull=True,

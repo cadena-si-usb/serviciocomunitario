@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 if len(db().select(db.auth_group.ALL)) == 0:
     db.auth_group.insert(
         role='Asistente',
@@ -16,43 +17,50 @@ if len(db().select(db.auth_group.ALL)) == 0:
         role='Administrador',
         description='Administrador',
     )
-
 if len(db().select(db.t_area.ALL)) == 0:
     db.t_area.insert(
-        f_codigo='AB',
-        f_nombre='Ambiental'
+        f_nombre='Ambiental',
+        f_codigo='AB'
     )
     db.t_area.insert(
         f_codigo='SC',
-        f_nombre='Socio-comunitaria'
+        f_nombre='Socio-comunitaria',
+        f_descripcion='lorem'
     )
     db.t_area.insert(
         f_codigo='TE',
-        f_nombre='Tecnológica'
+        f_nombre='Tecnológica',
+        f_descripcion='lorem'
     )
     db.t_area.insert(
         f_codigo='LS',
-        f_nombre='Laboral y Socio-productiva'
+        f_nombre='Laboral y Socio-productiva',
+        f_descripcion='lorem'
     )
     db.t_area.insert(
         f_codigo='ED',
-        f_nombre='Educativa'
+        f_nombre='Educativa',
+        f_descripcion='lorem'
     )
     db.t_area.insert(
         f_codigo='IF',
-        f_nombre='Infraestructura, Habitat y Vivienda'
+        f_nombre='Infraestructura, Habitat y Vivienda',
+        f_descripcion='lorem'
     )
     db.t_area.insert(
         f_codigo='SR',
-        f_nombre='Seguridad y Riesgo'
+        f_nombre='Seguridad y Riesgo',
+        f_descripcion='lorem'
     )
     db.t_area.insert(
         f_codigo='SA',
-        f_nombre='Salud, Higiene y Alimentación'
+        f_nombre='Salud, Higiene y Alimentación',
+        f_descripcion='lorem'
     )
     db.t_area.insert(
         f_codigo='DR',
-        f_nombre='Deportes, Recreación y Cultura'
+        f_nombre='Deportes, Recreación y Cultura',
+        f_descripcion='lorem'
     )
 
 areas_carrera = [

@@ -31,10 +31,10 @@ jQuery(document).ready(function(){
     ajax('usuarios', [], 'vista-admin');
   });
 
-
-
-  jQuery('.load_content2').on('click', function (e) {
-
+  jQuery('#areas-admin').on('click', function (e) {
+    jQuery('#vista-admin').empty();
+    jQuery('#vista-admin').html(miniloader);
+    ajax('areas_admin', [], 'vista-admin');
   });
 
   jQuery('#usuarios').on('click', function (e) {

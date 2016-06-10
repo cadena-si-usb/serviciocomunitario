@@ -167,6 +167,7 @@
 'Deployment Recipes': 'Recetas de despliegue',
 'Descripcion': 'Descripcion',
 'Descripción': 'Descripción',
+'Descripcíon': 'Descripcíon',
 'Description': 'Descripción',
 'design': 'diseño',
 'DESIGN': 'DISEÑO',

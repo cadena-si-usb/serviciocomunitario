@@ -806,6 +806,13 @@ def admin_editar_perfil():
 
     return dict(form=form,contrasena=auth.change_password())
 
+
+def areas_admin():
+    areas=db().select(db.t_area.ALL)
+    print areas
+    return dict(areas=areas) 
+
+
 def proponentesEditar():
     def my_form_processing(form):
         if not re.match('[1-9][0-9]{0,8}$', form.vars.f_cedula):
