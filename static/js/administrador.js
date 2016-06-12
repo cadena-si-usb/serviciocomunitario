@@ -16,8 +16,7 @@ jQuery(document).ready(function(){
     jQuery('#detalles-usuario').html(miniloader);
     ajax('admin_usuarios_detalles?id='+idUsuario, [], 'detalles-usuario'); 
   }; 
-
-
+  
   jQuery('#menu-admin').on('click', function (e) {
     jQuery('#vista-admin').empty();
     jQuery('#vista-admin').html(miniloader);

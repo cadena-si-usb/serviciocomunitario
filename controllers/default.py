@@ -812,10 +812,36 @@ def admin_editar_perfil():
 
 def areas_admin():
     areas=db().select(db.t_area.ALL)
-    print areas
-    return dict(areas=areas) 
+    return dict(areas=areas)
 
+def nueva_area():
+    return dict()
 
+def nueva_area_admin():
+    nombre=request.vars.nombre
+    codigo=request.vars.codigo
+    descripcion=request.descripcion
+    estado=request.vars.estado
+    esTutorAcademico= db(db.t_proyecto_tutor.f_tutor==auth.user_id).select().first() !=None
+    
+    existeNombreArea=db(db.t_area.f_nombre==nombre).select().first() !=None
+    existeCodigoArea=db(db.t_area.f_codigo==codigo).select().first() !=None
+
+    if existeNombreArea and existeCodigoArea:
+        return "*Nombre y Codigo de Area ya existentes."
+    if existeCodigoArea:
+        return "*Codigo de Area ya existente."
+    if existeNombreArea:
+        return "*Nombre de Area ya existente."
+
+    db.t_area.insert(
+        f_nombre=nombre,
+        f_codigo=codigo,
+        f_descripcion=descripcion,
+        f_estado=estado
+    )
+
+    return "*Area de Proyecto agregada exitosamente."
 
 def proponentesEditar():
     def my_form_processing(form):
@@ -910,12 +936,6 @@ def proyectos_tutor_comunitario():
     proyectos = db(db.t_proyecto_tutor_comunitario.f_tutor==tutor).select()
     return dict(bienvenida=msj,proyectos=proyectos)
 
-
-def proyectos_tutor_academico():
-    tutor     = db.auth_user(auth.user_id)
-    msj       = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
-    proyectos = db(db.t_proyecto_tutor.f_tutor==tutor).select()
-    return dict(bienvenida=msj,proyectos=proyectos)
 
 def proyecto_tutor_academico():
     tutor       = db.auth_user(auth.user_id)

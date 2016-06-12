@@ -1,0 +1,45 @@
+
+<script type="text/javascript">
+
+  jQuery('#enviar-area').on('click', function (e) {
+	ajax('nueva_area_admin', ['nombre','codigo','estado','descripcion'], 'target')
+  });
+	
+</script>
+<div class="container-fluid">
+  
+  <h4>Nueva Area de Proyectos</h4>
+
+  <div id="target"></div>
+
+  <form role="form">
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input type="text" name="nombre" class="form-control" id="nombre-area" placeholder="Nombre">
+    </div>
+
+    <div class="form-group">
+      <label for="codigo">Codigo:</label>
+      <input type="text" name="codigo" class="form-control" id="codigo-area" placeholder="Codigo">
+    </div>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción:</label>
+      <input type="textarea" name="descripcion" class="form-control" id="descripcion-area" placeholder="Descripción">
+    </div>
+
+    <div class="form-group">
+	  <label for="estado">Estado:</label>
+	  <select class="form-control" name="estado" id="estado-area">
+	    <option>Activo</option>
+	    <option>Inactivo</option>
+	  </select>
+    </div>
+
+    <a id="enviar-area" class="btn btn-primary">Enviar</a>
+
+  </form>
+</div>
+
+
+ 
