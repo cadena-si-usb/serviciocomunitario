@@ -100,3 +100,34 @@
 [2016-05-29 00:07:10] EDIT SIGESC/controllers/default.py: -7
 [2016-05-29 00:09:31] EDIT SIGESC/views/default/vista_estudiante.html: 0
 [2016-05-29 00:10:23] EDIT SIGESC/views/default/vista_estudiante.html: 0
+<<<<<<< HEAD
+=======
+[2016-06-09 22:12:34] EDIT SIGESC/views/default/home.html: 0
+[2016-06-09 22:20:36] EDIT SIGESC/views/default/retirar_proyecto.html: 0
+[2016-06-09 22:24:09] EDIT SIGESC/controllers/default.py: 4
+[2016-06-09 22:24:21] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 22:25:01] EDIT SIGESC/controllers/default.py: -55
+[2016-06-09 22:34:00] EDIT SIGESC/controllers/default.py: 4
+[2016-06-09 22:34:50] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 22:36:29] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 22:41:39] EDIT SIGESC/controllers/default.py: 16
+[2016-06-09 22:42:54] EDIT SIGESC/controllers/default.py: 1
+[2016-06-09 22:52:05] EDIT SIGESC/controllers/default.py: 4
+[2016-06-09 22:55:50] EDIT SIGESC/views/default/vista_estudiante.html: 2
+[2016-06-09 22:57:38] EDIT SIGESC/views/default/vista_estudiante.html: 0
+[2016-06-09 22:58:34] EDIT SIGESC/views/default/vista_estudiante.html: 0
+[2016-06-09 22:59:02] EDIT SIGESC/views/default/vista_estudiante.html: 0
+[2016-06-09 23:03:02] EDIT SIGESC/controllers/default.py: 1
+[2016-06-09 23:04:16] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 23:04:51] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 23:06:10] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 23:11:07] EDIT SIGESC/controllers/default.py: 1
+[2016-06-09 23:11:17] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 23:13:02] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 23:16:10] EDIT SIGESC/controllers/default.py: 4
+[2016-06-09 23:16:36] EDIT SIGESC/controllers/default.py: -1
+[2016-06-09 23:16:48] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 23:17:47] EDIT SIGESC/controllers/default.py: 1
+[2016-06-09 23:17:55] EDIT SIGESC/controllers/default.py: 0
+[2016-06-09 23:20:12] EDIT SIGESC/controllers/default.py: 3
+>>>>>>> david

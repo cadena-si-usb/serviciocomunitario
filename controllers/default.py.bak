@@ -813,36 +813,9 @@ def admin_editar_perfil():
 
 def areas_admin():
     areas=db().select(db.t_area.ALL)
-    return dict(areas=areas)
+    print areas
+    return dict(areas=areas) 
 
-def nueva_area():
-    return dict()
-
-def nueva_area_admin():
-    nombre=request.vars.nombre
-    codigo=request.vars.codigo
-    descripcion=request.descripcion
-    estado=request.vars.estado
-    esTutorAcademico= db(db.t_proyecto_tutor.f_tutor==auth.user_id).select().first() !=None
-    
-    existeNombreArea=db(db.t_area.f_nombre==nombre).select().first() !=None
-    existeCodigoArea=db(db.t_area.f_codigo==codigo).select().first() !=None
-
-    if existeNombreArea and existeCodigoArea:
-        return "*Nombre y Codigo de Area ya existentes."
-    if existeCodigoArea:
-        return "*Codigo de Area ya existente."
-    if existeNombreArea:
-        return "*Nombre de Area ya existente."
-
-    db.t_area.insert(
-        f_nombre=nombre,
-        f_codigo=codigo,
-        f_descripcion=descripcion,
-        f_estado=estado
-    )
-
-    return "*Area de Proyecto agregada exitosamente."
 
 
 def proponentesEditar():
@@ -946,6 +919,7 @@ def proyecto_tutor_academico():
     msj         = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     estudiantes = db(db.t_estudiante.id==db.t_cursa.f_estudiante)(db.t_cursa.f_proyecto==id_proy).select()
     return dict(estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
+
 
 def proyecto_tutor_comunitario():
     tutor       = db.auth_user(auth.user_id)
@@ -2553,7 +2527,6 @@ def generarPdfConstanciaInicio():
         story.append(Paragraph(title,styles["titles"]))
         #story.append(Paragraph(linea,styles["Normal"]))
         story.append(Spacer(1,2*u))
-
         story.append(Paragraph(escape('Período:___________________________________ Año: ______________'),styles["Normal"]))
         story.append(Paragraph(escape(heading),styles["Heading2"]))
         story.append(Paragraph(escape('Carné: ' + str(USBID)),styles["Normal"]))
@@ -2606,7 +2579,7 @@ def generarPdfConstanciaInscripcion():
     estun = est[0].f_universitario
     proyecto = db(db.t_proyecto.id==y).select()[0]
     proyectotutor = db(db.t_proyecto_tutor.f_proyecto==proyecto.id).select()[0]
-    tutor = db(db.auth_user.id==proyectotutor.f_tutor).select()[0]
+
     estuni = db(db.t_universitario.id==estun).select()
     estus = estuni[0].f_usuario
     estuser = db(db.auth_user.id==estus).select()
@@ -2624,8 +2597,7 @@ def generarPdfConstanciaInscripcion():
     direccion = estuser[0].f_direccion
     Carrera = est[0].f_carrera
     Sede = est[0].f_sede
-    tutor_pr_nombre = tutor.first_name
-    tutor_pr_apellido = tutor.last_name
+
     title = '<font size=10><b><u>__PLANILLA DE INSCRIPCIÓN ESTUDIANTIL DEL PROYECTO DE SERVICIO COMUNITARIO__</u></b></font>'
     heading = "Datos del estudiante:"
 
