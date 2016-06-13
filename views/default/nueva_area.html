@@ -2,7 +2,7 @@
 <script type="text/javascript">
 
   jQuery('#enviar-area').on('click', function (e) {
-	ajax('nueva_area_admin', ['nombre','codigo','estado','descripcion'], 'target')
+	 ajax('nueva_area_admin', ['nombre','codigo','estado','descripcion'], 'target')
   });
 	
 </script>
@@ -25,7 +25,7 @@
 
     <div class="form-group">
       <label for="descripcion">Descripción:</label>
-      <input type="textarea" name="descripcion" class="form-control" id="descripcion-area" placeholder="Descripción">
+      <textarea type="textarea" name="descripcion" class="form-control" rows="2" id="descripcion-area" placeholder="Descripción"></textarea>
     </div>
 
     <div class="form-group">
