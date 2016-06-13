@@ -939,6 +939,13 @@ def proyectos_tutor_comunitario():
     return dict(bienvenida=msj,proyectos=proyectos)
 
 
+def proyectos_tutor_academico():
+    tutor     = db.auth_user(auth.user_id)
+
+    msj       = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
+    proyectos = db(db.t_proyecto_tutor.f_tutor==tutor).select()
+    return dict(bienvenida=msj,proyectos=proyectos)
+
 def proyecto_tutor_academico():
     tutor       = db.auth_user(auth.user_id)
     id_proy     = request.vars.proy
@@ -1316,8 +1323,7 @@ def proponenteProyecto():
 
 def solicitudes_tutor():
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
-    idTutor = db(db.t_universitario.f_usuario == auth.user).select().first()
-    idTutorAcademico = db(db.t_tutor_academico.f_universitario == idTutor).select().first()
+    idTutorAcademico = auth.user.id
     listaProyectosTutores = db(db.t_proyecto_tutor.f_tutor == idTutorAcademico).select()
     listaInscripcion = []
     listaEnviados = []
@@ -1345,8 +1351,7 @@ def solicitud_plan_de_trabajo():
     proyecto = db(db.t_proyecto.id==idProyecto).select()
     estudiante = db(db.t_estudiante.id==idEstudiante).select()
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
-    idTutor = db(db.t_universitario.f_usuario == auth.user).select().first()
-    idTutorAcademico = db(db.t_tutor_academico.f_universitario == idTutor).select().first()
+    idTutorAcademico = auth.user.id
     listaProyectosTutores = db(db.t_proyecto_tutor.f_tutor == idTutorAcademico).select()
     listaInscripcion = []
     for proy in listaProyectosTutores:
