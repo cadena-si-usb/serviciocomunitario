@@ -52,14 +52,14 @@ $(document).ready(function(){
 			listHours += inputHours[i].value.toString() + '/';
 		}
 		if (sumaHoras == hola) {
-			$(location).attr('href','{{=URL(r=request,f='enviarPlanTrabajo',args=[idProyecto,estudianteID,listaStringActividades])}}'+listCheck + listHours);
+$(location).attr('href','{{=URL(r=request,f='enviarPlanTrabajo',args=[idProyecto,estudianteID,listaStringActividades])}}' + listCheck + listHours);
 		}
 		else {
 			alert('EL número de horas a enviar debe ser igual al número de horas solicitadas.');
 		}
 	});
   }
-)
+);
 </script>
     <div class="col-sm-12">
         <div class="row">

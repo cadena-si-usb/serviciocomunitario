@@ -11,7 +11,7 @@
                 <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
             <div class="col-md-4" align="left">
-               <h4 style="color:#4682B4"><a href=".">SIGESC | Home</a> |<a href="{{=URL('vista_tutor_comunitario')}}"> Tutor Comunitario </a></h4>
+               <h4 style="color:#4682B4"><a href=".">SIGESC / Home</a> |<a href="{{=URL('vista_tutor_comunitario')}}"> Tutor Comunitario </a></h4>
                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
             </div>
             <div class="col-md-6" align="right">
@@ -41,7 +41,8 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading class=detalles">
                        <b><h class="detalles" >
-                          <span class="back glyphicon glyphicon-chevron-left"></span> Bitacora de {{=estudiante.f_universitario.f_usuario.first_name}} {{=estudiante.f_universitario.f_usuario.last_name}}
+                          <span class="back glyphicon glyphicon-chevron-left"></span> Bitacora de {{= estudiante.f_universitario.f_usuario.first_name}} 
+                          {{= estudiante.f_universitario.f_usuario.last_name}}
                        </h></b>
                     </div>
                         {{if bitacora: }}
@@ -80,7 +81,7 @@
                         <b class="detalles">Proyecto: {{=proyecto.f_proyecto.f_nombre}}</b>
                       </a>
                       <br><hr class="hr-margin">
-                      <b class="detalles">Bitacora de {{=estudiante.f_universitario.f_nombres}} {{=estudiante.f_universitario.f_apellidos}}</b>
+                      <b class="detalles">Bitacora de {{=estudiante.f_universitario.f_usuario.first_name}} {{=estudiante.f_universitario.f_usuario.last_name}}</b>
                     </div>
                       <div class="panel-body"  >
                         {{if bitacora: }}
@@ -111,7 +112,7 @@
                             {{pass}}
                         </table>
                         {{else:}}
-                          <br><div class="alert alert-info"> No hay actividades.</div>
+                          <br><div class="alert alert-info"> No hay actividades realizadas.</div>
                         {{pass}}
                       <div class="list-group-item">
                         Estado del estudiante: 

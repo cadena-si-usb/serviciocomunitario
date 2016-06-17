@@ -971,9 +971,12 @@ def bitacora_de_estudiante():
     tutor      = db.auth_user(auth.user_id)
     msj        = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     id_est     = request.vars.est
-    proyecto   = db(db.t_cursa.f_estudiante==id_est and db.t_cursa.f_proyecto==request.vars.proy).select().first()
+    print id_est
+    proyecto   = db((db.t_cursa.f_estudiante==id_est) & (db.t_cursa.f_proyecto==request.vars.proy)).select().first()
+    print proyecto.f_estudiante
     estudiante = db(db.t_estudiante.id==id_est).select().first()
-    bitacora   = db(db.t_actividad_estudiante.f_cursa==proyecto)(db.t_actividad_estudiante.f_realizada==True).select()
+    bitacora   = db((db.t_actividad_estudiante.f_cursa==proyecto) & (db.t_actividad_estudiante.f_realizada==True)).select()
+    print bitacora
     return dict(bienvenida=msj,bitacora=bitacora,estudiante=estudiante,proyecto=proyecto)
 
 #AJAX completar actividad
@@ -2158,7 +2161,7 @@ def aceptarPlanTrabajo():
     if estado == 'aceptado':
         mensaje="Plan de trabajo aceptado con éxito. Volver."
         db(db.t_inscripcion.f_estudiante==idEstudiante).update(f_estado='Aprobado')
-        db(db.t_cursa.f_estudiante==idEstudiante).update(f_valido='Pendiente')
+        db(db.t_cursa.f_estudiante==idEstudiante).update(f_estado='Pendiente')
     else:
         mensaje="Se ha rechazado el plan de trabajo. Volver."
         cursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
