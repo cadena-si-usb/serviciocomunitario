@@ -264,10 +264,12 @@ $(document).ready(function() {
            	  	if (nextPag < 7) {
            	  		window.location = "propuestasCrear?proyecto_id="+ajaxResult.proyecto_id+"&pag="+nextPag;
            	  	}
-		  		else if (ajaxResult.estado_propuesta == 'En espera del aval' && !ajaxResult.es_adm) {
-		  			window.location = "generarPlanillaAval/"+ajaxResult.proyecto_id;
+		  		else if (ajaxResult.estado_propuesta == 'En espera de revision' && !ajaxResult.es_adm) {
+                                        alert("Su propuesta fue enviada a revision exitosamente.");
+		  			window.location = "propuestas/";
 		  		}
 		  		else {
+                                        console.log(ajaxResult.estado_propuesta);
 		  			window.location = "propuestas";
 		  		}
 			}

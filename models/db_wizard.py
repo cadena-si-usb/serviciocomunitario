@@ -347,7 +347,7 @@ db.define_table('t_condicion_archive',db.t_condicion,Field('current_record','ref
 db.define_table('t_propuesta',
     Field('f_proyecto', type='reference t_proyecto', notnull=True,
           label=T('ID del proyecto'), writable=False, readable=True),
-    Field('f_estado_propuesta', requires=IS_EMPTY_OR(IS_IN_SET(['Incompleta', 'En espera del aval', 'Aval recibido', 'Aprobado', 'Aprobado con observaciones', 'Rechazado'])),
+    Field('f_estado_propuesta', requires=IS_EMPTY_OR(IS_IN_SET(['Incompleta', 'En espera de revision', 'Aprobado', 'Rechazado con observaciones'])),
           label=T('Estado'), default='Incompleta', notnull=False),
     Field('f_observaciones', type='text', default='',
           label=T('Observaciones')),

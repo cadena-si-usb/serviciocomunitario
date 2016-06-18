@@ -1983,9 +1983,9 @@ def propuestasCrear():
             print(propuesta)
             if propuesta.f_estado_propuesta == 'Incompleta':
                 db(db.t_propuesta.id==res['propuesta_id']).update(
-                    f_estado_propuesta = 'En espera del aval'
+                    f_estado_propuesta = 'En espera de revision'
                 )
-                res['estado_propuesta'] = 'En espera del aval'
+                res['estado_propuesta'] = 'En espera de revision'
             else:
                 res['estado_propuesta'] = propuesta.f_estado_propuesta 
             response.flash = '1'
