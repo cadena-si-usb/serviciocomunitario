@@ -1,8 +1,7 @@
-
 <script type="text/javascript">
 
   jQuery('#enviar-area').on('click', function (e) {
-    ajax('nueva_area_admin', ['nombre','codigo','estado','descripcion'], 'target')
+    ajax('nueva_area_admin_modificada?id='+{{=form.id}}, ['nombre','codigo','estado','descripcion'], 'target')
     jQuery('#vista-admin').empty();
     jQuery('#vista-admin').html("<div class='miniloader'></div>");
     ajax('areas_admin', [], 'vista-admin'); 
@@ -18,22 +17,22 @@
   <form role="form">
     <div class="form-group">
       <label for="nombre">Nombre:</label>
-      <input type="text" name="nombre" class="form-control" id="nombre-area" placeholder="Nombre">
+      <input type="text" value='{{=form.f_nombre}}' name="nombre" class="form-control" id="nombre-area" placeholder="Nombre">
     </div>
 
     <div class="form-group">
       <label for="codigo">Codigo:</label>
-      <input type="text" name="codigo" class="form-control" id="codigo-area" placeholder="Codigo">
+      <input type="text" value='{{=form.f_codigo}}' name="codigo" class="form-control" id="codigo-area" placeholder="Codigo">
     </div>
 
     <div class="form-group">
       <label for="descripcion">Descripción:</label>
-      <textarea type="textarea" name="descripcion" class="form-control" rows="2" id="descripcion-area" placeholder="Descripción"></textarea>
+      <textarea type="textarea" value='{{=form.f_descripcion}}' name="descripcion" class="form-control" rows="2" id="descripcion-area" placeholder="Descripción"></textarea>
     </div>
 
     <div class="form-group">
 	  <label for="estado">Estado:</label>
-	  <select class="form-control" name="estado" id="estado-area">
+	  <select class="form-control" value='{{=form.f_estado}}' name="estado" id="estado-area">
 	    <option>Activo</option>
 	    <option>Inactivo</option>
 	  </select>
@@ -44,5 +43,8 @@
   </form>
 </div>
 
+       
+        
 
- 
+
+        

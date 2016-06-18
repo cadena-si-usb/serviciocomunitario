@@ -111,8 +111,8 @@
                                   <span class="glyphicon glyphicon-remove" style="color:red;"></span>
                               {{pass}}
                           </td>
-                          {{if proyecto.f_estado=='Aprobado':}}
-                          <td id="{{=actividad.id}}" class="completar_actividad">
+                          {{if proyecto.f_estado=='Pendiente':}}
+                          <td id="{{=actividad.id}}" style="cursor:pointer" class="completar_actividad">
                           {{else:}}
                           <td >
                           {{pass}}

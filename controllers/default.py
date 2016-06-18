@@ -324,9 +324,8 @@ def usuarios_detalles():
 
 def eliminar_usuario():
     idUsuario=request.vars.id
-    print idUsuario
     db(db.auth_user.id==idUsuario).delete()
-    redirect(URL('usuarios'))
+
 
 def roles_usuarios():
     relaciones=db(db.auth_membership.user_id!=auth.user_id).select()
@@ -701,6 +700,7 @@ def administrador():
 def home_admin():
     return dict() 
 
+
 def admin_usuarios_detalles():
     idUsuario=request.vars.id
 
@@ -817,6 +817,41 @@ def areas_admin():
 
 def nueva_area():
     return dict()
+
+def eliminar_area():
+    idArea=request.vars.id
+    db(db.t_area.id==idArea).delete()
+
+def admin_modificar_area():
+    idArea=request.vars.id
+    area=db(db.t_area.id==idArea).select().first()  
+    return dict(form=area)
+
+def nueva_area_admin_modificada():
+    idArea=request.vars.id
+    nombreArea=request.vars.nombre
+    descripcionArea=request.vars.descripcion
+    codigoArea=request.vars.codigo
+    estadoArea=request.vars.estado
+    area=db(db.t_area.id==idArea)
+
+
+    area.update(f_nombre=nombreArea,
+                f_descripcion=descripcionArea,
+                f_codigo=codigoArea,
+                f_estado=estadoArea)
+
+
+    return "exito"
+
+
+def admin_areas_detalles():
+    idArea=request.vars.id
+    area=db(db.t_area.id==idArea).select().first()
+
+    return dict(form=area)
+
+
 
 def nueva_area_admin():
     nombre=request.vars.nombre
@@ -1000,6 +1035,7 @@ def estado_estudiante():
         proyecto = None
         proy = None
 
+    print proyecto.f_estado
     #Tutores
     tutor_comunitario = []
     for obj in db(db.t_proyecto_tutor_comunitario.f_proyecto==proy).select():
@@ -1384,12 +1420,13 @@ def enviarPlanTrabajo():
             listaHoras.append(request.args[i+2+1+tope*2])
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
     mensaje = 'Plan de Trabajo enviado'
-
+    print lista
+    print listaHoras
     idCursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
     for j in range(len(lista)):
         #idActividad = db(db.t_actividad.id==j).select()
         db.t_actividad_estudiante.insert(f_cursa=idCursa[0],f_actividad=lista[j],f_horas=listaHoras[j])
-
+        print "hola"
     return dict(idProyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,bienvenida=msj,lista=lista)
 
 @auth.requires_membership('Administrador')
@@ -2127,6 +2164,7 @@ def estudiante_plan_trabajo():
     idEstudiante = long(request.args[0])
     listaActividades = []
     cursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
+    print cursa
     listaActividades = db(db.t_actividad_estudiante.f_cursa==cursa[0].id).select()
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
     return dict(listaActividades=listaActividades,bienvenida=msj,idEstudiante=idEstudiante)

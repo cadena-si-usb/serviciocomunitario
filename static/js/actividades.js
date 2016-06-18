@@ -168,9 +168,9 @@ $(document).ready(function() {
 		$('body').on("click", "#guardar", function(e) {
 			e.preventDefault();
             function process(date){
-   var parts = date.split("/");
-   return new Date(parts[2], parts[1] - 1, parts[0]);
-}
+   				var parts = date.split("/");
+   				return new Date(parts[2], parts[1] - 1, parts[0]);
+			};
             var ini = process($('#no_table_f_fechaini').val());
             var fin = process($('#no_table_f_fechafin').val());
             var duracion = fin - ini;
