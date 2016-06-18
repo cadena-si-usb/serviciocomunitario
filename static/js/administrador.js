@@ -64,13 +64,6 @@ jQuery(document).ready(function(){
     ajax('areas_admin', [], 'vista-admin');
   });
 
-  jQuery('#usuarios').on('click', function (e) {
- 
-  });
-
-  jQuery('.load_content2').on('click', function (e) {
-
-  });
 
 });
   

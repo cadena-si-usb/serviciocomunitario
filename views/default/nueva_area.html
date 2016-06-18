@@ -3,9 +3,13 @@
 
   jQuery('#enviar-area').on('click', function (e) {
     ajax('nueva_area_admin', ['nombre','codigo','estado','descripcion'], 'target')
-    jQuery('#vista-admin').empty();
-    jQuery('#vista-admin').html("<div class='miniloader'></div>");
-    ajax('areas_admin', [], 'vista-admin'); 
+    console.log(jQuery('#target').text());
+    if (jQuery('#target').text()=='Exito'){
+      jQuery('#vista-admin').empty();
+      jQuery('#vista-admin').html("<div class='miniloader'></div>");
+      ajax('areas_admin', [], 'vista-admin');
+    }
+ 
   });
 	
 </script>

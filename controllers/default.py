@@ -842,7 +842,7 @@ def nueva_area_admin_modificada():
                 f_estado=estadoArea)
 
 
-    return "exito"
+    return "Exito"
 
 
 def admin_areas_detalles():
@@ -877,7 +877,7 @@ def nueva_area_admin():
         f_estado=estado
     )
 
-    return "*Area de Proyecto agregada exitosamente."
+    return "Exito"
 
 
 def proponentesEditar():
