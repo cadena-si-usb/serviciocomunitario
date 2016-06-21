@@ -32,7 +32,7 @@
         </thead>
         <tbody>
             {{ for ins in estudianteCursa: }}
-                {{ if ins.f_estado == 'Pendiente':}}
+                {{ if ins.f_valido == 'Invalido':}}
                     <tr>
                         <td>
                             <a>{{=ins.f_estudiante.f_universitario.f_usuario.first_name}} {{=ins.f_estudiante.f_universitario.f_usuario.last_name}}</a>

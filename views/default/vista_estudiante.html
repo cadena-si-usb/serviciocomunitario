@@ -32,9 +32,14 @@
                         <a href="{{=URL('propuestas')}}">
                              <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>
                         {{if cursa:}}
-                            <a href="{{=URL('estado_estudiante')}}">
+                              {{if cursa.f_estado!='Retirado':}}
+                              <a href="{{=URL('estado_estudiante')}}">
                                <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Estado de Inscripción</a>
-                            {{if (cursa.f_estado=='Aprobado') and (cursa.f_valido=='Valido'):}}
+
+
+                              {{pass}}
+
+                            {{if (cursa.f_estado=='Pendiente') and (cursa.f_valido=='Valido'):}}
                                 <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudianteId,proyecto.id])}}">
                                     <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
                                 <a style="margin-left: 0px;" target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
@@ -44,7 +49,7 @@
                                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Retirar</a>
                                <a href="{{=URL('culminar_proyecto',args=[proyecto.id])}}">
                                    <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Culminar</a>
-                            {{elif (cursa.f_valido=='Pendiente') and (aprob_tutor=='Aprobado'):}}
+                            {{elif (cursa.f_valido=='valido') and (aprob_tutor=='Aprobado'):}}
                                    <a class="btn disabled" style="margin-left: -61px;" href="#">
                                        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
 
@@ -103,7 +108,7 @@
                                 <tr><td><b>Sede:</b> {{=estudiante.f_sede}}</td></tr>
                           </table>
                           <div class="alert alert-info" style="margin-bottom: 5px">
-                            Total de horas realizadas:<b> {{=horas}}</b>
+                            Total de horas confirmadas:<b> {{=horas}}</b>
                           </div>
                       </div>
                   </div>

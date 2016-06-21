@@ -74,8 +74,8 @@
                           {{=propuesta['nombre']}}
                         </td>
                         <td>
-                        {{if propuesta['estado'] == 'En espera del aval':}}
-                         <a target="_blank" data-toggle="tooltip" title="Generar planilla de aval" href="{{=URL(r=request,f='generarPlanillaAval',args=propuesta['id'])}}">{{=propuesta['estado']}}</a>
+                        {{if propuesta['estado'] == 'En espera de revision':}}
+                         <a target="_blank" data-toggle="tooltip" title="Su propuesta esta siendo revisada.">{{=propuesta['estado']}}</a>
                         {{else:}}
                         <span>{{=propuesta['estado']}}</span>
                         {{pass}}

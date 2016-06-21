@@ -41,7 +41,6 @@
                               <th>Nombre</th>
                               <th>Apellido</th>
                               <th>Carnet</th>
-                              <th><span class="glyphicon glyphicon-pencil" ></span></th>
                             </tr>
                           </thead>
                           {{for estudiante in estudiantes:}}
@@ -49,7 +48,6 @@
                                 <td>{{=estudiante.t_estudiante.f_universitario.f_usuario.first_name}}</td>
                                 <td>{{=estudiante.t_estudiante.f_universitario.f_usuario.last_name}}</td>
                                 <td>{{=estudiante.t_estudiante.f_universitario.f_usbid}}</td>
-                                <td><a href="{{=URL(c='default', f='bitacora_de_estudiante',vars={'est': estudiante.t_estudiante.id, 'proy': proyecto.id})}}">Editar Bitacora</a></td>
                             </tr>
                           {{pass}}
                         </table>

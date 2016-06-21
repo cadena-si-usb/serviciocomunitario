@@ -18,6 +18,7 @@ from uuid import uuid4
 from cgi  import escape
 from usbutils import get_ldap_data, random_key
 from cgi import escape 
+import time
 
 ### required - do no delete
 crud = Crud(db)
@@ -177,7 +178,7 @@ def home():
 
     usuario = db.auth_user(auth.user_id)
     
-    esTutorComunitario = db(db.t_proyecto_tutor_comunitario.id==auth.user_id).select().first() !=None
+    esTutorComunitario = db(db.t_proyecto_tutor_comunitario.f_tutor==auth.user_id).select().first() !=None
 
 
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
@@ -1079,7 +1080,7 @@ def estado_estudiante():
 
     for row in actividades:
         planoperativo.append(db(db.t_plan_operativo.f_actividad==row.f_actividad).select())
-        if row.f_realizada:
+        if row.f_confirmada:
             horas_realizadas += int(row.f_horas)
 
     if request.env.request_method =='POST':
@@ -1118,7 +1119,7 @@ def vista_estudiante():
     for proy in todos_los_proyectos:
         todas_actividades = db(db.t_actividad_estudiante.f_cursa==proy).select()
         for acti in todas_actividades:
-            if acti.f_realizada:
+            if acti.f_confirmada:
                 horas_realizadas += int(acti.f_horas)
     pInscrito = 'vacio'
     pActividad = 'no'
@@ -1150,7 +1151,7 @@ def retirar_proyecto():
     msj     = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     estt    = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
-    proyecto  = db(db.t_cursa.f_estudiante==usuario)(db.t_cursa.f_proyecto==x).select().first()
+    proyecto  = db((db.t_cursa.f_estudiante==usuario) & (db.t_cursa.f_proyecto==x)).select().first()
     horas = 50
     todas_actividades = db(db.t_actividad_estudiante.f_cursa==proyecto).select()
     for acti in todas_actividades:
@@ -1159,8 +1160,8 @@ def retirar_proyecto():
     return dict(estudiante=usuario, bienvenida=msj,proyecto=proyecto,horas=horas)
 
 def retiro():
-    x = long (request.args[1])
-    retiro = db(db.t_cursa.f_estudiante==request.vars.id and db.t_cursa.f_estado=='Aprobado').update(f_estado='Retirado',f_fecha=datetime.datetime.today())
+    x = long(request.args[1])
+    retiro = db((db.t_cursa.f_estudiante==long(request.args[0])) & (db.t_cursa.f_estado=='Pendiente')).update(f_estado='Retirado',f_fecha=datetime.datetime.today())
     redirect(URL('retirar_proyecto',args=[x]))
     return ""
 
@@ -1190,7 +1191,7 @@ def culminar_proyecto():
     horas_realizadas = 0
     todos_los_proyectos = db(db.t_cursa.f_estudiante==usuario).select()
     for proy in todos_los_proyectos:
-        todas_actividades = db(db.t_actividad_estudiante.f_cursa==proy).select()
+        todas_actividades = db((db.t_actividad_estudiante.f_cursa==proy) & (db.t_actividad_estudiante.f_confirmada==True)).select()
         for acti in todas_actividades:
             if acti.f_realizada:
                 horas_realizadas += int(acti.f_horas)
@@ -1450,7 +1451,7 @@ def enviarPlanTrabajo():
     idCursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
     for j in range(len(lista)):
         #idActividad = db(db.t_actividad.id==j).select()
-        db.t_actividad_estudiante.insert(f_cursa=idCursa[0],f_actividad=lista[j],f_horas=listaHoras[j])
+        db.t_actividad_estudiante.insert(f_cursa=idCursa[0],f_actividad=long(lista[j]),f_horas=int(listaHoras[j]))
         print "hola"
     return dict(idProyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,bienvenida=msj,lista=lista)
 
@@ -2008,9 +2009,9 @@ def propuestasCrear():
             print(propuesta)
             if propuesta.f_estado_propuesta == 'Incompleta':
                 db(db.t_propuesta.id==res['propuesta_id']).update(
-                    f_estado_propuesta = 'En espera del aval'
+                    f_estado_propuesta = 'En espera de revision'
                 )
-                res['estado_propuesta'] = 'En espera del aval'
+                res['estado_propuesta'] = 'En espera de revision'
             else:
                 res['estado_propuesta'] = propuesta.f_estado_propuesta 
             response.flash = '1'
@@ -2205,7 +2206,8 @@ def aprobar_solicitud_coordinacion():
     #idProyecto = long(request.args[0])
     idEstudiante = long(request.args[0])
     db(db.t_cursa.f_estudiante==idEstudiante).update(f_valido='Valido')
-    db(db.t_cursa.f_estudiante==idEstudiante).update(f_estado='Aprobado')
+    db(db.t_cursa.f_estudiante==idEstudiante).update(f_estado='Pendiente')
+    db(db.t_cursa.f_estudiante==idEstudiante).update(f_fecha=datetime.datetime.today())
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
     return dict(bienvenida=msj)
 
@@ -2237,18 +2239,6 @@ def rechazarProyectoEstudiante():
     db(db.t_cursa.id==idProyecto).update(f_state="3")
     return dict(proyecto=idProyecto)
 
-def registrarProyectoEstudiante():
-    idProyecto = long(request.args[0])
-    idEstudiante = long(request.args[1])
-    proyectoInscrito = db(db.t_cursa.f_estudiante==idEstudiante).select()
-    if not proyectoInscrito:
-        db.t_cursa.insert(f_estudiante=idEstudiante,f_project=idProyecto,f_state="2")
-        mensaje = "Registro de proyecto exitoso. Volver al Menú"
-    else:
-        mensaje = "Usted ya tiene un proyecto inscrito. Volver al Menú"
-
-    return dict(proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje)
-
 def registrarProyectoComoEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
@@ -2256,7 +2246,7 @@ def registrarProyectoComoEstudiante():
     proyectoInscrito = db(db.t_cursa.f_estudiante==idEstudiante).select()
 
     if not proyectoInscrito or (proyectoInscrito[0].f_estado=="Retirado"):
-        db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente")
+        db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_valido="Invalido")
         mensaje = "Registro de proyecto exitoso. Volver al Menú"
         db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown)
     else:

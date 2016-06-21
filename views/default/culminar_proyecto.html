@@ -28,11 +28,14 @@
                       <a href="{{=URL('propuestas')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>
                       {{if proyecto:}}
+
+                        {{if proyecto.f_estado!='Retirado':}}
                           <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.id])}}">
                               <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
                           <a href="{{=URL('estado_estudiante')}}">
                              <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Estado de Inscripción</a>
-                          {{if (proyecto.f_estado=='Aprobado') and (proyecto.f_valido=='Valido'):}}
+                             {{pass}}
+                          {{if (proyecto.f_estado=='Pendiente') and (proyecto.f_valido=='Valido'):}}
                               <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.id])}}">
                                   <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
                              <a href="{{=URL('retirar_proyecto',args=[proyecto.id])}}">
