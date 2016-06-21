@@ -1,16 +1,23 @@
-
+<script type="text/javascript" src="{{=URL('static', 'js/jquery.js')}}"></script>
 <script type="text/javascript">
 
   jQuery('#enviar-area').on('click', function (e) {
-    ajax('nueva_area_admin', ['nombre','codigo','estado','descripcion'], 'target')
-    console.log(jQuery('#target').text());
-    if (jQuery('#target').text()=='Exito'){
-      jQuery('#vista-admin').empty();
-      jQuery('#vista-admin').html("<div class='miniloader'></div>");
-      ajax('areas_admin', [], 'vista-admin');
-    }
+
+    $.ajax("nueva_area_admin?nombre="+jQuery("#nombre-area").val()+"&codigo="+jQuery("#codigo-area").val()+"&descripcion=" +jQuery("#descripcion-area").val() + "&estado=" +jQuery("#estado-area").val()
+    ).done(function(html) {
+
+      if (html=='Exito'){
+        jQuery('#vista-admin').empty();
+        jQuery('#vista-admin').html("<div class='miniloader'></div>");
+        ajax('areas_admin', [], 'vista-admin');
+      }else{
+        $('#target').html(html);
+      };
+      
+    });
  
   });
+
 	
 </script>
 <div class="container-fluid">

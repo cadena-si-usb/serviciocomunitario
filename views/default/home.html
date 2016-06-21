@@ -110,35 +110,6 @@
 
     <hr>  
 
-
-    {{if tipo_usuario == "Externo":}}
-    <div class="row">
-        <div class="col-md-4">
-            <img class="img-responsive" src="{{=URL('static', 'proyects2.png')}}" height="155" width="265"/>
-            </div>
-            <div class="col-md-4">
-                  <h3>Proyectos</h3>
-
-                 <p style="color: #808080">
-                   Ver lista de proyectos donde es tutor<br>
-                   comunitario.<br>
-                   Gestionar proyectos.<br>.
-                </p>
-            </div>
-            <div class="col-md-3">
-                <div class="row">
-                    
-                      <a href="{{=URL('proyectos_tutor_comunitario')}}">
-                    
-                      <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Proyectos  >> </button>
-                      </a>
-                </div>
-            </div>
-      </div>
-      <hr>
-      {{pass}}
-
 {{if "Administrador" in roles:}}
         <div class="row">
             <div class="col-md-4">
@@ -356,8 +327,6 @@
       <div class="col-md-3">
           <div class="row">
                 <a href="#">
-
-
                   <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                     Ir a Gestionar Propuestas >> </button>
                 </a>

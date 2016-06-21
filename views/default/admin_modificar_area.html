@@ -1,16 +1,29 @@
+
+<script type="text/javascript" src="{{=URL('static', 'js/jquery.js')}}"></script>
 <script type="text/javascript">
 
   jQuery('#enviar-area').on('click', function (e) {
-    ajax('nueva_area_admin_modificada?id='+{{=form.id}}, ['nombre','codigo','estado','descripcion'], 'target')
-    jQuery('#vista-admin').empty();
-    jQuery('#vista-admin').html("<div class='miniloader'></div>");
-    ajax('areas_admin', [], 'vista-admin'); 
+
+    $.ajax('nueva_area_admin_modificada?id='+{{=form.id}}+"&nombre="+jQuery("#nombre-area").val()+"&codigo="+jQuery("#codigo-area").val()+"&descripcion=" +jQuery("#descripcion-area").val() + "&estado=" +jQuery("#estado-area").val()
+    ).done(function(html) {
+
+      if (html=='Exito'){
+        jQuery('#vista-admin').empty();
+        jQuery('#vista-admin').html("<div class='miniloader'></div>");
+        ajax('areas_admin', [], 'vista-admin');
+      }else{
+        $('#target').html(html);
+      };
+      
+    });
+ 
   });
-	
+
+  
 </script>
 <div class="container-fluid">
   
-  <h4>Nueva Area de Proyectos</h4>
+  <h4>Modificar Area de Proyectos</h4>
 
   <div id="target"></div>
 
@@ -27,7 +40,7 @@
 
     <div class="form-group">
       <label for="descripcion">Descripción:</label>
-      <textarea type="textarea" value='{{=form.f_descripcion}}' name="descripcion" class="form-control" rows="2" id="descripcion-area" placeholder="Descripción"></textarea>
+      <textarea type="textarea" name="descripcion" class="form-control" rows="2" id="descripcion-area" placeholder="Descripción">{{=form.f_descripcion}}</textarea>
     </div>
 
     <div class="form-group">

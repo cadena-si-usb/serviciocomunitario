@@ -828,19 +828,36 @@ def admin_modificar_area():
     return dict(form=area)
 
 def nueva_area_admin_modificada():
-    idArea=request.vars.id
+    idArea=int(request.vars.id)
     nombreArea=request.vars.nombre
     descripcionArea=request.vars.descripcion
     codigoArea=request.vars.codigo
     estadoArea=request.vars.estado
+
+    if ((nombreArea == '') and (codigoArea == '')):
+        return "*Codigo y nombre de area de proyecto vacios."
+        
+    if (nombreArea == ''):
+        return "*Nombre de area de proyecto vacio."
+    if (codigoArea == ''):
+        return "*Campo codigo vacio."
+
+
+    existeNombreArea=db((db.t_area.f_nombre==nombreArea) & (db.t_area.id!=idArea)).select().first() !=None
+    existeCodigoArea=db((db.t_area.f_codigo==codigoArea) & (db.t_area.id!=idArea)).select().first() !=None
+
+    if existeNombreArea and existeCodigoArea:
+        return "*Nombre y Codigo de Area ya existentes."
+    if existeCodigoArea:
+        return "*Codigo de Area ya existente."
+    if existeNombreArea:
+        return "*Nombre de Area ya existente."
+
     area=db(db.t_area.id==idArea)
-
-
     area.update(f_nombre=nombreArea,
                 f_descripcion=descripcionArea,
                 f_codigo=codigoArea,
                 f_estado=estadoArea)
-
 
     return "Exito"
 
@@ -856,10 +873,18 @@ def admin_areas_detalles():
 def nueva_area_admin():
     nombre=request.vars.nombre
     codigo=request.vars.codigo
-    descripcion=request.descripcion
+    descripcion=request.vars.descripcion
     estado=request.vars.estado
-    esTutorAcademico= db(db.t_proyecto_tutor.f_tutor==auth.user_id).select().first() !=None
-    
+
+    if ((nombre == '') and (codigo == '')):
+        return "*Codigo y nombre de area de proyecto vacios."
+
+    if (nombre == ''):
+        return "*Nombre de area de proyecto vacio."
+    if (codigo == ''):
+        return "*Campo codigo vacio."
+
+
     existeNombreArea=db(db.t_area.f_nombre==nombre).select().first() !=None
     existeCodigoArea=db(db.t_area.f_codigo==codigo).select().first() !=None
 
