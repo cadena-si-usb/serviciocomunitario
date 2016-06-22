@@ -1449,9 +1449,11 @@ def enviarPlanTrabajo():
             listaHoras.append(request.args[i+2+1+tope*2])
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
     mensaje = 'Plan de Trabajo enviado'
+    print "...."
     print lista
     print listaHoras
-    idCursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
+    print "...."
+    idCursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_estado=="Pendiente")).select()
     for j in range(len(lista)):
         #idActividad = db(db.t_actividad.id==j).select()
         db.t_actividad_estudiante.insert(f_cursa=idCursa[0],f_actividad=long(lista[j]),f_horas=int(listaHoras[j]))
