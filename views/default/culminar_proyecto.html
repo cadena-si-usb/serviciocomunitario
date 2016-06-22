@@ -23,30 +23,31 @@
             <hr>
              <ul class="nav nav-stacked">
                 <li>
-                                        <a href="{{=URL('editar_perfil')}}">
+                        <a href="{{=URL('editar_perfil')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Editar Perfil</a>
                       <a href="{{=URL('propuestas')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>
                       {{if proyecto:}}
 
                         {{if proyecto.f_estado!='Retirado':}}
-                          <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.id])}}">
+                          <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.f_proyecto])}}">
                               <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
+                              
                           <a href="{{=URL('estado_estudiante')}}">
                              <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Estado de Inscripción</a>
                              {{pass}}
                           {{if (proyecto.f_estado=='Pendiente') and (proyecto.f_valido=='Valido'):}}
-                              <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.id])}}">
+                              <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.f_proyecto])}}">
                                   <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
-                             <a href="{{=URL('retirar_proyecto',args=[proyecto.id])}}">
+                             <a href="{{=URL('retirar_proyecto',args=[proyecto.f_proyecto])}}">
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Retirar</a>
-                             <a href="{{=URL('culminar_proyecto',args=[proyecto.id])}}">
+                             <a href="{{=URL('culminar_proyecto',args=[proyecto.f_proyecto])}}">
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Culminar</a>
                           {{elif (proyecto.f_estado=='Retirado') and (proyecto.f_valido=='Valido'):}}
-                              <a target="_blank" href="{{=URL('generarPdfConstanciaRetiro',args=[estudiante.id,proyecto.f_proyecto.id])}}">
+                              <a target="_blank" href="{{=URL('generarPdfConstanciaRetiro',args=[estudiante.id,proyecto.f_proyecto])}}">
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Retiro</a>
                           {{elif (proyecto.f_estado=='Culminado') and (proyecto.f_valido=='Valido'):}}
-                              <a target="_blank" href="{{=URL('generarPdfConstanciaCulminacion',args=[estudiante.id,proyecto.f_proyecto.id])}}">
+                              <a target="_blank" href="{{=URL('generarPdfConstanciaCulminacion',args=[estudiante.id,proyecto.f_proyecto])}}">
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Culminación</a>
                           {{else:}}
                               <a class="btn disabled" style="margin-left: -61px;" href="#">

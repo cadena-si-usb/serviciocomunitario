@@ -1153,6 +1153,7 @@ def retirar_proyecto():
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
     proyecto  = db((db.t_cursa.f_estudiante==usuario) & (db.t_cursa.f_proyecto==x)).select().first()
     horas = 50
+    print proyecto.f_estado
     todas_actividades = db(db.t_actividad_estudiante.f_cursa==proyecto).select()
     for acti in todas_actividades:
         if acti.f_realizada:
@@ -1174,10 +1175,11 @@ def culminar_proyecto():
     proyecto = db(db.t_cursa.f_estudiante==usuario)(db.t_cursa.f_proyecto==x).select().first()
     error = None
 
+
     form = SQLFORM.factory(Field('f_informe','upload',uploadfolder=request.folder+'static/pdfs',label=T('Informe'),requires = [IS_LENGTH(maxsize=2097152),IS_UPLOAD_FILENAME(extension='pdf')]))
     if form.process(session=None, formname='test').accepted:
         if form.vars.f_informe:
-            db(db.t_estudiante.f_universitario==auth.user.id).update(f_informe=form.vars.f_informe)
+            db(db.t_estudiante.f_universitario==estt).update(f_informe=form.vars.f_informe)
             db(db.t_cursa.f_estudiante==usuario).update(f_estado="Culminado",f_fecha=datetime.datetime.today())
             return redirect(URL('culminar_proyecto',args=[x]))
         print('form accepted')
@@ -1393,7 +1395,8 @@ def solicitudes_tutor():
     listaInscripcion = []
     listaEnviados = []
     for proy in listaProyectosTutores:
-        listaInscripcion += db(db.t_inscripcion.f_proyecto == proy.f_proyecto).select()
+        if (db((db.t_cursa.f_proyecto==proy.f_proyecto) &(db.t_cursa.f_valido=="Valido")).select().first()!=None):
+            listaInscripcion += db(db.t_inscripcion.f_proyecto == proy.f_proyecto).select()
     for ins in listaInscripcion:
         act = []
         cursa = db(db.t_cursa.f_estudiante==ins.f_estudiante).select().first()
@@ -2230,7 +2233,7 @@ def aceptarPlanTrabajo():
     else:
         mensaje="Se ha rechazado el plan de trabajo. Volver."
         cursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
-        db(db.t_actividad_estudiante.f_cursa==cursa[0].id).delete()
+        db(db.t_actividad_estudiante.f_cursa==cursa[0]).delete()
 
     return dict( mensaje=mensaje,estado=estado)
 
