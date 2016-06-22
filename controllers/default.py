@@ -1453,7 +1453,7 @@ def enviarPlanTrabajo():
     print lista
     print listaHoras
     print "...."
-    idCursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_estado=="Pendiente")).select()
+    idCursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)).select()
     for j in range(len(lista)):
         #idActividad = db(db.t_actividad.id==j).select()
         db.t_actividad_estudiante.insert(f_cursa=idCursa[0],f_actividad=long(lista[j]),f_horas=int(listaHoras[j]))
