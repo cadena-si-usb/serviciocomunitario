@@ -1172,7 +1172,7 @@ def culminar_proyecto():
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     estt = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
-    proyecto = db(db.t_cursa.f_estudiante==usuario)(db.t_cursa.f_proyecto==x).select().first()
+    proyecto = db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)).select().first()
     error = None
 
 
