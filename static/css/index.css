@@ -1,0 +1,13 @@
+form{
+  margin:5px;
+}
+.w2p_fw {
+    padding: 2.5px;
+}
+.micontainer{
+  width: 270px;
+  text-align: center;
+}
+#web2py_user_form{
+  margin-bottom: 10px;
+}

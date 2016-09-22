@@ -12,9 +12,8 @@
     <meta name="author" content="">
     
     
-    <link rel="stylesheet" href="{{=URL('static', 'css/Pag_principal.css')}}%}">
     <link rel="stylesheet" href="{{=URL('static', 'css/propuestas.css')}}">
-     <link rel="stylesheet" href="{{=URL('static', 'css/web2py.css')}}">
+    <link rel="stylesheet" href="{{=URL('static', 'css/web2py.css')}}">
 
     <script type="text/javascript" src="{{=URL('static', 'js/jquery.multiselect.js')}}">
     </script>
@@ -46,7 +45,6 @@
   
   <body role="document">
    
-
     <!-- Contenido -->
     <div class="col-sm-12">
         <div class="row">
@@ -109,7 +107,7 @@
               <div class="form-group">
                   <label> Fecha de finalización (máximo 2 años):</label> {{=form.custom.widget.f_fechafin}} </div>
               <div class="form-group">
-                  <label> Sede: </label> {{=form.custom.widget.f_sede}} </div>
+                  <label> Sedes: </label> {{=form.custom.widget.f_sedes}} </div>
               <!--
               Problemas con modificaciones del campo proponente
               <div class="form-group {{='hidden' if not es_adm else ''}}">

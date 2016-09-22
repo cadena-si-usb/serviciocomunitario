@@ -1,10 +1,11 @@
 
         <div class="form-group">
-          <label class="col-lg-3 control-label">Usuario:</label>
-          <div class="col-lg-8">
-            {{=form.username}}
+          <div class="col-md-12">
+            <label class="control-label">
+              <h4><strong>Usuario:</strong> {{=form.username}}</h4>
+            </label>
           </div>
-        </div>
+        </div>  
 
         <div class="form-group">
           <label class="col-lg-3 control-label">Nombres:</label>
@@ -32,22 +33,12 @@
             {{=form.email}}
           </div>
         </div>
-        {{if form.f_tipo == "Externo":}}
-        <div class="form-group">
-          <label class="col-md-3 control-label">Nombre de usuario:</label>
-          <div class="col-md-8">
-            {{=form.username}}
-          </div>
-        </div>
-        {{else:}}
         <div class="form-group">
           <label class="col-md-3 control-label">Tipo:</label>
           <div class="col-md-8">
             {{=form.f_tipo}}
           </div>
         </div>
-        {{pass}}
-        
         {{if form.f_tipo == "Docente":}}
         <div class="form-group">
             <label class="col-md-3 control-label">Sede:</label>

@@ -18,6 +18,16 @@ if len(db().select(db.auth_group.ALL)) == 0:
         description='Administrador',
     )
 
+if len(db().select(db.t_sede.ALL)) == 0:
+    db.t_sede.insert(
+        f_nombre='Sartenejas',
+        f_estado='Activo',
+    )
+    db.t_sede.insert(
+        f_nombre='Litoral',
+        f_estado='Activo',
+    )
+
 if len(db().select(db.t_area.ALL)) == 0:
     db.t_area.insert(
         f_nombre='Ambiental',
@@ -65,14 +75,16 @@ if len(db().select(db.t_area.ALL)) == 0:
     )
 
 areas_carrera = [
+	'Ingeniería',
 	'Ciencias Básicas',
-	'Ciencias Sociales y Humanidades',
-	'Ingeniería y Ciencias Aplicadas',
-	'Industrial',
-	'Administración'
+	'Ciencias Sociales y Administrativas',
+	'Área Industrial',
+	'Área Administrativa'
 ]
 
 estados = ['Amazonas','Anzoategui','Apure','Aragua','Barinas','Bolivar','Carabobo','Cojedes','Delta Amacuro','Distrito Capital','Falcon','Guarico','Lara','Merida','Miranda','Monagas','Nueva Esparta','Portuguesa','Sucre','Tachira','Trujillo','Vargas','Yaracuy','Zulia']
+# Llenar tabla de carreras, por codigo y nombre.
+carreras={'0800':'Ingeniería de la Computación'}
 
 if len(db().select(db.t_area_carrera.ALL)) == 0:
     for area in areas_carrera:
@@ -81,3 +93,11 @@ if len(db().select(db.t_area_carrera.ALL)) == 0:
 if len(db().select(db.t_estado.ALL)) == 0:
     for estado in estados:
     	db.t_estado.insert(f_nombre=estado)
+
+if len(db().select(db.t_carrera.ALL)) == 0:
+    for codigo,carrera in carreras.items():
+        db.t_carrera.insert(
+            f_codigo=codigo,
+            f_area_carrera=db(db.t_area_carrera.f_nombre=='Ingeniería').select()[0].id,
+            f_nombre=carrera
+        )

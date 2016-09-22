@@ -1,13 +1,15 @@
 
 $(document).ready(function() {
+
 		$('#no_table_f_fechaini, #no_table_f_fechafin').datepicker({
         	format: "dd/mm/yyyy"
 		});
+
 		function init_plugins() {
 			$('select[multiple]').multiselect({
 			    columns: 1,
 			    search: true,
-			    placeholder: 'Seleccione uno o más tutores'
+			    placeholder: 'Seleccione uno o más opciones.'
 			});
 		}
 
@@ -21,11 +23,16 @@ $(document).ready(function() {
 			pag = parseInt($("#siguiente").data('pag'));
 
 			datos = $("form").serializeObject();
-
+			//alert(accion);
 			datos['actividades'] = actividades;
 			datos['objetivos_especificos'] = objetivos;
 			datos['plan_operativo'] = filas;
-			
+			console.log(pag);
+			if(pag==1){
+				console.log($("#no_table_f_sedes").val());
+				datos["f_sedes"]=$("#no_table_f_sedes").val();
+			}
+
 			if (pag == 3) {
 				datos["f_tutores"] = $("#no_table_f_tutores").val();
 				datos["f_tutores_comunitarios"] = $("#no_table_f_tutores_comunitarios").val();
@@ -58,6 +65,7 @@ $(document).ready(function() {
 			ajaxResult['errors_count'] = errors_count;
 			return ajaxResult;
 		}
+		
 		$('body').on("click", "#agregar_act", function(){
 			actividad_tmp = $(".form-actividades").serializeObject();
 			actividad = {};
@@ -167,43 +175,48 @@ $(document).ready(function() {
 
 		$('body').on("click", "#guardar", function(e) {
 			e.preventDefault();
+			pag = parseInt($("#siguiente").data('pag'));
             function process(date){
    				var parts = date.split("/");
    				return new Date(parts[2], parts[1] - 1, parts[0]);
 			};
-            var ini = process($('#no_table_f_fechaini').val());
-            var fin = process($('#no_table_f_fechafin').val());
-            var duracion = fin - ini;
-            var duracionEnAnios = duracion/(1000*60*60*24*365);
-            console.log("INI");
-            console.log(ini);
-            console.log("FIN");
-            console.log(fin);
-            console.log("DURACION");
-            console.log(duracion);
-            console.log("DURACION EN ANIOS");
-            console.log(duracionEnAnios);
+
+			if (pag==1){
+				var ini = process($('#no_table_f_fechaini').val());
+	            var fin = process($('#no_table_f_fechafin').val());
+	            var duracion = fin - ini;
+	            var duracionEnAnios = duracion/(1000*60*60*24*365);
+	            console.log("INI");
+	            console.log(ini);
+	            console.log("FIN");
+	            console.log(fin);
+	            console.log("DURACION");
+	            console.log(duracion);
+	            console.log("DURACION EN ANIOS");
+	            console.log(duracionEnAnios);
+
+	            if (duracion < 0){
+                	alert("La fecha de inicio no puede ser posterior a la de finalizacion");
+                	return false;
+	            }else if (duracionEnAnios > 2){
+	                alert("El proyecto no puede durar mas de 2 años");
+	                return false;
+	            }
+			}
+
             
 			if ($('#no_table_f_nombre').val() == ''){
                 alert("El nombre del proyecto no puede estar vacio");
                 return false;
-            }
-            else if (duracion < 0){
-                alert("La fecha de inicio no puede ser posterior a la de finalizacion");
-                return false;
-            }
-            else if (duracionEnAnios > 2){
-                alert("El proyecto no puede durar mas de 2 años");
-                return false;
-            }
-            else {
-                ajaxResult = enviarPropuesta('guardar');
+            
+
+            }else {
+            ajaxResult = enviarPropuesta('guardar');
                 
             for (var p in ajaxResult.errors) {
                 if (Object.keys(ajaxResult.errors[p]).length) {
                     $(".btn-pag[data-pag='"+p+"']").css("color","red");
-                }
-                else {
+                }else{
                     $(".btn-pag[data-pag='"+p+"']").css("color","green");
                 }
                 for (var k in ajaxResult.errors[p]) {
@@ -216,13 +229,15 @@ $(document).ready(function() {
                     $("#no_table_"+k).parent().append('<span class="form-error red">*'+ajaxResult.errors[p][k]+'</span>')
                 }
             }
-                if (ajaxResult.proyecto_id) {
-                    $("[name='proyecto_id'],[name='f_proyecto']").val(ajaxResult.proyecto_id);
-                    console.log(ajaxResult);
-                    if (ajaxResult.errors_count == 0) {
-                        alert("La propuesta ha sido guardada exitosamente. Puede seguir llenándola cuando le plazca");
-                    }
+
+            if (ajaxResult.proyecto_id) {
+                $("[name='proyecto_id'],[name='f_proyecto']").val(ajaxResult.proyecto_id);
+                console.log(ajaxResult);
+                if (ajaxResult.errors_count == 0) {
+                    alert("La propuesta ha sido guardada exitosamente. Puede seguir llenándola cuando le plazca");
                 }
+            }
+            
             }
 
 		})
@@ -231,12 +246,45 @@ $(document).ready(function() {
 		$('body').on("click", "#siguiente", function(e) {
 			e.preventDefault();
 			pag = parseInt($("#siguiente").data('pag'));
-			if (pag == 6)
-				accion = "registrar"
-			else
-				accion = "guardar"
+            function process(date){
+   				var parts = date.split("/");
+   				return new Date(parts[2], parts[1] - 1, parts[0]);
+			};
+
+			if (pag==1){
+				var ini = process($('#no_table_f_fechaini').val());
+	            var fin = process($('#no_table_f_fechafin').val());
+	            var duracion = fin - ini;
+	            var duracionEnAnios = duracion/(1000*60*60*24*365);
+	            console.log("INI");
+	            console.log(ini);
+	            console.log("FIN");
+	            console.log(fin);
+	            console.log("DURACION");
+	            console.log(duracion);
+	            console.log("DURACION EN ANIOS");
+	            console.log(duracionEnAnios);
+
+	            if (duracion < 0){
+                	alert("La fecha de inicio no puede ser posterior a la de finalizacion");
+                	return false;
+	            }else if (duracionEnAnios > 2){
+	                alert("El proyecto no puede durar mas de 2 años");
+	                return false;
+	            }
+			}
+
+			//alert(accion);
+			if ($('#no_table_f_nombre').val() == ''){
+                alert("El nombre del proyecto no puede estar vacio");
+                return false;
+            }else {
+            	if (pag == 6){
+            		ajaxResult = enviarPropuesta('registrar');
+				}else{
+					ajaxResult = enviarPropuesta('guardar');
+				}
 			
-			ajaxResult = enviarPropuesta(accion);
 			console.log(ajaxResult.es_adm);
        	  	for (var p in ajaxResult.errors) {
        	  		if (Object.keys(ajaxResult.errors[p]).length) {
@@ -263,16 +311,15 @@ $(document).ready(function() {
            	  	nextPag = pag+1;
            	  	if (nextPag < 7) {
            	  		window.location = "propuestasCrear?proyecto_id="+ajaxResult.proyecto_id+"&pag="+nextPag;
-           	  	}
-		  		else if (ajaxResult.estado_propuesta == 'En espera de revision' && !ajaxResult.es_adm) {
-                                        alert("Su propuesta fue enviada a revision exitosamente.");
+           	  	}else if (ajaxResult.estado_propuesta == 'En espera de revision' && !ajaxResult.es_adm) {
+                    alert("Su propuesta fue enviada a revision exitosamente.");
 		  			window.location = "propuestas/";
-		  		}
-		  		else {
+		  		}else {
                     console.log(ajaxResult.estado_propuesta);
 		  			window.location = "propuestas";
 		  		}
 			}
+		}
 		})
 		// Validaciones numericas
 		$('body').on("keydown", "[name='f_tiempo'],[name='f_incorporacion_estudiantes'],[name='f_incorporacion_empleados'],[name='f_incorporacion_obreros'],[name='alumnos_act'],[name='costo_act'],[name='monto_total_act']", function (e) {

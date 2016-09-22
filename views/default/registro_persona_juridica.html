@@ -1,0 +1,147 @@
+{{ extend 'base.html'}}
+{{ block contenido }}
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+       var errorClave="*La clave debe tener al menos 8 carcacteres entre los cuales una mayúscula, una minúscula, un dígito y uno de los siguientes caracteres especiales: (@.#$-_+*)."
+
+        var debeTener=/^[a-z0-9A-Z@.\-_#$+*]+$/;
+        var letrasMinusculas=/[a-z]/;
+        var numeros=/[0-9]/;
+        var letrasMayusculas=/[A-Z]/
+        var caracteresEspeciales=/[@.#\-_$+*]/;
+
+        var acceptPassword=function(clave){
+
+            if ((clave.match(debeTener)!==null) && (clave.search(numeros)!==-1) 
+              && (clave.search(letrasMayusculas)!==-1) && (clave.search(letrasMinusculas)!==-1) 
+              && (clave.search(caracteresEspeciales)!==-1) && (clave.length>=8)){
+              return true;
+            }else{
+              return false;
+            }
+
+        };
+
+        jQuery("#enviar-datos-persona-juridica").on('click', function (e) {
+
+            if (acceptPassword(jQuery("#clave input").val())
+                || (jQuery("#clave input").val()==="")){
+                jQuery("#errorClave").empty();
+                var expRif=/^[JGVEP][-][0-9]{8}[-][0-9]{1}$/;
+
+                var OKrif = expRif.exec(jQuery("#rif input").val()); 
+
+                if ((OKrif) || (jQuery("#rif input").val()==="")){
+                    jQuery("form").submit(); 
+                }else{
+                    $('#errorFormRif').html("*RIF incorrecto, Ejemplo: J-21232343-1.");  
+                }
+
+            }else{
+                jQuery("#errorClave").html(errorClave); 
+            }
+
+        });
+    });
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                
+                <div class="col-md-3">
+                </div>
+                
+                <div class="col-md-6">
+                    <h1>Registro</h1>
+                    <h3>Persona Juridica</h3>
+                     {{=form2.custom.begin}}
+                        <div class="form-group">
+                            <div class="col-md-6">  
+                              <label class="control-label" for="nombre">Nombre:</label>
+                              {{=form2.custom.widget.first_name}}
+                            </div>
+                            <div class="col-md-6">
+                              <label for="nombre">Representante:</label>
+                              {{=form2.custom.widget.last_name}}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="codigo">Cedula Representante:</label>
+                                {{=form2.custom.widget.f_cedula}}
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="codigo">Sexo Representante:</label>
+                                {{=form2.custom.widget.f_sexo}}
+                            </div>
+                        </div>         
+
+                        <div class="form-group">
+                            <div class="col-md-12"> 
+                              <label for="nombre">Correo:</label>
+                              {{=form2.custom.widget.email}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="rif"class="col-md-12">
+                                <label for="nombre">RIF:</label>
+                                {{=form2.custom.widget.username}}
+                                <span id="errorFormRif"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="clave" class="col-md-12">
+                                <label for="codigo">Contraseña:</label>
+                                {{=form2.custom.widget.password}}
+                                <span id="errorClave"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="codigo">Confirmar contraseña:</label>
+                                {{=form2.custom.widget.password_two}}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="codigo">Estado:</label>
+                                {{=form2.custom.widget.f_estado}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="codigo">Dirección:</label>
+                                {{=form2.custom.widget.f_direccion}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <label for="codigo">Telefono:</label>
+                                {{=form2.custom.widget.f_telefono}}
+                            </div>
+                        </div>                                                     
+                    <div class="col-md-12" style="margin-top: 2%;">               
+                        <input id="enviar-datos-persona-juridica" value="Abrir Cuenta" class="btn btn-primary">
+                    </div>
+                    {{=form2.custom.end}}
+
+                </div>
+                <div class="col-md-3">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+{{ end }}

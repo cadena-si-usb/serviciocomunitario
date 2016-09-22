@@ -1,0 +1,19 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+
+<link rel="stylesheet" href="{{=URL('static', 'css/index.css')}}">
+<div class="row container-fluid">
+  <div class="row container-fluid">
+    <div class="col-sm-12 well">
+      	<h3>
+      		Si ha suministrado un nombre de usuario o dirección correctos, se le debería haber enviado un email.
+
+			Contiene instrucciones sencillas para confirmar y completar el cambio de contraseña. Si sigue teniendo dificultades, contacte por favor con el 	administrador del sitio.
+		</h3>
+		<a href="{{=URL('default', 'index')}}">Ir a la pagina principal.</a>
+    </div>
+  </div>
+
+</div>     
+                  
+{{ end }}

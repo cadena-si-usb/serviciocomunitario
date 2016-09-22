@@ -116,7 +116,11 @@
                             <tr><td><b>Estado:</b> {{=proyecto.f_estado_proyecto}}</td></tr>
                             <tr><td><b>Fecha de Inicio:</b> {{=proyecto.f_proyecto.f_fechaini}}</td></tr>
                             <tr><td><b>Fecha de Finalización:</b> {{=proyecto.f_proyecto.f_fechafin}}</td></tr>
-                            <tr><td><b>Version:</b> {{=proyecto.f_proyecto.f_sede}}</td></tr>
+                            <tr><td><b>Sedes:</b> 
+                            {{for sede in sedes:}}
+                              <li>{{=sede.f_sede.f_nombre}}</li>
+                            {{pass}}
+                            </td></tr>
                             <tr><td><b>Comunidad:</b> {{=proyecto.f_proyecto.f_comunidad}}</td></tr>
                           
 

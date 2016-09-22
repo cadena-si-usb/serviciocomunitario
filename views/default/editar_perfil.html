@@ -1,31 +1,22 @@
 {{ extend 'base.html'}}
 {{ block contenido }}
 
-    
-<script>
-    cambiar()
-    var count=1;
-    function cambiar(){
-        if (count ==1){
-            $("#contrasena2").css("display","block");
-            count=0;
-        }else{
-            $("#contrasena2").css("display","None");
-            count=1;
-        }
-    }
-
-</script>
 
 <div class="col-sm-12">
 
   <div class="col-sm-12">
         <div class="row">
-            <div class="col-md-2">
-                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+            <div style="text-align:center" class="col-md-3">
+                <img src="{{=picture}}" class="avatar img-circle" width="130"/>
+
             </div>
-            <div class="col-md-6" align="left">
-               <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / <a href="{{=URL('default', 'perfil')}}">Perfil</a> / Editar </h4>
+            <div class="col-md-5" align="left">
+                <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / Perfil de Usuario </h4>
+                <h4>{{=bienvenida}}</h4>
+                <hr>
+
+                <h3>Información Personal</h3>
+                {{=form}}
 
             </div>
             <div class="col-md-4" align="right">
@@ -34,30 +25,6 @@
         </div>
         <hr>
 
-    </div>
-
-
-  <div class="row">
-    <!-- left column -->
-    <div class="col-md-3">
-    </div>
-    <!-- edit form column -->
-    <div class="col-md-8 personal-info">
-    
-      
-      <div class="form-horizontal" role="form">
-
-      
-        <h3>Editar Información Personal</h3>
-        <!-- <input class="form-control" value="janeuser" type="text"> -->
-        {{=form}}
-        
-            
-            <a class="btn btn-default" href="{{=URL('perfil')}}"> 
-                Regresar
-            </a>
-          </div>
-        </div>
     </div>
     <div class="row">
         <hr>

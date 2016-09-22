@@ -48,18 +48,23 @@
     <!-- Contenido -->
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-md-10" style="color:#4682B4">
+            <div style="text-align:center" class="col-md-2">
+                <img src="{{=picture}}" class="avatar img-circle" width="130"/>
+            </div>
+            <div class="col-md-8" style="color:#4682B4">
 
                 <h4 > SIGESC / Home </h4>
 
                 <h4 >{{=bienvenida}}</h4>
-                <a href="{{=URL('/perfil')}}"><button class="btn btn-primary">Ver perfil</button></a>
-                <hr>
+                <a href="{{=URL('/editar_perfil')}}"><button class="btn btn-primary">Ver perfil</button></a>
+                
             </div>
             <div class="col-md-2" align="right">
                 <a href="{{=URL('default', 'logout')}}"> <spam class="glyphicon glyphicon-log-out">Salir</spam></a>
             </div>
+
         </div>
+        <hr>
     </div>
 
 <div class="row">
@@ -314,7 +319,7 @@
       </div>
     </div>
     <hr>
-        <div class="row">
+    <div class="row">
       <div class="col-md-4">
           <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
       </div>

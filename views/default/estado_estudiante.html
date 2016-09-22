@@ -55,8 +55,8 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="panel panel-primary">
-                      <div class="panelheading no-decoracion"><a href="{{=URL('vista_estudiante')}}" style="color:#fff">
-                         <b><h class="detalles" ><span class="back glyphicon glyphicon-chevron-left"></span>
+                      <div class="panel-heading no-decoracion"><a href="{{=URL('vista_estudiante')}}" style="color:#fff">
+                         <b><h><span class="back glyphicon glyphicon-chevron-left"></span>
                           Cursando proyecto {{=proyecto.f_proyecto.f_nombre }}</h></b></a>
                       </div>
                       <div class="panel-body">
@@ -111,7 +111,7 @@
                                   <span class="glyphicon glyphicon-remove" style="color:red;"></span>
                               {{pass}}
                           </td>
-                          {{if proyecto.f_estado=='Pendiente':}}
+                          {{if proyecto.f_estado=='Aprobado':}}
                           <td id="{{=actividad.id}}" style="cursor:pointer" class="completar_actividad">
                           {{else:}}
                           <td >

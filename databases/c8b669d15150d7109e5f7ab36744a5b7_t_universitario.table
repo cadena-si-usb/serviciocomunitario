@@ -55,9 +55,26 @@ sg9
 I00
 sg10
 g16
-ssS'f_key'
+ssS'f_sede'
 p19
 (dp20
+g4
+I512
+sg5
+I00
+sg6
+I5
+sg7
+S'INTEGER REFERENCES t_sede (id) ON DELETE CASCADE  NOT NULL '
+p21
+sg9
+I01
+sg10
+S'reference t_sede'
+p22
+ssS'f_key'
+p23
+(dp24
 g4
 I512
 sg5
@@ -66,7 +83,7 @@ sg6
 I3
 sg7
 S'CHAR(512) NOT NULL'
-p21
+p25
 sg9
 I01
 sg10

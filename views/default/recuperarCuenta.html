@@ -1,0 +1,51 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+
+<link rel="stylesheet" href="{{=URL('static', 'css/index.css')}}">
+<script type="text/javascript" src="{{=URL('static', 'js/recuperarCuenta.js')}}"></script>
+<div class="row container-fluid">
+
+  <div class="row container-fluid">
+    <div class="col-sm-12">
+      <h3>Para reajustar su contraseña, envíe su nombre de usuario o su dirección de correo electrónico. Luego, le enviaremos un email con instrucciones para poder acceder de nuevo.</h3>
+    </div>
+  </div>
+
+  <div class="row container-fluid">
+    <div class="col-sm-6">
+      <h4>Buscar por nombre de usuario o rif</h4>
+      <form>
+        <div class="form-group">
+            <div id="user" class="col-md-12">
+                <label for="nombre">Usuario o Rif:</label>
+                <input class="string" id="auth_user_username" name="username" type="text" value="">
+                <span id="errorFormUser"></span>
+            </div>
+        </div>
+                                        
+        <div class="col-md-12" style="margin-top: 2%;">               
+            <a id="enviar-usuario" style="width:50%" class="btn btn-primary">Buscar</a>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <h4>Buscar por dirección email</h4>
+      <form>
+        <div class="form-group">
+            <div id="user" class="col-md-12">
+                <label for="nombre">Email:</label>
+                <input class="string" id="auth_user_email" name="email" type="text" value="">
+                <span id="errorFormEmail"></span>
+            </div>
+        </div>
+                                        
+        <div class="col-md-12" style="margin-top: 2%;">               
+            <a id="enviar-email" style="width:50%" class="btn btn-primary">Buscar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>     
+                  
+ {{ end }}

@@ -19,6 +19,7 @@ from cgi  import escape
 from usbutils import get_ldap_data, random_key
 from cgi import escape 
 import time
+from gluon.tools import web2py_uuid
 
 ### required - do no delete
 crud = Crud(db)
@@ -61,6 +62,7 @@ def verificar(form):
 
 def download():
     return response.download(request,db)
+
 def call(): return service()
 
 ### controlers
@@ -68,7 +70,78 @@ def index():
     if auth.is_logged_in():
         redirect(URL("home"))
 
-    return dict(form=auth.login(), host=request.env.http_host)
+    return dict(host=request.env.http_host)
+
+def verificarCorreo():
+    registration_key = request.args(0)
+    print registration_key
+    usuario = db(db.auth_user.registration_key==registration_key).select().first()
+    print usuario
+    if not usuario:
+        redirect(URL('default', 'index'))
+
+    db(db.auth_user.id == usuario.id).update(registration_key="",f_confirmado=True)
+
+    return dict(picture=pictureUsuario(),msj="Se ha verificado su correo exitosamente.",bienvenida='Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name))
+
+
+def verifiqueCorreo():
+    usuario = db.auth_user(auth.user_id)
+    return dict(picture=pictureUsuario(),bienvenida='Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name),msj="Se le ha enviado un correo para verificar su registro.")
+
+def recuperarCuenta():
+    return dict()
+
+def buscarCuenta():
+    inputText=request.vars.input
+    accion=request.vars.accion
+
+    if accion=="usuario":
+        usuario=db(db.auth_user.username==inputText).select().first()     
+    else:
+        usuario=db(db.auth_user.email==inputText).select().first()
+    
+    if not(usuario):
+        return "No"
+
+    registration_key = web2py_uuid()
+    db(db.auth_user.id == usuario.id).update(reset_password_key=registration_key)
+
+    mail.send(to=usuario.email, subject='Cambiar contraseña', \
+    message='Hola %s,\n\n' %usuario.first_name + \
+    'Para cambiar su contraseña, por favor click al siguiente enlace:\n' + \
+    '%s\n\n' %URL('default', 'cambiarClave/%s' %registration_key, host=request.env.http_host))
+
+    return "Si"  
+
+def cambiarClave():
+    registration_key = request.args(0)
+    usuario = db(db.auth_user.reset_password_key==registration_key).select().first()
+    if not(usuario):
+        redirect(URL('default', 'index'))        
+    return dict(usuario=usuario)
+
+def claveCambiada():
+    clave=request.vars.input
+    idUsuario=long(request.vars.idUsuario)
+    db(db.auth_user.id == idUsuario).update(reset_password_key="")
+    db(db.auth_user.id == idUsuario).update(password=clave)
+    return "Si"
+
+def claveCambiadaExitosamente():
+    return dict()
+
+def correoRecuperarCuenta():
+    return dict()
+
+def login_sin_usbid():
+    user=request.vars.user
+    pasword=request.vars.pasword
+    
+    login=auth.login_bare(user,pasword)
+    if login:
+        return "Si"
+    return "No"
 
 def error():
     return dict()
@@ -76,6 +149,13 @@ def error():
 #
 # Inicio de sesion
 ########################
+def esRIF(usuario):
+    if re.match('^[JGVEP][-][0-9]{8}[-][0-9]{1}$',usuario):
+        return True
+
+    return False
+
+@auth.requires_login()
 def logout():
     es_interno = db.auth_user(auth.user_id)['f_tipo'] != 'Externo'
     url = 'http://secure.dst.usb.ve/logout' if es_interno else URL('index')
@@ -117,6 +197,7 @@ def login_cas():
             us      = get_ldap_data(usbid)
 
             # print "insertando"
+            estado = db(db.t_estado.f_nombre=='Distrito Capital').select()[0]
             a = db.auth_user.insert(
                 first_name = us.get('first_name'),
                 last_name  = us.get('last_name'),
@@ -126,31 +207,36 @@ def login_cas():
                 f_cedula     = us['cedula'],
                 f_telefono   = us['phone'],
                 f_tipo       = us['tipo'],
+                f_estado=estado.id,
+                f_confirmado=True
             )
 
             user = db(db.auth_user.username==usbid).select()[0]
+            sede = db(db.t_sede.f_nombre=='Sartenejas').select()[0]
             print us
             db.t_universitario.insert(
                 f_usbid   = usbid,
                 f_key     = clave,
-                f_usuario = user.id
+                f_usuario = user.id,
+                f_sede=sede.id
             )
 
             userUniv = db(db.t_universitario.f_usbid==usbid).select()[0]
+            carrera = db(db.t_carrera.f_nombre=='Ingeniería de la Computación').select()[0]
+            print carrera
 
             if (us['tipo'] == "Pregrado") or (us['tipo'] == "Postgrado"):
                # Si es estudiante insertar en su tabla
                 db.t_estudiante.insert(
                     f_universitario = userUniv.id,
-                    f_carrera       = us['carrera'],
-                    f_sede          = "Sartenejas"
+                    f_carrera       = carrera.id,
+                    f_horas=0
                 )
             elif us['tipo'] == "Docente":
                 # En caso de ser docente, agregar dpto.
-                db.t_tutor_academico.insert(
+                db.t_docente.insert(
                     f_universitario = userUniv.id,
-                    f_departamento  = us['dpto'],
-                    f_sede          = "Sartenejas"
+                    f_departamento  = us['dpto']
                 )
 
         else:
@@ -163,41 +249,62 @@ def login_cas():
         redirect('home')
     return None
 
+def pictureUsuario():
+    if db.auth_user(auth.user_id)['f_foto']:
+        return URL('default', 'download', args=db.auth_user(auth.user_id)['f_foto'])
+    else:
+        return URL('static', 'img/user.png')
 
 # Contolador de redireccion de usuarios
 @auth.requires_login()
 def home():
-
-    rolesUsuario=[]
+    usuario = db.auth_user(auth.user_id)
     
+    if not(usuario.f_confirmado):
+        registration_key = web2py_uuid()
+        db(db.auth_user.id == auth.user_id).update(registration_key=registration_key)
+        
+        mail.send(to=usuario.email, subject='Confirma tu registro', \
+          message='Hola %s, Bienvenido al Sistema de Gestion de Servicio Comunitario!\n\n' %usuario.first_name + \
+            'Para finalizar su registro, por favor click al siguiente enlace:\n' + \
+            '%s\n\n' %URL('default', 'verificarCorreo/%s' %registration_key, host=request.env.http_host))
+
+        redirect(URL("verifiqueCorreo"))
+    
+    rolesUsuario=[]
     
     for rol in db(db.auth_membership.user_id==auth.user_id).select():
         rolesUsuario.append(db(db.auth_group.id==rol.group_id).select()[0].role)
     
     esTutorAcademico= db(db.t_proyecto_tutor.f_tutor==auth.user_id).select().first() !=None
 
-    usuario = db.auth_user(auth.user_id)
-    
     esTutorComunitario = db(db.t_proyecto_tutor_comunitario.f_tutor==auth.user_id).select().first() !=None
-
 
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     tipo = usuario['f_tipo']
 
-    return dict(esTutorComunitario=esTutorComunitario,esTutorAcademico=esTutorAcademico,roles=rolesUsuario,tipo_usuario=tipo,bienvenida=msj, host=request.env.http_host)
+    return dict(esTutorComunitario=esTutorComunitario,picture=pictureUsuario(),esTutorAcademico=esTutorAcademico,roles=rolesUsuario,tipo_usuario=tipo,bienvenida=msj, host=request.env.http_host)
 
 # @ticket_in_session
-def mostrar_credencial():
-    return dict()
-
+#def mostrar_credencial():
+#    return dict()
 
 def registro():
-    return dict(formulario=auth.register())
+    return dict()
 
+def registro_persona_natural():
+        #if form.process().accepted:
+        
+    return dict(form=auth.register(next=URL('home')))
+
+def registro_persona_juridica():
+    return dict(form2=auth.register(next=URL('home')))
+
+"""
 @auth.requires_login()
 def perfil():
     rolesUsuario=[]
-
+    usuario = db.auth_user(auth.user_id)
     for rol in db(db.auth_membership.user_id==auth.user_id).select():
         rolesUsuario.append(db(db.auth_group.id==rol.group_id).select()[0].role)
     
@@ -218,47 +325,64 @@ def perfil():
     univ = db.t_universitario(f_usuario=user_id)
 
     if db.auth_user(auth.user_id)['f_tipo'] == "Docente":
-        sede = univ.t_tutor_academico.select()[0]['f_sede']
-        dpto = univ.t_tutor_academico.select()[0]['f_departamento']
+        sede = univ.t_docente.select()[0]['f_sede']
+        dpto = univ.t_docente.select()[0]['f_departamento']
     elif db.auth_user(auth.user_id)['f_tipo'] in ["Pregrado","Postgrado"]:
         sede    = univ.t_estudiante.select()[0]['f_sede']
         carrera = univ.t_estudiante.select()[0]['f_carrera']
     user = db.auth_user(auth.user_id)
-    return dict(form=user,picture=picture,dpto=dpto, sede=sede,carrera=carrera)
+    msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
+    return dict(form=user,picture=picture,bienvenida=msj,dpto=dpto, sede=sede,carrera=carrera)
+"""
 
 @auth.requires_login()
 def editar_perfil():
+    usuario = db.auth_user(auth.user_id)
+    msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     db.auth_user.username.writable=False
     db.auth_user.f_foto.writable  =True
+    email=usuario.email
     form = auth.profile()
     form.element('input', _type = 'submit')['_class'] = 'btn btn-primary'
+    form.element('input', _type = 'submit')['_value'] = 'Actualizar perfil'
 
     estudiante = None
     docente    = None
+
+    sedes=[]     
+
+    for sede in db(db.t_sede).select():
+        sedes.append(sede.f_nombre)
+
+    carreras=[]     
+
+    for carrera in db(db.t_carrera).select():
+        carreras.append(carrera.f_nombre)
+
+    
     if auth.user['f_tipo'] in ["Pregrado","Postgrado"]:
+        universitario=db.auth_user(auth.user_id)['t_universitario'].select()[0]
         estudiante = db.auth_user(auth.user_id)['t_universitario'].select()[0]['t_estudiante'].select()[0]
         form[0].insert(-1, TR(LABEL(T('Carrera:')),
-                             INPUT(_id='carrera',
-                                   _name='carrera',
-                                   _value=estudiante['f_carrera']
-                            )))
+                             SELECT(carreras,
+                                value=estudiante.f_carrera.f_nombre,
+                                _name='carrera')))
         form[0].insert(-1, TR(LABEL(T('Sede:')),
-                             SELECT(estudiante['f_sede'],
-                                OPTGROUP('Sartenejas','Litoral'),
-                                _id='sede',
+                             SELECT(sedes,
+                                value=universitario.f_sede.f_nombre,
                                 _name='sede'
                             )))
     elif auth.user['f_tipo']== "Docente":
-        docente = db.auth_user(auth.user_id)['t_universitario'].select()[0]['t_tutor_academico'].select()[0]
+        universitario=db.auth_user(auth.user_id)['t_universitario'].select()[0]
+        docente = db.auth_user(auth.user_id)['t_universitario'].select()[0]['t_docente'].select()[0]
         form[0].insert(-1, TR(LABEL(T('Departamento:')),
                              INPUT(_id='departamento',
                                    _name='departamento',
                                    _value=docente['f_departamento']
                             )))
         form[0].insert(-1, TR(LABEL(T('Sede:')),
-                             SELECT(docente['f_sede'],
-                                OPTGROUP('Sartenejas','Litoral'),
-                                _id='sede',
+                             SELECT(sedes,
+                                value=universitario.f_sede.f_nombre,
                                 _name='sede'
                             )))
 
@@ -266,20 +390,39 @@ def editar_perfil():
         response.flash = 'form accepted'
 
         if estudiante:
+
+            idCarrera = db(db.t_carrera.f_nombre==form.vars['carrera']).select()[0].id
+            idSede = db(db.t_sede.f_nombre==form.vars['sede']).select()[0].id
+
             f_univ = db.auth_user(auth.user_id)['t_universitario'].select()[0]
+
             db(db.t_estudiante.f_universitario == f_univ['id']).update(
-                f_sede=form.vars['sede'],
-                f_carrera=form.vars['carrera'])
+                f_carrera=idCarrera)
+
+            db(db.t_universitario.id==f_univ.id).update(
+                f_sede=idSede)
+
         elif docente:
+
+            idSede = db(db.t_sede.f_nombre==form.vars['sede']).select()[0].id
             f_univ = db.auth_user(auth.user_id)['t_universitario'].select()[0]
-            db(db.t_tutor_academico.f_universitario == f_univ['id']).update(
-                f_sede=form.vars['sede'],
+
+            db(db.t_docente.f_universitario == f_univ['id']).update(
                 f_departamento=form.vars['departamento'])
+
+            db(db.t_universitario.id==f_univ.id).update(
+                f_sede=idSede)
+        print form.vars['email']
+        if (email!=form.vars['email']):
+            db(db.auth_user.id == usuario.id).update(
+                f_confirmado=False)    
+
+
     elif form.errors:
         response.flash = 'form has errors'
 
 
-    return dict(form=form,contrasena=auth.change_password())
+    return dict(form=form,bienvenida=msj,picture=pictureUsuario(),contrasena=auth.change_password())
 
 def proponenteProyecto():
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
@@ -288,6 +431,7 @@ def proponenteProyecto():
 
 def moderarProyectos():
     return dict(proyectos=db().select(db.t_cursa.ALL))
+
 
 def estudiantes():
     form = SQLFORM(db.t_estudiante,formstyle='table3cols')
@@ -314,8 +458,8 @@ def usuarios_detalles():
     univ = db.t_universitario(f_usuario=idUsuario)
 
     if db.auth_user(idUsuario)['f_tipo'] == "Docente":
-        sede = univ.t_tutor_academico.select()[0]['f_sede']
-        dpto = univ.t_tutor_academico.select()[0]['f_departamento']
+        sede = univ.t_docente.select()[0]['f_sede']
+        dpto = univ.t_docente.select()[0]['f_departamento']
     elif db.auth_user(idUsuario)['f_tipo'] in ["Pregrado","Postgrado"]:
         sede    = univ.t_estudiante.select()[0]['f_sede']
         carrera = univ.t_estudiante.select()[0]['f_carrera']
@@ -504,7 +648,7 @@ def registrarProyectoEstudiante():
 
     return dict(proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje)
 
-def registrarProyectoComoEstudiante():
+"""def registrarProyectoComoEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
     proyectoInscrito = db(db.t_cursa.f_estudiante==idEstudiante).select()
@@ -515,7 +659,7 @@ def registrarProyectoComoEstudiante():
         mensaje = "Usted ya tiene un proyecto inscrito. Volver a proyectos"
 
     return dict(proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje)
-
+"""
 @auth.requires_membership('Administrador')
 def comunidad_manage():
     form = SQLFORM.smartgrid(db.t_comunidad,onupdate=auth.archive)
@@ -586,10 +730,10 @@ def estudianteProyectos():
     x = long (request.args[0])
     return dict(rows = db(db.t_estudiante.id==x).select(),proyectos=db().select(db.t_proyecto.ALL),estudianteID=x)
 
-def estudianteInscribeProyectos():
+"""def estudianteInscribeProyectos():
     x = long (request.args[0])
     return dict(rows = db(db.t_estudiante.id==x).select(),proyectos=db().select(db.t_proyecto.ALL),estudianteID=x)
-
+"""
 
 def estudiantesDetalles():
     x = long (request.args[0])
@@ -703,24 +847,22 @@ def home_admin():
 
 
 def admin_usuarios_detalles():
-    idUsuario=request.vars.id
-
+    idUsuario=long(request.vars.id)
     if db.auth_user(idUsuario)['f_foto']:
         picture = URL('default', 'download', args=db.auth_user(idUsuario)['f_foto'])
     else:
         picture = URL('static', 'img/user.png')
 
     sede,dpto,carrera = "","",""
-    univ = db.t_universitario(f_usuario=idUsuario)
-
-    if db.auth_user(idUsuario)['f_tipo'] == "Docente":
-        sede = univ.t_tutor_academico.select()[0]['f_sede']
-        dpto = univ.t_tutor_academico.select()[0]['f_departamento']
-    elif db.auth_user(idUsuario)['f_tipo'] in ["Pregrado","Postgrado"]:
-        sede    = univ.t_estudiante.select()[0]['f_sede']
-        carrera = univ.t_estudiante.select()[0]['f_carrera']
-
-    tabla= db(db.auth_user.id==idUsuario).select()[0]
+    tabla= db.auth_user(idUsuario)
+    univ = db(db.t_universitario.f_usuario==idUsuario).select().first()
+    if (tabla['f_tipo'] == "Docente"):
+        sede = univ.f_sede.f_nombre
+        dpto = db(db.t_docente.f_universitario.id==univ.id).select().first().f_departamento
+    if (tabla['f_tipo'] in ["Pregrado","Postgrado"]):
+        sede    = univ.f_sede.f_nombre
+        carrera = db(db.t_estudiante.f_universitario.id==univ.id).select().first().f_carrera
+    
     return dict(form=tabla,picture=picture,dpto=dpto, sede=sede,carrera=carrera) 
 
 @auth.requires_login()
@@ -747,8 +889,8 @@ def admin_perfil():
     univ = db.t_universitario(f_usuario=user_id)
 
     if db.auth_user(auth.user_id)['f_tipo'] == "Docente":
-        sede = univ.t_tutor_academico.select()[0]['f_sede']
-        dpto = univ.t_tutor_academico.select()[0]['f_departamento']
+        sede = univ.t_docente.select()[0]['f_sede']
+        dpto = univ.t_docente.select()[0]['f_departamento']
     elif db.auth_user(auth.user_id)['f_tipo'] in ["Pregrado","Postgrado"]:
         sede    = univ.t_estudiante.select()[0]['f_sede']
         carrera = univ.t_estudiante.select()[0]['f_carrera']
@@ -779,7 +921,7 @@ def admin_editar_perfil():
                                 _name='sede'
                             )))
     elif auth.user['f_tipo']== "Docente":
-        docente = db.auth_user(auth.user_id)['t_universitario'].select()[0]['t_tutor_academico'].select()[0]
+        docente = db.auth_user(auth.user_id)['t_universitario'].select()[0]['t_docente'].select()[0]
         form[0].insert(-1, TR(LABEL(T('Departamento:')),
                              INPUT(_id='departamento',
                                    _name='departamento',
@@ -802,7 +944,7 @@ def admin_editar_perfil():
                 f_carrera=form.vars['carrera'])
         elif docente:
             f_univ = db.auth_user(auth.user_id)['t_universitario'].select()[0]
-            db(db.t_tutor_academico.f_universitario == f_univ['id']).update(
+            db(db.t_docente.f_universitario == f_univ['id']).update(
                 f_sede=form.vars['sede'],
                 f_departamento=form.vars['departamento'])
     elif form.errors:
@@ -1053,10 +1195,8 @@ def estado_estudiante():
     estudiante = db(db.t_estudiante.f_universitario==estt).select().first()
     #Proyecto
     try:
-        proyectos = db(db.t_cursa.f_estudiante==estudiante.id).select()
-        proyectos = proyectos[0]
-        proyecto = proyectos
-        proy = proyectos.f_proyecto
+        proyecto = db(db.t_cursa.f_estudiante==estudiante).select().last() 
+        proy = proyecto.f_proyecto
     except:
         proyecto = None
         proy = None
@@ -1072,7 +1212,7 @@ def estado_estudiante():
         tutor.append(obj.f_tutor.first_name + " " + obj.f_tutor.last_name)
 
     #Actividades
-    actividades = db(db.t_actividad_estudiante.f_cursa==proyectos.id).select()
+    actividades = db(db.t_actividad_estudiante.f_cursa==proyecto.id).select()
 
     #PlanesOperativosPorActividad
     planoperativo = []
@@ -1101,11 +1241,10 @@ def vista_estudiante():
     estudiante = db(db.t_estudiante.f_universitario==estt).select().first()
 
     try:
-        cursa = db(db.t_cursa.f_estudiante==estudiante.id, db.t_cursa.f_valido=="Invalido").select()
-        cursa = cursa[0]
+        cursa = db((db.t_cursa.f_estudiante==estudiante.id)& (db.t_cursa.f_valido=="Invalido")).select().last()
         if not cursa:
-            cursa = db(db.t_cursa.f_estudiante==estudiante.id, db.t_cursa.f_valido=="Valido").select()
-            cursa = cursa[0]
+            cursa = db((db.t_cursa.f_estudiante==estudiante.id)& (db.t_cursa.f_valido=="Valido")).select().last()
+            cursa = cursa
         proyecto = cursa.f_proyecto
     except:
         proyecto = None
@@ -1124,7 +1263,7 @@ def vista_estudiante():
     pInscrito = 'vacio'
     pActividad = 'no'
     tutor = None
-    proyectoInscrito = db(db.t_cursa.f_estudiante==estudiante).select().first()
+    proyectoInscrito = db(db.t_cursa.f_estudiante==estudiante).select().last()
     #cursa = db(db.t_cursa.f_estudiante==estudiante).select()
     actividad = None
     if proyecto:
@@ -1133,7 +1272,7 @@ def vista_estudiante():
         pActividad = 'si'
     if proyectoInscrito:
         pInscrito = 'proyecto inscrito'
-        tutor = db(db.t_inscripcion.f_estudiante==estudiante).select().first()
+        tutor = db(db.t_inscripcion.f_estudiante==estudiante).select().last()
         aprob_tutor = tutor.f_estado
         aprob_coord = cursa.f_valido
     else:
@@ -1141,9 +1280,9 @@ def vista_estudiante():
         aprob_coord = 'coordVacio'
 
     estudianteId = estudiante.id
-    return dict(usuario,estudianteId=estudianteId,horas=horas_realizadas,estudiante=estudiante,
+    return dict(usuario=usuario,estudianteId=estudianteId,horas_confirmadas=horas_realizadas,estudiante=estudiante,
                 bienvenida=msj,proyecto=proyecto,pInscrito=pInscrito,pActividad=pActividad,
-                aprob_tutor=aprob_tutor,aprob_coord=aprob_coord,cursa=cursa,tutor=tutor)
+                aprob_tutor=aprob_tutor,aprob_coord=aprob_coord,cursa=cursa,tutor=tutor,estt=estt)
 
 def retirar_proyecto():
     x = long (request.args[0])
@@ -1151,7 +1290,7 @@ def retirar_proyecto():
     msj     = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     estt    = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
-    proyecto  = db((db.t_cursa.f_estudiante==usuario) & (db.t_cursa.f_proyecto==x)).select().first()
+    proyecto  = db((db.t_cursa.f_estudiante==usuario) & (db.t_cursa.f_proyecto==x)).select().last()
     horas = 50
     print proyecto.f_estado
     todas_actividades = db(db.t_actividad_estudiante.f_cursa==proyecto).select()
@@ -1162,7 +1301,7 @@ def retirar_proyecto():
 
 def retiro():
     x = long(request.args[1])
-    retiro = db((db.t_cursa.f_estudiante==long(request.args[0])) & (db.t_cursa.f_estado=='Pendiente')).update(f_estado='Retirado',f_fecha=datetime.datetime.today())
+    retiro = db((db.t_cursa.f_estudiante==long(request.args[0])) & (db.t_cursa.f_estado=='Aprobado')).update(f_estado='Retirado',f_fecha=datetime.datetime.today())
     redirect(URL('retirar_proyecto',args=[x]))
     return ""
 
@@ -1172,7 +1311,7 @@ def culminar_proyecto():
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     estt = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
-    proyecto = db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)).select().first()
+    proyecto = db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)).select().last()
     error = None
 
 
@@ -1408,7 +1547,7 @@ def solicitudes_tutor():
 
 def solicitud_constancia_coordinacion():
     estudianteCursa = db(db.t_cursa).select()
-    print '----> ', estudianteCursa
+    #print '----> ', estudianteCursa
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
 
     return dict(bienvenida=msj,estudianteCursa=estudianteCursa)
@@ -1521,8 +1660,7 @@ def proyectos():
 #@auth.requires(auth.has_membership(role='Administrador') or auth.has_membership(role='Proponentes'))
 def propuestas():
 
-    es_adm = 'Administrador' in auth.user_groups.values()
-    es_adm = es_adm or 'Coordinador' in auth.user_groups.values() 
+    es_adm = 'Coordinador' in auth.user_groups.values() 
 
     if es_adm:
         propuestas = [
@@ -1585,10 +1723,11 @@ def fixJSON(json,arrayNames):
 def propuestasDetalles():
     proyecto_id = long (request.args[0])
     propuesta = db(db.t_propuesta.f_proyecto ==proyecto_id).select().first()
-    proyecto =  db(db.t_proyecto.id == propuesta.f_proyecto).select().first()
+    proyecto =  db(db.t_proyecto.id == proyecto_id).select().first()
     actividades = db(db.t_actividad.f_proyecto == proyecto_id).select()
     objetivos = db(db.t_objetivo.f_proyecto == proyecto_id).select()
     plan_operativo = db(db.t_plan_operativo.f_proyecto == proyecto_id).select()
+    
     tutores = db(
         db.t_proyecto_tutor.f_proyecto == proyecto_id and
         db.auth_user.id==db.t_proyecto_tutor.f_tutor
@@ -1599,17 +1738,54 @@ def propuestasDetalles():
         db.auth_user.id==db.t_proyecto_tutor_comunitario.f_tutor
     ).select()
 
+    sedes = db(
+        db.t_proyecto_sede.f_proyecto == proyecto_id
+    ).select()
+
 
     return dict(
         propuesta = propuesta,
         proyecto = proyecto,
         actividades = actividades,
+        sedes=sedes,
         objetivos = objetivos,
         plan_operativo = plan_operativo,
         tutores = tutores,
         tutores_comunitarios = tutores_comunitarios
     )
 
+def verProyectoEstudiante():
+    idproyecto = long(request.args[0])
+    idestudiante = long(request.args[1])
+    proyecto =  db(db.t_proyecto.id == idproyecto).select().first()
+    actividades = db(db.t_actividad.f_proyecto == idproyecto).select()
+    objetivos = db(db.t_objetivo.f_proyecto == idproyecto).select()
+    plan_operativo = db(db.t_plan_operativo.f_proyecto == idproyecto).select()
+    
+    tutores = db(
+        db.t_proyecto_tutor.f_proyecto == idproyecto and
+        db.auth_user.id==db.t_proyecto_tutor.f_tutor
+    ).select()
+
+    tutores_comunitarios = db(
+        db.t_proyecto_tutor_comunitario.f_proyecto == idproyecto and
+        db.auth_user.id==db.t_proyecto_tutor_comunitario.f_tutor
+    ).select()
+
+    sedes = db(
+        db.t_proyecto_sede.f_proyecto == idproyecto
+    ).select()
+    print sedes
+    return dict(
+        idestudiante=idestudiante,
+        proyecto = proyecto,
+        actividades = actividades,
+        sedes=sedes,
+        objetivos = objetivos,
+        plan_operativo = plan_operativo,
+        tutores = tutores,
+        tutores_comunitarios = tutores_comunitarios
+    )
 
 def propuestasEditar():
     proyecto_id = long(request.args[0])
@@ -1661,7 +1837,7 @@ def propuestasCrear():
             'f_estado',
             'f_fechaini',
             'f_fechafin',
-            'f_sede',
+            'f_sedes',
             'f_proponente'
         ],
         2: [
@@ -1703,7 +1879,7 @@ def propuestasCrear():
 
 
     def propuestasGuardar(proyecto_id):
-        tutores, tutores_comunitarios = [], []
+        tutores, tutores_comunitarios,sedes = [], [],[]
 
         k_del = []
 
@@ -1725,7 +1901,7 @@ def propuestasCrear():
             form.vars.f_observaciones = db(db.t_propuesta.f_proyecto==proyecto_id).select().first().f_observaciones
 
         proyecto_fields = db.t_proyecto._filter_fields(form.vars)
-
+        print proyecto_fields
         if proyecto_fields:
             if not proyecto_id:
                 print("Nuevo proyecto")
@@ -1752,7 +1928,9 @@ def propuestasCrear():
         print("Proyecto",proyecto_id,"Propuesta",propuesta_id)
         tutores = form.vars.f_tutores
         tutores_comunitarios = form.vars.f_tutores_comunitarios
+        sedes=form.vars.f_sedes
         print("Tutores",tutores,tutores_comunitarios)
+        print("Sedes:",sedes)
         if propuesta_id and proyecto_id:
             if tutores:
                 db(db.t_proyecto_tutor.f_proyecto==proyecto_id).delete()
@@ -1775,6 +1953,17 @@ def propuestasCrear():
                         f_proyecto=proyecto_id,
                         f_tutor=tutor_id
                     )
+            if sedes:
+                db(db.t_proyecto_sede.f_proyecto==proyecto_id).delete()
+                if isinstance(sedes,str):
+                    sedes = [sedes]
+                for sede_id in sedes:
+                    print("sede con id", sede_id)
+                    db.t_proyecto_sede.insert(
+                        f_proyecto=proyecto_id,
+                        f_sede=sede_id
+                    )
+
             # Insertar actividades
             if request.post_vars.actividades:
                 db(db.t_actividad.f_proyecto==proyecto_id).delete()
@@ -1800,6 +1989,7 @@ def propuestasCrear():
                         print("Fila PO", fila_id)
 
         # Chequear si el proyecto fue validado
+        # Esto lo debe hacer el coordinador al aprobar el proyecto
         if propuesta.f_estado_propuesta in ['Aprobado', 'Aprobado con observaciones']:
             print("Aprobando")
             codigo_area = db.t_area(db.t_proyecto(proyecto_id).f_area).f_codigo
@@ -1828,7 +2018,7 @@ def propuestasCrear():
     accion = request.vars.accion
     proyecto_id = int(request.vars.proyecto_id) if 'proyecto_id' in request.vars else 0
     propuesta_id = db(db.t_propuesta.f_proyecto==proyecto_id).select().first().id if proyecto_id else 0
-
+    print("accion:",accion)
     actividades = request.post_vars.actividades
     obj_especificos = request.post_vars.objetivos_especificos
     plan_operativo = request.post_vars.plan_operativo
@@ -1853,6 +2043,9 @@ def propuestasCrear():
     lista_tutores = [(tutor.id, '{} {}'.format(tutor.first_name,tutor.last_name)) for tutor in db(db.auth_user.f_tipo == 'Docente').select()]
     lista_tutores_comunitarios = [(tutor.id, '{} {}'.format(tutor.first_name,tutor.last_name)) for tutor in db(db.auth_user).select()]
 
+    # Obtener lista de sedes
+    lista_sedes = [(sede.id, '{}'.format(sede.f_nombre)) for sede in db(db.t_sede).select()]
+    
     # Crear form
     if pag < 6:
         db.t_propuesta.f_proponente.notnull = False
@@ -1861,6 +2054,10 @@ def propuestasCrear():
         form = SQLFORM.factory(
             db.t_proyecto,
             db.t_propuesta,
+            Field(
+                'f_sedes',
+                requires=IS_IN_SET(lista_sedes, multiple=True)
+            ), 
             Field(
                 'f_tutores',
                 requires=IS_IN_SET(lista_tutores, multiple=True)
@@ -1918,6 +2115,22 @@ def propuestasCrear():
             for opt in tutor_opts:
                 opt['_selected'] = opt['_value'] in tutores_proyecto
 
+        if not form.vars.f_sedes:
+            sedes_proyecto = [str(t.f_sede)
+                for t in db(
+                    db.t_proyecto_sede.f_proyecto == proyecto_id
+                ).select()
+            ]
+        else:
+            sedes_proyecto = form.vars.f_sedes
+        print("sedes com",sedes_proyecto)
+        select_sede = form.element('select',_name='f_sedes')
+        if select_sede:
+            sede_opts = select_sede.elements('option')
+            for opt in sede_opts:
+                opt['_selected'] = opt['_value'] in sedes_proyecto
+
+
     print("form.vars tutores", [k for k in form.vars])
     res = dict(
         form=form,
@@ -1929,6 +2142,7 @@ def propuestasCrear():
         plan_operativo=plan_operativo,
         tutores=[],
         tutores_comunitarios=[],
+        sedes=[],
         proyecto_id=proyecto_id,
         propuesta_id=propuesta_id,
         actividades_js = "[]",
@@ -1944,7 +2158,7 @@ def propuestasCrear():
         if form.vars.f_fechaini > form.vars.f_fechafin:
             form.errors.f_fechaini = 'La fecha final del proyecto es menor que la inicial'
             form.errors.f_fechafin = 'La fecha final del proyecto es menor que la inicial'
-
+        print form.vars.f_sedes
         return form
 
     def hard_validation(form):
@@ -1953,8 +2167,11 @@ def propuestasCrear():
         propuesta = db(db.t_propuesta.f_proyecto==proyecto.id).select()[0]
         actividades = db(db.t_actividad.f_proyecto==proyecto_id).select()
         obj_especificos = db(db.t_objetivo.f_proyecto==proyecto_id).select()
+        sedes=db(db.t_proyecto_sede.f_proyecto==proyecto.id).select()
+        tutores=db(db.t_proyecto_tutor.f_proyecto==proyecto.id).select()
+        tutores_comunitarios=db(db.t_proyecto_tutor_comunitario.f_proyecto==proyecto.id).select()
         # Esta validación ocurre con el plan que se envia
-        plan_operativo = request.post_vars.plan_operativo
+        plan_operativo = request.post_vars.plan_operativo 
 
         for f in db.t_proyecto:
             f = str(f).replace('t_proyecto.','')
@@ -1974,22 +2191,29 @@ def propuestasCrear():
                 f = str(f).replace('t_objetivo.','')
                 if not objetivo[f]:
                     form.errors[f] = "Este campo no puede estar vacío"
-
+        
         if not actividades:
             form.errors['actividades'] = 'No ha registrado ninguna actividad'
         if not obj_especificos:
             form.errors['objetivos'] = 'No ha registrado ningun objetivo específico'
         if not plan_operativo:
-            form.errors['plan_operativo'] = 'No ha registrado el plan operativo'
+            form.errors['plan_operativo'] = 'No ha registrado el plan operativo'   
+        if not sedes:
+            form.errors['f_sedes'] = 'El proyecto debe poseer al menos una sede.'
+        if not tutores:
+            form.errors['f_tutores'] = 'El proyecto debe poseer al menos un tutor academico.'
+        if not tutores_comunitarios:
+            form.errors['f_tutores_comunitarios'] = 'El proyecto debe poseer al menos un tutor comunitario.'
 
         print(form.errors)
         return form
-
+    print accion
     if accion == "registrar":
         def form_validation(form):
             form = hard_validation(form)
     elif accion == "guardar":
         def form_validation(form):
+            print "hola suave"
             form = soft_validation(form)
     else:
         # Set form values to project record
@@ -2000,7 +2224,7 @@ def propuestasCrear():
             if form.vars.f_fechafin:
                 form.vars.f_fechafin = form.vars.f_fechafin.strftime('%d/%m/%Y')
         def form_validation(form):
-            form = form # función de mentira
+            form = form # función de mentira (de default).
 
 
     if form.process(onvalidation=form_validation, keepvalues=True).accepted:
@@ -2051,6 +2275,12 @@ def propuestasCrear():
             label = 'Actividades'
         elif field == 'plan_operativo':
             label = 'Plan Operativo'
+        elif field == 'f_sedes':
+            label = 'Sedes'
+        elif field == 'f_tutores':
+            label = 'Tutores'
+        elif field == 'f_tutores_comunitarios':
+            label = 'Tutores comunitarios'
 
         errors_pag[p][str(label)] = form.errors[field]
 
@@ -2110,7 +2340,8 @@ def estudianteCursa():
     form = SQLFORM(db.t_cursa,fields = ['f_estudiante','f_proyecto'])
     form.vars.f_estudiante = idEstudiante
     form.vars.f_proyecto = idProyecto
-
+    sedes=db(db.t_proyecto_sede.f_proyecto==idProyecto).select()
+    print sedes
     if form.process(keepvalues=True).accepted:
         response.flash = 'form accepted'
     elif form.errors:
@@ -2125,7 +2356,7 @@ def estudianteCursa():
 
     #formulario = SQLFORM(db.kldhbvjgfe)
 
-    return dict(proyecto=db(db.t_proyecto_aprobado.id==idProyecto).select()[0],estudianteId=idEstudiante,idProyecto=idProyecto)
+    return dict(sedes=sedes,proyecto=db(db.t_proyecto_aprobado.id==idProyecto).select()[0],estudianteId=idEstudiante,idProyecto=idProyecto)
 
 def cursa():
     idProyecto = long(request.args[0])
@@ -2208,11 +2439,13 @@ def rechazar_solicitud_tutor():
     return dict(proyecto=db(db.t_proyecto.id==idProyecto).select()[0], estudiante=estudiante)
 
 def aprobar_solicitud_coordinacion():
-    #idProyecto = long(request.args[0])
+    idProyecto = long(request.args[1])
     idEstudiante = long(request.args[0])
-    db(db.t_cursa.f_estudiante==idEstudiante).update(f_valido='Valido')
-    db(db.t_cursa.f_estudiante==idEstudiante).update(f_estado='Pendiente')
-    db(db.t_cursa.f_estudiante==idEstudiante).update(f_fecha=datetime.datetime.today())
+    proyecto_cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto))
+    proyecto_cursa.update(f_valido='Valido')
+    proyecto_cursa.update(f_estado='Aprobado')
+    proyecto_cursa.update(f_fecha=datetime.datetime.today())
+
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
     return dict(bienvenida=msj)
 
@@ -2231,7 +2464,6 @@ def aceptarPlanTrabajo():
     if estado == 'aceptado':
         mensaje="Plan de trabajo aceptado con éxito. Volver."
         db(db.t_inscripcion.f_estudiante==idEstudiante).update(f_estado='Aprobado')
-        db(db.t_cursa.f_estudiante==idEstudiante).update(f_estado='Pendiente')
     else:
         mensaje="Se ha rechazado el plan de trabajo. Volver."
         cursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
@@ -2239,18 +2471,18 @@ def aceptarPlanTrabajo():
 
     return dict( mensaje=mensaje,estado=estado)
 
-def rechazarProyectoEstudiante():
+"""def rechazarProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_state="3")
     return dict(proyecto=idProyecto)
-
+"""
 def registrarProyectoComoEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
     dropdown = request.args[2]
-    proyectoInscrito = db(db.t_cursa.f_estudiante==idEstudiante).select()
+    proyectoInscrito = db(db.t_cursa.f_estudiante==idEstudiante).select().last()
 
-    if not proyectoInscrito or (proyectoInscrito[0].f_estado=="Retirado"):
+    if not proyectoInscrito or (proyectoInscrito.f_estado=='Retirado'):
         db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_valido="Invalido")
         mensaje = "Registro de proyecto exitoso. Volver al Menú"
         db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown)
@@ -2344,10 +2576,12 @@ def estudianteProyectos():
 def estudianteInscribeProyectos():
     x = long (request.args[0])
     usuario    = db.auth_user(auth.user_id)
+    universitario=db(db.t_universitario.f_usuario==auth.user_id).select().first()
+    estudiante=db(db.t_estudiante.f_universitario==universitario.id).select().first()
     msj        = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     #return dict(rows = db(db.t_estudiante.id==x).select())
     mensaje="Registro de proyecto exitoso. Volver al Menú"
-    return dict(proyectos=db().select(db.t_proyecto_aprobado.ALL),estudianteId=x, mensaje=mensaje,bienvenida=msj)
+    return dict(estudiante=estudiante,proyectos=db().select(db.t_proyecto_aprobado.ALL),estudianteId=x, mensaje=mensaje,bienvenida=msj)
 
 
 def estudiantesDetalles():

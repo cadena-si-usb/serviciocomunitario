@@ -1,226 +1,223 @@
 {{ extend 'base.html' }}
 {{ block contenido }}
 
-<!-- saved from url=(0039)http://getbootstrap.com/examples/theme/ -->
+<link rel="stylesheet" href="{{=URL('static', 'css/index.css')}}">
+<script type="text/javascript" src="{{=URL('static', 'js/login.js')}}"></script>
 
-    <style>
-      form{
-        margin:5px;
-      }
-      .w2p_fw {
-          padding: 2.5px;
-      }
-      .micontainer{
-        width: 270px;
-        text-align: center;
-      }
-      #web2py_user_form{
-        margin-bottom: 10px;
-      }
-    </style>
-    
+<div class="row">
+  <div class="col-md-4">
+    <!-- <a href="{{=URL('default', 'user')}}">
+      <button> Inicio de sesion </button>
+    </a>-->
+    <h2>Inicio de sesión</h2>
+    <div id="web2py_user_form">
 
-
-    <div class="row">
-      <div class="col-md-4"  style="color:#4682B4">
-        <b>
-          Noticias destacadas
-        </b>
-        <br>
-        <br>
-        <p class="informacion" align="left" style="color:#1E90FF">
-          Inscripciones abiertas
-          <br>
-          para el SC...
-        </p>
-        <p class="detalles" align="left" style="color:#808080">
-          Revisa la lista de proyectos
-          <br>
-          y registrate ahora!
-        </p>
-        <button type="button" class="btn btn-lg btn-default">
-          leer mas
-        </button>
-      </div>
+      <a style="text-decoration : none; color : #000000;" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2F{{=host}}%2FSIGESC%2Fdefault%2Flogin_cas">
+        <button class="btn btn-primary"> Inicio con usb-id </button>
+      </a>
       
-      <div class="col-md-4">
-        <img class="img-responsive" src="{{=URL('static', 'img/estudiante.png')}}" width="350" hspace="25"/>
+      <button class="btn btn-primary" onclick="toggle_visibility()">
+          ¿No posee usb-id?
+      </button>
+      <div id='custombox'>
+          <span id='errorLogin'></span>
+          <form role="form">
+            <div class="form-group">
+              <label for="nombre">Usuario o RIF (J-12345678-1):</label>
+              <input type="text" class="form-control" id="user" placeholder="Usuario o RIF (J-12345678-1)">
+            </div>
+            
+            <div class="form-group">
+              <label for="codigo">Contraseña:</label>
+              <input type="password" class="form-control" id="pasword" placeholder="Contraseña">
+            </div>
+
+            <a id="login" class="btn btn-primary">Iniciar Sesión</a>
+
+          </form>
+          <a href="{{=URL('default', 'recuperarCuenta')}}">¿Olvidó su nombre de usuario o contraseña?</a></br>
+          <span>¿No posee cuenta?</span>
+          <a href="{{=URL('default', 'registro')}}">Regístrese.</a> 
+
+          
       </div>
-      
-      <div class="col-md-4">
-          <!-- <a href="{{=URL('default', 'user')}}">
-            <button> Inicio de sesion </button>
-          </a>-->
-          <h2>Inicio de sesión</h2>
-<div id="web2py_user_form">
+    </div>
 
-
-    <a style="text-decoration : none; color : #000000;" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2F{{=host}}%2FSIGESC%2Fdefault%2Flogin_cas">
-      <button> Inicio con usb-id </button>
-    </a>
-    
-    <button onclick="toggle_visibility()">
-        ¿No posee usb-id?
+  </div>
+  <div class="col-md-4">
+    <img class="img-responsive" src="{{=URL('static', 'img/estudiante.png')}}" width="350" hspace="25"/>
+  </div>
+  <div class="col-md-4"  style="color:#4682B4">
+    <b>
+      Noticias destacadas
+    </b>
+    <br>
+    <br>
+    <p class="informacion" align="left" style="color:#1E90FF">
+      Inscripciones abiertas
+      <br>
+      para el SC...
+    </p>
+    <p class="detalles" align="left" style="color:#808080">
+      Revisa la lista de proyectos
+      <br>
+      y registrate ahora!
+    </p>
+    <button type="button" class="btn btn-lg btn-default">
+      leer mas
     </button>
-    <div id='custombox'>
-        {{=form}}
-        <span>¿No posee cuenta?</span>
-        <a href="{{=URL('default', 'registro')}}">Regístrese.</a>
-    </div>
+  </div>
+    
 </div>
+    
+<div class="container-princ">
+  
+  <div class="row">
+    <div class="col-md-4">
+    <div class="list-group">
+      <b>
+        <a href="http://getbootstrap.com/examples/theme/#" class="list-group-item active">
+          Proyectos
+        </a>
+      </b>
+      <a href="#" class="list-group-item">
+        
+        <span class="glyphicon glyphicon-map-marker" style="color:#006400">
+        </span>
+        Ambientales
+        <span class="badge">
+          10
+        </span>
+        
+    <a href="#" class="list-group-item">
+        <span class="glyphicon glyphicon-map-marker" style="color:#000080">             
+        </span>
+      Apoyo comunitario
+      <span class="badge">
+        15
+      </span>
+        <a href="#" class="list-group-item">
+            <span class="glyphicon glyphicon-map-marker" style="color:#696969">
+            </span>
+            Apoyo tecnol&oacute;gico
+            <span class="badge">
+                7
+            </span>
+      <a href="#" class="list-group-item">
+        <span class="glyphicon glyphicon-map-marker" style="color:#FF4500">
+        </span>
+        Cultura 
+        <span class="badge">
+          15
+        </span>
+    
+    <a href="#" class="list-group-item">
+      <span class="glyphicon glyphicon-map-marker" style="color:#00FF00">
+      </span>
+      Desarrollo sustentable 
+      <span class="badge">
+        18
+      </span>
+      
+      <a href="#" class="list-group-item">
+        <span class="glyphicon glyphicon-map-marker" style="color:#FFD700">
+        </span>
+        Educativos 
+        <span class="badge">
+          13
+        </span>
+        
+        <a href="#" class="list-group-item">
+          <span class="glyphicon glyphicon-map-marker" style="color:#8B4513">
+          </span>
+          Infraestrusctura 
+          <span class="badge">
+            16
+          </span>
+                  
+        <a href="#" class="list-group-item">
+          <span class="glyphicon glyphicon-map-marker" style="color:#FF0000">
+          </span>
+          Prevenci&oacute;n de emergencias 
+          <span class="badge">
+            19
+          </span>
+          
+      <a href="#" class="list-group-item">
+        <span class="glyphicon glyphicon-map-marker" style="color:#00BFFF">
+        </span>
+        Salud 
+        <span class="badge">
+          16
+        </span>
+        
+        <a href="#" class="list-group-item">
+          <span class="glyphicon glyphicon-map-marker" style="color:#000000">
+          </span>
+          Seguridad industrial 
+          <span class="badge">
+            17
+          </span>
+        </a>
+      </div>
+    </div>
+                    <!-- /.col-sm-4 -->
+                    
+                    
+    <br>
+    <div class="col-sm-4">
+      <h4>
+        <b>
+          Calidad del aire y su importancia para la vida
+        </b>
+      </h2>
 
-<script type="text/javascript">
-<!--
-    e = document.getElementById("custombox");
-    e.style.display = 'none';
-
-    function toggle_visibility() {
-       var e = document.getElementById("custombox");
-       if(e.style.display == 'block')
-          e.style.display = 'none';
-       else
-          e.style.display = 'block';
-    }
-
-jQuery("#web2py_user_form input:visible:enabled:first").focus();
-</script>
-        </div>
+      <img class="img-responsive" src="{{=URL('static', 'img/arbol.png')}}"/>
+      <img class="img-responsive" style="margin:auto" src="{{=URL('static', 'img/rollbar.png')}}" />
+      
+      
+    </div>
+    <div class="col-sm-4">
+    
+      
+      <p class="infproy" >
+        
+        Este proyecto consiste en realizar 
+        campañas de concientización
+        sobre la importancia de la calidad 
+        del aire y la responsabilidad de cada 
+        uno de nosotros en la contaminación
+        <br>
+        Tutor: Yudith Cardinale.
+        <br>
+      </p>
+      <div class="link-proy" style="color:#4682B4" >
+        
+        <b>
+          Ver este proyecto >>
+        </b>
+      </div>
+      
+    </div>
+        
     </div>
     
-    <div class="container-princ">
-      
-      <div class="row">
-        <div class="col-md-4">
-          <div class="list-group">
-            <b>
-              <a href="http://getbootstrap.com/examples/theme/#" class="list-group-item active">
-                Proyectos
-              </a>
-            </b>
-            <a href="#" class="list-group-item">
-              
-              <span class="glyphicon glyphicon-map-marker" style="color:#006400">
-              </span>
-              Ambientales
-              <span class="badge">
-                10
-              </span>
-              
-              <a href="#" class="list-group-item">
-                  <span class="glyphicon glyphicon-map-marker" style="color:#000080">             
-                  </span>
-                Apoyo comunitario
-                <span class="badge">
-                  15
-                </span>
-                  <a href="#" class="list-group-item">
-                      <span class="glyphicon glyphicon-map-marker" style="color:#696969">
-                      </span>
-                      Apoyo tecnol&oacute;gico
-                      <span class="badge">
-                          7
-                      </span>
-                <a href="#" class="list-group-item">
-                  <span class="glyphicon glyphicon-map-marker" style="color:#FF4500">
-                  </span>
-                  Cultura 
-                  <span class="badge">
-                    15
-                  </span>
-                  
-                  <a href="#" class="list-group-item">
-                    <span class="glyphicon glyphicon-map-marker" style="color:#00FF00">
-                    </span>
-                    Desarrollo sustentable 
-                    <span class="badge">
-                      18
-                    </span>
-                    
-                    <a href="#" class="list-group-item">
-                      <span class="glyphicon glyphicon-map-marker" style="color:#FFD700">
-                      </span>
-                      Educativos 
-                      <span class="badge">
-                        13
-                      </span>
-                      
-                      <a href="#" class="list-group-item">
-                        <span class="glyphicon glyphicon-map-marker" style="color:#8B4513">
-                        </span>
-                        Infraestrusctura 
-                        <span class="badge">
-                          16
-                        </span>
-                        
-                        <a href="#" class="list-group-item">
-                          <span class="glyphicon glyphicon-map-marker" style="color:#FF0000">
-                          </span>
-                          Prevenci&oacute;n de emergencias 
-                          <span class="badge">
-                            19
-                          </span>
-                          
-                          <a href="#" class="list-group-item">
-                            <span class="glyphicon glyphicon-map-marker" style="color:#00BFFF">
-                            </span>
-                            Salud 
-                            <span class="badge">
-                              16
-                            </span>
-                            
-                            <a href="#" class="list-group-item">
-                              <span class="glyphicon glyphicon-map-marker" style="color:#000000">
-                              </span>
-                              Seguridad industrial 
-                              <span class="badge">
-                                17
-                              </span>
-                            </a>
-                          </div>
-                        </div>
-                        <!-- /.col-sm-4 -->
-                        
-                        
-                        <br>
-                        <div class="col-sm-4">
-                          <h4>
-                            <b>
-                              Calidad del aire y su importancia para la vida
-                            </b>
-                          </h2>
+  </div>
 
-                          <img class="img-responsive" src="{{=URL('static', 'img/arbol.png')}}"/>
-                          <img class="img-responsive" style="margin:auto" src="{{=URL('static', 'img/rollbar.png')}}" />
-                          
-                          
-                        </div>
-                        <div class="col-sm-4">
-                        
-                          
-                          <p class="infproy" >
-                            
-                            Este proyecto consiste en realizar 
-                            campañas de concientización
-                            sobre la importancia de la calidad 
-                            del aire y la responsabilidad de cada 
-                            uno de nosotros en la contaminación
-                            <br>
-                            Tutor: Yudith Cardinale.
-                            <br>
-                          </p>
-                          <div class="link-proy" style="color:#4682B4" >
-                            
-                            <b>
-                              Ver este proyecto >>
-                            </b>
-                          </div>
-                          
-                        </div>
-                        
-                    </div>
-                    
-                  </div>
+<script>
+  e = document.getElementById("custombox");
+  e.style.display = 'none';
+
+  function toggle_visibility() {
+     var e = document.getElementById("custombox");
+     if(e.style.display == 'block')
+        e.style.display = 'none';
+     else
+        e.style.display = 'block';
+  }
+
+  jQuery("#web2py_user_form input:visible:enabled:first").focus();
+</script>
                   
                   
-                
-                {{ end }}
+ {{ end }}

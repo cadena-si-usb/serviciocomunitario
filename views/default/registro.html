@@ -1,24 +1,22 @@
 {{ extend 'base.html'}}
 {{ block contenido }}
 
-
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="text-align:center">
             <div class="row">
-                <div class="col-md-2">
-                </div>
-                <div class="col-md-6">
-                    <h1>Registro</h1>
-                    {{=formulario}}
-                </div>
-                <div class="col-md-4">
-                    
-                </div>
+                <h1>Registro</h1>
+                <button class="btn btn-primary">
+                    <a style="color:white" href="{{=URL('registro_persona_natural')}}">Persona Natural</a>
+                </button>
+                ó
+                <button class="btn btn-primary"> 
+                    <a style="color:white" href="{{=URL('registro_persona_juridica')}}"> Persona Juridica</a>
+                </button>
+                
             </div>
         </div>
     </div>
 </div>
-
     
 {{ end }}

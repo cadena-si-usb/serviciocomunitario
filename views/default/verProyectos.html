@@ -1,0 +1,64 @@
+<link href="{{=URL('static', 'css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<script type="text/javascript" src="{{=URL('static', 'js/jquery.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/jquery.dataTables.min.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/initDataTables.js')}}"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-condensed" id="estuds">
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Area</th>
+                    <th>Sedes</th>
+                    <th>Estado</th>
+                    <th>Ver detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for proyecto in proyectos:}}
+
+                <tr>
+                    <td>
+                        {{=proyecto.f_codigo}}
+                    </td>
+                    <td>          
+                	{{if auth.is_logged_in():}}
+                		
+              			{{if (estudianteId!=None):}}
+     <a href="{{=URL('estudianteCursa',args=[proyecto.f_proyecto.id,estudianteId])}}">{{=proyecto.f_proyecto.f_nombre}}</a>
+                		{{else:}}
+                			{{=proyecto.f_proyecto.f_nombre}}
+                		{{pass}}
+
+                	{{else:}}
+                		{{=proyecto.f_proyecto.f_nombre}} 
+                	{{pass}}
+                    		
+                    	
+                    </td>
+                    <td>
+                    	{{=proyecto.f_proyecto.f_area.f_nombre}}     
+                    </td>
+                    <td>
+{{for sede in db(db.t_proyecto_sede.f_proyecto==proyecto.f_proyecto).select():}}
+						{{=sede.f_sede.f_nombre}} </br>
+
+                        {{pass}}
+                    </td>
+                    <td>
+                    	{{=proyecto.f_estado_proyecto}}
+                    </td>
+                    <td>
+                    	<a class="enlace" href="{{=URL('verProyectoEstudiante',args=[proyecto.f_proyecto.id,estudianteId])}}">
+                    		<i class="glyphicon glyphicon-search"></i>
+                    	</a>
+                    </td>
+                </tr>
+                {{pass}}
+          </tbody>
+        </table>
+    </div>
+</div>
+

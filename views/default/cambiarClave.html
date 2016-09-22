@@ -1,0 +1,40 @@
+{{ extend 'base.html'}}
+{{ block contenido }}
+
+<script type="text/javascript" src="{{=URL('static', 'js/cambiarClave.js')}}"></script>
+
+<div class="row">
+    <!-- Contenido -->
+	<div class="col-sm-12">
+	</div>
+
+	<div class="col-sm-12">
+		<div class="row">
+		  <div class="col-md-3">
+		  </div>
+		  <div class="col-md-6 well">
+		  	*La clave debe tener al menos 8 carcacteres entre los cuales una mayúscula, una minúscula, un dígito y uno de los siguientes caracteres especiales: (@.#$-_+*).
+			<form>
+				<div class="form-group">
+				    <div id="clave" class="col-md-12">
+				        <label for="nombre">Nueva contraseña:</label>
+				        <input id="auth_user_password" type="password" value="">
+				        <span id="errorFormClave" style="display:none">Clave erronea.</span>
+				    </div>
+				</div>
+				                                
+				<div class="col-md-12" style="margin-top: 2%;">               
+				    <a id="enviar-clave" idUsuario="{{=usuario.id}}" style="width:50%" class="btn btn-primary">Enviar</a>
+				</div>
+			</form>
+		      
+		  </div>
+		  <div class="col-md-3">
+		  </div>
+		</div>
+	    <hr>
+	</div>
+
+</div>
+
+{{ end }}

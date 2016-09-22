@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
 ### we prepend t_ to tablenames and f_ to fieldnames for disambiguity
 
-########################################
-# Rupdev
-#
 
 # USUARIOS UNIVERSITARIOS
 # Usuarios internos de la universidad, solo poseen carnet
 # Relaciona auth_user con la comunidad universitaria
+
+db.define_table('t_sede',
+    Field('f_nombre', type='string', notnull=True,
+          label=T('Nombre')),
+    Field('f_estado', requires=IS_IN_SET(['Activo', 'Inactivo']), notnull=True,
+          label=T('Estado'), default='Activo'),
+    auth.signature,
+    format='%(f_nombre)s',
+    migrate=settings.migrate)
+
+db.define_table('t_sede_archive',db.t_sede,Field('current_record','reference t_sede',readable=False,writable=False))
+
 db.define_table('t_universitario',
     Field('f_usbid', type='string', notnull=True, unique=True,
           label=T('Usbid'), writable=True,),
@@ -15,30 +24,12 @@ db.define_table('t_universitario',
           label=T('Key'), writable=False,), # Clave generada al azar
     Field('f_usuario', type='reference auth_user', notnull=True,
           label=T('Usuario')),
+    Field('f_sede', type='reference t_sede', notnull=True,
+          label=T('Sede')),
     format='%(f_usuario)s carnet: %(f_usbid)s')
 
-# ESTUDIANTES
-# Estudiantes, deben encontrarse en t_universitario
-db.define_table('t_estudiante',
-    Field('f_universitario', 'reference t_universitario',
-          unique=True, notnull=True,
-          requires=IS_IN_DB(db,db.t_universitario,'%(f_usbid)s'),
-          label=T('Usuario univesitario'),
-          writable=False),
-    Field('f_carrera',type='string',
-          notnull=True,
-          label=T('Carrera')),
-    Field('f_sede',
-          requires=IS_IN_SET(['Sartenejas','Litoral']),
-          notnull=True,
-          label=T('Sede')),
-    Field('f_informe','upload',label=T('Informe'), notnull=False),
-    format='%(f_universitario)s',
-    migrate=settings.migrate)
-
-
-# TUTORES ACADÉMICOS
-db.define_table('t_tutor_academico',
+# docente
+db.define_table('t_docente',
     Field('f_universitario', 'reference t_universitario',
           unique=True, notnull=True,
           requires=IS_IN_DB(db,db.t_universitario,'%(f_usbid)s'),
@@ -47,21 +38,8 @@ db.define_table('t_tutor_academico',
     Field('f_departamento',type='string',
           notnull=True,
           label=T('Departamento')),
-    Field('f_sede',
-          requires=IS_IN_SET(['Sartenejas','Litoral']),
-          notnull=True,
-          label=T('Sede')),
     format='%(f_universitario)s',
     migrate=settings.migrate)
-
-
-db.define_table('t_estado',
-    Field('f_nombre', type='string', notnull=True,
-          label=T('Nombre')),
-    format='%(f_nombre)s',
-    migrate=settings.migrate)
-db.define_table('t_estado_archive',db.t_estado,Field('current_record','reference t_estado',readable=False,writable=False))
-
 
 db.define_table('t_comunidad',
     Field('f_nombre', type='string', notnull=True,
@@ -102,6 +80,37 @@ db.define_table('t_area_carrera',
     migrate=settings.migrate)
 db.define_table('t_area_carrera_archive',db.t_area_carrera,Field('current_record','reference t_area_carrera',readable=False,writable=False))
 
+
+db.define_table('t_carrera',
+    Field('f_codigo', type='string', notnull=True,
+          label=T('Codigo')),
+    Field('f_area_carrera', 'reference t_area_carrera',
+          unique=True, notnull=True,
+          requires=IS_IN_DB(db,db.t_area_carrera,'%(f_nombre)s'),
+          label=T('Area de la carrera'),
+          writable=False),
+    Field('f_nombre', type='string', notnull=True, default='',
+          label=T('Nombre')),
+    auth.signature,
+    format='%(f_nombre)s',
+    migrate=settings.migrate)
+db.define_table('t_carrera_archive',db.t_carrera,Field('current_record','reference t_carrera',readable=False,writable=False))
+
+db.define_table('t_estudiante',
+    Field('f_universitario', 'reference t_universitario',
+          unique=True, notnull=True,
+          requires=IS_IN_DB(db,db.t_universitario,'%(f_usbid)s'),
+          label=T('Usuario universitario'),
+          writable=False),
+    Field('f_carrera','reference t_carrera',
+          unique=False, notnull=False,
+          label=T('Carrera'),
+          writable=True),
+    Field('f_horas', requires=IS_INT_IN_RANGE(0,121), notnull=True,
+          label=T('Horas realizadas y validadas.'), default=0),
+    format='%(f_universitario)s',
+    migrate=settings.migrate)
+db.define_table('t_estudiante_archive',db.t_estudiante,Field('current_record','reference t_estudiante',readable=False,writable=False))
 
 db.define_table('t_proyecto',
    Field('f_nombre', type='string', notnull=False,
@@ -164,7 +173,8 @@ db.define_table('t_proyecto',
           label=T('Fechafin')),
     Field('f_comunidad', type='string', notnull=False,
           label=T('Comunidad')),
-    Field('f_sede', requires=IS_EMPTY_OR(IS_IN_SET(['Sartenejas','Litoral'])),notnull=False,label=T('Sede')),
+    #Field('f_sede', type='reference t_sede', requires=IS_EMPTY_OR(IS_IN_DB(db, 't_sede.id', '%(f_nombre)s',multiple=True)),notnull=False,
+    #      label=T('Sede')),
     migrate=settings.migrate)
 db.define_table('t_proyecto_archive',db.t_proyecto,Field('current_record','reference t_proyecto',readable=False,writable=False))
 
@@ -176,6 +186,10 @@ db.define_table('t_objetivo',
 )
 db.define_table('t_objetivo_archive',db.t_objetivo,Field('current_record','reference t_objetivo',readable=False,writable=False))
 
+db.define_table('t_proyecto_sede',
+    Field('f_proyecto', type='reference t_proyecto'),
+    Field('f_sede', type='reference t_sede'))
+db.define_table('t_proyecto_sede_archive',db.t_proyecto_sede,Field('current_record','reference t_proyecto_sede',readable=False,writable=False))
 
 db.define_table('t_proyecto_tutor',
     Field('f_proyecto', type='reference t_proyecto'),
@@ -222,31 +236,6 @@ db.define_table('t_actividad_archive',db.t_actividad,Field('current_record','ref
 
 
 ########################################
-# DUPLICADO
-# db.define_table('t_carrera',
-#     Field('f_codigo', type='string', notnull=True,
-#           label=T('Codigo')),
-#     Field('f_estado', requires=IS_IN_SET(['Activo', 'Inactivo']), notnull=True,
-#           label=T('Estado'), default='Activo'),
-#     auth.signature,
-#     format='%(f_codigo)s',
-#     migrate=settings.migrate)
-
-# db.define_table('t_carrera_archive',db.t_carrera,Field('current_record','reference t_carrera',readable=False,writable=False))
-db.define_table('t_carrera',
-    Field('f_codigo', type='string', notnull=True,
-          label=T('Codigo')),
-    Field('f_nombre', type='string', notnull=True, default='',
-          label=T('Nombre')),
-    auth.signature,
-    format='%(f_codigo)s',
-    migrate=settings.migrate)
-
-db.define_table('t_carrera_archive',db.t_carrera,Field('current_record','reference t_carrera',readable=False,writable=False))
-
-
-
-########################################
 db.define_table('t_cursa',
     Field('f_estudiante', type='reference t_estudiante', notnull=True,
           label=T('Estudiante')),
@@ -257,9 +246,11 @@ db.define_table('t_cursa',
                               'Retirado',
                               'Culminado',
                               'Pendiente']), notnull=True, label=T('Estado'), default='Aprobado'),
-    Field('f_valido', requires=IS_IN_SET(['Valido', 'Invalido','']), notnull=True, label=T('Valido'), default='Invalido'),
+    Field('f_valido', requires=IS_IN_SET(['Valido', 'Invalido']), notnull=True, label=T('Valido'), default='Invalido'),
     Field('f_fecha', type='date', requires = IS_DATE(format=('%d/%m/%Y')), notnull=False,
           label=T('Fecha')),#fecha en que retira o culmina el SC
+
+    Field('f_informe','upload',label=T('Informe'), notnull=False),
     auth.signature,
     format='%(id)s',
     migrate=settings.migrate)
@@ -466,17 +457,6 @@ db.define_table('t_plan_operativo_archive',db.t_plan_operativo,Field('current_re
 
 # GESTION DE PROYECTO
 ########################################
-db.define_table('t_sede',
-    Field('f_nombre', type='string', notnull=True,
-          label=T('Nombre')),
-    Field('f_estado', requires=IS_IN_SET(['Activo', 'Inactivo']), notnull=True,
-          label=T('Estado'), default='Activo'),
-
-    auth.signature,
-    format='%(f_nombre)s',
-    migrate=settings.migrate)
-
-db.define_table('t_sede_archive',db.t_sede,Field('current_record','reference t_sede',readable=False,writable=False))
 
 ########################################
 
@@ -614,6 +594,8 @@ db.define_table('t_inscripcion',
                               ]), notnull=True, label=T('Estado'), default='Pendiente'),
     Field('f_horas', requires=IS_INT_IN_RANGE(0,121), notnull=True,
           label=T('horas'), default=30),
+    Field('f_actual', type='boolean',default=False, notnull=False,
+          label=T('Actual')),
     auth.signature,
     format='%(f_estudiante)s',
     migrate=settings.migrate)
