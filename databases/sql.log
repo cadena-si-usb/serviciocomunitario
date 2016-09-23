@@ -1,17 +1,17 @@
-timestamp: 2016-09-15T21:05:36.341879
+timestamp: 2016-09-22T20:41:05.348829
 CREATE TABLE t_estado(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL
 );
 success!
-timestamp: 2016-09-15T21:05:41.943965
+timestamp: 2016-09-22T20:41:05.725950
 CREATE TABLE t_estado_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
     current_record INTEGER REFERENCES t_estado (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:42.704832
+timestamp: 2016-09-22T20:41:06.254433
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -28,24 +28,25 @@ CREATE TABLE auth_user(
     f_telefono CHAR(512),
     f_sexo CHAR(512),
     f_estado INTEGER REFERENCES t_estado (id) ON DELETE CASCADE  ,
-    f_foto CHAR(512)
+    f_foto CHAR(512),
+    f_confirmado CHAR(1)
 );
 success!
-timestamp: 2016-09-15T21:05:43.814585
+timestamp: 2016-09-22T20:41:06.764830
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2016-09-15T21:05:44.517620
+timestamp: 2016-09-22T20:41:07.374985
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:45.230127
+timestamp: 2016-09-22T20:41:08.131161
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -54,7 +55,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2016-09-15T21:05:46.518017
+timestamp: 2016-09-22T20:41:08.520733
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -64,7 +65,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2016-09-15T21:05:47.412199
+timestamp: 2016-09-22T20:41:09.088640
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -74,7 +75,7 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2016-09-15T21:05:48.590037
+timestamp: 2016-09-22T20:41:09.596718
 CREATE TABLE t_sede(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -86,7 +87,7 @@ CREATE TABLE t_sede(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:49.412190
+timestamp: 2016-09-22T20:41:09.958468
 CREATE TABLE t_sede_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -99,7 +100,7 @@ CREATE TABLE t_sede_archive(
     current_record INTEGER REFERENCES t_sede (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:50.984545
+timestamp: 2016-09-22T20:41:10.552140
 CREATE TABLE t_universitario(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_usbid CHAR(512) NOT NULL UNIQUE,
@@ -108,14 +109,14 @@ CREATE TABLE t_universitario(
     f_sede INTEGER REFERENCES t_sede (id) ON DELETE CASCADE  NOT NULL 
 );
 success!
-timestamp: 2016-09-15T21:05:51.822281
+timestamp: 2016-09-22T20:41:11.460394
 CREATE TABLE t_docente(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_universitario INTEGER REFERENCES t_universitario (id) ON DELETE CASCADE  NOT NULL  UNIQUE,
     f_departamento CHAR(512) NOT NULL
 );
 success!
-timestamp: 2016-09-15T21:05:53.153586
+timestamp: 2016-09-22T20:41:12.011139
 CREATE TABLE t_comunidad(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -129,7 +130,7 @@ CREATE TABLE t_comunidad(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:53.917781
+timestamp: 2016-09-22T20:41:12.344420
 CREATE TABLE t_comunidad_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -144,7 +145,7 @@ CREATE TABLE t_comunidad_archive(
     current_record INTEGER REFERENCES t_comunidad (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:55.332413
+timestamp: 2016-09-22T20:41:12.824768
 CREATE TABLE t_area(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -158,7 +159,7 @@ CREATE TABLE t_area(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:56.244982
+timestamp: 2016-09-22T20:41:13.170937
 CREATE TABLE t_area_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -173,7 +174,7 @@ CREATE TABLE t_area_archive(
     current_record INTEGER REFERENCES t_area (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:57.402615
+timestamp: 2016-09-22T20:41:13.438420
 CREATE TABLE t_area_carrera(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -184,7 +185,7 @@ CREATE TABLE t_area_carrera(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:57.914657
+timestamp: 2016-09-22T20:41:13.628587
 CREATE TABLE t_area_carrera_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -196,7 +197,7 @@ CREATE TABLE t_area_carrera_archive(
     current_record INTEGER REFERENCES t_area_carrera (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:58.394302
+timestamp: 2016-09-22T20:41:13.775364
 CREATE TABLE t_carrera(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_codigo CHAR(512) NOT NULL,
@@ -209,7 +210,7 @@ CREATE TABLE t_carrera(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:58.907969
+timestamp: 2016-09-22T20:41:13.941861
 CREATE TABLE t_carrera_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_codigo CHAR(512) NOT NULL,
@@ -223,7 +224,7 @@ CREATE TABLE t_carrera_archive(
     current_record INTEGER REFERENCES t_carrera (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:05:59.430848
+timestamp: 2016-09-22T20:41:14.130726
 CREATE TABLE t_estudiante(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_universitario INTEGER REFERENCES t_universitario (id) ON DELETE CASCADE  NOT NULL  UNIQUE,
@@ -231,7 +232,7 @@ CREATE TABLE t_estudiante(
     f_horas CHAR(512) NOT NULL DEFAULT '0'
 );
 success!
-timestamp: 2016-09-15T21:06:00.366220
+timestamp: 2016-09-22T20:41:14.621412
 CREATE TABLE t_estudiante_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_universitario INTEGER REFERENCES t_universitario (id) ON DELETE CASCADE  NOT NULL  UNIQUE,
@@ -240,7 +241,7 @@ CREATE TABLE t_estudiante_archive(
     current_record INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:02.511976
+timestamp: 2016-09-22T20:41:14.779659
 CREATE TABLE t_proyecto(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512),
@@ -275,7 +276,7 @@ CREATE TABLE t_proyecto(
     f_comunidad CHAR(512)
 );
 success!
-timestamp: 2016-09-15T21:06:04.226933
+timestamp: 2016-09-22T20:41:15.036550
 CREATE TABLE t_proyecto_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512),
@@ -311,14 +312,14 @@ CREATE TABLE t_proyecto_archive(
     current_record INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:05.217765
+timestamp: 2016-09-22T20:41:15.213841
 CREATE TABLE t_objetivo(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
     f_objetivo TEXT NOT NULL
 );
 success!
-timestamp: 2016-09-15T21:06:06.486476
+timestamp: 2016-09-22T20:41:15.358580
 CREATE TABLE t_objetivo_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -326,14 +327,14 @@ CREATE TABLE t_objetivo_archive(
     current_record INTEGER REFERENCES t_objetivo (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:07.801476
+timestamp: 2016-09-22T20:41:15.503737
 CREATE TABLE t_proyecto_sede(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
     f_sede INTEGER REFERENCES t_sede (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:09.527951
+timestamp: 2016-09-22T20:41:15.626475
 CREATE TABLE t_proyecto_sede_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
@@ -341,14 +342,14 @@ CREATE TABLE t_proyecto_sede_archive(
     current_record INTEGER REFERENCES t_proyecto_sede (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:11.001067
+timestamp: 2016-09-22T20:41:15.750808
 CREATE TABLE t_proyecto_tutor(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
     f_tutor INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:13.089511
+timestamp: 2016-09-22T20:41:16.040831
 CREATE TABLE t_proyecto_tutor_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
@@ -356,14 +357,14 @@ CREATE TABLE t_proyecto_tutor_archive(
     current_record INTEGER REFERENCES t_proyecto_tutor (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:14.458627
+timestamp: 2016-09-22T20:41:16.163368
 CREATE TABLE t_proyecto_tutor_comunitario(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
     f_tutor INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:15.501719
+timestamp: 2016-09-22T20:41:16.308616
 CREATE TABLE t_proyecto_tutor_comunitario_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
@@ -371,7 +372,7 @@ CREATE TABLE t_proyecto_tutor_comunitario_archive(
     current_record INTEGER REFERENCES t_proyecto_tutor_comunitario (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:16.723741
+timestamp: 2016-09-22T20:41:16.454332
 CREATE TABLE t_actividad(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -392,7 +393,7 @@ CREATE TABLE t_actividad(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:17.991019
+timestamp: 2016-09-22T20:41:16.600621
 CREATE TABLE t_actividad_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -414,7 +415,7 @@ CREATE TABLE t_actividad_archive(
     current_record INTEGER REFERENCES t_actividad (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:19.004844
+timestamp: 2016-09-22T20:41:16.766454
 CREATE TABLE t_cursa(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_estudiante INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  NOT NULL ,
@@ -430,7 +431,7 @@ CREATE TABLE t_cursa(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:20.618235
+timestamp: 2016-09-22T20:41:16.912856
 CREATE TABLE t_cursa_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_estudiante INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  NOT NULL ,
@@ -447,7 +448,7 @@ CREATE TABLE t_cursa_archive(
     current_record INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:22.142453
+timestamp: 2016-09-22T20:41:17.092790
 CREATE TABLE t_actividad_estudiante(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_cursa INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE  NOT NULL ,
@@ -457,7 +458,7 @@ CREATE TABLE t_actividad_estudiante(
     f_confirmada CHAR(1) NOT NULL DEFAULT 'F'
 );
 success!
-timestamp: 2016-09-15T21:06:23.520761
+timestamp: 2016-09-22T20:41:17.270080
 CREATE TABLE t_actividad_estudiante_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_cursa INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE  NOT NULL ,
@@ -468,7 +469,7 @@ CREATE TABLE t_actividad_estudiante_archive(
     current_record INTEGER REFERENCES t_actividad_estudiante (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:24.372994
+timestamp: 2016-09-22T20:41:17.427134
 CREATE TABLE t_tipoprop(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_tipo CHAR(512) NOT NULL,
@@ -480,7 +481,7 @@ CREATE TABLE t_tipoprop(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:25.596145
+timestamp: 2016-09-22T20:41:17.583303
 CREATE TABLE t_tipoprop_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_tipo CHAR(512) NOT NULL,
@@ -493,7 +494,7 @@ CREATE TABLE t_tipoprop_archive(
     current_record INTEGER REFERENCES t_tipoprop (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:26.421726
+timestamp: 2016-09-22T20:41:17.729224
 CREATE TABLE t_condicion(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_tipo CHAR(512) NOT NULL,
@@ -505,7 +506,7 @@ CREATE TABLE t_condicion(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:27.011650
+timestamp: 2016-09-22T20:41:17.852795
 CREATE TABLE t_condicion_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_tipo CHAR(512) NOT NULL,
@@ -518,7 +519,7 @@ CREATE TABLE t_condicion_archive(
     current_record INTEGER REFERENCES t_condicion (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:27.323818
+timestamp: 2016-09-22T20:41:17.963961
 CREATE TABLE t_propuesta(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -532,7 +533,7 @@ CREATE TABLE t_propuesta(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:27.670360
+timestamp: 2016-09-22T20:41:18.097516
 CREATE TABLE t_propuesta_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -547,7 +548,7 @@ CREATE TABLE t_propuesta_archive(
     current_record INTEGER REFERENCES t_propuesta (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:28.039273
+timestamp: 2016-09-22T20:41:18.209470
 CREATE TABLE t_proyecto_aprobado(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -560,7 +561,7 @@ CREATE TABLE t_proyecto_aprobado(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:28.406200
+timestamp: 2016-09-22T20:41:18.342870
 CREATE TABLE t_proyecto_aprobado_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -574,7 +575,7 @@ CREATE TABLE t_proyecto_aprobado_archive(
     current_record INTEGER REFERENCES t_proyecto_aprobado (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:28.829921
+timestamp: 2016-09-22T20:41:18.466567
 CREATE TABLE t_plan_operativo(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -587,7 +588,7 @@ CREATE TABLE t_plan_operativo(
     f_responsable CHAR(512) NOT NULL
 );
 success!
-timestamp: 2016-09-15T21:06:29.208354
+timestamp: 2016-09-22T20:41:18.601037
 CREATE TABLE t_plan_operativo_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -601,7 +602,7 @@ CREATE TABLE t_plan_operativo_archive(
     current_record INTEGER REFERENCES t_plan_operativo (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:29.565495
+timestamp: 2016-09-22T20:41:18.745955
 CREATE TABLE t_inscripcion(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_estudiante INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  NOT NULL ,
@@ -616,7 +617,7 @@ CREATE TABLE t_inscripcion(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-15T21:06:29.912375
+timestamp: 2016-09-22T20:41:18.870598
 CREATE TABLE t_inscripcion_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_estudiante INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  NOT NULL ,
@@ -631,7 +632,4 @@ CREATE TABLE t_inscripcion_archive(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     current_record INTEGER REFERENCES t_inscripcion (id) ON DELETE CASCADE  
 );
-success!
-timestamp: 2016-09-15T21:09:35.799956
-ALTER TABLE auth_user ADD f_confirmado CHAR(1);
 success!

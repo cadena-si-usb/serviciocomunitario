@@ -8,10 +8,14 @@ jQuery(document).ready(function(){
   confirmarEliminar=function(idUsuario){ 
     confirmar=confirm("¿Seguro que desea eliminar este usuario?"); 
     if (confirmar){
-      ajax('eliminar_usuario?id='+idUsuario, [], ''); 
-      jQuery('#vista-admin').empty();
-      jQuery('#vista-admin').html(miniloader);
-      ajax('usuarios', [], 'vista-admin');
+      $.ajax('eliminar_usuario?id='+idUsuario).done(function(html) {
+          if (html=="Si"){
+            var table=$('#estuds').DataTable();
+            table.row($("#"+idUsuario))
+            .remove()
+            .draw();
+          }
+      });
     }
 
   }; 
@@ -25,10 +29,14 @@ jQuery(document).ready(function(){
   confirmarEliminarArea=function(idArea){ 
     confirmar=confirm("¿Seguro que desea eliminar esta area de proyecto?"); 
     if (confirmar){
-      ajax('eliminar_area?id='+idArea, [], '');
-      jQuery('#vista-admin').empty();
-      jQuery('#vista-admin').html(miniloader);
-      ajax('areas_admin', [], 'vista-admin'); 
+      $.ajax('eliminar_area?id='+idArea).done(function(html) {
+          if (html=="Si"){
+            var table=$('#estuds').DataTable();
+            table.row($("#"+idArea))
+            .remove()
+            .draw();
+          }
+      }); 
     }
 
   }; 
@@ -63,6 +71,33 @@ jQuery(document).ready(function(){
     jQuery('#vista-admin').html(miniloader);
     ajax('areas_admin', [], 'vista-admin');
   });
+
+  enviarArea=function(idArea){
+    $.ajax('nueva_area_admin_modificada?id='+idArea+"&nombre="+jQuery("#nombre-area").val()+"&codigo="+jQuery("#codigo-area").val()+"&descripcion=" +jQuery("#descripcion-area").val() + "&estado=" +jQuery("#estado-area").val()
+    ).done(function(html) {
+
+      if (html=='Exito'){
+        $('#myModal2').modal('toggle');
+
+        var table=$('#estuds').DataTable();
+        
+        table.row($("#"+idArea)).remove().draw();
+
+        var rowNode = table
+        .row.add([jQuery("#nombre-area").val(),jQuery("#codigo-area").val(),jQuery("#estado-area").val(),'<a class="enlace" onclick="mostrarDetallesArea(\''+idArea+'\')" data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-search"></i></a>','<a class="enlace" onclick="confirmarEliminarArea(\''+idArea+'\')"><i class="glyphicon glyphicon-remove"></i></a>','<a class="enlace" onclick="editarArea(\''+idArea+'\')"><i class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#myModal2"></i></a>'])
+        .draw()
+        .node();
+ 
+        $(rowNode).attr("id",idArea);
+        $(rowNode).css('color','green').animate({ color: 'black' });
+
+      }else{
+        $('#target').html(html);
+      };
+      
+    });
+ 
+  };
 
 
 });

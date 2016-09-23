@@ -470,6 +470,7 @@ def usuarios_detalles():
 def eliminar_usuario():
     idUsuario=request.vars.id
     db(db.auth_user.id==idUsuario).delete()
+    return "Si"
 
 
 def roles_usuarios():
@@ -964,6 +965,7 @@ def nueva_area():
 def eliminar_area():
     idArea=request.vars.id
     db(db.t_area.id==idArea).delete()
+    return "Si"
 
 def admin_modificar_area():
     idArea=request.vars.id
@@ -1318,7 +1320,7 @@ def culminar_proyecto():
     form = SQLFORM.factory(Field('f_informe','upload',uploadfolder=request.folder+'static/pdfs',label=T('Informe'),requires = [IS_LENGTH(maxsize=2097152),IS_UPLOAD_FILENAME(extension='pdf')]))
     if form.process(session=None, formname='test').accepted:
         if form.vars.f_informe:
-            db(db.t_estudiante.f_universitario==estt).update(f_informe=form.vars.f_informe)
+            db(db.t_cursa.f_estudiante==usuario).update(f_informe=form.vars.f_informe)
             db(db.t_cursa.f_estudiante==usuario).update(f_estado="Culminado",f_fecha=datetime.datetime.today())
             return redirect(URL('culminar_proyecto',args=[x]))
         print('form accepted')
