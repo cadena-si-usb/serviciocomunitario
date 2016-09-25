@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  
+  <h3>Agregar Rol</h3>
+  <h4><strong>Usuario:</strong>{{=usuario.username}}</h4>
+  <div id="target"></div>
+  <form role="form">
+    <div class="form-group">
+	  <label for="estado"><h4>Rol:</h4></label>
+	  <select class="form-control" name="estado" id="id-Rol">
+      {{for rol in roles:}}
+        <option value={{=rol.id}}>{{=rol.role}}</option>
+      {{pass}}
+	  </select>
+    </div>
+
+    <a onclick="enviarRol('{{=usuario.id}}')"  class="btn btn-primary">Enviar</a>
+
+  </form>
+</div>

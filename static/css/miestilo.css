@@ -64,4 +64,8 @@ input[readonly],
 .avatar{
   max-height: 140px !important;
 }
-
+.dataTables_filter label input{
+  display: inherit !important;
+  width: 70% !important;
+  height: 23px !important;
+}

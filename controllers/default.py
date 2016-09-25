@@ -472,32 +472,30 @@ def eliminar_usuario():
     db(db.auth_user.id==idUsuario).delete()
     return "Si"
 
+def roles_admin():
+    return dict(usuarios=db(db.auth_user.id!=auth.user_id).select())
 
-def roles_usuarios():
-    relaciones=db(db.auth_membership.user_id!=auth.user_id).select()
-    return dict(registrados=relaciones)
+def agregar_rol_admin():
+    idUsuario=long(request.vars.id)
+    usuario=db(db.auth_user.id==idUsuario).select().first()
+    return dict(usuario=usuario,roles=db().select(db.auth_group.ALL))
 
-def eliminar_rol():
-    idrol=request.args(0)
-    db(db.auth_membership.id==idrol).delete()
-    redirect(URL('roles_usuarios'))
+def agregar_rol_admin_listo():
+    idUsuario=long(request.vars.idUsuario)
+    idRol=long(request.vars.idRol)
+    existeRelacion=db((db.auth_membership.user_id==idUsuario) & (db.auth_membership.group_id==idRol)).select().first() !=None
+    if existeRelacion:
+        return "*El usuario ya posee ese Rol."     
 
-def agregar_rol():
-    usuarios=db(db.auth_user.id!=auth.user_id).select()
-    return dict(usuarios=usuarios)
+    db.auth_membership.insert(user_id=idUsuario,group_id=idRol)
+    relacion=db((db.auth_membership.user_id==idUsuario) & (db.auth_membership.group_id==idRol)).select().first()
+    
+    return relacion.id
 
-def agregar_rol_usuario():
-    idUsuario=request.args(0)
-    rolesUsuario= db(db.auth_membership.user_id==idUsuario).select()
-    roles= db().select(db.auth_group.ALL)
-    nombreUsuario= db(db.auth_user.id==idUsuario).select()[0].username
-    return dict(roles=roles,rolesUsuario=rolesUsuario,nombreUsuario=nombreUsuario,idUsuario=idUsuario)
-
-def insertar_rol():
-    idUsuario=request.args(0)
-    idGrupo=request.args(1)
-    auth.add_membership(idGrupo, idUsuario)
-    redirect(URL(r=request,f='agregar_rol_usuario',args=idUsuario))
+def eliminar_rol_admin():
+    idRelacion=long(request.vars.idRelacion)
+    db(db.auth_membership.id==idRelacion).delete()
+    return "Si"
 
 def vista_proponente():
     def my_form_processing(form):
@@ -859,10 +857,10 @@ def admin_usuarios_detalles():
     univ = db(db.t_universitario.f_usuario==idUsuario).select().first()
     if (tabla['f_tipo'] == "Docente"):
         sede = univ.f_sede.f_nombre
-        dpto = db(db.t_docente.f_universitario.id==univ.id).select().first().f_departamento
+        dpto = db(db.t_docente.f_universitario==univ).select().first().f_departamento
     if (tabla['f_tipo'] in ["Pregrado","Postgrado"]):
         sede    = univ.f_sede.f_nombre
-        carrera = db(db.t_estudiante.f_universitario.id==univ.id).select().first().f_carrera
+        carrera = db(db.t_estudiante.f_universitario==univ).select().first().f_carrera
     
     return dict(form=tabla,picture=picture,dpto=dpto, sede=sede,carrera=carrera) 
 
@@ -1008,7 +1006,7 @@ def nueva_area_admin_modificada():
 
 
 def admin_areas_detalles():
-    idArea=request.vars.id
+    idArea=long(request.vars.id)
     area=db(db.t_area.id==idArea).select().first()
 
     return dict(form=area)
@@ -1047,7 +1045,9 @@ def nueva_area_admin():
         f_estado=estado
     )
 
-    return "Exito"
+    area=db(db.t_area.f_codigo==codigo).select().first()
+
+    return area.id
 
 
 def proponentesEditar():

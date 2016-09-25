@@ -136,55 +136,7 @@
                 </div>
             </div>
         </div>
-
         <hr>
-
-        <div class="row">
-
-            <div class="col-md-4">
-                <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
-            </div>
-            <div class="col-md-4">
-                <h3> Roles de usuarios </h3>
-                <p style="color: #808080">
-                   <br>Ver la lista de los usuarios internos<br>
-                   y externos del sistema con sus roles en
-                   especifico. <br>
-                </p>
-            </div>
-            <div class="col-md-3">
-                <div class="row">
-                      <a href="{{=URL('roles_usuarios')}}">
-                        <button class="btn btn-primary boton_link"  onclick="location.href=''" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Roles de Usuarios >> </button>
-                      </a>
-                </div>
-            </div>
-        </div>
-        <hr>
-       <!-- 
-        <div class="row">
-            <div class="col-md-4">
-                <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
-            </div>
-            <div class="col-md-4">
-                <h3> Propuestas</h3>
-                 <p style="color: #808080">
-                   Administrar propuestas
-                </p>
-            </div>
-             <div class="col-md-3">
-                <div class="row">
-                      <a href="{{=URL('propuestas')}}">
-                      <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Propuestas  >> </button>
-                      </a>
-                </div>
-            </div>
-        </div>
-        
-        <hr>
--->
 
 {{pass}}
 {{if ("Asistente" in roles) or ("Coordinador" in roles):}}
