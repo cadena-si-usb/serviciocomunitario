@@ -73,22 +73,24 @@
               </div>
                 <a target="_blank" href="{{=URL('generarPdfConstanciaRetiro',args=[estudiante.id,proyecto.f_proyecto])}}">
                 <button type="button" class="btn btn-primary">Imprimir constancia</button></a>
-
-            <!--{{elif 40>horas:}}
-                <div class="alert alert-warning" >
-                  <p>No puede retirar el proyecto si tiene menos de 40 horas realizadas.</p>
-                </div>-->
+            
             {{elif proyecto.f_estado=='Culminado':}}
                 <div class="alert alert-warning" >
                   <p>Usted ya ha culminado su servicio comunitario.</p>
                 </div>
             {{else:}}
                 <div class="alert alert-warning" >
-                  <p>¿Está seguro de retirar el proyecto {{=proyecto.f_proyecto.f_nombre}}?</p>
-                </div>
-                <a href="{{=URL('retiro',args=[estudiante.id,proyecto.f_proyecto])}}">
-                    <button type="button" class="retirar btn btn-primary" id="{{=estudiante.id}}">Sí</button>
-                </a>
+                    <p>El informe debe estar en formato pdf y no ser mayor a 2Mb</p>
+                  </div>
+                  <p>Subir informe de retiro:</p>
+                  <form action="#" enctype="multipart/form-data" method="post">
+                    <div align="center">
+                      <input class="upload" id="t_estudiante_f_informe" name="f_informe" type="file" />
+                    </div>
+                    <hr>
+                    <button type="submit" class="btn btn-primary" >Subir</button>
+                    <input type="hidden" name="_formname" value="test" />
+                  </form>
             {{ pass }}
 
           </div>
@@ -97,12 +99,12 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $(".retirar").click(function(){ 
+    /*$(".retirar").click(function(){ 
         var a = window.location.host; 
         $.ajax("http://"+a+"/SIGESC/default/retiro", {
           data: {'id': this.id},
         }).done(function(data) {location.reload();});     
-      });
+      });*/
   });
 </script> 
 

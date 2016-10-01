@@ -112,7 +112,7 @@ db.define_table('t_estudiante',
           unique=False, notnull=False,
           label=T('Carrera'),
           writable=True),
-    Field('f_horas', requires=IS_INT_IN_RANGE(0,121), notnull=True,
+    Field('f_horas', requires=IS_INT_IN_RANGE(0,200), notnull=True,
           label=T('Horas realizadas y validadas.'), default=0),
     format='%(f_universitario)s',
     migrate=settings.migrate)
@@ -257,6 +257,9 @@ db.define_table('t_cursa',
           label=T('Fecha')),#fecha en que retira o culmina el SC
 
     Field('f_informe','upload',label=T('Informe'), notnull=False),
+    Field('f_actual', type='boolean',     # el tutor comunitario confirma que se hizo la actividad
+        notnull=True, default=True, writable=False,
+        label=T('Actual')),
     auth.signature,
     format='%(id)s',
     migrate=settings.migrate)
