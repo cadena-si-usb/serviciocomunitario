@@ -27,7 +27,11 @@
                 	{{if auth.is_logged_in():}}
                 		
               			{{if (estudianteId!=None):}}
+                            {{if (proyecto.f_estado_proyecto=="Activo"):}}
      <a href="{{=URL('estudianteCursa',args=[proyecto.f_proyecto.id,estudianteId])}}">{{=proyecto.f_proyecto.f_nombre}}</a>
+                            {{else:}}
+                                {{=proyecto.f_proyecto.f_nombre}}
+                            {{pass}}
                 		{{else:}}
                 			{{=proyecto.f_proyecto.f_nombre}}
                 		{{pass}}
@@ -51,8 +55,13 @@
                     	{{=proyecto.f_estado_proyecto}}
                     </td>
                     <td>
+                        {{if (proyecto.f_estado_proyecto=="Activo"):}}
                     	<a class="enlace" href="{{=URL('verProyectoEstudiante',args=[proyecto.f_proyecto.id,estudianteId])}}">
+                        {{else:}}
+                        <a class="enlace">
+                        {{pass}}
                     		<i class="glyphicon glyphicon-search"></i>
+                        
                     	</a>
                     </td>
                 </tr>

@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  
+  <h3>Agregar Comunidad</h3>
+  <h4><strong>Proyecto:</strong>{{=proyecto.f_nombre}}</h4>
+  <div id="target"></div>
+  <form role="form">
+    <div class="form-group">
+	  <label for="estado"><h4>Comunidad:</h4></label>
+    <input id="id-Comunidad" type="text" name="objetivo_obj" class="form-objetivos form-control">
+    </div>
+
+    <a onclick="enviarComunidad('{{=proyecto.id}}')"  class="btn btn-primary">Enviar</a>
+
+  </form>
+</div>

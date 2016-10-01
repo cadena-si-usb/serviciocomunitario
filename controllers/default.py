@@ -1511,10 +1511,6 @@ def generarPdfConstanciaCulminacion():
     response.headers['Content-Type']='application/pdf'
     return data
 
-########################################################################################
-################## final syscorp
-########################################################################################
-
 def genPDF(base_url='applications/SIGESC/templates_pdf/planillaAval/', template_html='template.html',template_css='template.css', output="out.pdf",variables=dict()):
     template = open(base_url+template_html).read()
     contenido = template.format(**variables)
@@ -2307,6 +2303,20 @@ def generarPlanillaAval():
     )
     return pdf
 
+def agregar_comunidad():
+    idProyecto=long(request.vars.id)
+    proyecto=db(db.t_proyecto.id==idProyecto).select().first()
+    return dict(proyecto=proyecto,comunidades=db().select(db.t_comunidad.ALL))
+
+def agregar_comunidad_listo():
+    comunidad=request.vars.comunidad
+    existeComunidad=db(db.t_comunidad.f_nombre.upper()==comunidad.upper()).select().first() !=None
+    if existeComunidad:
+        return "*La comunidad ya existe."     
+
+    db.t_comunidad.insert(f_nombre=comunidad)
+    tcomunidad=db(db.t_comunidad.f_nombre==comunidad).select().first()
+    return tcomunidad.id
 
 def propuestaPDF():
     base_url='applications/SIGESC/templates_pdf/propuesta/'
@@ -2583,7 +2593,10 @@ def estudianteInscribeProyectos():
     msj        = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     #return dict(rows = db(db.t_estudiante.id==x).select())
     mensaje="Registro de proyecto exitoso. Volver al Menú"
-    return dict(estudiante=estudiante,proyectos=db().select(db.t_proyecto_aprobado.ALL),estudianteId=x, mensaje=mensaje,bienvenida=msj)
+    fechaTope1=db(db.t_fechas_tope.f_tipo=="I").select().first()
+    fechaTope2=db(db.t_fechas_tope.f_tipo=="IE").select().first()
+    ahora=datetime.datetime.today().date()
+    return dict(ahora=ahora,fechaTope1=fechaTope1,fechaTope2=fechaTope2,estudiante=estudiante,proyectos=db().select(db.t_proyecto_aprobado.ALL),estudianteId=x, mensaje=mensaje,bienvenida=msj)
 
 
 def estudiantesDetalles():

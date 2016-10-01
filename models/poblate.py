@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from datetime import datetime, date, time, timedelta
 if len(db().select(db.auth_group.ALL)) == 0:
     db.auth_group.insert(
         role='Asistente',
@@ -101,3 +101,20 @@ if len(db().select(db.t_carrera.ALL)) == 0:
             f_area_carrera=db(db.t_area_carrera.f_nombre=='Ingeniería').select()[0].id,
             f_nombre=carrera
         )
+
+if len(db().select(db.t_fechas_tope.ALL)) == 0:
+    ahora=datetime.today()
+    db.t_fechas_tope.insert(
+        f_tipo='I',
+        f_fecha_inicial=ahora -timedelta(days=24),
+        f_fecha_final=ahora +timedelta(days=300),
+    )
+    db.t_fechas_tope.insert(
+        f_tipo='IE',
+        f_fecha_inicial=ahora -timedelta(days=24),
+        f_fecha_final=ahora +timedelta(days=300),
+    )
+if len(db().select(db.t_comunidad.ALL)) == 0:
+    db.t_comunidad.insert(
+        f_nombre='Comunidad I'
+    )

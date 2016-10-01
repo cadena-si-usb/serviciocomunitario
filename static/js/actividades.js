@@ -338,4 +338,51 @@ $(document).ready(function() {
 	        }
 		})
 		init_plugins();
+
+	function getQueryParams(qs) {
+	    qs = qs.split('+').join(' ');
+
+	    var params = {},
+	        tokens,
+	        re = /[?&]?([^=]+)=([^&]*)/g;
+
+	    while (tokens = re.exec(qs)) {
+	        params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+	    }
+
+	    return params;
+	}
+
+
+
+	agregarComunidad=function(){
+    	//console.log("rol agregado
+    	var miniloader="<div class='miniloader'></div>";
+    	jQuery('#detalles-comunidad').empty();
+    	jQuery('#detalles-comunidad').html(miniloader);
+    	var query = getQueryParams(document.location.search);
+    	ajax('agregar_comunidad?id='+query.proyecto_id, [], 'detalles-comunidad'); 
+    	
+  	};
+
+	enviarComunidad=function(idProyecto){
+		var comunidad=jQuery("#id-Comunidad").val();
+		$.ajax('agregar_comunidad_listo?comunidad='+encodeURIComponent(comunidad)).done(function(html) {
+	      if (!(isNaN(html))){
+	        var idComunidad=html;
+	        $('#myModal2').css('display','none');
+	        var selectComunidad=$("#no_table_f_comunidad");
+	        var optionComunidad='<option selected="selected" value="'+idComunidad+'">'+comunidad+'</option>'
+
+	        selectComunidad.append(optionComunidad);              
+	        
+	        alert('Se ha agregado la Comunidad exitosamente.');
+	      
+	      }else{
+	        $('#target').html(html);
+	      };
+	      
+	    });
+  	};
+
 })
