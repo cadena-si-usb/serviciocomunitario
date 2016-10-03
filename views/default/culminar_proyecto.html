@@ -28,7 +28,7 @@
                       <a href="{{=URL('propuestas')}}">
                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Proponer Proyecto</a>
                       {{if proyecto:}}
-                          <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudiante.id,proyecto.f_proyecto.id])}}">
+                          <a target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudiante.id,proyecto.f_proyecto.id])}}">
                               <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
                           <a href="{{=URL('estado_estudiante')}}">
                              <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Estado de Inscripción</a>
@@ -63,23 +63,23 @@
           
           {{if proyecto.f_estado=='Culminado':}}
             <div class="alert alert-info">
-              <p>Usted ha culminado este servicio comunitario .</p>
+              <p>Usted ha culminado su servicio comunitario.</p>
             </div>
               <a href="{{=URL('generarPdfConstanciaCulminacion',args=[estudiante.id,proyecto.f_proyecto])}}">
               <button type="button" class="btn btn-primary">Imprimir constancia</button></a>
           {{elif proyecto.f_estado=='Retirado':}}
               <div class="alert alert-warning" >
-                <p>Usted ha retirado este proyecto de servicio comunitario.</p>
+                <p>Usted ha retirado su proyecto de servicio comunitario.</p>
               </div>
-          {{elif horasDeber>horas:}}
+          {{elif 120>horas:}}
                 <div class="alert alert-warning" >
-                  <p>No puede culminar este servicio comunitario si no ha realizado mas de {{=horasDeber}} horas. Usted solo ha realizado {{=horas}} horas.</p>
+                  <p>No puede culminar su servicio comunitario si no ha realizado las 120 horas correspondientes.</p>
                 </div>
           {{else:}}
                   <div class="alert alert-warning" >
                     <p>El informe debe estar en formato pdf y no ser mayor a 2Mb</p>
                   </div>
-                  <p>Subir informe:</p>
+                  <p>Subir informe final:</p>
                   <form action="#" enctype="multipart/form-data" method="post">
                     <div align="center">
                       <input class="upload" id="t_estudiante_f_informe" name="f_informe" type="file" />

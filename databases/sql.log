@@ -1,17 +1,17 @@
-timestamp: 2016-09-28T20:14:03.834695
+timestamp: 2016-10-01T11:11:05.383684
 CREATE TABLE t_estado(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL
 );
 success!
-timestamp: 2016-09-28T20:14:04.448948
+timestamp: 2016-10-01T11:11:05.632995
 CREATE TABLE t_estado_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
     current_record INTEGER REFERENCES t_estado (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:04.875725
+timestamp: 2016-10-01T11:11:05.713106
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -32,21 +32,21 @@ CREATE TABLE auth_user(
     f_confirmado CHAR(1)
 );
 success!
-timestamp: 2016-09-28T20:14:05.512384
+timestamp: 2016-10-01T11:11:05.790452
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2016-09-28T20:14:06.147397
+timestamp: 2016-10-01T11:11:05.893270
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:06.535820
+timestamp: 2016-10-01T11:11:05.971107
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -55,7 +55,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2016-09-28T20:14:07.141044
+timestamp: 2016-10-01T11:11:06.072369
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -65,7 +65,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2016-09-28T20:14:07.498866
+timestamp: 2016-10-01T11:11:06.185472
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -75,7 +75,7 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
-timestamp: 2016-09-28T20:14:07.963232
+timestamp: 2016-10-01T11:11:06.282577
 CREATE TABLE t_sede(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE t_sede(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:08.214965
+timestamp: 2016-10-01T11:11:06.367920
 CREATE TABLE t_sede_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE t_sede_archive(
     current_record INTEGER REFERENCES t_sede (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:08.626729
+timestamp: 2016-10-01T11:11:06.489403
 CREATE TABLE t_comunidad(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE t_comunidad(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:08.876159
+timestamp: 2016-10-01T11:11:06.579602
 CREATE TABLE t_comunidad_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE t_comunidad_archive(
     current_record INTEGER REFERENCES t_comunidad (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:09.043408
+timestamp: 2016-10-01T11:11:06.669269
 CREATE TABLE t_universitario(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_usbid CHAR(512) NOT NULL UNIQUE,
@@ -133,14 +133,14 @@ CREATE TABLE t_universitario(
     f_sede INTEGER REFERENCES t_sede (id) ON DELETE CASCADE  NOT NULL 
 );
 success!
-timestamp: 2016-09-28T20:14:09.167211
+timestamp: 2016-10-01T11:11:06.781918
 CREATE TABLE t_docente(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_universitario INTEGER REFERENCES t_universitario (id) ON DELETE CASCADE  NOT NULL  UNIQUE,
     f_departamento CHAR(512) NOT NULL
 );
 success!
-timestamp: 2016-09-28T20:14:09.278599
+timestamp: 2016-10-01T11:11:06.872563
 CREATE TABLE t_area(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -154,7 +154,7 @@ CREATE TABLE t_area(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:09.404221
+timestamp: 2016-10-01T11:11:06.985285
 CREATE TABLE t_area_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -169,7 +169,7 @@ CREATE TABLE t_area_archive(
     current_record INTEGER REFERENCES t_area (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:10.139854
+timestamp: 2016-10-01T11:11:07.097266
 CREATE TABLE t_area_carrera(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -180,7 +180,7 @@ CREATE TABLE t_area_carrera(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:10.295087
+timestamp: 2016-10-01T11:11:07.208586
 CREATE TABLE t_area_carrera_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512) NOT NULL,
@@ -192,7 +192,7 @@ CREATE TABLE t_area_carrera_archive(
     current_record INTEGER REFERENCES t_area_carrera (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:10.508568
+timestamp: 2016-10-01T11:11:07.324342
 CREATE TABLE t_carrera(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_codigo CHAR(512) NOT NULL,
@@ -205,7 +205,7 @@ CREATE TABLE t_carrera(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:10.998218
+timestamp: 2016-10-01T11:11:07.413489
 CREATE TABLE t_carrera_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_codigo CHAR(512) NOT NULL,
@@ -219,7 +219,7 @@ CREATE TABLE t_carrera_archive(
     current_record INTEGER REFERENCES t_carrera (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:11.490669
+timestamp: 2016-10-01T11:11:07.535782
 CREATE TABLE t_estudiante(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_universitario INTEGER REFERENCES t_universitario (id) ON DELETE CASCADE  NOT NULL  UNIQUE,
@@ -227,7 +227,7 @@ CREATE TABLE t_estudiante(
     f_horas CHAR(512) NOT NULL DEFAULT '0'
 );
 success!
-timestamp: 2016-09-28T20:14:11.645956
+timestamp: 2016-10-01T11:11:07.638499
 CREATE TABLE t_estudiante_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_universitario INTEGER REFERENCES t_universitario (id) ON DELETE CASCADE  NOT NULL  UNIQUE,
@@ -236,7 +236,7 @@ CREATE TABLE t_estudiante_archive(
     current_record INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:11.760494
+timestamp: 2016-10-01T11:11:07.741188
 CREATE TABLE t_proyecto(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512),
@@ -271,7 +271,7 @@ CREATE TABLE t_proyecto(
     f_comunidad INTEGER REFERENCES t_comunidad (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:11.884015
+timestamp: 2016-10-01T11:11:07.842354
 CREATE TABLE t_proyecto_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_nombre CHAR(512),
@@ -307,14 +307,14 @@ CREATE TABLE t_proyecto_archive(
     current_record INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:12.006208
+timestamp: 2016-10-01T11:11:07.963707
 CREATE TABLE t_objetivo(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
     f_objetivo TEXT NOT NULL
 );
 success!
-timestamp: 2016-09-28T20:14:12.140066
+timestamp: 2016-10-01T11:11:08.097649
 CREATE TABLE t_objetivo_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -322,14 +322,14 @@ CREATE TABLE t_objetivo_archive(
     current_record INTEGER REFERENCES t_objetivo (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:12.329416
+timestamp: 2016-10-01T11:11:08.209467
 CREATE TABLE t_proyecto_sede(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
     f_sede INTEGER REFERENCES t_sede (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:12.486019
+timestamp: 2016-10-01T11:11:08.312659
 CREATE TABLE t_proyecto_sede_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
@@ -337,14 +337,14 @@ CREATE TABLE t_proyecto_sede_archive(
     current_record INTEGER REFERENCES t_proyecto_sede (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:12.685082
+timestamp: 2016-10-01T11:11:08.413431
 CREATE TABLE t_proyecto_tutor(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
     f_tutor INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:12.821559
+timestamp: 2016-10-01T11:11:08.526670
 CREATE TABLE t_proyecto_tutor_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
@@ -352,14 +352,14 @@ CREATE TABLE t_proyecto_tutor_archive(
     current_record INTEGER REFERENCES t_proyecto_tutor (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:12.977393
+timestamp: 2016-10-01T11:11:08.619244
 CREATE TABLE t_proyecto_tutor_comunitario(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
     f_tutor INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:13.089846
+timestamp: 2016-10-01T11:11:08.739958
 CREATE TABLE t_proyecto_tutor_comunitario_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  ,
@@ -367,7 +367,7 @@ CREATE TABLE t_proyecto_tutor_comunitario_archive(
     current_record INTEGER REFERENCES t_proyecto_tutor_comunitario (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:13.225601
+timestamp: 2016-10-01T11:11:08.830821
 CREATE TABLE t_actividad(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -388,7 +388,7 @@ CREATE TABLE t_actividad(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:13.373952
+timestamp: 2016-10-01T11:11:08.942290
 CREATE TABLE t_actividad_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -410,7 +410,7 @@ CREATE TABLE t_actividad_archive(
     current_record INTEGER REFERENCES t_actividad (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:13.698916
+timestamp: 2016-10-01T11:11:09.032377
 CREATE TABLE t_cursa(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_estudiante INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  NOT NULL ,
@@ -426,7 +426,7 @@ CREATE TABLE t_cursa(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:13.969027
+timestamp: 2016-10-01T11:11:09.133514
 CREATE TABLE t_cursa_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_estudiante INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  NOT NULL ,
@@ -443,7 +443,7 @@ CREATE TABLE t_cursa_archive(
     current_record INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:14.391413
+timestamp: 2016-10-01T11:11:09.233982
 CREATE TABLE t_actividad_estudiante(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_cursa INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE  NOT NULL ,
@@ -453,7 +453,7 @@ CREATE TABLE t_actividad_estudiante(
     f_confirmada CHAR(1) NOT NULL DEFAULT 'F'
 );
 success!
-timestamp: 2016-09-28T20:14:14.581968
+timestamp: 2016-10-01T11:11:09.336773
 CREATE TABLE t_actividad_estudiante_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_cursa INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE  NOT NULL ,
@@ -464,7 +464,7 @@ CREATE TABLE t_actividad_estudiante_archive(
     current_record INTEGER REFERENCES t_actividad_estudiante (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:14.726649
+timestamp: 2016-10-01T11:11:09.427893
 CREATE TABLE t_propuesta(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -478,7 +478,7 @@ CREATE TABLE t_propuesta(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:14.874091
+timestamp: 2016-10-01T11:11:09.551710
 CREATE TABLE t_propuesta_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -493,7 +493,7 @@ CREATE TABLE t_propuesta_archive(
     current_record INTEGER REFERENCES t_propuesta (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:15.028279
+timestamp: 2016-10-01T11:11:09.686425
 CREATE TABLE t_proyecto_aprobado(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -506,7 +506,7 @@ CREATE TABLE t_proyecto_aprobado(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:15.174213
+timestamp: 2016-10-01T11:11:09.808374
 CREATE TABLE t_proyecto_aprobado_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -520,7 +520,7 @@ CREATE TABLE t_proyecto_aprobado_archive(
     current_record INTEGER REFERENCES t_proyecto_aprobado (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:15.331871
+timestamp: 2016-10-01T11:11:09.898755
 CREATE TABLE t_plan_operativo(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -533,7 +533,7 @@ CREATE TABLE t_plan_operativo(
     f_responsable CHAR(512) NOT NULL
 );
 success!
-timestamp: 2016-09-28T20:14:15.488747
+timestamp: 2016-10-01T11:11:09.988654
 CREATE TABLE t_plan_operativo_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_proyecto INTEGER REFERENCES t_proyecto (id) ON DELETE CASCADE  NOT NULL ,
@@ -547,7 +547,7 @@ CREATE TABLE t_plan_operativo_archive(
     current_record INTEGER REFERENCES t_plan_operativo (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:15.825361
+timestamp: 2016-10-01T11:11:10.079603
 CREATE TABLE t_inscripcion(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_estudiante INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  NOT NULL ,
@@ -562,7 +562,7 @@ CREATE TABLE t_inscripcion(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:15.947641
+timestamp: 2016-10-01T11:11:10.195280
 CREATE TABLE t_inscripcion_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_estudiante INTEGER REFERENCES t_estudiante (id) ON DELETE CASCADE  NOT NULL ,
@@ -578,7 +578,7 @@ CREATE TABLE t_inscripcion_archive(
     current_record INTEGER REFERENCES t_inscripcion (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:16.093955
+timestamp: 2016-10-01T11:11:10.295206
 CREATE TABLE t_fechas_tope(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_tipo CHAR(512) NOT NULL,
@@ -591,7 +591,7 @@ CREATE TABLE t_fechas_tope(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-09-28T20:14:16.227776
+timestamp: 2016-10-01T11:11:10.383689
 CREATE TABLE t_fechas_tope_archive(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     f_tipo CHAR(512) NOT NULL,
@@ -604,726 +604,4 @@ CREATE TABLE t_fechas_tope_archive(
     modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     current_record INTEGER REFERENCES t_fechas_tope (id) ON DELETE CASCADE  
 );
-success!
-timestamp: 2016-10-01T11:37:14.836384
-ALTER TABLE t_cursa ADD f_validar_horas CHAR(1) NOT NULL DEFAULT 'F';
-success!
-timestamp: 2016-10-01T11:37:14.981875
-ALTER TABLE t_cursa_archive ADD f_validar_horas CHAR(1) NOT NULL DEFAULT 'F';
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-timestamp: 2016-10-01T14:14:53.483404
-ALTER TABLE t_cursa ADD f_actual CHAR(1) NOT NULL DEFAULT 'T';
-success!
-timestamp: 2016-10-01T14:14:53.821298
-ALTER TABLE t_cursa_archive ADD f_actual CHAR(1) NOT NULL DEFAULT 'T';
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
-success!
 success!
