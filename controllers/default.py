@@ -1446,8 +1446,8 @@ def generarPdfConstanciaCulminacion():
     USBID     = est.f_universitario.f_usbid
     Nombre    = est.f_universitario.f_usuario.first_name
     Apellido  = est.f_universitario.f_usuario.last_name
-    Carrera   = est.f_carrera
-    codigo_pr = proy.id
+    Carrera = est.f_carrera.f_nombre
+    codigo_pr = '_____________________'
     nombre_pr = proy.f_nombre
     descripcion_pr = proy.f_resumen
     horas = 0
@@ -1456,7 +1456,7 @@ def generarPdfConstanciaCulminacion():
         if acti.f_realizada:
             horas += int(acti.f_horas)
 
-    comunidad_pr  = proy.f_comunidad
+    comunidad_pr = proy.f_comunidad.f_nombre
 
     title = "CERTIFICACION DE CUMPLIMIENTO DE SERVICIO COMUNITARIO"
 
