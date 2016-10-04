@@ -293,8 +293,6 @@ def registro():
     return dict()
 
 def registro_persona_natural():
-        #if form.process().accepted:
-        
     return dict(form=auth.register(next=URL('home')))
 
 def registro_persona_juridica():
@@ -423,7 +421,7 @@ def editar_perfil():
 
 
     return dict(form=form,bienvenida=msj,picture=pictureUsuario(),contrasena=auth.change_password())
-
+'''
 def proponenteProyecto():
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
     idProponente = db(db.t_proponente.f_user==auth.user).select()
@@ -431,7 +429,6 @@ def proponenteProyecto():
 
 def moderarProyectos():
     return dict(proyectos=db().select(db.t_cursa.ALL))
-
 
 def estudiantes():
     form = SQLFORM(db.t_estudiante,formstyle='table3cols')
@@ -442,7 +439,7 @@ def estudiantes():
     else:
         response.flash = 'Llene el formulario'
     return dict(form=form, est=db(db.t_usuario_universitario.f_rol == "Estudiante").select(),message=T(response.flash))
-
+'''
 def usuarios():
     return dict(registrados=db(db.auth_user.id!=auth.user_id).select())
 
@@ -496,7 +493,7 @@ def eliminar_rol_admin():
     idRelacion=long(request.vars.idRelacion)
     db(db.auth_membership.id==idRelacion).delete()
     return "Si"
-
+'''
 def vista_proponente():
     def my_form_processing(form):
         if not re.match('[1-9][0-9]{0,8}$', form.vars.f_cedula):
@@ -616,7 +613,7 @@ def validarProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_state="2",f_valido="Valido")
     return dict(proyecto=idProyecto)
-
+'''
 def validacionProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_valido="Activo")
@@ -629,18 +626,18 @@ def solicitarValidacion():
 def solicitarValidacionEstudiante():
     idProyecto = long(request.args[0])
     return dict(proyecto=idProyecto)
-
+'''
 def rechazarProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_state="3")
     return dict(proyecto=idProyecto)
-
+'''
 def registrarProyectoEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
     proyectoInscrito = db(db.t_cursa.f_estudiante==idEstudiante).select()
     if not proyectoInscrito:
-        db.t_cursa.insert(f_estudiante=idEstudiante,f_project=idProyecto,f_estado="Pendiente")
+        db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente")
         mensaje = "Registro de proyecto exitoso. Volver a proyectos"
     else:
         mensaje = "Usted ya tiene un proyecto inscrito. Volver a proyectos"
@@ -659,6 +656,7 @@ def registrarProyectoEstudiante():
 
     return dict(proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje)
 """
+'''
 @auth.requires_membership('Administrador')
 def comunidad_manage():
     form = SQLFORM.smartgrid(db.t_comunidad,onupdate=auth.archive)
@@ -728,12 +726,12 @@ def sedesDetalles():
 def estudianteProyectos():
     x = long (request.args[0])
     return dict(rows = db(db.t_estudiante.id==x).select(),proyectos=db().select(db.t_proyecto.ALL),estudianteID=x)
-
-"""def estudianteInscribeProyectos():
+'''
+'''def estudianteInscribeProyectos():
     x = long (request.args[0])
     return dict(rows = db(db.t_estudiante.id==x).select(),proyectos=db().select(db.t_proyecto.ALL),estudianteID=x)
-"""
-
+'''
+'''
 def estudiantesDetalles():
     x = long (request.args[0])
     return dict(rows = db(db.t_estudiante.id==x).select(),estudianteId=x)
@@ -834,17 +832,16 @@ def sedesEditar():
     elif not record:
         return dict('La sede ha sido eliminada')
     return dict(form = form)
-
+'''
 
 # Administrador
 def administrador():
     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
     return dict(msj = msj)
-
+'''
 def home_admin():
     return dict() 
-
-
+'''
 def admin_usuarios_detalles():
     idUsuario=long(request.vars.id)
     if db.auth_user(idUsuario)['f_foto']:
@@ -863,7 +860,7 @@ def admin_usuarios_detalles():
         carrera = db(db.t_estudiante.f_universitario==univ).select().first().f_carrera
     
     return dict(form=tabla,picture=picture,dpto=dpto, sede=sede,carrera=carrera) 
-
+'''
 @auth.requires_login()
 def admin_perfil():
     rolesUsuario=[]
@@ -952,7 +949,7 @@ def admin_editar_perfil():
 
     return dict(form=form,contrasena=auth.change_password())
 
-
+'''
 def areas_admin():
     areas=db().select(db.t_area.ALL)
     return dict(areas=areas)
@@ -1011,8 +1008,6 @@ def admin_areas_detalles():
 
     return dict(form=area)
 
-
-
 def nueva_area_admin():
     nombre=request.vars.nombre
     codigo=request.vars.codigo
@@ -1049,7 +1044,7 @@ def nueva_area_admin():
 
     return area.id
 
-
+'''
 def proponentesEditar():
     def my_form_processing(form):
         if not re.match('[1-9][0-9]{0,8}$', form.vars.f_cedula):
@@ -1136,13 +1131,12 @@ def comunidadesEditar():
     elif not record:
         return dict('La comunidad ha sido eliminada')
     return dict(form = form)
-
+'''
 def proyectos_tutor_comunitario():
     tutor     = db.auth_user(auth.user_id)
     msj       = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     proyectos = db(db.t_proyecto_tutor_comunitario.f_tutor==tutor).select()
     return dict(bienvenida=msj,proyectos=proyectos)
-
 
 def proyectos_tutor_academico():
     tutor     = db.auth_user(auth.user_id)
@@ -1156,7 +1150,7 @@ def proyecto_tutor_academico():
     id_proy     = request.vars.proy
     proyecto    = db(db.t_proyecto.id==id_proy).select().first()
     msj         = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
-    estudiantes = db(db.t_estudiante.id==db.t_cursa.f_estudiante)(db.t_cursa.f_proyecto==id_proy)(db.t_cursa.f_actual==True).select()
+    estudiantes = db((db.t_estudiante.id==db.t_cursa.f_estudiante)&(db.t_cursa.f_proyecto==id_proy)&(db.t_cursa.f_actual==True)).select()
     return dict(estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
 
 def proyecto_tutor_comunitario():
@@ -1164,7 +1158,7 @@ def proyecto_tutor_comunitario():
     id_proy     = request.vars.proy
     proyecto    = db(db.t_proyecto.id==id_proy).select().first()
     msj         = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
-    estudiantes = db(db.t_estudiante.id==db.t_cursa.f_estudiante)(db.t_cursa.f_proyecto==id_proy)(db.t_cursa.f_actual==True).select()
+    estudiantes = db((db.t_estudiante.id==db.t_cursa.f_estudiante)&(db.t_cursa.f_proyecto==id_proy)&(db.t_cursa.f_actual==True)).select()
     return dict(estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
 
 #AJAX confirmacion de actividad
@@ -1177,7 +1171,7 @@ def bitacora_de_estudiante():
     msj        = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     id_est     = request.vars.est
     
-    proyecto   = db((db.t_cursa.f_estudiante==id_est) & (db.t_cursa.f_proyecto==request.vars.proy) &(db.t_cursa.f_actual==True)).select().first()
+    proyecto   = db((db.t_cursa.f_estudiante==id_est) & (db.t_cursa.f_proyecto==request.vars.proy) &(db.t_cursa.f_actual==True)).select().last()
     
     estudiante = db(db.t_estudiante.id==id_est).select().first()
     bitacora   = db((db.t_actividad_estudiante.f_cursa==proyecto) & (db.t_actividad_estudiante.f_realizada==True)).select()
@@ -1243,9 +1237,9 @@ def vista_estudiante():
     estudiante = db(db.t_estudiante.f_universitario==estt).select().first()
 
     try:
-        cursa = db((db.t_cursa.f_estudiante==estudiante.id)& (db.t_cursa.f_valido=="Invalido")& (db.t_cursa.f_actual==True)).select().first()
+        cursa = db((db.t_cursa.f_estudiante==estudiante.id)& (db.t_cursa.f_valido=="Invalido")).select().last()
         if not cursa:
-            cursa = db((db.t_cursa.f_estudiante==estudiante.id)& (db.t_cursa.f_valido=="Valido")& (db.t_cursa.f_actual==True)).select().first()
+            cursa = db((db.t_cursa.f_estudiante==estudiante.id)& (db.t_cursa.f_valido=="Valido")).select().last()
             cursa = cursa
         proyecto = cursa.f_proyecto
     except:
@@ -1258,7 +1252,7 @@ def vista_estudiante():
     pInscrito = 'vacio'
     pActividad = 'no'
     tutor = None
-    proyectoInscrito = db((db.t_cursa.f_estudiante==estudiante)& (db.t_cursa.f_actual==True)).select().first()
+    proyectoInscrito = db((db.t_cursa.f_estudiante==estudiante)).select().last()
     #cursa = db(db.t_cursa.f_estudiante==estudiante).select()
     actividad = None
     if proyecto:
@@ -1273,7 +1267,7 @@ def vista_estudiante():
     else:
         aprob_tutor = 'tutorVacio'
         aprob_coord = 'coordVacio'
-
+    print pActividad
     estudianteId = estudiante.id
     return dict(usuario=usuario,estudianteId=estudianteId,estudiante=estudiante,
                 bienvenida=msj,proyecto=proyecto,pInscrito=pInscrito,pActividad=pActividad,
@@ -1285,7 +1279,7 @@ def retirar_proyecto():
     msj     = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     estt    = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
-    proyecto  = db((db.t_cursa.f_estudiante==usuario) & (db.t_cursa.f_proyecto==x) & (db.t_cursa.f_actual==True)).select().first()
+    proyecto  = db((db.t_cursa.f_estudiante==usuario) & (db.t_cursa.f_proyecto==x) & (db.t_cursa.f_actual==True)).select().last()
     
     error=None
     form = SQLFORM.factory(Field('f_informe','upload',uploadfolder=request.folder+'static/pdfs',label=T('Informe'),requires = [IS_LENGTH(maxsize=2097152),IS_UPLOAD_FILENAME(extension='pdf')]))
@@ -1326,17 +1320,15 @@ def retiro():
     return ""
 '''
 
-
 def culminar_proyecto():
     x = long (request.args[0])
     usuario  = db.auth_user(auth.user_id)
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     estt = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
-    proyecto = db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).select().first()
+    proyecto = db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).select().last()
     countProyectos=len(db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_estado=="Culminado")).select())
     error = None
-
 
     form = SQLFORM.factory(Field('f_informe','upload',uploadfolder=request.folder+'static/pdfs',label=T('Informe'),requires = [IS_LENGTH(maxsize=2097152),IS_UPLOAD_FILENAME(extension='pdf')]))
     if form.process(session=None, formname='test').accepted:
@@ -1353,10 +1345,11 @@ def culminar_proyecto():
 
     horas_realizadas = 0
     todas_actividades = db((db.t_actividad_estudiante.f_cursa==proyecto) & (db.t_actividad_estudiante.f_confirmada==True)).select()
+    print todas_actividades
     for acti in todas_actividades:
         if acti.f_realizada:
             horas_realizadas += int(acti.f_horas)
-    
+        
     if (countProyectos>1):
         horasDeber=30
     else:
@@ -1541,12 +1534,12 @@ def genPDF(base_url='applications/SIGESC/templates_pdf/planillaAval/', template_
     pdf = open(output).read()
     os.remove(output)
     return pdf
-
+'''
 def proponenteProyecto():
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
     idProponente = db(db.t_proponente.f_user==auth.user).select()
     return dict(proyectos = db(db.t_project.f_proponente==idProponente[0]).select(), bienvenida=msj)
-
+'''
 
 def solicitudes_tutor():
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
@@ -1555,11 +1548,11 @@ def solicitudes_tutor():
     listaInscripcion = []
     listaEnviados = []
     for proy in listaProyectosTutores:
-        if (db((db.t_cursa.f_proyecto==proy.f_proyecto) &(db.t_cursa.f_valido=="Valido")).select().first()!=None):
+        if (db((db.t_cursa.f_proyecto==proy.f_proyecto) &(db.t_cursa.f_valido=="Valido")&(db.t_cursa.f_actual==True)).select().first()!=None):
             listaInscripcion += db(db.t_inscripcion.f_proyecto == proy.f_proyecto).select()
     for ins in listaInscripcion:
         act = []
-        cursa = db((db.t_cursa.f_estudiante==ins.f_estudiante)&(db.t_cursa.f_actual==True)).select().first()
+        cursa = db((db.t_cursa.f_estudiante==ins.f_estudiante)&(db.t_cursa.f_actual==True)).select().last()
         act += db(db.t_actividad_estudiante.f_cursa==cursa.id).select()
         if act:
             listaEnviados += [ins]
@@ -1586,7 +1579,7 @@ def solicitud_plan_de_trabajo():
         listaInscripcion += db(db.t_inscripcion.f_proyecto == proy.f_proyecto).select()
 
     listaActividades = db(db.t_actividad.f_proyecto==idProyecto).select()
-    inscripcion = db(db.t_inscripcion.f_estudiante == idEstudiante).select()
+    inscripcion = db(db.t_inscripcion.f_estudiante == idEstudiante).select().last()
 
     listaStringActividades = ''
     for celda in listaActividades:
@@ -1594,7 +1587,7 @@ def solicitud_plan_de_trabajo():
 
     return dict(proyectos = listaProyectosTutores,bienvenida=msj,listaInscripcion=listaInscripcion,
                 estudiante=estudiante[0],proyecto=proyecto[0],listaActividades=listaActividades,
-                inscripcion=inscripcion[0],idProyecto=idProyecto,estudianteID=idEstudiante,
+                inscripcion=inscripcion,idProyecto=idProyecto,estudianteID=idEstudiante,
                 listaStringActividades=listaStringActividades)
 
 def enviarPlanTrabajo():
@@ -1609,15 +1602,16 @@ def enviarPlanTrabajo():
             listaHoras.append(request.args[i+2+1+tope*2])
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
     mensaje = 'Plan de Trabajo enviado'
-    idCursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True)).select()
-    noExisteCursa=db(db.t_actividad_estudiante.f_cursa==idCursa[0]).select().first()==None
+    idCursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True)).select().last()
+    noExisteCursa=db(db.t_actividad_estudiante.f_cursa==idCursa).select().first()==None
     if noExisteCursa:
         for j in range(len(lista)):
             #idActividad = db(db.t_actividad.id==j).select()
-            db.t_actividad_estudiante.insert(f_cursa=idCursa[0],f_actividad=long(lista[j]),f_horas=int(listaHoras[j]))
+            db.t_actividad_estudiante.insert(f_cursa=idCursa,f_actividad=long(lista[j]),f_horas=int(listaHoras[j]))
             
     return dict(idProyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,bienvenida=msj,lista=lista)
 
+'''
 @auth.requires_membership('Administrador')
 def moderarProyectos():
     return dict(proyectos=db().select(db.t_cursa.ALL))
@@ -1675,11 +1669,11 @@ def proyectos():
     else:
         response.flash = 'Llene el formulario'
     return dict(form=form, proyectos=db(db.t_project.f_estado_del=="Activo").select(),message=T(response.flash))
-
+'''
 #@auth.requires(auth.has_membership(role='Administrador') or auth.has_membership(role='Proponentes'))
 def propuestas():
 
-    es_adm = 'Coordinador' in auth.user_groups.values() 
+    es_adm = False
 
     if es_adm:
         propuestas = [
@@ -1697,11 +1691,7 @@ def propuestas():
                 'estado': p.f_estado_propuesta
             } for p in db(db.t_propuesta.f_proponente==auth.user.id).select()
         ]
-    return dict(
-        es_adm = es_adm,
-        propuestas=propuestas,
-        message=T(response.flash)
-    )
+    return dict(es_adm = es_adm,propuestas=propuestas,message=T(response.flash))
 
 def fixJSON(json,arrayNames):
     for arrayName in arrayNames:
@@ -1747,19 +1737,11 @@ def propuestasDetalles():
     objetivos = db(db.t_objetivo.f_proyecto == proyecto_id).select()
     plan_operativo = db(db.t_plan_operativo.f_proyecto == proyecto_id).select()
     
-    tutores = db(
-        db.t_proyecto_tutor.f_proyecto == proyecto_id and
-        db.auth_user.id==db.t_proyecto_tutor.f_tutor
-    ).select()
+    tutores = db((db.t_proyecto_tutor.f_proyecto == idproyecto) &(db.auth_user.id==db.t_proyecto_tutor.f_tutor)).select()
 
-    tutores_comunitarios = db(
-        db.t_proyecto_tutor_comunitario.f_proyecto == proyecto_id and
-        db.auth_user.id==db.t_proyecto_tutor_comunitario.f_tutor
-    ).select()
+    tutores_comunitarios = db((db.t_proyecto_tutor_comunitario.f_proyecto == idproyecto) &(db.auth_user.id==db.t_proyecto_tutor_comunitario.f_tutor)).select()
 
-    sedes = db(
-        db.t_proyecto_sede.f_proyecto == proyecto_id
-    ).select()
+    sedes = db(db.t_proyecto_sede.f_proyecto == proyecto_id).select()
 
 
     return dict(
@@ -1781,20 +1763,11 @@ def verProyectoEstudiante():
     objetivos = db(db.t_objetivo.f_proyecto == idproyecto).select()
     plan_operativo = db(db.t_plan_operativo.f_proyecto == idproyecto).select()
     
-    tutores = db(
-        db.t_proyecto_tutor.f_proyecto == idproyecto and
-        db.auth_user.id==db.t_proyecto_tutor.f_tutor
-    ).select()
+    tutores = db((db.t_proyecto_tutor.f_proyecto == idproyecto) &(db.auth_user.id==db.t_proyecto_tutor.f_tutor)).select()
 
-    tutores_comunitarios = db(
-        db.t_proyecto_tutor_comunitario.f_proyecto == idproyecto and
-        db.auth_user.id==db.t_proyecto_tutor_comunitario.f_tutor
-    ).select()
+    tutores_comunitarios = db((db.t_proyecto_tutor_comunitario.f_proyecto == idproyecto) &(db.auth_user.id==db.t_proyecto_tutor_comunitario.f_tutor)).select()
 
-    sedes = db(
-        db.t_proyecto_sede.f_proyecto == idproyecto
-    ).select()
-    print sedes
+    sedes = db(db.t_proyecto_sede.f_proyecto == idproyecto).select()
     return dict(
         idestudiante=idestudiante,
         proyecto = proyecto,
@@ -1812,9 +1785,7 @@ def propuestasEditar():
 
 def propuestaPredecesor():
 
-    proyectos = db(
-        db.t_proyecto.id==db.t_proyecto_aprobado.f_proyecto
-    ).select()
+    proyectos = db(db.t_proyecto.id==db.t_proyecto_aprobado.f_proyecto).select()
 
     if not proyectos:
         redirect(URL('propuestasCrear'))
@@ -1830,9 +1801,7 @@ def propuestaPredecesor():
         db.t_propuesta.insert(f_proyecto=proyecto_id)
         redirect(URL('propuestasCrear',vars=dict(proyecto_id=proyecto_id)))
 
-    return dict(
-        proyectos=proyectos
-    )
+    return dict(proyectos=proyectos)
 
 
 def propuestasCrear():
@@ -2347,7 +2316,7 @@ def propuestaPDF():
         response.headers['Content-Type'] = 'application/pdf; charset=UTF-8'
         pdf = weasyprint.HTML(string=request.post_vars.html).render(stylesheets=[base_url+template_css]).write_pdf()
         return pdf
-        
+'''        
 @auth.requires_membership('Administrador')
 def comunidades():
     def my_form_processing(form):
@@ -2365,7 +2334,7 @@ def comunidades():
     else:
         response.flash = 'Llene el formulario'
     return dict(form=form, comunidades=db(db.t_comunidad.f_estado_del=="Activo").select(),message=T(response.flash))
-
+'''
 
 def estudianteCursa():
     idProyecto = long(request.args[0])
@@ -2390,7 +2359,7 @@ def estudianteCursa():
     #formulario = SQLFORM(db.kldhbvjgfe)
 
     return dict(sedes=sedes,proyecto=db(db.t_proyecto_aprobado.f_proyecto==idProyecto).select()[0],estudianteId=idEstudiante,idProyecto=idProyecto)
-
+'''
 def cursa():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
@@ -2408,13 +2377,14 @@ def cursa():
         response.flash = 'please fill out the form'
 
     return dict(proyectos=db(db.t_project.id==idProyecto).select(),estudianteID=idEstudiante,idProyecto=idProyecto)
-
+'''
+'''
 @auth.requires_membership('Administrador')
 def validarProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_state="2",f_valido="Valido")
     return dict(proyecto=idProyecto)
-
+'''
 def validacionProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_valido="Activo")
@@ -2458,9 +2428,9 @@ def estudiante_plan_trabajo():
     #idProyecto = long(request.args[0])
     idEstudiante = long(request.args[0])
     listaActividades = []
-    cursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
+    cursa = db((db.t_cursa.f_estudiante==idEstudiante) &(db.t_cursa.f_actual==True)).select().last()
     print cursa
-    listaActividades = db(db.t_actividad_estudiante.f_cursa==cursa[0].id).select()
+    listaActividades = db(db.t_actividad_estudiante.f_cursa==cursa).select()
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
     return dict(listaActividades=listaActividades,bienvenida=msj,idEstudiante=idEstudiante)
 
@@ -2499,8 +2469,8 @@ def aceptarPlanTrabajo():
         db(db.t_inscripcion.f_estudiante==idEstudiante).update(f_estado='Aprobado')
     else:
         mensaje="Se ha rechazado el plan de trabajo. Volver."
-        cursa = db(db.t_cursa.f_estudiante==idEstudiante).select()
-        db(db.t_actividad_estudiante.f_cursa==cursa[0]).delete()
+        cursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_actual==True)).select().last()
+        db(db.t_actividad_estudiante.f_cursa==cursa).delete()
 
     return dict( mensaje=mensaje,estado=estado)
 
@@ -2513,17 +2483,13 @@ def registrarProyectoComoEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
     dropdown = request.args[2]
-    proyectoInscrito = db(db.t_cursa.f_estudiante==idEstudiante).select().last()
 
-    if not proyectoInscrito or (proyectoInscrito.f_estado=='Retirado'):
-        db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_valido="Invalido")
-        mensaje = "Registro de proyecto exitoso. Volver al Menú"
-        db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown)
-    else:
-        mensaje = "Usted ya tiene un proyecto inscrito. Volver al Menú"
+    db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_valido="Invalido")
+    mensaje = "Registro de proyecto exitoso. Volver al Menú"
+    db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown)
 
     return dict(proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,dropdown=dropdown)
-
+'''
 @auth.requires_membership('Administrador')
 def sede_manage():
     form = SQLFORM.smartgrid(db.t_sede,onupdate=auth.archive)
@@ -2605,21 +2571,25 @@ def estudianteProyectos():
     x = long (request.args[0])
     #return dict(rows = db(db.t_estudiante.id==x).select())
     return dict(rows = db(db.t_estudiante.id==x).select(),proyectos=db().select(db.t_project.ALL),estudianteID=x)
-
+'''
 def estudianteInscribeProyectos():
     x = long (request.args[0])
     usuario    = db.auth_user(auth.user_id)
     universitario=db(db.t_universitario.f_usuario==auth.user_id).select().first()
     estudiante=db(db.t_estudiante.f_universitario==universitario.id).select().first()
     msj        = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
-    #return dict(rows = db(db.t_estudiante.id==x).select())
+    
+    ultimoProyectoCursado=db((db.t_cursa.f_estudiante==estudiante)&(db.t_cursa.f_actual==True)).select().last()
+    noRespuestaProyecto=(ultimoProyectoCursado!=None)
+
+    print(ultimoProyectoCursado,noRespuestaProyecto)
     mensaje="Registro de proyecto exitoso. Volver al Menú"
     fechaTope1=db(db.t_fechas_tope.f_tipo=="I").select().first()
     fechaTope2=db(db.t_fechas_tope.f_tipo=="IE").select().first()
     ahora=datetime.datetime.today().date()
-    return dict(ahora=ahora,fechaTope1=fechaTope1,fechaTope2=fechaTope2,estudiante=estudiante,proyectos=db().select(db.t_proyecto_aprobado.ALL),estudianteId=estudiante.id, mensaje=mensaje,bienvenida=msj)
+    return dict(ultimoProyectoCursado=ultimoProyectoCursado,noRespuestaProyecto=noRespuestaProyecto,ahora=ahora,fechaTope1=fechaTope1,fechaTope2=fechaTope2,estudiante=estudiante,proyectos=db().select(db.t_proyecto_aprobado.ALL),estudianteId=estudiante.id, mensaje=mensaje,bienvenida=msj)
 
-
+'''
 def estudiantesDetalles():
     x = long (request.args[0])
     #return dict(rows = db(db.t_estudiante.id==x).select())
@@ -2820,7 +2790,7 @@ def comunidadesEditar():
     elif not record:
         return dict('La comunidad ha sido eliminada')
     return dict(form = form)
-
+'''
 def generarPdfConstanciaInicio():
     x = long (request.args[0])
     y = long (request.args[1])

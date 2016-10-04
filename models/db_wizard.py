@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-### we prepend t_ to tablenames and f_ to fieldnames for disambiguity
 
 db.define_table('t_sede',
     Field('f_nombre', type='string', notnull=True,
@@ -179,8 +178,6 @@ db.define_table('t_proyecto',
           label=T('Fecha Final')),
     Field('f_comunidad', type='reference t_comunidad', requires=IS_EMPTY_OR(IS_IN_DB(db, 't_comunidad.id', '%(f_nombre)s')), notnull=False,
           label=T('Comunidad')),
-    #Field('f_sede', type='reference t_sede', requires=IS_EMPTY_OR(IS_IN_DB(db, 't_sede.id', '%(f_nombre)s',multiple=True)),notnull=False,
-    #      label=T('Sede')),
     migrate=settings.migrate)
 db.define_table('t_proyecto_archive',db.t_proyecto,Field('current_record','reference t_proyecto',readable=False,writable=False))
 
@@ -207,7 +204,6 @@ db.define_table('t_proyecto_tutor_comunitario',
     Field('f_proyecto', type= 'reference t_proyecto'),
     Field('f_tutor', type='reference auth_user'))
 db.define_table('t_proyecto_tutor_comunitario_archive',db.t_proyecto_tutor_comunitario,Field('current_record','reference t_proyecto_tutor_comunitario',readable=False,writable=False))
-
 
 db.define_table('t_actividad',
     Field('f_proyecto', type='reference t_proyecto', notnull=True, writable=False, readable=True,
@@ -238,10 +234,6 @@ db.define_table('t_actividad',
 )   
 db.define_table('t_actividad_archive',db.t_actividad,Field('current_record','reference t_actividad',readable=False,writable=False))
 
-########################################
-
-
-########################################
 db.define_table('t_cursa',
     Field('f_estudiante', type='reference t_estudiante', notnull=True,
           label=T('Estudiante')),

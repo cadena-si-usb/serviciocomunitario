@@ -67,7 +67,7 @@
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
                           {{pass}}
 
-                         {{if (pActividad=='si') and (aprob_tutor=='Pendiente'):}}
+                        {{if (pActividad=='si') and (aprob_tutor=='Pendiente'):}}
                      <a href="{{=URL(r=request,f='estudiante_plan_trabajo',args=[estudianteId])}}">
                          <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Plan de Trabajo</a>
                          {{else:}}
