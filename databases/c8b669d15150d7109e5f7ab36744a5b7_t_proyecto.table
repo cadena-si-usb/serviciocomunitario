@@ -421,12 +421,12 @@ I00
 sg6
 I31
 sg7
-S'CHAR(512)'
+S'INTEGER REFERENCES t_comunidad (id) ON DELETE CASCADE  '
 p91
 sg9
 I00
 sg10
-S'string'
+S'reference t_comunidad'
 p92
 ssS'f_relevancia'
 p93
@@ -476,10 +476,11 @@ p102
 sg9
 I00
 sg10
-g92
-ssS'f_poblacion_beneficiaria'
+S'string'
 p103
-(dp104
+ssS'f_poblacion_beneficiaria'
+p104
+(dp105
 g4
 I32768
 sg5
@@ -488,14 +489,14 @@ sg6
 I8
 sg7
 S'TEXT'
-p105
+p106
 sg9
 I00
 sg10
 g11
 ssS'f_fechafin'
-p106
-(dp107
+p107
+(dp108
 g4
 I512
 sg5
@@ -504,7 +505,7 @@ sg6
 I30
 sg7
 S'DATE'
-p108
+p109
 sg9
 I00
 sg10

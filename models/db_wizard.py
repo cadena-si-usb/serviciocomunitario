@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-### we prepend t_ to tablenames and f_ to fieldnames for disambiguity
-
-
-# USUARIOS UNIVERSITARIOS
-# Usuarios internos de la universidad, solo poseen carnet
-# Relaciona auth_user con la comunidad universitaria
 
 db.define_table('t_sede',
     Field('f_nombre', type='string', notnull=True,
@@ -16,6 +10,16 @@ db.define_table('t_sede',
     migrate=settings.migrate)
 
 db.define_table('t_sede_archive',db.t_sede,Field('current_record','reference t_sede',readable=False,writable=False))
+
+db.define_table('t_comunidad',
+    Field('f_nombre', type='string', notnull=True,
+          label=T('Nombre')),
+    auth.signature,
+    format='%(f_nombre)s',
+    migrate=settings.migrate)
+
+db.define_table('t_comunidad_archive',db.t_sede,Field('current_record','reference t_comunidad',readable=False,writable=False))
+
 
 db.define_table('t_universitario',
     Field('f_usbid', type='string', notnull=True, unique=True,
@@ -41,6 +45,7 @@ db.define_table('t_docente',
     format='%(f_universitario)s',
     migrate=settings.migrate)
 
+'''
 db.define_table('t_comunidad',
     Field('f_nombre', type='string', notnull=True,
           label=T('Nombre')),
@@ -55,7 +60,7 @@ db.define_table('t_comunidad',
     migrate=settings.migrate)
 
 db.define_table('t_comunidad_archive',db.t_comunidad,Field('current_record','reference t_comunidad',readable=False,writable=False))
-
+'''
 
 db.define_table('t_area',
     Field('f_nombre', type='string', notnull=True,
@@ -106,7 +111,7 @@ db.define_table('t_estudiante',
           unique=False, notnull=False,
           label=T('Carrera'),
           writable=True),
-    Field('f_horas', requires=IS_INT_IN_RANGE(0,121), notnull=True,
+    Field('f_horas', requires=IS_INT_IN_RANGE(0,200), notnull=True,
           label=T('Horas realizadas y validadas.'), default=0),
     format='%(f_universitario)s',
     migrate=settings.migrate)
@@ -168,13 +173,11 @@ db.define_table('t_proyecto',
     Field('f_estado', type='reference t_estado', requires=IS_EMPTY_OR(IS_IN_DB(db, 't_estado.id', '%(f_nombre)s')), notnull=False,
           label=T('Estado')),
     Field('f_fechaini', type='date', requires= IS_EMPTY_OR(IS_DATE(format=('%d/%m/%Y'))), notnull=False,
-          label=T('Fechaini')),
+          label=T('Fecha Inicial')),
     Field('f_fechafin', type='date', requires= IS_EMPTY_OR(IS_DATE(format=('%d/%m/%Y'))),notnull=False,
-          label=T('Fechafin')),
-    Field('f_comunidad', type='string', notnull=False,
+          label=T('Fecha Final')),
+    Field('f_comunidad', type='reference t_comunidad', requires=IS_EMPTY_OR(IS_IN_DB(db, 't_comunidad.id', '%(f_nombre)s')), notnull=False,
           label=T('Comunidad')),
-    #Field('f_sede', type='reference t_sede', requires=IS_EMPTY_OR(IS_IN_DB(db, 't_sede.id', '%(f_nombre)s',multiple=True)),notnull=False,
-    #      label=T('Sede')),
     migrate=settings.migrate)
 db.define_table('t_proyecto_archive',db.t_proyecto,Field('current_record','reference t_proyecto',readable=False,writable=False))
 
@@ -201,7 +204,6 @@ db.define_table('t_proyecto_tutor_comunitario',
     Field('f_proyecto', type= 'reference t_proyecto'),
     Field('f_tutor', type='reference auth_user'))
 db.define_table('t_proyecto_tutor_comunitario_archive',db.t_proyecto_tutor_comunitario,Field('current_record','reference t_proyecto_tutor_comunitario',readable=False,writable=False))
-
 
 db.define_table('t_actividad',
     Field('f_proyecto', type='reference t_proyecto', notnull=True, writable=False, readable=True,
@@ -232,10 +234,6 @@ db.define_table('t_actividad',
 )   
 db.define_table('t_actividad_archive',db.t_actividad,Field('current_record','reference t_actividad',readable=False,writable=False))
 
-########################################
-
-
-########################################
 db.define_table('t_cursa',
     Field('f_estudiante', type='reference t_estudiante', notnull=True,
           label=T('Estudiante')),
@@ -251,6 +249,9 @@ db.define_table('t_cursa',
           label=T('Fecha')),#fecha en que retira o culmina el SC
 
     Field('f_informe','upload',label=T('Informe'), notnull=False),
+    Field('f_actual', type='boolean',     # el tutor comunitario confirma que se hizo la actividad
+        notnull=True, default=True, writable=False,
+        label=T('Actual')),
     auth.signature,
     format='%(id)s',
     migrate=settings.migrate)
@@ -296,6 +297,7 @@ db.define_table('t_actividad_estudiante_archive',db.t_actividad_estudiante,Field
 
 
 ########################################
+'''
 db.define_table('t_tipoprop',
     Field('f_tipo', type='string', notnull=True,
           label=T('Tipo')),
@@ -306,7 +308,7 @@ db.define_table('t_tipoprop',
     migrate=settings.migrate)
 
 db.define_table('t_tipoprop_archive',db.t_tipoprop,Field('current_record','reference t_tipoprop',readable=False,writable=False))
-
+'''
 
 ########################################
 #db.define_table('t_proyecto',
@@ -323,6 +325,7 @@ db.define_table('t_tipoprop_archive',db.t_tipoprop,Field('current_record','refer
 
 
 ########################################
+'''
 db.define_table('t_condicion',
     Field('f_tipo', type='string', notnull=True,
           label=T('Tipo')),
@@ -333,7 +336,7 @@ db.define_table('t_condicion',
     migrate=settings.migrate)
 
 db.define_table('t_condicion_archive',db.t_condicion,Field('current_record','reference t_condicion',readable=False,writable=False))
-
+'''
 
 db.define_table('t_propuesta',
     Field('f_proyecto', type='reference t_proyecto', notnull=True,
@@ -601,3 +604,16 @@ db.define_table('t_inscripcion',
     migrate=settings.migrate)
 
 db.define_table('t_inscripcion_archive',db.t_inscripcion,Field('current_record','reference t_inscripcion',readable=False,writable=False))
+
+db.define_table('t_fechas_tope',
+  Field('f_tipo',requires=IS_IN_SET(['I','IE']), notnull=True, 
+    label=T('Tipo')),
+  Field('f_fecha_inicial', type='date', requires=IS_DATE(format=('%d/%m/%Y')),notnull=True,
+    label=T('Fecha Inicial')),
+  Field('f_fecha_final', type='date', requires=IS_DATE(format=('%d/%m/%Y')),notnull=True,
+    label=T('Fecha Final')),
+    auth.signature,
+    format='%(f_fechas_tope)s',
+    migrate=settings.migrate)
+
+db.define_table('t_fechas_tope_archive',db.t_fechas_tope,Field('current_record','reference t_fechas_tope',readable=False,writable=False))

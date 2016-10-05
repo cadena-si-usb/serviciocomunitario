@@ -69,13 +69,35 @@
       <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-          <h4 class="reg"><i class="glyphicon glyphicon-align-left" style="color: #4682B4"></i> Seleccione el proyecto en el que desea inscribirse</h4>
-        {{if (estudiante.f_horas==120):}}
-          <h2>Ya no puede inscribir otro proyecto.</h2>
+    {{if (noRespuestaProyecto):}}
+        {{if (ultimoProyectoCursado.f_estado=="Retirado"):}}
+            <h2>Debe esperar que se valide el retiro de su anterior Servicio Comunitario para poder inscribir otro.</h2>   
+        {{elif (ultimoProyectoCursado.f_estado=="Aprobado"):}}
+            <h2>Su Proyecto de Servicio Comunitario ha sido aprobado para ser cursado este trimestre.</h2>  
+        {{elif (ultimoProyectoCursado.f_estado=="Culminado"):}}
+            <h2>Debe esperar que se valide la culminacion de su anterior Servicio Comunitario para poder inscribir otro.</h2>
         {{else:}}
-          {{include 'default/verProyectos.html'}}
+            <h2>Debe esperar que se valide la inscripcion Servicio Comunitario por parte de la coordinacion.</h2> 
+        {{pass}}
+    {{else:}}
+        {{if (estudiante.f_horas>=120):}}
+          <h2>Ya usted realizo las 120 horas de Servicio Comunitario.</h2>
+        {{else:}}
+            {{if (fechaTope1.f_fecha_inicial <= ahora <= fechaTope1.f_fecha_final):}}
+            <h4 class="reg"><i class="glyphicon glyphicon-align-left" style="color: #4682B4"></i> Seleccione el Proyecto de Servicio Comunitario en el que desea inscribirse.</h4>
+                {{include 'default/verProyectos.html'}}
+            {{else:}}
+                {{if (fechaTope2.f_fecha_inicial <= ahora <= fechaTope2.f_fecha_final):}}
+                <h4 class="reg"><i class="glyphicon glyphicon-align-left" style="color: #4682B4"></i> Seleccione el Proyecto de Servicio Comunitario en el que desea inscribirse.</h4>
+                    {{include 'default/verProyectos.html'}}
+                {{else:}}
+                    <h2>Todavia no se encuentran las inscripciones abiertas.</h2>   
+                {{pass}}
 
-          {{pass}}
+            {{pass}}
+        {{pass}}
+        
+    {{pass}}
         </div>
         <div class="col-sm-1"></div>
       </div>
