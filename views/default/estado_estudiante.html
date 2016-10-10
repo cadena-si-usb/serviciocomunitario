@@ -48,6 +48,11 @@
                 <li class="list-group-item">
                 	Horas confirmadas: {{= horas_realizadas}}
                 </li>
+                
+                <li class="list-group-item">
+                	<a target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
+                                   Constancia de Inscripcion</a>
+                </li>
              </ul>
        </div>
         {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>

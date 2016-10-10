@@ -1531,12 +1531,10 @@ def bitacora_de_estudiante():
     tutor      = db.auth_user(auth.user_id)
     msj        = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     id_est     = request.vars.est
-    
     proyecto   = db((db.t_cursa.f_estudiante==id_est) & (db.t_cursa.f_proyecto==request.vars.proy) &(db.t_cursa.f_actual==True)).select().last()
-    
     estudiante = db(db.t_estudiante.id==id_est).select().first()
     bitacora   = db((db.t_actividad_estudiante.f_cursa==proyecto) & (db.t_actividad_estudiante.f_realizada==True)).select()
-    
+    print bitacora
     return dict(bienvenida=msj,bitacora=bitacora,estudiante=estudiante,proyecto=proyecto)
 
 #AJAX completar actividad
@@ -1609,7 +1607,14 @@ def vista_estudiante():
 
     print cursa
 
-    
+    # Buscamos todas las actividades de todos los proyectos que alguna vez realizó el estudiante.
+    horas_realizadas = 0
+    todos_los_proyectos = db(db.t_cursa.f_estudiante==estudiante).select()
+    for proy in todos_los_proyectos:
+        todas_actividades = db(db.t_actividad_estudiante.f_cursa==proy).select()
+        for acti in todas_actividades:
+            if acti.f_confirmada:
+                horas_realizadas += int(acti.f_horas)
     pInscrito = 'vacio'
     pActividad = 'no'
     tutor = None
@@ -1630,7 +1635,7 @@ def vista_estudiante():
         aprob_coord = 'coordVacio'
     print pActividad
     estudianteId = estudiante.id
-    return dict(usuario=usuario,estudianteId=estudianteId,estudiante=estudiante,
+    return dict(usuario=usuario,estudianteId=estudianteId,horas_confirmadas=horas_realizadas,estudiante=estudiante,
                 bienvenida=msj,proyecto=proyecto,pInscrito=pInscrito,pActividad=pActividad,
                 aprob_tutor=aprob_tutor,aprob_coord=aprob_coord,cursa=cursa,tutor=tutor,estt=estt)
 
@@ -1640,6 +1645,7 @@ def retirar_proyecto():
     msj     = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     estt    = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
+
     proyecto  = db((db.t_cursa.f_estudiante==usuario) & (db.t_cursa.f_proyecto==x) & (db.t_cursa.f_actual==True)).select().last()
     
     error=None
@@ -1658,28 +1664,18 @@ def retirar_proyecto():
         print('please fill the form')
 
     print proyecto.f_estado
-    horas=0
     todas_actividades = db(db.t_actividad_estudiante.f_cursa==proyecto).select()
     for acti in todas_actividades:
         if acti.f_realizada:
             horas += int(acti.f_horas)
-    return dict(estudiante=usuario, error=error,bienvenida=msj,proyecto=proyecto)
-
-'''
-def estudiante_retira():
-    idEstudiante = long(request.args[0])
-    idtcursa=long(request.args[0])
-    retiro = db((db.t_cursa.f_estudiante==idEstudiante) & (db.t_cursa.f_estado=='Aprobado')).update(f_estado='Retirado',f_fecha=datetime.datetime.today())
-    redirect(URL('retirar_proyecto',args=[x]))
-    return ""
-
+    return dict(estudiante=usuario, bienvenida=msj,proyecto=proyecto,horas=horas)
 
 def retiro():
     x = long(request.args[1])
     retiro = db((db.t_cursa.f_estudiante==long(request.args[0])) & (db.t_cursa.f_estado=='Aprobado')).update(f_estado='Retirado',f_fecha=datetime.datetime.today())
     redirect(URL('retirar_proyecto',args=[x]))
     return ""
-'''
+
 
 def culminar_proyecto():
     x = long (request.args[0])
@@ -1687,15 +1683,17 @@ def culminar_proyecto():
     msj      = 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
     estt = db(db.t_universitario.f_usuario==usuario).select().first()
     usuario = db(db.t_estudiante.f_universitario==estt).select().first()
+
     proyecto = db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).select().last()
     countProyectos=len(db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_estado=="Culminado")).select())
+
     error = None
 
     form = SQLFORM.factory(Field('f_informe','upload',uploadfolder=request.folder+'static/pdfs',label=T('Informe'),requires = [IS_LENGTH(maxsize=2097152),IS_UPLOAD_FILENAME(extension='pdf')]))
     if form.process(session=None, formname='test').accepted:
         if form.vars.f_informe:
-            db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).update(f_informe=form.vars.f_informe)
-            db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).update(f_estado="Culminado",f_fecha=datetime.datetime.today())
+            db(db.t_cursa.f_estudiante==usuario).update(f_informe=form.vars.f_informe)
+            db(db.t_cursa.f_estudiante==usuario).update(f_estado="Culminado",f_fecha=datetime.datetime.today())
             return redirect(URL('culminar_proyecto',args=[x]))
         print('form accepted')
     elif form.errors:
@@ -1704,6 +1702,7 @@ def culminar_proyecto():
     else:
         print('please fill the form')
 
+    # Buscamos todas las actividades de todos los proyectos que alguna vez realizó el estudiante.
     horas_realizadas = 0
     todas_actividades = db((db.t_actividad_estudiante.f_cursa==proyecto) & (db.t_actividad_estudiante.f_confirmada==True)).select()
     print todas_actividades
@@ -1716,6 +1715,7 @@ def culminar_proyecto():
     else:
         horasDeber=40
     return dict(horasDeber=horasDeber,horas=horas_realizadas,error=error, estudiante=usuario, bienvenida=msj,proyecto=proyecto)
+
 
 ############# PDF
 def encabezado(canvas,doc):
@@ -1823,8 +1823,8 @@ def generarPdfConstanciaCulminacion():
     USBID     = est.f_universitario.f_usbid
     Nombre    = est.f_universitario.f_usuario.first_name
     Apellido  = est.f_universitario.f_usuario.last_name
-    Carrera   = est.f_carrera
-    codigo_pr = proy.id
+    Carrera = est.f_carrera.f_nombre
+    codigo_pr = '_____________________'
     nombre_pr = proy.f_nombre
     descripcion_pr = proy.f_resumen
     horas = 0
@@ -1833,7 +1833,7 @@ def generarPdfConstanciaCulminacion():
         if acti.f_realizada:
             horas += int(acti.f_horas)
 
-    comunidad_pr  = proy.f_comunidad
+    comunidad_pr = proy.f_comunidad.f_nombre
 
     title = "CERTIFICACION DE CUMPLIMIENTO DE SERVICIO COMUNITARIO"
 
@@ -1914,6 +1914,7 @@ def solicitudes_tutor():
     for ins in listaInscripcion:
         act = []
         cursa = db((db.t_cursa.f_estudiante==ins.f_estudiante)&(db.t_cursa.f_actual==True)).select().last()
+
         act += db(db.t_actividad_estudiante.f_cursa==cursa.id).select()
         if act:
             listaEnviados += [ins]
@@ -1921,7 +1922,7 @@ def solicitudes_tutor():
 
 
 def solicitud_constancia_coordinacion():
-    estudianteCursa = db(db.t_cursa.f_actual==True).select()
+    estudianteCursa = db(db.t_cursa).select()
     #print '----> ', estudianteCursa
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
 
@@ -1969,7 +1970,7 @@ def enviarPlanTrabajo():
         for j in range(len(lista)):
             #idActividad = db(db.t_actividad.id==j).select()
             db.t_actividad_estudiante.insert(f_cursa=idCursa,f_actividad=long(lista[j]),f_horas=int(listaHoras[j]))
-            
+
     return dict(idProyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,bienvenida=msj,lista=lista)
 
 '''
@@ -2677,6 +2678,7 @@ def propuestaPDF():
         response.headers['Content-Type'] = 'application/pdf; charset=UTF-8'
         pdf = weasyprint.HTML(string=request.post_vars.html).render(stylesheets=[base_url+template_css]).write_pdf()
         return pdf
+
 '''        
 @auth.requires_membership('Administrador')
 def comunidades():
@@ -2950,6 +2952,7 @@ def estudianteInscribeProyectos():
     ahora=datetime.datetime.today().date()
     return dict(ultimoProyectoCursado=ultimoProyectoCursado,noRespuestaProyecto=noRespuestaProyecto,ahora=ahora,fechaTope1=fechaTope1,fechaTope2=fechaTope2,estudiante=estudiante,proyectos=db().select(db.t_proyecto_aprobado.ALL),estudianteId=estudiante.id, mensaje=mensaje,bienvenida=msj)
 
+
 '''
 def estudiantesDetalles():
     x = long (request.args[0])
@@ -3163,19 +3166,18 @@ def generarPdfConstanciaInicio():
     proyectotutor = db(db.t_proyecto_tutor.f_proyecto==proyecto.id).select()[0]
     tutor = db(db.auth_user.id==proyectotutor.f_tutor).select()[0]
     USBID = universitario.f_usbid
+    Sede = universitario.f_sede.f_nombre
     Nombre = userest.first_name
     Apellido = userest.last_name
     Cedula = userest.f_cedula
     tlf = userest.f_telefono
     direccion = userest.f_direccion
 
-    Carrera = est.f_carrera
+    Carrera = est.f_carrera.f_nombre
 
-    Sede = est.f_sede
+    Sexo = userest.f_sexo
 
-    Sexo = 'Masculino'
-
-    codigo_pr = 'PS1115'
+    codigo_pr = '_____________________'
 
     nombre_pr = proyecto.f_nombre
     descripcion_pr = proyecto.f_resumen
@@ -3185,11 +3187,20 @@ def generarPdfConstanciaInicio():
     fecha_fin = '26/08/2016'
     #version_pr = proy[0].f_version
     proponente_pr = 'Nombre proponente'
+    #user_id = auth.user_id
+    
+    if db.auth_user(auth.user_id)['f_foto']:
+        picture = URL('uploads', args=db.auth_user(auth.user_id)['f_foto'])
+        foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".." + picture[15:])
+    else:
+        picture = URL('static', 'img/user.png')
+        foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".." + picture[7:])
 
+    print "LAFOTOOOOOOOO " + picture
     tutor_pr_nombre = tutor.first_name
     tutor_pr_apellido = tutor.last_name
 
-    comunidad_pr = proyecto.f_comunidad
+    comunidad_pr = proyecto.f_comunidad.f_nombre
     PAGE_HEIGHT=defaultPageSize[1]; PAGE_WIDTH=defaultPageSize[0]
     u = inch/10.0
 
@@ -3204,19 +3215,42 @@ def generarPdfConstanciaInicio():
         styles = getSampleStyleSheet()
         styles.add(ParagraphStyle(name='titles', alignment=TA_CENTER))
         styles.add(ParagraphStyle(name='logos', alignment=TA_LEFT))
+        style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
         tmpfilename=os.path.join(request.folder,'private',str(uuid4()))
         doc = SimpleDocTemplate(tmpfilename,pagesize=letter,
                             rightMargin=72,leftMargin=72,
                             topMargin=2,bottomMargin=18)
         logo = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../static/img/logo_dex.png')
+        #foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), picture)
+        
+        
+        #foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../uploads/auth_user.f_foto.b5293861dbd3a2a5.313839383234345f31303135333635323832313239383833335f3234393434353833333339393330373038345f6e2e6a7067.jpg')
         salto = '<br />\n'
-        #linea = '__________________________________________________________________________________'
+        linea1 = '__________________________________________________________________________________'
+        linea2 = '__________________________________'
+        linea3 = '______________'
 
         story = []
         im = Image(logo,width=90, height=60)
         im.hAlign = 'LEFT'
-        story.append(im)
-        story.append(Paragraph(salto,styles["Normal"]))
+        im2 = Image(foto,width=70, height=70)
+        im2.hAlign = 'right'
+        espaciadorDeTabla = Paragraph("", styles["Normal"])
+        
+     
+
+        tbl_data = [
+            [im, espaciadorDeTabla,espaciadorDeTabla, im2],
+            [Paragraph("", styles["Normal"]), espaciadorDeTabla,espaciadorDeTabla, Paragraph("", style_right)],
+            [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla,]
+        ]
+        tbl = Table(tbl_data)
+        story.append(tbl)
+        
+        #story.append(im)
+        #story.append(im2)
+        
+        #story.append(Paragraph(salto,styles["Normal"]))
         story.append(Paragraph(title,styles["titles"]))
         #story.append(Paragraph(linea,styles["Normal"]))
         story.append(Spacer(1,2*u))
@@ -3239,6 +3273,12 @@ def generarPdfConstanciaInicio():
         story.append(Paragraph(escape('Código del proyecto: ' + str(codigo_pr)),styles["Normal"]))
         story.append(Paragraph(escape('Tutor académico: ' +str(tutor_pr_nombre) + ' ' + str(tutor_pr_apellido)),styles["Normal"]))
         story.append(Paragraph(escape('Comunidad: ' + str(comunidad_pr)),styles["Normal"]))
+        
+        story.append(Paragraph(salto,styles["Normal"]))
+        story.append(Paragraph(escape('Validación: '),styles["Heading2"]))
+        story.append(Paragraph(escape('Fecha: ' + str(linea3)),styles["Normal"]))
+        story.append(Paragraph(escape('Nombre del responsable: ' + str(linea3)),styles["Normal"]))
+        story.append(Paragraph(escape('Firma y sello de la dependencia: '),styles["Normal"]))
 
 
         story.append(Spacer(1,2*inch))
@@ -3269,74 +3309,186 @@ def generarPdfConstanciaInscripcion():
     x = long (request.args[0])
     y = long (request.args[1])
     u = inch/10.0
-    est = db(db.t_estudiante.id==x).select()
-    estun = est[0].f_universitario
+    est = db(db.t_estudiante.id==x).select()[0]
+    iduniv = est.f_universitario
+    universitario = db(db.t_universitario.id==iduniv).select()[0]
+    userest = db(db.auth_user.id==universitario.f_usuario).select()[0]
     proyecto = db(db.t_proyecto.id==y).select()[0]
+    
     proyectotutor = db(db.t_proyecto_tutor.f_proyecto==proyecto.id).select()[0]
     tutor = db(db.auth_user.id==proyectotutor.f_tutor).select()[0]
-    estuni = db(db.t_universitario.id==estun).select()
-    estus = estuni[0].f_usuario
-    estuser = db(db.auth_user.id==estus).select()
+    
+    proyectotutorCom = db(db.t_proyecto_tutor_comunitario.f_proyecto==proyecto.id).select()[0]
+    tutorCom = db(db.auth_user.id==proyectotutorCom.f_tutor).select()[0]
+   
+    USBID = universitario.f_usbid
+    Sede = universitario.f_sede.f_nombre
+    Nombre = userest.first_name
+    Apellido = userest.last_name
+    Cedula = userest.f_cedula
+    tlf = userest.f_telefono
+    direccion = userest.f_direccion
 
-    codigo_pr = 'PS1115'
+    Carrera = est.f_carrera.f_nombre
+
+    Sexo = userest.f_sexo
+    Correo = userest.email
+    
+
+    codigo_pr = '_____________________'
+
     nombre_pr = proyecto.f_nombre
+    objetivo_pr = proyecto.f_obj_generales
     descripcion_pr = proyecto.f_resumen
     area_pr = proyecto.f_area
+    estado_pr = 'Activo'
+    fecha_ini = '12/01/2016'
+    fecha_fin = '26/08/2016'
+    #version_pr = proy[0].f_version
+    proponente_pr = 'Nombre proponente'
+    #user_id = auth.user_id
+    
+    if db.auth_user(auth.user_id)['f_foto']:
+        picture = URL('uploads', args=db.auth_user(auth.user_id)['f_foto'])
+        foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".." + picture[15:])
+    else:
+        picture = URL('static', 'img/user.png')
+        foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".." + picture[7:])
 
-    USBID = estuni[0].f_usbid
-    Nombre = estuser[0].first_name
-    Apellido = estuser[0].last_name
-    Cedula = estuser[0].f_cedula
-    tlf = estuser[0].f_telefono
-    direccion = estuser[0].f_direccion
-    Carrera = est[0].f_carrera
-    Sede = est[0].f_sede
     tutor_pr_nombre = tutor.first_name
     tutor_pr_apellido = tutor.last_name
+    cedulaAca = tutor.f_cedula
+    telefonoAca = tutor.f_telefono
+    direccionAca = tutor.f_direccion
+    correoAca = tutor.email
+    
+    tutorCom_pr_nombre = tutorCom.first_name
+    tutorCom_pr_apellido = tutorCom.last_name
+    cedulaCom = tutorCom.f_cedula
+    telefonoCom = tutorCom.f_telefono
+    direccionCom = tutorCom.f_direccion
+    correoCom = tutorCom.email
+
+    comunidad_pr = proyecto.f_comunidad.f_nombre
+    PAGE_HEIGHT=defaultPageSize[1]; PAGE_WIDTH=defaultPageSize[0]
+    u = inch/10.0
+
+    inscProyRealizado = db(db.t_cursa.f_estudiante==x).select()
+
     title = '<font size=10><b><u>__PLANILLA DE INSCRIPCIÓN ESTUDIANTIL DEL PROYECTO DE SERVICIO COMUNITARIO__</u></b></font>'
     heading = "Datos del estudiante:"
 
 
     styles = getSampleStyleSheet()
-    
     styles.add(ParagraphStyle(name='titles', alignment=TA_CENTER))
     styles.add(ParagraphStyle(name='logos', alignment=TA_LEFT))
+    style_right = ParagraphStyle(name='right', parent=styles['Normal'], alignment=TA_RIGHT)
     tmpfilename=os.path.join(request.folder,'private',str(uuid4()))
     doc = SimpleDocTemplate(tmpfilename,pagesize=letter,
                         rightMargin=72,leftMargin=72,
-                        topMargin=2,bottomMargin=18)
+                        topMargin=10,bottomMargin=38)
     logo = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../static/img/logo_dex.png')
-    salto = '<br />\n'
-    #linea = '__________________________________________________________________________________'
+    #foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), picture)
     
-
+    
+    #foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../uploads/auth_user.f_foto.b5293861dbd3a2a5.313839383234345f31303135333635323832313239383833335f3234393434353833333339393330373038345f6e2e6a7067.jpg')
+    salto = '<br />\n'
+    linea1 = '__________________________________________________________________________________'
+    linea2 = '__________________________________'
+    linea3 = '______________'
     story = []
     im = Image(logo,width=90, height=60)
     im.hAlign = 'LEFT'
-    story.append(im)
-    story.append(Paragraph(salto,styles["Normal"]))
+    im2 = Image(foto,width=70, height=70)
+    im2.hAlign = 'right'
+    espaciadorDeTabla = Paragraph("", styles["Normal"])
+    
+    
+
+    tbl_data = [
+        [im, espaciadorDeTabla,espaciadorDeTabla, im2],
+        [Paragraph("", styles["Normal"]), espaciadorDeTabla,espaciadorDeTabla, Paragraph("", style_right)],
+        [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla,]
+    ]
+    tbl = Table(tbl_data)
+    story.append(tbl)
+    
+    #story.append(im)
+    #story.append(im2)
+    
+    #story.append(Paragraph(salto,styles["Normal"]))
     story.append(Paragraph(title,styles["titles"]))
+    #story.append(Paragraph(linea,styles["Normal"]))
     story.append(Spacer(1,2*u))
+
     story.append(Paragraph(escape('Período:___________________________________ Año: ______________'),styles["Normal"]))
     story.append(Paragraph(escape(heading),styles["Heading2"]))
     story.append(Paragraph(escape('Carné: ' + str(USBID)),styles["Normal"]))
     story.append(Paragraph(escape('Carrera: ' + str(Carrera)),styles["Normal"]))
     story.append(Paragraph(escape('Nombres: ' + str(Nombre)),styles["Normal"]))
     story.append(Paragraph(escape('Apellidos: ' + str(Apellido)),styles["Normal"]))
-    story.append(Paragraph(escape('Cédula: ' + str(Cedula)),styles["Normal"]))
+    story.append(Paragraph(escape('Cédula de Identidad: ' + str(Cedula)),styles["Normal"]))
     story.append(Paragraph(escape('Teléfono: ' + str(tlf)),styles["Normal"]))
     story.append(Paragraph(escape('Dirección: ' + str(direccion)),styles["Normal"]))
     story.append(Paragraph(escape('Sede: ' + str(Sede)),styles["Normal"]))
-    
+    story.append(Paragraph(escape('Sexo: ' + str(Sexo)),styles["Normal"]))
+    story.append(Paragraph(escape('Correo Electrónico: ' + str(Correo)),styles["Normal"]))
 
     story.append(Paragraph(salto,styles["Normal"]))
-    story.append(Paragraph(escape('Información del proyecto: '),styles["Heading2"]))
+    story.append(Paragraph(escape('Datos del proyecto: '),styles["Heading2"]))
     story.append(Paragraph(escape('Nombre del proyecto: ' + str(nombre_pr)),styles["Normal"]))
     story.append(Paragraph(escape('Código del proyecto: ' + str(codigo_pr)),styles["Normal"]))
-    story.append(Paragraph(escape('Tutor académico: ' +str(tutor_pr_nombre) + ' ' + str(tutor_pr_apellido)),styles["Normal"]))
-    #story.append(Paragraph(escape('Comunidad: ' + str(comunidad_pr)),styles["Normal"]))
+    story.append(Paragraph(escape('Comunidad beneficiada: ' + str(comunidad_pr)),styles["Normal"]))
+    
+    
+    story.append(Paragraph(escape('Tutor Comunitario: '),styles["Heading4"]))
+    story.append(Paragraph(escape('Nombre y Apellido: ' +str(tutorCom_pr_nombre) + ' ' + str(tutorCom_pr_apellido)),styles["Normal"]))
+    story.append(Paragraph(escape('Cédula de identidad: ' +str(cedulaCom)),styles["Normal"]))
+    story.append(Paragraph(escape('Dirección: ' +str(direccionCom)),styles["Normal"]))
+    story.append(Paragraph(escape('Teléfono: ' +str(telefonoCom)),styles["Normal"]))
+    story.append(Paragraph(escape('Correo Electrónico: ' +str(correoCom)),styles["Normal"]))
+    
+    
+    story.append(Paragraph(escape('Tutor Académico: '),styles["Heading4"]))
+    story.append(Paragraph(escape('Nombre y Apellido: ' +str(tutor_pr_nombre) + ' ' + str(tutor_pr_apellido)),styles["Normal"]))
+    story.append(Paragraph(escape('Cédula de identidad: ' +str(cedulaAca)),styles["Normal"]))
+    story.append(Paragraph(escape('Dependencia: ' +str(linea3)),styles["Normal"]))
+    story.append(Paragraph(escape('Teléfono: ' +str(telefonoAca)),styles["Normal"]))
+    story.append(Paragraph(escape('Correo Electrónico: ' +str(correoAca)),styles["Normal"]))
+    
 
+    story.append(Paragraph(escape('Organización de Desarrollo Social que promueve el proyecto ( en caso de que aplique): '),styles["Heading4"]))
+    story.append(Paragraph(escape('Direccion: ' + str(linea1)),styles["Normal"]))
+    story.append(Paragraph(escape('Telefono: ' + str(linea3)),styles["Normal"]))
+    story.append(Paragraph(escape('FAX: ' + str(linea3)),styles["Normal"]))
+    story.append(Paragraph(escape('Correo Electrónico: ' + str(linea3)),styles["Normal"]))
+    
+    story.append(Paragraph(escape('Objetivo del proyecto: '),styles["Heading4"]))
+    story.append(Paragraph(escape('' + str(objetivo_pr)),styles["Normal"]))
 
+    story.append(Paragraph(escape('Actividades del proyecto: '),styles["Heading4"]))
+    
+    for actividad in db(db.t_actividad).select():
+        if (actividad.f_proyecto == proyecto.id):
+            tbl_data = [
+                [Paragraph("Nombre de la Actividad", styles["Heading5"]),espaciadorDeTabla, Paragraph("Resumen", styles["Heading5"])],
+                [Paragraph('* ' + str(actividad.f_nombre), styles["Normal"]),espaciadorDeTabla, Paragraph('* ' + str(actividad.f_resumen), styles["Normal"])],
+                [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla]
+            ]
+            tbl = Table(tbl_data)
+            story.append(tbl)
+    
+    tbl_data = [
+        [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla],
+        [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla],
+        [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla],
+        [Paragraph(linea3, styles["Heading5"]),Paragraph(linea3, styles["Heading5"]), Paragraph('_________'+linea3, styles["Heading5"])],
+        [Paragraph('Firma Estudiante', styles["Normal"]),Paragraph('Firma Tutor (a)', styles["Normal"]), Paragraph('Firma CFGC-CEXT Litoral', styles["Normal"])],
+        [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla]
+    ]
+    tbl = Table(tbl_data)
+    story.append(tbl)   
+    
     story.append(Spacer(1,2*inch))
     doc.build(story)
     data = open(tmpfilename,"rb").read()
