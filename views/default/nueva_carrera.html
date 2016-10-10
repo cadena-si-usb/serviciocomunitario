@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  
+  <h4>Nueva Carrera</h4>
+
+  <div id="target"></div>
+
+  <form role="form">
+    <div class="form-group">
+      <label for="codigo">Codigo:</label>
+      <input type="text" name="codigo" class="form-control" id="codigo-carrera" placeholder="Codigo">
+    </div>
+
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input type="text" name="nombre" class="form-control" id="nombre-carrera" placeholder="Nombre">
+    </div>
+
+    <div class="form-group">
+	  <label for="estado">Area de la Carrera:</label>
+	  <select class="form-control" name="estado" id="area-carrera">
+    {{for area_carrera in areas_carreras:}}
+	    <option value='{{=area_carrera.id}}'> {{=area_carrera.f_nombre}}</option>
+    {{pass}}
+	  </select>
+    </div>
+
+    <div class="form-group">
+    <label for="estado">Estado:</label>
+    <select class="form-control" name="estado" id="estado-carrera">
+      <option>Activo</option>
+      <option>Inactivo</option>
+    </select>
+    </div>
+
+    <a onclick="nuevaCarrera()" class="btn btn-primary">Enviar</a>
+
+  </form>
+</div>

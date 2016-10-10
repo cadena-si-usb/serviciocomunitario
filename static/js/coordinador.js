@@ -1,0 +1,87 @@
+jQuery(document).ready(function(){
+
+  var miniloader="<div class='miniloader'></div>";
+
+  jQuery('#vista-coord').html(miniloader);
+  
+  // Home Coordinador
+  ajax('home_coord', [], 'vista-coord');
+  
+  jQuery('#menu-coord').on('click', function (e) {
+    jQuery('#vista-coord').empty();
+    jQuery('#vista-coord').html(miniloader);
+    ajax('home_coord', [], 'vista-coord'); 
+  });
+
+
+  // Inscripciones de Estudiantes
+   jQuery('#inscripciones-coord').on('click', function (e) {
+    jQuery('#vista-coord').empty();
+    jQuery('#vista-coord').html(miniloader);
+    ajax('coord_solicitud_inscripcion', [], 'vista-coord');
+  });
+
+  aprobarSolicitudEstudiante=function(idEstudiante,idProyecto){
+    confirmar=confirm("¿Seguro que desea aprobar la solicitud de inscripcion de este estudiante?"); 
+    if (confirmar){
+      $.ajax('coord_aprobar_solicitud_estudiante?idEstudiante='+idEstudiante+"&idProyecto="+idProyecto).done(function(html) {
+          if (html=="Si"){
+            var table=$('#coord-inscripcion').DataTable();
+            table.row($("#"+idEstudiante))
+            .remove()
+            .draw();
+            alert('Se ha aprobado la solicitud de inscripcion del estudiante exitosamente.');
+          }
+      });
+    }
+
+  };
+
+  // Retiros de Estudiantes
+  jQuery('#retiros-coord').on('click', function (e) {
+    jQuery('#vista-coord').empty();
+    jQuery('#vista-coord').html(miniloader);
+    ajax('coord_retiros_estudiantes', [], 'vista-coord');
+  });
+
+  aprobarRetiroEstudiante=function(idEstudiante,idProyecto){
+    confirmar=confirm("¿Seguro que desea aprobar la solicitud de retiro de este estudiante?"); 
+    if (confirmar){
+      $.ajax('coord_aprobar_retiro_estudiante?idEstudiante='+idEstudiante+"&idProyecto="+idProyecto).done(function(html) {
+          if (html=="Si"){
+            var table=$('#coord-retiros').DataTable();
+            table.row($("#"+idEstudiante))
+            .remove()
+            .draw();
+            alert('Se ha aprobado la solicitud de retiro del estudiante exitosamente.');
+          }
+      });
+    }
+
+  };
+
+  // Culminaciones de Estudiantes
+  jQuery('#culminaciones-coord').on('click', function (e) {
+    jQuery('#vista-coord').empty();
+    jQuery('#vista-coord').html(miniloader);
+    ajax('coord_culminaciones_estudiantes', [], 'vista-coord');
+  });
+
+  aprobarCulminacionEstudiante=function(idEstudiante,idProyecto){
+    confirmar=confirm("¿Seguro que desea aprobar la solicitud de culminacion de este estudiante?"); 
+    if (confirmar){
+      $.ajax('coord_aprobar_culminacion_estudiante?idEstudiante='+idEstudiante+"&idProyecto="+idProyecto).done(function(html) {
+          if (html=="Si"){
+            var table=$('#coord-culminaciones').DataTable();
+            table.row($("#"+idEstudiante))
+            .remove()
+            .draw();
+            alert('Se ha aprobado la solicitud de culminacion del estudiante exitosamente.');
+          }
+      });
+    }
+
+  };
+
+});
+  

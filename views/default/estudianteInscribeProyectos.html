@@ -80,7 +80,7 @@
             <h2>Debe esperar que se valide la inscripcion Servicio Comunitario por parte de la coordinacion.</h2> 
         {{pass}}
     {{else:}}
-        {{if (estudiante.f_horas>=120):}}
+        {{if (int(120)<=int(estudiante.f_horas)):}}
           <h2>Ya usted realizo las 120 horas de Servicio Comunitario.</h2>
         {{else:}}
             {{if (fechaTope1.f_fecha_inicial <= ahora <= fechaTope1.f_fecha_final):}}

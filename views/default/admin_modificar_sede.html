@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  
+  <h4>Modificar Sede</h4>
+
+  <div id="target"></div>
+
+  <form role="form">
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input type="text" value='{{=form.f_nombre}}' name="nombre" class="form-control" id="nombre-sede" placeholder="Nombre">
+    </div>
+
+    <div class="form-group">
+	  <label for="estado">Estado:</label>
+	  <select class="form-control" value='{{=form.f_estado}}' name="estado" id="estado-sede">
+      {{if (form.f_estado=="Activo"):}}
+        <option selected="selected">Activo</option>
+        <option>Inactivo</option>
+      {{else:}}
+        <option>Activo</option>
+        <option selected="selected">Inactivo</option>
+      {{pass}}
+	  </select>
+    </div>
+
+    <a onclick="enviarSede('{{=form.id}}')"  class="btn btn-primary">Enviar</a>
+
+  </form>
+</div>

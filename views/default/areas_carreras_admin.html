@@ -1,6 +1,6 @@
-
 <link href="{{=URL('static', 'css/jquery.dataTables.min.css')}}" rel="stylesheet">
 <script type="text/javascript" src="{{=URL('static', 'js/jquery.dataTables.min.js')}}"></script>
+
 <script>
 $(document).ready(function() {
 
@@ -30,59 +30,55 @@ $(document).ready(function() {
   };
 
   // Iniciacion de tabla
-  $('#estuds').DataTable( {
+  $('#estuds-areas-carreras').DataTable({
       "language": idiomaEspañol,
       "order": [[ 0, 'desc' ]],
       "columnDefs": [ {
         "targets"  : 'no-sort',
         "orderable": false,
       }]
-  } );
+  });
+
+  jQuery('#nueva-area-carrera').on('click', function (e) {
+    jQuery('#detalles-areas-carreras').empty();
+    jQuery('#detalles-areas-carreras').html("<div class='miniloader'></div>");
+    ajax('nueva_area_carrera', [], 'detalles-areas-carreras');
+  });
 
 });
-  
-
 </script>
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Usuarios</h2>
-        <table class="table table-condensed" id="estuds">
+        <div class="col-md-6"><h2>Areas de Carreras</h2></div><div class="col-md-6" style="padding-top: 25px;"><a id="nueva-area-carrera" data-toggle="modal" data-target="#myModal2" class="enlace"> <i class="glyphicon glyphicon-plus"></i> Nueva Area de Carrera</a></div>
+
+        <table class="table table-condensed" id="estuds-areas-carreras">
             <thead>
                 <tr>
-                    <th> Usuario</i></th>
-                    <th align="right">Nombres y Apellidos</th>
-                    <th align="right">Email</th>
-                    <th align="right">Telefono</th>
+                    <th>Nombre</i></th>
+                    <th align="right">Estado</th>
                     <th align="right" class="no-sort"></th>
                     <th align="right" class="no-sort"></th>
+
                 </tr>
             </thead>
             <tbody>
-                {{for usuario in registrados:}}
+                {{for area in areas_carreras:}}
 
-                <tr id={{=usuario.id}}>
+                <tr id={{=area.id}}>
                     <td>
-                        {{=usuario.username}}
+                        {{=area.f_nombre}}
                     </td>
                     <td>
-                        {{=usuario.first_name}} {{=usuario.last_name}}
+                        {{=area.f_estado}} 
                     </td>
                     <td>
-                        {{=usuario.email}}
+    <a class="enlace" onclick="editarAreaCarrera('{{=area.id}}')" data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-pencil"></i></a>
                     </td>
                     <td>
-                        {{=usuario.f_telefono}}
-                    </td>
-                    <td>
-                    <a class="enlace" onclick="mostrarDetallesUsuario('{{=usuario.id}}')" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-search"></i></a>
+    <a style="cursor:pointer" onclick="confirmarEliminarAreaCarrera('{{=area.id}}')"><i class="glyphicon glyphicon-remove"></i></a>
                     </td>
 
-                    <td>
-                    <div style="display:none" >
-                    <input name="idusuario" value={{=usuario.id}} /></div>
-                    <a class="enlace" onclick="confirmarEliminar('{{=usuario.id}}')"><i class="glyphicon glyphicon-remove"></i></a>
-                    </td>
                 </tr>
                 {{ pass }}
           </tbody>
@@ -93,17 +89,19 @@ $(document).ready(function() {
 <div class="row container">
 
   <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal fade" id="myModal2" role="dialog">
+
     <div class="modal-dialog">
     
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Información Usuario</h4>
+          <h4 class="modal-title">Areas de Carreras</h4>
+
         </div>
         <div class="modal-body">
-          <div id="detalles-usuario"></div>
+          <div id="detalles-areas-carreras"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
@@ -114,5 +112,3 @@ $(document).ready(function() {
   </div>
   
 </div>
-
-

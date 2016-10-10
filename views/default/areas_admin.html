@@ -32,7 +32,12 @@ $(document).ready(function() {
 
   // Iniciacion de tabla
   $('#estuds-areas').DataTable( {
-      "language": idiomaEspañol
+      "language": idiomaEspañol,
+      "order": [[ 0, 'desc' ]],
+      "columnDefs": [ {
+        "targets"  : 'no-sort',
+        "orderable": false,
+      }]
   } );
 
   jQuery('#nueva-area').on('click', function (e) {
@@ -56,10 +61,9 @@ $(document).ready(function() {
                     <th> Nombre</i></th>
                     <th align="right">Codigo</th>
                     <th align="right">Estado</th>
-                    <th align="right"></th>
-                    <th align="right"></th>
-
-                    <th align="right"></th>
+                    <th align="right" class="no-sort"></th>
+                    <th align="right" class="no-sort"></th>
+                    <th align="right" class="no-sort"></th>
 
                 </tr>
             </thead>

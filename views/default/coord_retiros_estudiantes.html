@@ -1,0 +1,82 @@
+<link href="{{=URL('static', 'css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<script type="text/javascript" src="{{=URL('static', 'js/jquery.dataTables.min.js')}}"></script>
+<script>
+$(document).ready(function() {
+
+  var idiomaEspañol={
+      "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  };
+
+  // Iniciacion de tabla
+  $('#coord-retiros').DataTable( {
+      "language": idiomaEspañol,
+      "order": [[ 0, 'desc' ]],
+      "columnDefs": [ {
+        "targets"  : 'no-sort',
+        "orderable": false,
+      }]
+  } );
+
+});
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+    	<h1>Solicitudes de Retiro de estudiantes</h1>
+    	<table class="table table-condensed text-center" id="coord-retiros">
+            <thead>
+                <tr>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Carné</th>
+                    <th class="text-center">Proyecto</th>
+                    <th class="text-center no-sort">Informe</th>
+                    <th class="text-center no-sort">Aprobar</th>
+    				<!--<th class="text-center">Rechazar</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                {{ for ins in estudianteCursa: }}
+                  <tr id={{=ins.f_estudiante.id}}>
+                      <td>
+                          {{=ins.f_estudiante.f_universitario.f_usuario.first_name}} {{=ins.f_estudiante.f_universitario.f_usuario.last_name}}
+                      </td>
+                      <td>
+                          {{=ins.f_estudiante.f_universitario.f_usbid}}
+                      </td>
+                      <td>
+                          {{=ins.f_proyecto.f_nombre}}
+                      </td>
+                      <td>
+                      <a href="/SIGESC/static/pdfs/{{=ins.f_informe}}" target=_blank><i class="glyphicon glyphicon-list-alt text-center"></i></a>
+                      </td>
+                      <td class="text-center">
+                          <a class="enlace" onclick="aprobarRetiroEstudiante('{{=ins.f_estudiante.id}}','{{=ins.f_proyecto.id}}')"><i class="glyphicon glyphicon-check text-center"></i></a>
+                      </td>
+                  </tr>
+                {{ pass }}
+
+            </tbody>
+        </table>
+    </div>
+</div>

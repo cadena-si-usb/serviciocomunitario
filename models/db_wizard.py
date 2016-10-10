@@ -14,12 +14,13 @@ db.define_table('t_sede_archive',db.t_sede,Field('current_record','reference t_s
 db.define_table('t_comunidad',
     Field('f_nombre', type='string', notnull=True,
           label=T('Nombre')),
+    Field('f_estado', requires=IS_IN_SET(['Activo', 'Inactivo']), notnull=True,
+          label=T('Estado'), default='Activo'),
     auth.signature,
     format='%(f_nombre)s',
     migrate=settings.migrate)
 
 db.define_table('t_comunidad_archive',db.t_sede,Field('current_record','reference t_comunidad',readable=False,writable=False))
-
 
 db.define_table('t_universitario',
     Field('f_usbid', type='string', notnull=True, unique=True,
@@ -31,6 +32,8 @@ db.define_table('t_universitario',
     Field('f_sede', type='reference t_sede', notnull=True,
           label=T('Sede')),
     format='%(f_usuario)s carnet: %(f_usbid)s')
+
+db.define_table('t_universitario_archive',db.t_universitario,Field('current_record','reference t_universitario',readable=False,writable=False))
 
 # docente
 db.define_table('t_docente',
@@ -44,6 +47,8 @@ db.define_table('t_docente',
           label=T('Departamento')),
     format='%(f_universitario)s',
     migrate=settings.migrate)
+
+db.define_table('t_docente_archive',db.t_docente,Field('current_record','reference t_docente',readable=False,writable=False))
 
 '''
 db.define_table('t_comunidad',
@@ -80,6 +85,8 @@ db.define_table('t_area_archive',db.t_area,Field('current_record','reference t_a
 db.define_table('t_area_carrera',
     Field('f_nombre', type='string', notnull=True,
           label=T('Nombre')),
+    Field('f_estado', requires=IS_IN_SET(['Activo', 'Inactivo']), notnull=True,
+          label=T('Estado'), default='Activo'),
     auth.signature,
     format='%(f_nombre)s',
     migrate=settings.migrate)
@@ -89,13 +96,14 @@ db.define_table('t_area_carrera_archive',db.t_area_carrera,Field('current_record
 db.define_table('t_carrera',
     Field('f_codigo', type='string', notnull=True,
           label=T('Codigo')),
-    Field('f_area_carrera', 'reference t_area_carrera',
-          unique=True, notnull=True,
+    Field('f_area_carrera', 'reference t_area_carrera', notnull=True,
           requires=IS_IN_DB(db,db.t_area_carrera,'%(f_nombre)s'),
           label=T('Area de la carrera'),
           writable=False),
     Field('f_nombre', type='string', notnull=True, default='',
           label=T('Nombre')),
+    Field('f_estado', requires=IS_IN_SET(['Activo', 'Inactivo']), notnull=True,
+      label=T('Estado'), default='Activo'),
     auth.signature,
     format='%(f_nombre)s',
     migrate=settings.migrate)

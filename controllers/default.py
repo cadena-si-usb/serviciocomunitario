@@ -469,8 +469,23 @@ def eliminar_usuario():
     db(db.auth_user.id==idUsuario).delete()
     return "Si"
 
+def sedes_admin():
+    return dict(sedes=db().select(db.t_sede.ALL))
+
+def comunidades_admin():
+    return dict(comunidades=db().select(db.t_comunidad.ALL))
+
+def areas_carreras_admin():
+    return dict(areas_carreras=db().select(db.t_area_carrera.ALL))
+
+def carreras_admin():
+    return dict(carreras=db().select(db.t_carrera.ALL))
+
+def proyectos_admin():
+    return dict(proyectos=db().select(db.t_proyecto_aprobado.ALL))
+
 def roles_admin():
-    return dict(usuarios=db(db.auth_user.id!=auth.user_id).select())
+    return dict(usuarios=db().select(db.auth_user.ALL))
 
 def agregar_rol_admin():
     idUsuario=long(request.vars.id)
@@ -834,14 +849,72 @@ def sedesEditar():
     return dict(form = form)
 '''
 
+# Coordinador
+def coordinador():
+    msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
+    return dict(msj = msj)
+
+def home_coord():
+    return dict() 
+
+def coord_solicitud_inscripcion():
+    estudianteCursa = db(db.t_cursa.f_actual==True).select()
+    return dict(estudianteCursa=estudianteCursa)
+
+def coord_aprobar_solicitud_estudiante():
+    idProyecto = long(request.vars.idProyecto)
+    idEstudiante = long(request.vars.idEstudiante)
+    proyecto_cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto))
+    proyecto_cursa.update(f_valido='Valido')
+    proyecto_cursa.update(f_estado='Aprobado')
+    proyecto_cursa.update(f_fecha=datetime.datetime.today())
+    return "Si"
+
+def coord_retiros_estudiantes():
+    estudianteCursa = db((db.t_cursa.f_actual==True)&(db.t_cursa.f_estado=='Retirado')).select()
+    return dict(estudianteCursa=estudianteCursa)
+
+def coord_aprobar_retiro_estudiante():
+    idProyecto = long(request.vars.idProyecto)
+    idEstudiante = long(request.vars.idEstudiante)
+    proyecto_cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True))
+    proyecto_cursa.update(f_actual=False)
+    proyecto_cursa.update(f_fecha=datetime.datetime.today())
+    return "Si"
+
+def obtenerHorasConfirmadasDeEstudiante(idCursa):
+    horasConfirmadas=0
+    actividadesConfirmadas=db((db.t_actividad_estudiante.f_cursa==idCursa) & (db.t_actividad_estudiante.f_confirmada==True)).select()
+    for actividad in actividadesConfirmadas:
+        horasConfirmadas=horasConfirmadas+ int(actividad.f_horas)
+
+    return horasConfirmadas
+
+def coord_culminaciones_estudiantes():
+    estudianteCursa = db((db.t_cursa.f_actual==True)&(db.t_cursa.f_estado=='Culminado')).select()
+    return dict(estudianteCursa=estudianteCursa,obtenerHorasConfirmadasDeEstudiante=obtenerHorasConfirmadasDeEstudiante)
+
+def coord_aprobar_culminacion_estudiante():
+    idProyecto = long(request.vars.idProyecto)
+    idEstudiante = long(request.vars.idEstudiante)
+    cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True)).select().first()
+    proyecto_cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True))
+    proyecto_cursa.update(f_actual=False)
+    proyecto_cursa.update(f_fecha=datetime.datetime.today())
+
+    # Agregar horas confirmadas
+    estudiante=db(db.t_estudiante.id==idEstudiante)
+    estudiante.update(f_horas=obtenerHorasConfirmadasDeEstudiante(cursa.id))
+    return "Si"
+
 # Administrador
 def administrador():
     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
     return dict(msj = msj)
-'''
+
 def home_admin():
     return dict() 
-'''
+
 def admin_usuarios_detalles():
     idUsuario=long(request.vars.id)
     if db.auth_user(idUsuario)['f_foto']:
@@ -860,6 +933,33 @@ def admin_usuarios_detalles():
         carrera = db(db.t_estudiante.f_universitario==univ).select().first().f_carrera
     
     return dict(form=tabla,picture=picture,dpto=dpto, sede=sede,carrera=carrera) 
+
+def admin_proyectos_detalles():
+    idProyectoAprobado=long(request.vars.id)
+    proyectoAprobado=db(db.t_proyecto_aprobado.id==idProyectoAprobado).select().first()
+    proyecto=db(db.t_proyecto.id==proyectoAprobado.f_proyecto.id).select().first()
+    idproyecto=proyecto.id
+    actividades = db(db.t_actividad.f_proyecto == idproyecto).select()
+    objetivos = db(db.t_objetivo.f_proyecto == idproyecto).select()
+    plan_operativo = db(db.t_plan_operativo.f_proyecto == idproyecto).select()
+    idestudiante=None
+    tutores = db((db.t_proyecto_tutor.f_proyecto == idproyecto) &(db.auth_user.id==db.t_proyecto_tutor.f_tutor)).select()
+
+    tutores_comunitarios = db((db.t_proyecto_tutor_comunitario.f_proyecto == idproyecto) &(db.auth_user.id==db.t_proyecto_tutor_comunitario.f_tutor)).select()
+
+    sedes = db(db.t_proyecto_sede.f_proyecto == idproyecto).select()
+
+
+    return dict(proyectoAprobado=proyectoAprobado,
+        proyecto=proyecto,
+        actividades=actividades,
+        objetivos=objetivos,
+        plan_operativo=plan_operativo,
+        tutores=tutores,
+        tutores_comunitarios=tutores_comunitarios,
+        sedes=sedes,
+        idestudiante=idestudiante) 
+
 '''
 @auth.requires_login()
 def admin_perfil():
@@ -957,15 +1057,78 @@ def areas_admin():
 def nueva_area():
     return dict()
 
+def nueva_sede():
+    return dict()
+
+def nueva_comunidad():
+    return dict()
+
+def nueva_area_carrera():
+    return dict()
+
+def nueva_carrera():
+    return dict(areas_carreras=db().select(db.t_area_carrera.ALL))
+
 def eliminar_area():
     idArea=request.vars.id
     db(db.t_area.id==idArea).delete()
+    return "Si"
+
+def eliminar_proyecto_aprobado():
+    idProyectoAprobado=request.vars.id
+    db(db.t_proyecto_aprobado.id==idProyectoAprobado).delete()
+    return "Si"
+
+def eliminar_sede():
+    idSede=request.vars.id
+    db(db.t_sede.id==idSede).delete()
+    return "Si"
+
+def eliminar_comunidad():
+    id=request.vars.id
+    db(db.t_comunidad.id==id).delete()
+    return "Si"
+
+def eliminar_area_carrera():
+    idArea=request.vars.id
+    db(db.t_area_carrera.id==idArea).delete()
+    return "Si"
+
+def eliminar_carrera():
+    idCarrera=request.vars.id
+    db(db.t_carrera.id==idCarrera).delete()
     return "Si"
 
 def admin_modificar_area():
     idArea=request.vars.id
     area=db(db.t_area.id==idArea).select().first()  
     return dict(form=area)
+
+def admin_modificar_proyecto_aprobado():
+    idProyectoAprobado=request.vars.id
+    proyecto_aprobado=db(db.t_proyecto_aprobado.id==idProyectoAprobado).select().first()  
+    return dict(form=proyecto_aprobado)
+
+def admin_modificar_sede():
+    idSede=request.vars.id
+    sede=db(db.t_sede.id==idSede).select().first()  
+    return dict(form=sede)
+
+def admin_modificar_comunidad():
+    idComunidad=request.vars.id
+    comunidad=db(db.t_comunidad.id==idComunidad).select().first()  
+    return dict(form=comunidad)
+
+
+def admin_modificar_area_carrera():
+    idArea=request.vars.id
+    areaCarrera=db(db.t_area_carrera.id==idArea).select().first()  
+    return dict(form=areaCarrera)
+
+def admin_modificar_carrera():
+    idCarrera=request.vars.id
+    carrera=db(db.t_carrera.id==idCarrera).select().first()  
+    return dict(form=carrera,areas_carreras=db().select(db.t_area_carrera.ALL))
 
 def nueva_area_admin_modificada():
     idArea=int(request.vars.id)
@@ -983,7 +1146,7 @@ def nueva_area_admin_modificada():
         return "*Campo codigo vacio."
 
 
-    existeNombreArea=db((db.t_area.f_nombre==nombreArea) & (db.t_area.id!=idArea)).select().first() !=None
+    existeNombreArea=db((db.t_area.f_nombre.upper()==nombreArea.upper()) & (db.t_area.id!=idArea)).select().first() !=None
     existeCodigoArea=db((db.t_area.f_codigo==codigoArea) & (db.t_area.id!=idArea)).select().first() !=None
 
     if existeNombreArea and existeCodigoArea:
@@ -1001,6 +1164,114 @@ def nueva_area_admin_modificada():
 
     return "Exito"
 
+
+
+def nueva_carrera_admin_modificada():
+    idCarrera=int(request.vars.id)
+    nombreCarrera=request.vars.nombre
+    idArea=int(request.vars.area)
+    codigoCarrera=request.vars.codigo
+    estadoCarrera=request.vars.estado
+
+    if ((nombreCarrera == '') and (codigoCarrera == '')):
+        return "*Codigo y nombre de la carrera vacios."
+    if (nombreCarrera == ''):
+        return "*Nombre de la carrera vacio."
+    if (codigoCarrera == ''):
+        return "*Campo codigo vacio."
+
+    existeNombreCarrera=db((db.t_carrera.f_nombre.upper()==nombreCarrera.upper()) & (db.t_carrera.id!=idCarrera)).select().first() !=None
+    existeCodigoCarrera=db((db.t_carrera.f_codigo==codigoCarrera) & (db.t_carrera.id!=idCarrera)).select().first() !=None
+
+    if existeNombreCarrera and existeCodigoCarrera:
+        return "*Nombre y Codigo de la carrera ya existentes."
+    if existeCodigoCarrera:
+        return "*Codigo de carrera ya existente."
+    if existeNombreCarrera:
+        return "*Nombre de carrera ya existente."
+
+    carrera=db(db.t_carrera.id==idCarrera)
+    carrera.update(f_nombre=nombreCarrera,
+                f_area_carrera=idArea,
+                f_codigo=codigoCarrera,
+                f_estado=estadoCarrera)
+
+    return "Exito"
+
+def admin_proyecto_modificado():
+    idProyectoAprobado=int(request.vars.id)
+    codigoProyecto=request.vars.codigo
+    estadoProyecto=request.vars.estado
+
+    if (codigoProyecto == ''):
+        return "*Campo codigo vacio."
+
+    existeCodigoProyecto=db((db.t_proyecto_aprobado.f_codigo.upper()==codigoProyecto.upper()) & (db.t_proyecto_aprobado.id!=idProyectoAprobado)).select().first() !=None
+
+    if existeCodigoProyecto:
+        return "*Codigo de Proyecto ya existente."
+
+    proyecto=db(db.t_proyecto_aprobado.id==idProyectoAprobado)
+    proyecto.update(f_codigo=codigoProyecto,f_estado_proyecto=estadoProyecto)
+
+    return "Exito"
+
+def nueva_sede_admin_modificada():
+    idSede=int(request.vars.id)
+    nombreSede=request.vars.nombre
+    estadoSede=request.vars.estado
+        
+    if (nombreSede == ''):
+        return "*Nombre de Sede vacio."
+
+    existeNombreSede=db((db.t_sede.f_nombre.upper()==nombreSede.upper()) & (db.t_sede.id!=idSede)).select().first() !=None
+
+    if existeNombreSede:
+        return "*Nombre de Sede ya existente."
+
+    sede=db(db.t_sede.id==idSede)
+    sede.update(f_nombre=nombreSede,
+                f_estado=estadoSede)
+
+    return "Exito"
+
+def nueva_comunidad_admin_modificada():
+    idComunidad=int(request.vars.id)
+    nombreComunidad=request.vars.nombre
+    estadoComunidad=request.vars.estado
+        
+    if (nombreComunidad == ''):
+        return "*Nombre de comunidad vacio."
+
+    existeNombreComunidad=db((db.t_comunidad.f_nombre.upper()==nombreComunidad.upper()) & (db.t_comunidad.id!=idComunidad)).select().first() !=None
+
+    if existeNombreComunidad:
+        return "*Nombre de comunidad ya existente."
+
+    comunidad=db(db.t_comunidad.id==idComunidad)
+    comunidad.update(f_nombre=nombreComunidad,
+                f_estado=estadoComunidad)
+
+    return "Exito"
+
+def nueva_area_carrera_admin_modificada():
+    idArea=int(request.vars.id)
+    nombreArea=request.vars.nombre
+    estadoArea=request.vars.estado
+        
+    if (nombreArea == ''):
+        return "*Nombre de Area de Carrera vacio."
+
+    existeNombreAreaCarrera=db((db.t_area_carrera.f_nombre.upper()==nombreArea.upper()) & (db.t_area_carrera.id!=idArea)).select().first() !=None
+
+    if existeNombreAreaCarrera:
+        return "*Nombre de Area de Carrera ya existente."
+
+    areaCarrera=db(db.t_area_carrera.id==idArea)
+    areaCarrera.update(f_nombre=nombreArea,
+                f_estado=estadoArea)
+
+    return "Exito"
 
 def admin_areas_detalles():
     idArea=long(request.vars.id)
@@ -1023,7 +1294,7 @@ def nueva_area_admin():
         return "*Campo codigo vacio."
 
 
-    existeNombreArea=db(db.t_area.f_nombre==nombre).select().first() !=None
+    existeNombreArea=db(db.t_area.f_nombre.upper()==nombre.upper()).select().first() !=None
     existeCodigoArea=db(db.t_area.f_codigo==codigo).select().first() !=None
 
     if existeNombreArea and existeCodigoArea:
@@ -1044,6 +1315,96 @@ def nueva_area_admin():
 
     return area.id
 
+def nueva_sede_admin():
+    nombre=request.vars.nombre
+    estado=request.vars.estado
+
+    if (nombre == ''):
+        return "*Nombre de la Sede vacio."
+
+    existeNombreSede=db(db.t_sede.f_nombre.upper()==nombre.upper()).select().first() !=None
+
+    if existeNombreSede:
+        return "*Nombre de Sede ya existente."
+
+    db.t_sede.insert(
+        f_nombre=nombre,
+        f_estado=estado
+    )
+
+    sede=db(db.t_sede.f_nombre==nombre).select().first()
+    return sede.id
+
+def nueva_comunidad_admin():
+    nombre=request.vars.nombre
+    estado=request.vars.estado
+
+    if (nombre == ''):
+        return "*Nombre de la comunidad vacio."
+
+    existeNombreComunidad=db(db.t_comunidad.f_nombre.upper()==nombre.upper()).select().first() !=None
+
+    if existeNombreComunidad:
+        return "*Nombre de comunidad ya existente."
+
+    db.t_comunidad.insert(
+        f_nombre=nombre,
+        f_estado=estado
+    )
+
+    comunidad=db(db.t_comunidad.f_nombre==nombre).select().first()
+    return comunidad.id
+
+def nueva_area_carrera_admin():
+    nombre=request.vars.nombre
+    estado=request.vars.estado
+
+    if (nombre == ''):
+        return "*Nombre de la area de la carrera vacio."
+
+    existeNombreAreaCarrera=db(db.t_area_carrera.f_nombre.upper()==nombre.upper()).select().first() !=None
+
+    if existeNombreAreaCarrera:
+        return "*Nombre de area de carrera ya existente."
+
+    db.t_area_carrera.insert(
+        f_nombre=nombre,
+        f_estado=estado
+    )
+
+    areaCarrera=db(db.t_area_carrera.f_nombre==nombre).select().first()
+    return areaCarrera.id
+
+def nueva_carrera_admin():
+    nombre=request.vars.nombre
+    estado=request.vars.estado
+    codigo=request.vars.codigo
+    idarea=request.vars.area
+
+    if ((codigo == '')and(nombre == '')):
+        return "*Nombre y Codigo de la Carrera vacios."
+    if (nombre == ''):
+        return "*Nombre de la Carrera vacio."
+    if (codigo == ''):
+        return "*Codigo de la Carrera vacio."
+
+    existeNombreCarrera=db(db.t_carrera.f_nombre.upper()==nombre.upper()).select().first() !=None
+    existeCodigoCarrera=db(db.t_carrera.f_codigo.upper()==codigo.upper()).select().first() !=None
+
+    if existeNombreCarrera:
+        return "*Nombre de la Carrera ya existente."
+    if existeCodigoCarrera:
+        return "*Codigo de la Carrera ya existente."
+
+    db.t_carrera.insert(
+        f_codigo=codigo,
+        f_nombre=nombre,
+        f_area_carrera=idarea,
+        f_estado=estado
+    )
+
+    carrera=db(db.t_carrera.f_nombre==nombre).select().first()
+    return carrera.id
 '''
 def proponentesEditar():
     def my_form_processing(form):

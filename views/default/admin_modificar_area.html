@@ -24,8 +24,13 @@
     <div class="form-group">
 	  <label for="estado">Estado:</label>
 	  <select class="form-control" value='{{=form.f_estado}}' name="estado" id="estado-area">
-	    <option>Activo</option>
-	    <option>Inactivo</option>
+      {{if (form.f_estado=="Activo"):}}
+        <option selected="selected">Activo</option>
+        <option>Inactivo</option>
+      {{else:}}
+        <option>Activo</option>
+        <option selected="selected">Inactivo</option>
+      {{pass}}
 	  </select>
     </div>
 

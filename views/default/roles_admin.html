@@ -31,7 +31,12 @@ $(document).ready(function() {
 
   // Iniciacion de tabla
   $('#estuds-roles').DataTable({
-      "language": idiomaEspañol
+      "language": idiomaEspañol,
+      "order": [[ 0, 'asc' ]],
+      "columnDefs": [ {
+        "targets"  : 'no-sort',
+        "orderable": false,
+      }]
   });
 });
 </script>
@@ -48,8 +53,8 @@ $(document).ready(function() {
                     <th align="right">Identificación</th>
                     <th align="right">Correo</th>
                     <th align="right">Roles</th>
-                    <th align="right"></th>
-                    <th align="right"></th>
+                    <th align="right" class="no-sort"></th>
+                    <th align="right" class="no-sort"></th>
 
                 </tr>
             </thead>
