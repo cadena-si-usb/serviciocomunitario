@@ -83,5 +83,22 @@ jQuery(document).ready(function(){
 
   };
 
+  // Fechas topoe
+  jQuery('#fechas-tope-coord').on('click', function (e) {
+    jQuery('#vista-coord').empty();
+    jQuery('#vista-coord').html(miniloader);
+    ajax('actualizar_fechas_tope', [], 'vista-coord');
+  });
+
+  actualizarFecha=function(idFecha){
+    var fecha_inicial=jQuery("#fecha_inicial"+idFecha).val();
+    var fecha_final=jQuery("#fecha_final"+idFecha).val();
+    $.ajax('cambiar_fecha_tope?id='+idFecha+"&fecha_inicial="+fecha_inicial+"&fecha_final="+fecha_final).done(function(html) {
+        if (html=="Si"){
+          alert('Se ha cambiado la fecha exitosamente.');
+        }
+    });
+  }
+
 });
   

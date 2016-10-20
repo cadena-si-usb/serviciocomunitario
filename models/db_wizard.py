@@ -349,7 +349,7 @@ db.define_table('t_condicion_archive',db.t_condicion,Field('current_record','ref
 db.define_table('t_propuesta',
     Field('f_proyecto', type='reference t_proyecto', notnull=True,
           label=T('ID del proyecto'), writable=False, readable=True),
-    Field('f_estado_propuesta', requires=IS_EMPTY_OR(IS_IN_SET(['Incompleta', 'En espera de revision', 'Aprobado', 'Rechazado con observaciones'])),
+    Field('f_estado_propuesta', requires=IS_EMPTY_OR(IS_IN_SET(['Incompleta', 'En espera de revision', 'Aprobado', 'Aprobado con observaciones','Rechazado con observaciones'])),
           label=T('Estado'), default='Incompleta', notnull=False),
     Field('f_observaciones', type='text', default='',
           label=T('Observaciones')),
@@ -614,7 +614,7 @@ db.define_table('t_inscripcion',
 db.define_table('t_inscripcion_archive',db.t_inscripcion,Field('current_record','reference t_inscripcion',readable=False,writable=False))
 
 db.define_table('t_fechas_tope',
-  Field('f_tipo',requires=IS_IN_SET(['I','IE']), notnull=True, 
+  Field('f_tipo',requires=IS_IN_SET(['Inscripción','Inscripción Extemporánea']), notnull=True, 
     label=T('Tipo')),
   Field('f_fecha_inicial', type='date', requires=IS_DATE(format=('%d/%m/%Y')),notnull=True,
     label=T('Fecha Inicial')),

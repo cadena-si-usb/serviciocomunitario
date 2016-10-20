@@ -32,7 +32,7 @@
             <hr>
              <ul class="list-group">
                 <li class="list-group-item">
-                	Estado del proyecto:
+                	Estado de inscripción del proyecto:
                 	{{if proyecto.f_estado != "Retirado": }}
                 		<span style="color:green; font-weight: bold;"> {{=proyecto.f_estado}} </span>
                     {{else:}}
@@ -49,10 +49,7 @@
                 	Horas confirmadas: {{= horas_realizadas}}
                 </li>
                 
-                <li class="list-group-item">
-                	<a target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
-                                   Constancia de Inscripcion</a>
-                </li>
+
              </ul>
        </div>
         {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
@@ -67,10 +64,18 @@
                       <div class="panel-body">
                           <table class="table table-striped">
                             <tr><td><b>Tutores Académicos:</b>
-                              {{=tutor }}
+                            <ul>
+                            {{for tutor in tutores:}}
+                              <li>{{=tutor.f_tutor.first_name +" "+tutor.f_tutor.last_name + " "+ "( "+ tutor.f_tutor.email+" )"}}</li>
+                            {{pass}}
+                            </ul>
                             </td></tr>
                             <tr><td><b>Tutores Comunitarios:</b>
-                              {{=tutor_comunitario }}
+                              <ul>
+                              {{for tutor in tutores_comunitarios:}}
+                                <li>{{=tutor.f_tutor.first_name +" "+tutor.f_tutor.last_name + " "+ "( " + tutor.f_tutor.email+" )"}}</li>
+                              {{pass}}
+                              </ul>
                             </td></tr>
                           </table>
                       </div>

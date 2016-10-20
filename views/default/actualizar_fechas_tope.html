@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="{{=URL('static', 'css/datepicker.css')}}">
+<script type="text/javascript" src="{{=URL('static', 'js/bootstrap-datepicker.js')}}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+		$('.fecha').datepicker({
+        	format: "dd/mm/yyyy"
+		});
+
+		function process(date){
+            var parts = date.split("/");
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
+
+});
+</script>
+
+<div class="row">
+	<div class="col-sm-12">
+		<h3>Actualizar Fechas Tope</h3>
+	</div>
+	<div class="col-sm-12">
+	{{for fecha in fechas_tope:}}
+		<div class="col-sm-6">
+			<div class="form-group">
+		        <label> {{=fecha.f_tipo}} </label> 
+		    </div>
+			<div class="form-group">
+	            <label> Fecha de Inicio: </label> 
+	            <input class="form-control fecha" id="fecha_inicial{{=fecha.id}}" name="fecha_inicial" type="text" value={{=cambiarFormatoFecha(fecha.f_fecha_inicial)}}> 
+	        </div>
+			<div class="form-group">
+	            <label> Fecha de Finalización:</label> 
+	            <input class="form-control fecha" id="fecha_final{{=fecha.id}}" name="fecha_final" type="text" value={{=cambiarFormatoFecha(fecha.f_fecha_final)}}>
+	        </div>
+
+	        <a onclick="actualizarFecha('{{=fecha.id}}')" style="width:50%" class="btn btn-primary">Actualizar</a>
+
+        </div>
+	{{pass}}	
+	</div>
+
+</div>

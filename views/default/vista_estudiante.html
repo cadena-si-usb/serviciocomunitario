@@ -22,7 +22,7 @@
       </div>
 
      <div class="col-sm-12">
-         <div class="col-md-4">
+         <div class="col-sm-4">
              <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
               <hr>
                <ul class="nav nav-stacked">
@@ -34,6 +34,8 @@
                        {{if cursa:}}
                           <a href="{{=URL('estado_estudiante')}}">
                              <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Estado de Inscripción</a>
+                            <a target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
+                            <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
                           {{if (cursa.f_estado=='Aprobado') and (cursa.f_valido=='Valido'):}}
                               <a target="_blank" href="{{=URL('generarPdfConstanciaInicio',args=[estudianteId,proyecto.id])}}">
                                   <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
@@ -44,8 +46,7 @@
                           {{elif (cursa.f_valido=='Pendiente') and (aprob_tutor=='Aprobado'):}}
                                  <a class="btn disabled" style="margin-left: -61px;" href="#">
                                      <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
-                                 <a class="" style="margin-left: 0px;" target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
-                                     <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
+                                 
                                  <a class="btn disabled" style="margin-left: -149px;"href="#">
                                      <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
                           {{elif (cursa.f_estado=='Retirado') and (cursa.f_valido=='Valido'):}}
@@ -61,8 +62,6 @@
                           {{else:}}
                               <a class="btn disabled" style="margin-left: -61px;" href="#">
                                   <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inicio de Proyecto</a>
-                              <a class="btn disabled" style="margin-left: -104px;" target="_blank" href="{{=URL('generarPdfConstanciaInscripcion',args=[estudianteId,proyecto.id])}}">
-                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Constancia de Inscripcion</a>
                               <a class="btn disabled" style="margin-left: -61px;"href="#">
                                  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Inscribir Proyectos</a>
                           {{pass}}
@@ -84,7 +83,7 @@
          </div>
           {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
           {{else:}}
-          <div class="col-md-8">
+          <div class="col-sm-8">
               <div class="row">
                   <div class="panel panel-primary">
                       <div class="panel-heading class=detalles">
@@ -99,7 +98,6 @@
                                 <tr><td><b>Sede:</b> {{=estt.f_sede.f_nombre}}</td></tr>
                           </table>
                           <div class="alert alert-info" style="margin-bottom: 5px">
-                            Total de horas confirmadas por tutores comunitarios:<b> {{=horas_confirmadas}}</b> </br>
                             Horas validadas por cordinacion: <b> {{=estudiante.f_horas}}</b> 
                           </div>
                       </div>

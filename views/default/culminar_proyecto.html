@@ -2,15 +2,15 @@
 {{ block contenido }}
        <div class="col-sm-12">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-sm-2">
                 <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
-            <div class="col-md-6" align="left">
+            <div class="col-sm-6" align="left">
                <h4 style="color:#4682B4">SIGESC /<a href="."> Home</a> /<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> / Culminar Proyecto</h4>
                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
 
             </div>
-            <div class="col-md-4" align="right">
+            <div class="col-sm-4" align="right">
                 <a href="{{=URL('default', 'logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
             </div>
         </div>
@@ -18,7 +18,7 @@
     </div>
 
    <div class="col-sm-12">
-       <div class="col-md-4">
+       <div class="col-sm-4">
            <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
             <hr>
              <ul class="nav nav-stacked">
@@ -58,28 +58,28 @@
        </div>
         {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
         {{else:}}
-        <div class="col-md-8">
+        <div class="col-sm-8">
           <div class="row" style="text-align: center;">
           
           {{if proyecto.f_estado=='Culminado':}}
             <div class="alert alert-info">
-              <p>Usted ha culminado su servicio comunitario.</p>
+              <p>Usted ha culminado este proyecto de servicio comunitario.</p>
             </div>
               <a href="{{=URL('generarPdfConstanciaCulminacion',args=[estudiante.id,proyecto.f_proyecto])}}">
               <button type="button" class="btn btn-primary">Imprimir constancia</button></a>
           {{elif proyecto.f_estado=='Retirado':}}
               <div class="alert alert-warning" >
-                <p>Usted ha retirado su proyecto de servicio comunitario.</p>
+                <p>Usted ha retirado este proyecto de servicio comunitario.</p>
               </div>
-          {{elif 120>horas:}}
+          {{elif horasDeber>horas:}}
                 <div class="alert alert-warning" >
-                  <p>No puede culminar su servicio comunitario si no ha realizado las 120 horas correspondientes.</p>
+                  <p>No puede culminar este servicio comunitario si no ha realizado mas de {{=horasDeber}} horas.</p>
                 </div>
           {{else:}}
                   <div class="alert alert-warning" >
                     <p>El informe debe estar en formato pdf y no ser mayor a 2Mb</p>
                   </div>
-                  <p>Subir informe final:</p>
+                  <p>Subir informe:</p>
                   <form action="#" enctype="multipart/form-data" method="post">
                     <div align="center">
                       <input class="upload" id="t_estudiante_f_informe" name="f_informe" type="file" />

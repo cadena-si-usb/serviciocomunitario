@@ -29,10 +29,6 @@
     <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">
     <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
 
-    
-
-
-
   </head>
 
   <style type="text/css">
@@ -75,7 +71,7 @@
             <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
         </div>
         <div class="col-md-4">
-            <h3> Proponer Proyectos</h3>
+            <h3> Propuestas</h3>
              <p style="color: #808080">
                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus non incidunt ducimus assumenda? Deserunt tenetur, ea
             </p>
@@ -84,7 +80,7 @@
             <div class="row">
                   <a href="{{=URL('propuestas')}}">
                   <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                      Ir a Proponer  >> </button>
+                      Ir a Propuestas  >> </button>
                   </a>
             </div>
         </div>
@@ -139,6 +135,7 @@
         <hr>
 
 {{pass}}
+<!--
 {{if ("Asistente" in roles) or ("Coordinador" in roles):}}
         <div class="row">
 
@@ -161,7 +158,7 @@
         </div>
         <hr>
 
-{{pass}}
+{{pass}}-->
 
 {{if "Administrador Dex" in roles:}}
         <div class="row">
@@ -193,17 +190,15 @@
           <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Supervisar solicitudes </h3>
+          <h3 style="color: #4682B4"> Enviar Planes de Trabajo </h3>
 
           <p style="color: #808080">
-             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
+             Enviar planes de trabajo a estudiantes.
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-              <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('solicitudes_tutor')}}'" style="width: 250px; height:30px" margin-top="70px">
-
-                          Ir a Solicitudes  >></button>
+              <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('solicitudes_tutor')}}'" style="width: 250px; height:30px" margin-top="70px">Ir a Enviar Planes de Trabajo  >></button>
           </div>
       </div>
     </div>
@@ -213,7 +208,7 @@
           <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Ver proyectos asignados</h3>
+          <h3 style="color: #4682B4"> Tutor Academico</h3>
           <p style="color: #808080">
              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
@@ -221,7 +216,7 @@
       <div class="col-md-3">
           <div class="row">
               <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('proyectos_tutor_academico')}}'" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Proyectos  >></button>
+                          Ir a Tutor Academico  >></button>
 
           </div>
       </div>
