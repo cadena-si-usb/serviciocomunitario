@@ -70,7 +70,11 @@
         <div class="col-md-12">
           <div class="paginado">
           {{for i in range(1,7):}}
-            <a class="btn btn-default btn-pag {{='active-pag' if pag == i else ''}}" href="{{='?pag={}&proyecto_id={}'.format(i,proyecto_id) if proyecto_id else ('?pag={}'.format(i) if pag > 1 else '#')}}" data-toggle="tooltip" title="" data-pag="{{=i}}">{{=i}}</a>
+            <a id="otraPagina" class="btn btn-default btn-pag {{='active-pag' if pag == i else ''}}" data-toggle="tooltip" title="" data-pag="{{=i}}"
+            data-pag-actual="{{=pag}}">{{=i}}</a>
+
+            <!--<a class="btn btn-default btn-pag {{='active-pag' if pag == i else ''}}" href="{{='?pag={}&proyecto_id={}'.format(i,proyecto_id) if proyecto_id else ('?pag={}'.format(i) if pag > 1 else '#')}}" data-toggle="tooltip" title="" data-pag="{{=i}}">{{=i}}</a>
+            -->
           {{pass}}
           </div>
           <br>

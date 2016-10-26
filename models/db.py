@@ -77,7 +77,7 @@ Field('f_sexo' ,requires=IS_IN_SET(['Masculino','Femenino'],error_message='No pu
 Field('f_estado', type='reference t_estado', default=10,
   requires=IS_IN_DB(db,db.t_estado,'%(f_nombre)s',error_message='No puede estar vacio.'),label=T('Estado'),writable=True),
 Field('f_foto',type="upload",
-               requires=IS_NULL_OR( IS_IMAGE(extensions=('bmp',
+               requires=IS_NULL_OR(IS_IMAGE(extensions=('bmp',
                                                          'gif',
                                                          'jpeg',
                                                          'jpg',

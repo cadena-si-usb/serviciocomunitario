@@ -1,0 +1,177 @@
+{{ extend 'base.html' }}
+{{ block contenido }}
+	<head>
+	  	<link rel="stylesheet" href="{{=URL('static', 'css/datepicker.css')}}">
+	  	<script type="text/javascript" src="{{=URL('static', 'js/bootstrap.js')}}"></script>
+	  	<link rel="stylesheet" href="{{=URL('static', 'css/administrador.css')}}">
+	  	<script type="text/javascript" src="{{=URL('static', 'js/jquery.js')}}"></script>
+	    <script type="text/javascript" src="{{=URL('static', 'js/reportes.js')}}"></script>
+	    <script type="text/javascript" src="{{=URL('static', 'js/web2py.js')}}"></script>  
+		<script type="text/javascript" src="{{=URL('static', 'js/bootstrap-datepicker.js')}}"></script>
+	    <script type="text/javascript">
+			$(document).ready(function() {
+
+					$('.fecha').datepicker({
+			        	format: "dd/mm/yyyy"
+					});
+
+					function process(date){
+			            var parts = date.split("/");
+			            return new Date(parts[2], parts[1] - 1, parts[0]);
+			        }
+
+			});
+		</script>
+	</head>
+	<body class="row" >
+	   <div class="col-sm-12">
+	    	<div class="row">
+		        <div class="col-md-2">
+		            <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+		        </div>
+		        <div class="col-md-6" align="left">
+		           <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / Reportes </a> </h4>
+		           <h4 style="color:#4682B4">{{=msj}}</h4>
+
+		        </div>
+		        <div class="col-md-4" align="right">
+		            <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+		        </div>
+	    	</div>
+	    	<hr>
+		</div>
+
+	   <div class="col-sm-12 principal">
+	   		<div class="row">
+		       	<div class="col-sm-4">
+					<div class="panel-group" id="accordion">
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+					        Buscar por Proyectos</a>
+					      </h4>
+					    </div>
+					    <div id="collapse1" class="panel-collapse collapse">
+					      <div class="panel-body">
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label for="init">Fecha Inicial:</label>
+									<input type="text" class="form-control fecha input-sm" id="proyectos-init">
+								</div>
+								<div class="form-group">
+									<label for="final">Fecha Final:</label>
+									<input type="text" class="form-control fecha input-sm" id="proyectos-final">
+								</div>
+								<div class="form-group">
+							    	<label for="codigo">Codigo:</label>
+							    	<input type="text" class="form-control input-sm" id="proyectos-codigo">
+							  	</div>
+
+							  	<div class="form-group">
+							    	<label for="codigo">Tipo de Proyecto:</label>
+						    		<select class="form-control" name="estado" id="proyectos-tipo">
+						    			<option value=" ">Todos</option>
+						    			<option value="Continuo">Continuo</option>
+						    			<option value="No continuo">No continuo</option>
+								  	</select>
+							  	</div>
+
+							  	<div class="form-group">
+							    	<label for="codigo">Culminado:</label>
+						    		<select class="form-control" name="estado" id="proyectos-culminado">
+						    			<option value=" ">Todos</option>
+						    			<option value="Continuo">Continuo</option>
+						    			<option value="No continuo">No continuo</option>
+								  	</select>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="codigo">Evaluado:</label>
+						    		<select class="form-control" name="estado" id="proyectos-evaluado">
+						    			<option value=" "> Todas</option>
+							      	{{for comunidad in comunidades:}}
+							        	<option value={{=comunidad.id}}>{{=comunidad.f_nombre}}</option>
+							      	{{pass}}
+								  	</select>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="codigo">Organizacion:</label>
+						    		<select class="form-control" name="estado" id="proyectos-organizacion">
+						    			<option value=" "> Todas</option>
+							      	{{for comunidad in comunidades:}}
+							        	<option value={{=comunidad.id}}>{{=comunidad.f_nombre}}</option>
+							      	{{pass}}
+								  	</select>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="codigo">Comunidad:</label>
+						    		<select class="form-control" name="estado" id="proyectos-comunidad">
+						    			<option value=" "> Todas</option>
+							      	{{for comunidad in comunidades:}}
+							        	<option value={{=comunidad.id}}>{{=comunidad.f_nombre}}</option>
+							      	{{pass}}
+								  	</select>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="codigo">Area del Proyecto:</label>
+						    		<select class="form-control" name="estado" id="proyectos-area">
+						    			<option value=" ">Todas</option>
+							      	{{for area in areas:}}
+							        	<option value={{=area.id}}>{{=area.f_nombre}}</option>
+							      	{{pass}}
+								  	</select>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="codigo">Estado:</label>
+						    		<select class="form-control" name="estado" id="proyectos-estado">
+						    			<option value=" ">Todos</option>
+						    			<option value="Activo">Activo</option>
+						    			<option value="Inactivo">Inactivo</option>
+								  	</select>
+							  	</div>
+						  	</form>
+						  	<a id="generar-proyectos" class="btn btn-primary">Generar Reporte</a>
+					      </div>
+					    </div>
+					  </div>
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+					        Buscar por Estudiantes</a>
+					      </h4>
+					    </div>
+					    <div id="collapse2" class="panel-collapse collapse">
+					      <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+					      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+					      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+					      commodo consequat.</div>
+					    </div>
+					  </div>
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+					        Buscar por Tutores Academicos</a>
+					      </h4>
+					    </div>
+					    <div id="collapse3" class="panel-collapse collapse">
+					      <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+					      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+					      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+					      commodo consequat.</div>
+					    </div>
+					  </div>
+					</div>
+		       	</div>
+		       	<div id="vista-reportes" class="col-sm-8">
+		       	</div>
+	       	</div>
+
+	    </div>
+	    <div class="col-sm-12">
+	    	<hr>
+	    </div>
+	</body>
+{{ pass }}
+{{ end }}

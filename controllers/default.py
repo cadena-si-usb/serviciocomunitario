@@ -440,6 +440,7 @@ def estudiantes():
         response.flash = 'Llene el formulario'
     return dict(form=form, est=db(db.t_usuario_universitario.f_rol == "Estudiante").select(),message=T(response.flash))
 '''
+
 def usuarios():
     return dict(registrados=db(db.auth_user.id!=auth.user_id).select())
 
@@ -849,6 +850,41 @@ def sedesEditar():
     return dict(form = form)
 '''
 
+# Reportes
+def reportes():
+    msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
+    return dict(
+        msj = msj,
+        comunidades=db().select(db.t_comunidad.ALL),
+        areas=db().select(db.t_area.ALL)
+        )
+
+def home_reportes():
+    return dict() 
+
+def buscar_proyectos_reportes():
+    fecha_inicial = request.vars.fecha_inicial
+    fecha_final = request.vars.fecha_final
+    codigo = request.vars.codigo
+    tipo = request.vars.tipo
+    culminado = request.vars.culminado
+    evaluado = request.vars.evaluado
+    organizacion = request.vars.organizacion
+    idComunidad = request.vars.idComunidad
+    idArea = request.vars.idArea
+    estado = request.vars.estado
+
+    consulta=db.t_proyecto_aprobado.f_proyecto== db.t_proyecto.id
+    if idArea!=" ":
+        consulta&= db.t_proyecto.f_area==long(idArea)
+
+    print idArea
+    # consulta = db.persona.nombre!='Alejandro'
+    #>>> consulta &= db.persona.id>3
+    #>>> consulta |= db.persona.nombre=='Juan'
+    print db(consulta).select()
+    return dict(proyectos=db(consulta).select())
+
 # Coordinador
 def coordinador():
     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
@@ -906,8 +942,9 @@ def coord_aprobar_culminacion_estudiante():
     proyecto_cursa.update(f_fecha=datetime.datetime.today())
 
     # Agregar horas confirmadas
+    estudiante_actual=db(db.t_estudiante.id==idEstudiante).select().first()
     estudiante=db(db.t_estudiante.id==idEstudiante)
-    estudiante.update(f_horas=obtenerHorasConfirmadasDeEstudiante(cursa.id))
+    estudiante.update(f_horas=obtenerHorasConfirmadasDeEstudiante(cursa.id)+int(estudiante_actual.f_horas))
 
     inscripcion=db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_proyecto==idProyecto)&(db.t_inscripcion.f_actual==True))
     inscripcion.update(f_actual=False)
@@ -1516,6 +1553,7 @@ def cambiar_fecha_tope():
     fechaTope.update(f_fecha_inicial=fecha_inicial,f_fecha_final=fecha_final)
     return "Si"
 
+# fin administrador
 def proyectos_tutor_comunitario():
     tutor     = db.auth_user(auth.user_id)
     msj       = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
@@ -2256,15 +2294,21 @@ def propuestasCrear():
         for k in k_del:
             del form.vars[k]
 
-
+        propuesta = db(db.t_propuesta.f_proyecto==proyecto_id).select()
         if not form.vars.f_proponente:
             form.vars.f_proponente = auth.user.id
         if not form.vars.f_estado_propuesta:
-            form.vars.f_estado_propuesta = "Incompleta"
+            if propuesta:
+                form.vars.f_estado_propuesta = propuesta[0].f_estado_propuesta
+            else:
+                form.vars.f_estado_propuesta = "Incompleta"
         if not form.vars.f_nombre and proyecto_id:
             form.vars.f_nombre = db.t_proyecto(proyecto_id).f_nombre
         if not form.vars.f_observaciones and proyecto_id:
-            form.vars.f_observaciones = db(db.t_propuesta.f_proyecto==proyecto_id).select().first().f_observaciones
+            if propuesta:
+                form.vars.f_observaciones = propuesta[0].f_observaciones
+            else:
+                form.vars.f_observaciones=""; 
 
         proyecto_fields = db.t_proyecto._filter_fields(form.vars)
         print proyecto_fields
@@ -2280,7 +2324,6 @@ def propuestasCrear():
 
         form.vars.f_proyecto = proyecto_id
 
-        propuesta = db(db.t_propuesta.f_proyecto==proyecto_id).select()
         if propuesta:
             propuesta_id = propuesta[0].id
             db(db.t_propuesta.id==propuesta_id).update(
@@ -2452,6 +2495,12 @@ def propuestasCrear():
 
     if proyecto_id:
         print("form tutores",request.vars.f_tutores,request.vars.f_tutores_comunitarios)
+        
+        #print form.vars.f_estado_propuesta
+        print "AQUIIIII"
+
+        #form.vars.f_observaciones="hola"
+        #print form.vars.f_observaciones 
         if not form.vars.f_tutores:
             tutores_proyecto = [str(t.f_tutor)
                 for t in db(
@@ -2589,6 +2638,12 @@ def propuestasCrear():
                 form.vars.f_fechaini = form.vars.f_fechaini.strftime('%d/%m/%Y')
             if form.vars.f_fechafin:
                 form.vars.f_fechafin = form.vars.f_fechafin.strftime('%d/%m/%Y')
+
+            propuesta = db(db.t_propuesta.f_proyecto==proyecto_id).select()
+            if propuesta:
+                form.vars.f_observaciones=propuesta[0].f_observaciones
+                form.vars.f_estado_propuesta=propuesta[0].f_estado_propuesta
+
         def form_validation(form):
             form = form # función de mentira (de default).
 
@@ -2840,10 +2895,9 @@ def aprobar_solicitud_coordinacion():
 def eliminar_inscripcion():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
-    db(db.t_cursa.f_estudiante==idEstudiante).delete()
-    db(db.t_inscripcion.f_estudiante==idEstudiante).delete()
+    db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_actual==True)).delete()
+    db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_actual==True)).delete()
     mensaje="Solicitud rechazada. Volver a solicitudes."
-
     return dict(proyecto=idProyecto, mensaje=mensaje)
 
 def aceptarPlanTrabajo():
@@ -2851,7 +2905,7 @@ def aceptarPlanTrabajo():
     idEstudiante = long(request.args[1])
     if estado == 'aceptado':
         mensaje="Plan de trabajo aceptado con éxito. Volver."
-        db(db.t_inscripcion.f_estudiante==idEstudiante).update(f_estado='Aprobado')
+        db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_actual==True)).update(f_estado='Aprobado')
     else:
         mensaje="Se ha rechazado el plan de trabajo. Volver."
         cursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_actual==True)).select().last()
