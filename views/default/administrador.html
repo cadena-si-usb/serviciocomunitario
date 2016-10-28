@@ -12,30 +12,35 @@
 	   <div class="col-sm-12">
 	    	<div class="row">
 		        <div class="col-md-2">
-		            <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+		            <img src="{{=URL('static', 'admin-2.jpg')}}" class="img-responsive" width="150" height="110"/>
 		        </div>
 		        <div class="col-md-6" align="left">
-		           <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / Administrador </a> </h4>
+		           <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / <b>Administrador</b> </a> </h4>
 		           <h4 style="color:#4682B4">{{=msj}}</h4>
 
 		        </div>
 		        <div class="col-md-4" align="right">
-		            <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
-		        </div>
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
+                <a href=".">
+                    <spam class="glyphicon glyphicon-circle-arrow-left">Regresar</spam>
+                </a>
+            </div>
 	    	</div>
 	    	<hr>
 		</div>
 
 	   <div class="col-sm-12 principal">
 	   		<div class="row">
-		       	<div class="col-sm-3">
+		       	<div class="col-md-4">
 		       	<a id="menu-admin" class="enlace">
 		           <h4 style="color:#337AB7"><span class="glyphicon glyphicon-briefcase"></span> Menú</h4>
 		           </a>
 		           <hr>
 		             <ul class="nav nav-stacked">
 		                 <li>
-	                      	<a href="{{=URL('editar_perfil')}}">
+	                      	<a  href="{{=URL('/editar_perfil')}}" class="enlace">
 	                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Ver Perfil</a>
 	                      	<a id="usuarios-admin" class="enlace">
 	                           <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Usuarios
@@ -45,15 +50,6 @@
 							</a>
 							<a id="sedes-admin" class="enlace">
 								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Sedes
-							</a>
-							<a id="areas-carreras-admin" class="enlace">
-								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Areas de Carreras
-							</a>
-							<a id="carreras-admin" class="enlace">
-								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Carreras
-							</a>
-							<a id="comunidades-admin" class="enlace">
-								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Comunidades
 							</a>
 							<a id="proyectos-admin" class="enlace">
 								<span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span> Gestionar Proyectos
@@ -66,7 +62,7 @@
 		             </ul>
 		             <hr>
 		       	</div>
-		       	<div id="vista-admin" class="col-sm-9">
+		       	<div id="vista-admin" class="col-md-8">
 		       	</div>
 	       	</div>
 

@@ -1,223 +1,298 @@
 {{ extend 'base.html' }}
 {{ block contenido }}
-
+<link rel="stylesheet" href="{{=URL('static', 'css/slider.css')}}">
 <link rel="stylesheet" href="{{=URL('static', 'css/index.css')}}">
+<link rel="stylesheet" href="{{=URL('static', 'css/w3style.css')}}">
+
 <script type="text/javascript" src="{{=URL('static', 'js/login.js')}}"></script>
-
-<div class="row">
-  <div class="col-md-4">
-    <!-- <a href="{{=URL('default', 'user')}}">
-      <button> Inicio de sesion </button>
-    </a>-->
-    <h2>Inicio de sesión</h2>
-    <div id="web2py_user_form">
-
-      <a style="text-decoration : none; color : #000000;" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2F{{=host}}%2FSIGESC%2Fdefault%2Flogin_cas">
-        <button class="btn btn-primary"> Inicio con usb-id </button>
-      </a>
-      
-      <button class="btn btn-primary" onclick="toggle_visibility()">
-          ¿No posee usb-id?
-      </button>
-      <div id='custombox'>
-          <span id='errorLogin'></span>
-          <form role="form">
-            <div class="form-group">
-              <label for="nombre">Usuario o RIF (J-12345678-1):</label>
-              <input type="text" class="form-control" id="user" placeholder="Usuario o RIF (J-12345678-1)">
-            </div>
-            
-            <div class="form-group">
-              <label for="codigo">Contraseña:</label>
-              <input type="password" class="form-control" id="pasword" placeholder="Contraseña">
-            </div>
-
-            <a id="login" class="btn btn-primary">Iniciar Sesión</a>
-
-          </form>
-          <a href="{{=URL('default', 'recuperarCuenta')}}">¿Olvidó su nombre de usuario o contraseña?</a></br>
-          <span>¿No posee cuenta?</span>
-          <a href="{{=URL('default', 'registro')}}">Regístrese.</a> 
-
-          
-      </div>
-    </div>
-
-  </div>
-  <div class="col-md-4">
-    <img class="img-responsive" src="{{=URL('static', 'img/estudiante.png')}}" width="350" hspace="25"/>
-  </div>
-  <div class="col-md-4"  style="color:#4682B4">
-    <b>
-      Noticias destacadas
-    </b>
-    <br>
-    <br>
-    <p class="informacion" align="left" style="color:#1E90FF">
-      Inscripciones abiertas
-      <br>
-      para el SC...
-    </p>
-    <p class="detalles" align="left" style="color:#808080">
-      Revisa la lista de proyectos
-      <br>
-      y registrate ahora!
-    </p>
-    <button type="button" class="btn btn-lg btn-default">
-      leer mas
-    </button>
-  </div>
+<script type="text/javascript" src="{{=URL('static', 'js/slider.js')}}"></script>
+<script type="text/javascript" src="{{=URL('static', 'js/show.js')}}"></script>
+<style>
+  .mySlides {display:none}
+</style>
+<script>
+function hide() {
+    document.getElementById("errorLogin").style.display ="none";
+    document.getElementById("errorBox").style.display ="none";
     
-</div>
-    
-<div class="container-princ">
-  
+}
+</script>
+
   <div class="row">
     <div class="col-md-4">
-    <div class="list-group">
-      <b>
-        <a href="http://getbootstrap.com/examples/theme/#" class="list-group-item active">
-          Proyectos
-        </a>
-      </b>
-      <a href="#" class="list-group-item">
-        
-        <span class="glyphicon glyphicon-map-marker" style="color:#006400">
-        </span>
-        Ambientales
-        <span class="badge">
-          10
-        </span>
-        
-    <a href="#" class="list-group-item">
-        <span class="glyphicon glyphicon-map-marker" style="color:#000080">             
-        </span>
-      Apoyo comunitario
-      <span class="badge">
-        15
-      </span>
-        <a href="#" class="list-group-item">
-            <span class="glyphicon glyphicon-map-marker" style="color:#696969">
-            </span>
-            Apoyo tecnol&oacute;gico
-            <span class="badge">
-                7
-            </span>
-      <a href="#" class="list-group-item">
-        <span class="glyphicon glyphicon-map-marker" style="color:#FF4500">
-        </span>
-        Cultura 
-        <span class="badge">
-          15
-        </span>
-    
-    <a href="#" class="list-group-item">
-      <span class="glyphicon glyphicon-map-marker" style="color:#00FF00">
-      </span>
-      Desarrollo sustentable 
-      <span class="badge">
-        18
-      </span>
-      
-      <a href="#" class="list-group-item">
-        <span class="glyphicon glyphicon-map-marker" style="color:#FFD700">
-        </span>
-        Educativos 
-        <span class="badge">
-          13
-        </span>
-        
-        <a href="#" class="list-group-item">
-          <span class="glyphicon glyphicon-map-marker" style="color:#8B4513">
-          </span>
-          Infraestrusctura 
-          <span class="badge">
-            16
-          </span>
-                  
-        <a href="#" class="list-group-item">
-          <span class="glyphicon glyphicon-map-marker" style="color:#FF0000">
-          </span>
-          Prevenci&oacute;n de emergencias 
-          <span class="badge">
-            19
-          </span>
-          
-      <a href="#" class="list-group-item">
-        <span class="glyphicon glyphicon-map-marker" style="color:#00BFFF">
-        </span>
-        Salud 
-        <span class="badge">
-          16
-        </span>
-        
-        <a href="#" class="list-group-item">
-          <span class="glyphicon glyphicon-map-marker" style="color:#000000">
-          </span>
-          Seguridad industrial 
-          <span class="badge">
-            17
-          </span>
-        </a>
-      </div>
-    </div>
-                    <!-- /.col-sm-4 -->
-                    
-                    
-    <br>
-    <div class="col-sm-4">
-      <h4>
-        <b>
-          Calidad del aire y su importancia para la vida
-        </b>
-      </h2>
+      <h3>Inicio de sesión</h3>
+      <div id="web2py_user_form">
 
-      <img class="img-responsive" src="{{=URL('static', 'img/arbol.png')}}"/>
-      <img class="img-responsive" style="margin:auto" src="{{=URL('static', 'img/rollbar.png')}}" />
-      
-      
-    </div>
-    <div class="col-sm-4">
-    
-      
-      <p class="infproy" >
+        <a style="text-decoration : none; color : #000000;" href="https://secure.dst.usb.ve/login?service=http%3A%2F%2F{{=host}}%2FSIGESC%2Fdefault%2Flogin_cas">
+          <button class="btn btn-primary" style="border-radius:0px;border-style: none"> Inicio con usb-id </button>
+        </a>
+        <button  class="btn btn-primary" style="border-radius:0px;border-style: none" onclick="toggle_visibility()">
+            ¿No posee usb-id?
+        </button>
         
-        Este proyecto consiste en realizar 
-        campañas de concientización
-        sobre la importancia de la calidad 
-        del aire y la responsabilidad de cada 
-        uno de nosotros en la contaminación
-        <br>
-        Tutor: Yudith Cardinale.
-        <br>
-      </p>
-      <div class="link-proy" style="color:#4682B4" >
+        <div id="registro">
+          <h4>¿No posee una cuenta?</h4>
+          <a href="{{=URL('default', 'registro')}}" style="text-decoration : none; color : #000000;">
+          <button class="btn btn-success" style="border-radius:0px;border-style: none;width:85%">
+              Registro Nuevo
+          </button>
+          </a>
+        </div>
+
+
+        <div id='custombox'>
+
+            <form role="form">
+              <div class="form-group">
+                <label for="nombre">Usuario o RIF (J-12345678-1):</label>
+                <input type="text" class="form-control" onclick="hide()" id="user" placeholder="Usuario o RIF (J-12345678-1)">
+              </div>
+              
+              <div class="form-group">
+                <label for="codigo">Contraseña:</label>
+                <input type="password" class="form-control" onclick="hide()" id="pasword" placeholder="Contraseña">
+              </div>
+
+            <div id="errorBox" class="alert alert-danger">
+              <strong id='errorLogin'></strong>
+            </div>
+            
+
+              <a id="login" class="btn btn-primary " style="border-radius:0px;border-style: none" >Iniciar Sesión</a>
+
+              <a class="btn" style="border-radius:0px;background-color: #e8e8e8" onclick="toggle_visibility()">Cancelar</a>
+
+            </form>
+            <a href="{{=URL('default', 'recuperarCuenta')}}">¿Olvidó su nombre de usuario o contraseña?</a></br>
+          
+        </div>
+
+            
         
-        <b>
-          Ver este proyecto >>
-        </b>
-      </div>
-      
+        <hr>
     </div>
-        
-    </div>
-    
   </div>
+  <div class="col-md-8">
+  <h3>Noticias Importantes</h3>
+          <div id="jssor_1" class="menu_derecho">
+        <!-- Loading Screen -->
+        <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
+            <div style="position:absolute;display:block;background:black) no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
+        </div>
+        <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden;">
+            <div data-p="112.50">
+                <img data-u="image" src="{{=URL('static', 'img/insc.png')}}" />
+                <div data-u="thumb">
+                    <img class="i" src="{{=URL('static', 'img/insc.jpg')}}" />
+                    <div class="t"> Inscripciones</div>
+                    <div class="c"> No te olvides de inscribir</div>
+                </div>
+            </div>
+            <a data-u="any" href="http://www.jssor.com" style="display:none"></a>
+            <div data-p="112.50" style="display: none;">
+                <img data-u="image" src="{{=URL('static', 'img/requisitos.png')}}" />
+                <div data-u="thumb">
+                    <img class="i" src="{{=URL('static', 'img/requisitos.jpg')}}" />
+                    <div class="t">Requisitos</div>
+                    <div class="c">Lista de recaudos</div>
+                </div>
+            </div>
+            <div data-p="112.50" style="display: none;">
+                <img data-u="image" src="{{=URL('static', 'img/proyects.png')}}" />
+                <div data-u="thumb">
+                    <img class="i" src="{{=URL('static', 'img/proyectos.jpg')}}" />
+                    <div class="t">Proyectos</div>
+                    <div class="c">¿Qué proyecto inscribir?</div>
+                </div>
+            </div>
+            <div data-p="112.50" style="display: none;">
+                <img data-u="image" src="{{=URL('static', 'img/charla.png')}}" />
+                <div data-u="thumb">
+                    <img class="i" src="{{=URL('static', 'img/charla.jpg')}}" />
+                    <div class="t">Charlas</div>
+                    <div class="c">Asiste. Es importante</div>
+                </div>
+            </div>
+            <div data-p="112.50" style="display: none;">
+                <img data-u="image" src="{{=URL('static', 'img/compartir.png')}}" />
+                <div data-u="thumb">
+                    <img class="i" src="{{=URL('static', 'img/compartir.jpg')}}" />
+                    <div class="t">Experiencias</div>
+                    <div class="c">Comparte con nostros</div>
+                </div>
+            </div>
+        </div>
+        <!-- Thumbnail Navigator -->
+        <div data-u="thumbnavigator" class="jssort11" style="position:absolute;right:5px;top:0px;font-family:Arial, Helvetica, sans-serif;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none;width:200px;height:300px;" data-autocenter="2">
+            <!-- Thumbnail Item Skin Begin -->
+            <div data-u="slides" style="cursor: default;">
+                <div data-u="prototype" class="p">
+                    <div data-u="thumbnailtemplate" class="tp"></div>
+                </div>
+            </div>
+            <!-- Thumbnail Item Skin End -->
+        </div>
+        <!-- Arrow Navigator -->
+        <span data-u="arrowleft" class="jssora02l" 
+              style="top:0px;left:8px;width:55px;height:55px;" 
+              data-autocenter="2">
+        </span>
+        <span data-u="arrowright" class="jssora02r" 
+              style="top:0px;right:218px;width:55px;height:55px;" 
+              data-autocenter="2">
+        </span>
+    </div>
+  </div>
+  </div>
+    
+<br><br>
+
+    
+  <div class="row">
+    <div class="col-md-4">
+    <ul class="w3-ul w3-hoverable w3-border">
+      <li style="background-color:#1f1f1f"><h4><font color="white">Proyectos</font></h4></li>
+      <li id="ambientales" class="w3-padding-16" onclick="ambientales()" style="background-color:#039"> 
+        <span class="glyphicon glyphicon-map-marker" style="color:#006400"></span>
+        Ambientales</li>
+      <li id="a_c" class="w3-padding-16" onclick="apoyo_com()"> <span class="glyphicon glyphicon-map-marker" style="color:#000080"></span> 
+      Apoyo Comunitario</li>
+      <li id="a_t" class="w3-padding-16" onclick="apoyo_tec()"> <span class="glyphicon glyphicon-map-marker" style="color:#696969"></span> 
+      Apoyo Tecnológico</li>
+      <li id="cult" class="w3-padding-16" onclick="cultura()"> <span class="glyphicon glyphicon-map-marker" style="color:#FF4500"></span> Cultura</li>
+      <li id="des" class="w3-padding-16" onclick="des_sust()"> <span class="glyphicon glyphicon-map-marker" style="color:#00FF00"></span> Desarrollo Sustentable</li>
+      <li id="edu"class="w3-padding-16" onclick="educa()"> <span class="glyphicon glyphicon-map-marker" style="color:#FFD700"></span> Educativos</li>
+      <li id="infra" class="w3-padding-16" onclick="infra()"> <span class="glyphicon glyphicon-map-marker" style="color:#8B4513"></span> Infraestructura</li>
+      <li id="prev" class="w3-padding-16" onclick="prevencion()"> <span class="glyphicon glyphicon-map-marker" style="color:#FF0000"></span> Prevención de emergencias</li>
+      <li id="sal" class="w3-padding-16" onclick="salud()"> <span class="glyphicon glyphicon-map-marker" style="color:#00BFFF"></span> 
+      Salud</li>
+
+    </ul>
+
+  
+
+    </div>
+    <div class="col-md-8" >
+        
+        <div class="w3-container">
+          <h2 id="titulo_proyectos"></h2>
+          <p id="desc_proyecto"></p>
+        </div>
+        <div class="w3-center" style="margin-top: -10px">
+        <div class="w3-section">
+          <button class="w3-btn" onclick="plusDivs(-1)" style="border-radius: 0px">❮ Anterior</button>
+          <button class="w3-btn" onclick="plusDivs(1)" style="border-radius: 0px">Siguiente ❯</button>
+        </div>
+        </div>
+        <div class="w3-content" style="max-width:800px;margin-top: 19px">
+          <div class="w3-display-container mySlides" style="display: block;">
+            <img src="{{=URL('static', 'img/bosques2.jpg')}}" style="width:100%;height:390px;display: block">
+            <div class="w3-display-topright w3-large w3-container w3-padding-16 w3-yellow" style="opacity: .90">
+              Proyecto Ambiental: Guardabosques USB
+            </div>
+          </div>
+                    <div class="w3-display-container mySlides">
+            <img src="{{=URL('static', 'img/pico.jpg')}}" style="width:100%;height:390px">
+            <div class="w3-display-topleft w3-large w3-container w3-padding-16 w3-black" style="opacity: .90">
+              Proyecto los "Nevados": Impulsando el turismo en Venezuela
+            </div>
+          </div>
+                    <div class="w3-display-container mySlides">
+            <img src="{{=URL('static', 'img/program.jpg')}}" style="width:100%;height:390px">
+            <div class="w3-display-bottomleft w3-large w3-container w3-padding-16 w3-dark-grey" style="opacity: .90">
+              Programación y Robótica en escuelas: Carolina Chang
+            </div>
+          </div>
+                    <div class="w3-display-container mySlides">
+            <img src="{{=URL('static', 'img/cultura.jpg')}}" style="width:100%;height:390px">
+            <div class="w3-display-topleft w3-large w3-container w3-padding-16 w3-orange" style="opacity: .90">
+              La cultura y el arte para mejorar la calidad de vida
+            </div>
+          </div>
+                    <div class="w3-display-container mySlides">
+            <img src="{{=URL('static', 'img/ruedala.jpg')}}" style="width:100%;height:390px">
+            <div class="w3-display-bottomright w3-large w3-container w3-padding-16 w3-white" style="opacity: .90">
+              <font color="black">Ruédala Simón: La bicicleta como medio de transporte</font>
+            </div>
+          </div>
+                    <div class="w3-display-container mySlides">
+            <img src="{{=URL('static', 'img/didactron.jpg')}}" style="width:100%;height:390px">
+            <div class="w3-display-bottomleft w3-large w3-container w3-padding-16 w3-pale-blue" style="opacity: .90">
+              Didactron. Sala Interactiva de Ciencias
+            </div>
+          </div>
+                    <div class="w3-display-container mySlides">
+            <img src="{{=URL('static', 'img/arquitec.jpg')}}" style="width:100%;height:390px">
+            <div class="w3-display-topright w3-large w3-container w3-padding-16 w3-khaki" style="opacity: .90">
+              Infraestructura de la Unidad Educativa Universidad Simón Bolívar
+            </div>
+          </div>
+                    <div class="w3-display-container mySlides">
+            <img src="{{=URL('static', 'img/bomberos.jpg')}}" style="width:100%;height:390px">
+            <div class="w3-display-bottomleft w3-large w3-container w3-padding-16 w3-green" style="opacity: .90">
+              Cuerpo de Bomberos voluntarios de la USB
+            </div>
+          </div>
+                    <div class="w3-display-container mySlides">
+            <img src="{{=URL('static', 'img/domino.jpg')}}" style="width:100%;height:390px">
+            <div class="w3-display-topright w3-large w3-container w3-padding-16" style="opacity: .90; background-color: #ff1a1a">
+              <font color="white">El dominó como herramienta para la conservación de mentes adultas</font>
+            </div>
+          </div>
+
+        </div>
+        <br>
+          <div class="w3-center">
+
+            <button id="uno" class="w3-btn demo" onclick="currentDiv(1)" style="border-radius: 0px">1</button> 
+            <button id="dos" class="w3-btn demo" onclick="currentDiv(2)" style="border-radius: 0px">2</button> 
+            <button id="tres" class="w3-btn demo" onclick="currentDiv(3)" style="border-radius: 0px">3</button> 
+            <button id="cuatro" class="w3-btn demo" onclick="currentDiv(4)" style="border-radius: 0px">4</button> 
+            <button id="cinco" class="w3-btn demo" onclick="currentDiv(5)" style="border-radius: 0px">5</button> 
+            <button id="seis" class="w3-btn demo" onclick="currentDiv(6)" style="border-radius: 0px">6</button> 
+            <button id="siete" class="w3-btn demo" onclick="currentDiv(7)" style="border-radius: 0px">7</button> 
+            <button id="ocho" class="w3-btn demo" onclick="currentDiv(8)" style="border-radius: 0px">8</button> 
+            <button id="nueve" class="w3-btn demo" onclick="currentDiv(9)" style="border-radius: 0px">9</button> 
+          </div>
+
+        
+        
+
+    </div>
+
+ 
+  </div>
+                    
+      
 
 <script>
+
+  f = document.getElementById("registro");
+  f.style.display = 'block';
+
   e = document.getElementById("custombox");
   e.style.display = 'none';
 
   function toggle_visibility() {
      var e = document.getElementById("custombox");
+     var f = document.getElementById("registro");
      if(e.style.display == 'block')
         e.style.display = 'none';
      else
         e.style.display = 'block';
+     if(f.style.display == 'block')
+        f.style.display = 'none';
+     else
+        f.style.display = 'block';
   }
 
   jQuery("#web2py_user_form input:visible:enabled:first").focus();
 </script>
+
+
+
+<script type="text/javascript">jssor_1_slider_init();</script>
                   
                   
  {{ end }}

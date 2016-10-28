@@ -13,7 +13,7 @@ p6
 I3
 sS'sql'
 p7
-S'INTEGER REFERENCES t_actividad (id) ON DELETE CASCADE  NOT NULL '
+S'INTEGER REFERENCES t_actividad (id) ON DELETE CASCADE'
 p8
 sS'notnull'
 p9
@@ -65,7 +65,7 @@ I00
 sg6
 I7
 sg7
-S'INTEGER REFERENCES t_actividad_estudiante (id) ON DELETE CASCADE  '
+S'INTEGER REFERENCES t_actividad_estudiante (id) ON DELETE CASCADE'
 p21
 sg9
 I00
@@ -82,7 +82,7 @@ I00
 sg6
 I2
 sg7
-S'INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE  NOT NULL '
+S'INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE'
 p25
 sg9
 I01

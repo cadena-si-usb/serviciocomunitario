@@ -1,6 +1,5 @@
-{{ extend 'base.html'}}
+    {{ extend 'base.html'}}
 {{ block contenido }}
-
 
 <div class="col-sm-12">
 
@@ -11,7 +10,7 @@
 
             </div>
             <div class="col-md-5" align="left">
-                <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / Perfil de Usuario </h4>
+                <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / <b>Perfil de Usuario</b> </h4>
                 <h4>{{=bienvenida}}</h4>
                 <hr>
 
@@ -20,7 +19,12 @@
 
             </div>
             <div class="col-md-4" align="right">
-                <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
+                <a href=".">
+                    <spam class="glyphicon glyphicon-circle-arrow-left">Regresar</spam>
+                </a>
             </div>
         </div>
         <hr>

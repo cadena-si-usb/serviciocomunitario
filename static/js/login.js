@@ -1,7 +1,8 @@
 jQuery(document).ready(function(){
-
+  $('#errorBox').hide();
 
   jQuery('#login').on('click', function (e) {
+    $('#registro').hide();
     //console.log(jQuery("#user").val());
     if ((jQuery("#user").val()!=="") &&(jQuery("#pasword").val()!=="")){
       var expUser=/^[a-z\d_]{3,15}$/i;  
@@ -18,14 +19,22 @@ jQuery(document).ready(function(){
             window.location.pathname=path;
           }else{
             //$('#errorLogin').empty();
-            $('#errorLogin').html("*El usuario o RIF o contraseña son incorrectos.");
+            $('#errorLogin').html("Usuario, RIF o clave incorrectos.");
+            $('#errorLogin').show();
+            $('#errorBox').show();
           }
         });
       }else{
         $('#errorLogin').html("*Usuario o RIF incorrectos.");  
+        $('#errorLogin').show();
+        $('#errorBox').show();
       }
 
 
+    }else{
+        $('#errorLogin').html("*El Usuario RIF o clave no pueden estar vacíos.");  
+        $('#errorLogin').show();
+        $('#errorBox').show();
     }
   });
 

@@ -3,31 +3,37 @@
        <div class="col-sm-12">
         <div class="row">
             <div class="col-md-2">
-                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+
+                <img src="{{=URL('static', 'tutor.png')}}" class="img-responsive" width="185" height="110"/>
             </div>
             <div class="col-md-7" align="left">
-               <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> /Solicitudes pendientes de estudiantes </h4>
+               <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> /<b> Solicitudes pendientes de estudiantes</b> </h4>
                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
 
             </div>
             <div class="col-md-2" align="right">
-                <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
+                <a href=".">
+                    <spam class="glyphicon glyphicon-circle-arrow-left">Regresar</spam>
+                </a>
             </div>
         </div>
         <hr>
     </div>
 
 <div class="col-md-10" style="margin-left: 6%;">
-	<h2 class="detalles"><b>Solicitudes de Inscripcion de estudiantes</b></h2>
-	<table class="table table-condensed text-center" id="estuds">
+    <h2 class="detalles"><b>Solicitudes pendientes</b></h2>
+    <table class="table table-condensed text-center" id="estuds">
         <thead>
             <tr>
                 <th class="text-center">Nombre</th>
                 <th class="text-center">Carné</th>
                 <th class="text-center">Proyecto</th>
-				<th class="text-center">Trimestre</th>
+                <th class="text-center">Trimestre</th>
                 <th class="text-center">Aprobar</th>
-				<!--<th class="text-center">Rechazar</th>-->
+                <!--<th class="text-center">Rechazar</th>-->
             </tr>
         </thead>
         <tbody>

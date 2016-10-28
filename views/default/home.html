@@ -14,7 +14,10 @@
     <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{=URL('static', 'css/Estudiante.css')}}">
-    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    <link rel="stylesheet" href="{{=URL('static', 'css/miestilo.css')}}">
+    <link rel="shortcut icon" href="http://www.usb.ve/favicon.ico" />
+
+    <!--<link rel="icon" href="{{=URL('static', 'logoUsb.png')}}">-->
 
     <!-- Bootstrap core CSS -->
     <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
@@ -24,10 +27,15 @@
 
     <script type="text/javascript" src="{{=URL('static', 'js/bootstrap.js')}}'"></script>
 
-
     <!-- Custom styles for this template -->
+
     <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">
+    <link href="{{=URL('static', 'css/miestilo.css')}}" rel="stylesheet">
     <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
+
+    
+
+
 
   </head>
 
@@ -35,28 +43,69 @@
   h3 {
     color: #4682B4;
   }
+  /* The Modal (background) */
+
   </style>
 
   <body role="document">
+  <!-- The Modal -->
+
     <!-- Fixed navbar -->
 
 
     <!-- Contenido -->
+    <div class="col-sm-12" align="center">
+
+    
+    </div>
+
+
+
     <div class="col-sm-12">
+
         <div class="row">
             <div style="text-align:center" class="col-md-2">
                 <img src="{{=picture}}" class="avatar img-circle" width="130"/>
             </div>
             <div class="col-md-8" style="color:#4682B4">
 
-                <h4 > SIGESC / Home </h4>
+                <h4 > SIGESC / <b>Home</b> </h4>
 
                 <h4 >{{=bienvenida}}</h4>
+                {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
+                  <h4 ><b>Iniciado como: Estudiante</b><h4>
+                {{pass}}
+                {{if "Administrador" in roles:}}
+                <h4 ><b>Iniciado como: Administrador</b><h4>
+                {{pass}}
+                {{if "Asistente" in roles:}}
+                <h4 ><b>Iniciado como: Asistente</b><h4>
+                {{pass}}
+                {{if "Coordinador" in roles:}}
+                <h4 ><b>Iniciado como: Coordinador</b><h4>
+                {{pass}}
+                <!--{{if "Coordinador" in roles:}}
+                  
+                  <h4 ><b>Iniciado como: Tutor académico</b><h4>
+
+                {{pass}}-->
+                {{if not(tipo_usuario in ["Pregrado","Postgrado"]):}}
+                  {{if not("Administrador" in roles):}}
+                    {{if not("Coordinador" in roles):}}
+                      {{if not("Asistente" in roles):}}
+                        <h4 ><b>Iniciado como: Visitante</b><h4>
+                      {{pass}}
+                    {{pass}}
+                  {{pass}}
+                {{pass}}
+                
                 <a href="{{=URL('/editar_perfil')}}"><button class="btn btn-primary">Ver perfil</button></a>
                 
             </div>
             <div class="col-md-2" align="right">
-                <a href="{{=URL('default', 'logout')}}"> <spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+                <a href="#" id="myBtn">
+                  <spam style="color:#d80000"class="glyphicon glyphicon-log-out">Salir</spam>
+                </a>
             </div>
 
         </div>
@@ -65,45 +114,36 @@
 
 <div class="row">
     <div class="col-sm-10">
+    
+    {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
 
-    <div class="row">
-        <div class="col-md-4">
-            <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
-        </div>
-        <div class="col-md-4">
-            <h3> Propuestas</h3>
-             <p style="color: #808080">
-               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus non incidunt ducimus assumenda? Deserunt tenetur, ea
-            </p>
-        </div>
-         <div class="col-md-3">
-            <div class="row">
-                  <a href="{{=URL('propuestas')}}">
-                  <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                      Ir a Propuestas  >> </button>
-                  </a>
-            </div>
-        </div>
-    </div>
-
-    <hr>      
-  
-  {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
+          <a href="{{=URL('vista_estudiante')}}">
+            <img class="img-responsive-1" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"
+            onmouseover="iluminar(this)" onmouseleave="apagar(this)"
+            id="mis_proy"/>
+          </a>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Estudiante </h3>
-          <p style="color: #808080">
-             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
-          </p>
+          
+            <h3  style="color: #4682B4" >
+              <a  class="mi_link" href="{{=URL('vista_estudiante')}}" onmouseover="iluminar('mis_proy')" onmouseleave="apagar('mis_proy')"> 
+                Proyecto Servicio Comunitario 
+              </a>
+            </h3>
+          
+            <p style="color: #808080">
+              Inscribe un proyecto de servicio comunitario<br>
+              Consulta tus proyectos inscritos<br>
+            </p>
       </div>
       <div class="col-md-3">
           <div class="row">
                 <a href="{{=URL('vista_estudiante')}}">
-                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                    Ir a Estudiante >> </button>
+                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px"
+                  onmouseover="iluminar('mis_proy')" onmouseleave="apagar('mis_proy')">
+                    Ir a Proyecto >> </button>
                 </a>
           </div>
       </div>
@@ -111,23 +151,68 @@
     <hr>
   {{pass}}
 
+    <div class="row">
+        <div class="col-md-4">
+          <a href="{{=URL('propuestas')}}">
+            <img class="img-responsive-1" id="img_proponer" 
+                 src="{{=URL('static', 'proponente.png')}}" 
+                 height="155" width="265"
+                 onmouseover="iluminar('img_proponer')" onmouseleave="apagar('img_proponer')"/>
+          </a>
+        </div>
+        <div class="col-md-4">
+            <h3 onmouseover="iluminar('img_proponer')" onmouseleave="apagar('img_proponer')">
+              <a class="mi_link" href="{{=URL('propuestas')}}">
+                Proponer Proyectos
+              </a>
+            </h3>
+            <p style="color: #808080">
+              ¿Sabía sque sin importar el tipo de usuario puedes proponer nuevos proyectos?
+              Entra y haz nuevas propuestas. 
+
+            </p>
+        </div>
+         <div class="col-md-3">
+            <div class="row">
+                  <a href="{{=URL('propuestas')}}">
+                  <button  class="btn btn-primary boton_link" 
+                           style="width: 250px; height:30px" margin-top="70px"
+                           onmouseover="iluminar('img_proponer')" onmouseleave="apagar('img_proponer')">
+                      Ir a Proponer  >> 
+                  </button>
+                  </a>
+            </div>
+        </div>
+    </div>
+
+    <hr>  
+
 {{if "Administrador" in roles:}}
         <div class="row">
             <div class="col-md-4">
-                <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
+                <a href="{{=URL('administrador')}}">
+                <img id="admin" class="img-responsive-1" src="{{=URL('static', 'admin-2.jpg')}}" height="155" width="265"onmouseover="iluminar('admin')" onmouseleave="apagar('admin')"/>
+                </a>
             </div>
             <div class="col-md-4">
-                <h3> Administrador</h3>
+                <h3>
+                <a class="mi_link" href="{{=URL('administrador')}}" 
+                onmouseover="iluminar('admin')" onmouseleave="apagar('admin')">
+                   Administrar
+                </a></h3>
                  <p style="color: #808080">
-                   Ver la lista de los usuarios internos
-                   y externos del sistema.
+                   Consulta la lista de los usuarios externos e internos.<br> 
+                   Maneja los roles de usuarios. <br>
+                   Gestiona sedes, proyectos, áreas de proyectos y más...  
+
                 </p>
             </div>
              <div class="col-md-3">
                 <div class="row">
                       <a href="{{=URL('administrador')}}">
-                      <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Administrador  >> </button>
+                      <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px" onmouseover="iluminar('admin')" onmouseleave="apagar('admin')">
+                          Ir a Administrador  >> 
+                      </button>
                       </a>
                 </div>
             </div>
@@ -135,30 +220,41 @@
         <hr>
 
 {{pass}}
-<!--
 {{if ("Asistente" in roles) or ("Coordinador" in roles):}}
         <div class="row">
 
             <div class="col-md-4">
-                <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
+            <a href="{{=URL('solicitud_constancia_coordinacion')}}">
+                <img class="img-responsive-1" id="img_solicitud" 
+                     src="{{=URL('static', 'tutor.png')}}" height="155" width="265"
+                     onmouseover="iluminar('img_solicitud')" onmouseleave="apagar('img_solicitud')"/>
+            </a>
             </div>
             <div class="col-md-4">
-                <h3 >Solicitudes</h3>
+                <h3 onmouseover="iluminar('img_solicitud')" onmouseleave="apagar('img_solicitud')"> 
+                  <a class="mi_link" href="{{=URL('solicitud_constancia_coordinacion')}}">
+                    Solicitudes
+                  </a>
+                </h3>
                 <p style="color: #808080">
-                   <br>Ver solicitudes de inscripción<br>
-                   <br>de estudiantes.<br>
+                   Consulta todo lo relacionado a las solicitudes de inscripción que han hecho los estudiantes para realizar el Servicio Comunitario. 
+                   
                 </p>
             </div>
             <div class="col-md-3">
                 <div class="row">
-                      <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('solicitud_constancia_coordinacion')}}'" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Solicitudes  >></button>
+                      <button class="btn btn-primary boton_link"  
+                              onclick="location.href='{{=URL('solicitud_constancia_coordinacion')}}'" 
+                              style="width: 250px; height:30px" margin-top="70px"
+                              onmouseover="iluminar('img_solicitud')" onmouseleave="apagar('img_solicitud')">
+                          Ir a Solicitudes  >>
+                      </button>
                 </div>
             </div>
         </div>
         <hr>
 
-{{pass}}-->
+{{pass}}
 
 {{if "Administrador Dex" in roles:}}
         <div class="row">
@@ -190,15 +286,17 @@
           <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Enviar Planes de Trabajo </h3>
+          <h3 style="color: #4682B4"> Supervisar solicitudes </h3>
 
           <p style="color: #808080">
-             Enviar planes de trabajo a estudiantes.
+             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-              <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('solicitudes_tutor')}}'" style="width: 250px; height:30px" margin-top="70px">Ir a Enviar Planes de Trabajo  >></button>
+              <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('solicitudes_tutor')}}'" style="width: 250px; height:30px" margin-top="70px">
+
+                          Ir a Solicitudes  >></button>
           </div>
       </div>
     </div>
@@ -208,7 +306,7 @@
           <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Tutor Academico</h3>
+          <h3 style="color: #4682B4"> Ver proyectos asignados</h3>
           <p style="color: #808080">
              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
@@ -216,7 +314,7 @@
       <div class="col-md-3">
           <div class="row">
               <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('proyectos_tutor_academico')}}'" style="width: 250px; height:30px" margin-top="70px">
-                          Ir a Tutor Academico  >></button>
+                          Ir a Proyectos  >></button>
 
           </div>
       </div>
@@ -248,42 +346,56 @@
 {{if "Coordinador" in roles:}}
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
+      <a href="#">
+          <img class="img-responsive-1" 
+               id="img_est"
+               src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"
+               onmouseover="iluminar('img_est')" onmouseleave="apagar('img_est')"/>
+        </a>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Coordinador </h3>
+          <h3 style="color: #4682B4" onmouseover="iluminar('img_est')" onmouseleave="apagar('img_est')">
+            <a href="#" class="mi_link"> Gestionar Estudiantes 
+            </a>
+          </h3>
           <p style="color: #808080">
-             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
+             Revisa como avanzan los estudiantes en sus proyectos de Servicio Comunitario
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-                <a href="{{=URL('coordinador')}}">
-                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                    Ir a Coordinador >> </button>
+                <a href="#">
+                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px"
+                  onmouseover="iluminar('img_est')" onmouseleave="apagar('img_est')">
+                    Ir a Gestionar Estudiantes >> </button>
                 </a>
           </div>
       </div>
     </div>
     <hr>
-{{pass}}
-
-{{if (("Coordinador" in roles)or("Administrador" in roles)):}}
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
+          <a href="#">
+          <img class="img-responsive-1" src="{{=URL('static', 'proyectos.png')}}" height="155" width="265"
+          onmouseover="iluminar('img_gest_prop')" onmouseleave="apagar('img_gest_prop')"
+          id="img_gest_prop"/>
+          </a>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Reportes </h3>
+          <h3 style="color: #4682B4" 
+              onmouseover="iluminar('img_gest_prop')" onmouseleave="apagar('img_gest_prop')"> 
+              <a href="#" class="mi_link">Gestionar Propuestas</a> 
+          </h3>
           <p style="color: #808080">
-             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
+             Consulta las propuestas que se han hecho acerca de los nuevos proyectos de Servicio Comunitario.
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-                <a href="{{=URL('reportes')}}">
-                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
-                    Ir a Reportes >> </button>
+                <a href="#">
+                  <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px"
+                  onmouseover="iluminar('img_gest_prop')" onmouseleave="apagar('img_gest_prop')">
+                    Ir a Gestionar Propuestas >> </button>
                 </a>
           </div>
       </div>
@@ -312,5 +424,9 @@
         </div>
 
     </div>
+
+
+
 </html>
+
 {{ end }}
