@@ -14,7 +14,10 @@
     <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{=URL('static', 'css/Estudiante.css')}}">
-    <link rel="icon" href="//getbootstrap.com/favicon.ico">
+    <link rel="stylesheet" href="{{=URL('static', 'css/miestilo.css')}}">
+    <link rel="shortcut icon" href="http://www.usb.ve/favicon.ico" />
+
+    <!--<link rel="icon" href="{{=URL('static', 'logoUsb.png')}}">-->
 
     <!-- Bootstrap core CSS -->
     <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
@@ -24,9 +27,10 @@
 
     <script type="text/javascript" src="{{=URL('static', 'js/bootstrap.js')}}'"></script>
 
-
     <!-- Custom styles for this template -->
+
     <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">
+    <link href="{{=URL('static', 'css/miestilo.css')}}" rel="stylesheet">
     <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
 
   </head>
@@ -35,28 +39,59 @@
   h3 {
     color: #4682B4;
   }
+  /* The Modal (background) */
+
   </style>
 
   <body role="document">
-    <!-- Fixed navbar -->
 
-
-    <!-- Contenido -->
     <div class="col-sm-12">
+
         <div class="row">
             <div style="text-align:center" class="col-md-2">
                 <img src="{{=picture}}" class="avatar img-circle" width="130"/>
             </div>
             <div class="col-md-8" style="color:#4682B4">
 
-                <h4 > SIGESC / Home </h4>
+                <h4 > SIGESC / <b>Home</b> </h4>
 
                 <h4 >{{=bienvenida}}</h4>
+                <h4><b>Iniciado como: 
+                {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
+                  Estudiante
+                {{pass}}
+                {{if "Administrador" in roles:}}
+                Administrador
+                {{pass}}
+                {{if "Asistente" in roles:}}
+                Asistente
+                {{pass}}
+                {{if "Coordinador" in roles:}}
+                Coordinador
+                {{pass}}
+                </b><h4>
+                <!--{{if "Coordinador" in roles:}}
+                  
+                  <h4 ><b>Iniciado como: Tutor académico</b><h4>
+
+                {{pass}}-->
+                {{if not(tipo_usuario in ["Pregrado","Postgrado"]):}}
+                  {{if not("Administrador" in roles):}}
+                    {{if not("Coordinador" in roles):}}
+                      {{if not("Asistente" in roles):}}
+                        <h4 ><b>Iniciado como: Visitante</b><h4>
+                      {{pass}}
+                    {{pass}}
+                  {{pass}}
+                {{pass}}
+                
                 <a href="{{=URL('/editar_perfil')}}"><button class="btn btn-primary">Ver perfil</button></a>
                 
             </div>
             <div class="col-md-2" align="right">
-                <a href="{{=URL('default', 'logout')}}"> <spam class="glyphicon glyphicon-log-out">Salir</spam></a>
+                <a href="#" id="myBtn">
+                  <spam style="color:#d80000"class="glyphicon glyphicon-log-out">Salir</spam>
+                </a>
             </div>
 
         </div>
@@ -65,20 +100,25 @@
 
 <div class="row">
     <div class="col-sm-10">
+    
 
     <div class="row">
         <div class="col-md-4">
-            <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
+          <a href="{{=URL('propuestas')}}">
+            <img id="img_proponer" class="img-responsive-1" src="{{=URL('static', 'proponente.png')}}" height="155" width="265" onmouseover="iluminar('img_proponer')" onmouseleave="apagar('img_proponer')" />
+            </a>
         </div>
         <div class="col-md-4">
-            <h3> Propuestas</h3>
+            <h3 onmouseover="iluminar('img_proponer')" onmouseleave="apagar('img_proponer')">  <a class="mi_link" href="{{=URL('propuestas')}}">
+                Propuestas
+              </a></h3>
              <p style="color: #808080">
                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus non incidunt ducimus assumenda? Deserunt tenetur, ea
             </p>
         </div>
          <div class="col-md-3">
             <div class="row">
-                  <a href="{{=URL('propuestas')}}">
+                  <a onmouseover="iluminar('img_proponer')" onmouseleave="apagar('img_proponer')" href="{{=URL('propuestas')}}">
                   <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                       Ir a Propuestas  >> </button>
                   </a>
@@ -138,7 +178,6 @@
 <!--
 {{if ("Asistente" in roles) or ("Coordinador" in roles):}}
         <div class="row">
-
             <div class="col-md-4">
                 <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
             </div>
@@ -157,7 +196,6 @@
             </div>
         </div>
         <hr>
-
 {{pass}}-->
 
 {{if "Administrador Dex" in roles:}}
@@ -312,5 +350,9 @@
         </div>
 
     </div>
+
+
+
 </html>
+
 {{ end }}

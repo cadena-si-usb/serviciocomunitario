@@ -6,7 +6,7 @@
 	<meta https-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta https-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>CFCG</title>
+	<title>SIGESC</title>
 
 	<!-- Compiled and minified CSS -->
 	<link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet" />
@@ -16,13 +16,19 @@
 	<link href="{{=URL('static', 'css/Pag_principal.css')}}" rel="stylesheet">
 	<link href="{{=URL('static', 'css/miestilo.css')}}" rel="stylesheet">
 
+
+	<link rel="shortcut icon" href="http://www.usb.ve/favicon.ico" />
+
 	<!-- Latest compiled and minified JavaScript -->
     <script type="text/javascript" src="{{=URL('static', 'js/jquery.js')}}"></script>
     <script type="text/javascript" src="{{=URL('static', 'js/bootstrap.js')}}"></script>
 
     <script type="text/javascript" src="{{=URL('static', 'js/web2py.js')}}"></script>
     <script type="text/javascript" src="{{=URL('static', 'js/web2py_bootstrap.js')}}"></script>
-        <script type="text/javascript" src="{{=URL('static', 'js/miscript.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/miscript.js')}}"></script>
+    <script type="text/javascript" src="{{=URL('static', 'js/salida.js')}}"></script>
+	<script src="{{=URL('static', 'js/jssor.slider-21.1.6.min.js')}}" type="text/javascript"></script>
+
 
     <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.svg')}}" rel="stylesheet"/>
     <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.eot')}}" rel="stylesheet" />
@@ -32,7 +38,35 @@
     <link href="{{=URL('static', 'fonts/glyphicons-halflings-regular.woff2')}}" rel="stylesheet" />
 
 </head>
-<body>
+<div id="myModal" class="modal2">
+
+  <!-- Modal content -->
+  <div class="modal2-content">
+    <div class="modal2-header">
+      <span class="close">X</span>
+      <h4 align="center" font="color:white">Aviso</h4>
+    </div>
+    <div align="center" class="modal2-body">
+      <h4 >¿Estás seguro que deseas salir?</h4><hr>
+      <div class="row" style="margin-bottom: 10px">
+      <div class="col-md-6">
+       <button onclick="cierra_modal()" class="btn btn-primary" style="width: 150px; height:30px">
+       	Cancelar
+       </button>
+       </div>
+       <div class="col-md-6">
+       <a href="{{=URL('default', 'logout')}}">
+       <button onclick="cierra_modal()" class="btn btn-primary" style="width: 150px; height:30px">
+       	Aceptar
+       </button></a>
+       </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<body onload="inicializar()">
+
 	<header>
 		<div align="center">
 				<img src="{{=URL('static', 'img/top.png')}}" class="img-responsive" alt="top" width="75%">
@@ -47,7 +81,7 @@
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-			      <a class="navbar-brand" href="{{=URL('')}}"><span class="glyphicon glyphicon-home"></span></a>
+			      <a class="navbar-brand"  href="."><span class="glyphicon glyphicon-home"></span></a>
 			    </div>
 			    <div class="collapse navbar-collapse" id="myNavbar">
 			      <ul class="nav navbar-nav">
@@ -64,6 +98,7 @@
 	</header>
 
 	<div class="container" style="width: 75%;">
+
 		{{ block contenido }}
 		{{ end }}
 	</div>
@@ -87,4 +122,38 @@
 	</div>
 </div>
 </footer>
+
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+function iluminar(elem) {
+  document.getElementById(elem).style.opacity = 1;
+}
+function apagar(elem) {
+  document.getElementById(elem).style.opacity = 0.5;
+}
+</script>
 </body>

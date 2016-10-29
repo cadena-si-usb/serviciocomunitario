@@ -1,9 +1,12 @@
 .enlace{
 	cursor:pointer;
 }
+.enlace:hover{
+	background-color: #e6f3ff;
+}
 
 .miniloader{
-	margin: 0 auto;
+	margin: 0 auto;;
     height: 200px;
 	background: url("../img/mini-loader.gif") center no-repeat;
 }

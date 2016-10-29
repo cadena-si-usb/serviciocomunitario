@@ -114,6 +114,26 @@ if len(db().select(db.t_fechas_tope.ALL)) == 0:
         f_fecha_inicial=ahora -timedelta(days=24),
         f_fecha_final=ahora +timedelta(days=300),
     )
+    db.t_fechas_tope.insert(
+        f_tipo='Enero-Marzo',
+        f_fecha_inicial=ahora -timedelta(days=24),
+        f_fecha_final=ahora +timedelta(days=300),
+    )
+    db.t_fechas_tope.insert(
+        f_tipo='Abril-Julio',
+        f_fecha_inicial=ahora -timedelta(days=24),
+        f_fecha_final=ahora +timedelta(days=300),
+    )
+    db.t_fechas_tope.insert(
+        f_tipo='Septiembre-Diciembre',
+        f_fecha_inicial=ahora -timedelta(days=24),
+        f_fecha_final=ahora +timedelta(days=300),
+    )
+    db.t_fechas_tope.insert(
+        f_tipo='Verano (Julio-Agosto)',
+        f_fecha_inicial=ahora -timedelta(days=24),
+        f_fecha_final=ahora +timedelta(days=300),
+    )
 if len(db().select(db.t_comunidad.ALL)) == 0:
     db.t_comunidad.insert(
         f_nombre='Comunidad I'

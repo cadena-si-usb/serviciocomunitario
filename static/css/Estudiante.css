@@ -104,6 +104,9 @@
    height:150;
 }
 
+.mi_link:hover{
+  text-decoration: none;
+}
 
 
 
