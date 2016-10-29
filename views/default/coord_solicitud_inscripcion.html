@@ -31,7 +31,7 @@ $(document).ready(function() {
   // Iniciacion de tabla
   $('#coord-inscripcion').DataTable( {
       "language": idiomaEspañol,
-      "order": [[ 0, 'desc' ]],
+      "order": [[ 2, 'asc' ]],
       "columnDefs": [ {
         "targets"  : 'no-sort',
         "orderable": false,
@@ -47,7 +47,9 @@ $(document).ready(function() {
     	<table class="table table-condensed text-center" id="coord-inscripcion">
             <thead>
                 <tr>
-                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Inscripción</th>
+                    <th class="text-center">Horas</th>
+                    <th class="text-center">Nombre completo</th>
                     <th class="text-center">Carné</th>
                     <th class="text-center">Proyecto</th>
                     <th class="text-center no-sort">Aprobar</th>
@@ -57,7 +59,13 @@ $(document).ready(function() {
             <tbody>
                 {{ for ins in estudianteCursa: }}
                     {{ if ins.f_valido == 'Invalido':}}
-                        <tr id={{=ins.f_estudiante.id}}>
+                        <tr id={{=ins.id}}>
+                            <td>
+                                {{=cambiarFormatoFecha(obtenerInscripcion(ins.id).created_on)}}
+                            </td>
+                            <td>
+                                {{=obtenerInscripcion(ins.id).f_horas}}
+                            </td>
                             <td>
                                 {{=ins.f_estudiante.f_universitario.f_usuario.first_name}} {{=ins.f_estudiante.f_universitario.f_usuario.last_name}}
                             </td>
@@ -70,7 +78,7 @@ $(document).ready(function() {
                             <td class="text-center">
                                 <!--<a href="{{=URL(r=request,f='aprobar_solicitud_coordinacion',args=[ins.f_estudiante.id,ins.f_proyecto.id])}}"><i class="glyphicon glyphicon-check text-center"></i></a>
 -->
-                                <a class="enlace" onclick="aprobarSolicitudEstudiante('{{=ins.f_estudiante.id}}','{{=ins.f_proyecto.id}}')"><i class="glyphicon glyphicon-check text-center"></i></a>
+                                <a class="enlace" onclick="aprobarSolicitudEstudiante('{{=ins.id}}')"><i class="glyphicon glyphicon-check text-center"></i></a>
                             </td>
                         </tr>
                     {{ pass }}

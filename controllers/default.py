@@ -146,9 +146,6 @@ def login_sin_usbid():
 def error():
     return dict()
 
-#
-# Inicio de sesion
-########################
 def esRIF(usuario):
     if re.match('^[JGVEP][-][0-9]{8}[-][0-9]{1}$',usuario):
         return True
@@ -856,34 +853,133 @@ def reportes():
     return dict(
         msj = msj,
         comunidades=db().select(db.t_comunidad.ALL),
-        areas=db().select(db.t_area.ALL)
+        areas=db().select(db.t_area.ALL),
+        carreras=db().select(db.t_carrera.ALL),
+        docentes=db((db.auth_user.f_tipo=="Docente")&(db.auth_user.id==db.t_universitario.f_usuario)).select()
         )
 
 def home_reportes():
     return dict() 
 
+def obtenerEstudiantesInscritos(idProyecto):
+    return db((db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_estado!="Pendiente")).count()
+
 def buscar_proyectos_reportes():
+    # Formateo Fecha Inicial
     fecha_inicial = request.vars.fecha_inicial
+    fecha_inicial=fecha_inicial.split("/")
+    fecha_inicial=datetime.date(int(fecha_inicial[2]),int(fecha_inicial[1]),int(fecha_inicial[0]))
+    
+    # Formateo Fecha Final
     fecha_final = request.vars.fecha_final
+    fecha_final=fecha_final.split("/")
+    fecha_final=datetime.date(int(fecha_final[2]),int(fecha_final[1]),int(fecha_final[0]))
+    
     codigo = request.vars.codigo
     tipo = request.vars.tipo
-    culminado = request.vars.culminado
-    evaluado = request.vars.evaluado
-    organizacion = request.vars.organizacion
     idComunidad = request.vars.idComunidad
     idArea = request.vars.idArea
     estado = request.vars.estado
 
-    consulta=db.t_proyecto_aprobado.f_proyecto== db.t_proyecto.id
-    if idArea!=" ":
-        consulta&= db.t_proyecto.f_area==long(idArea)
+    #Faltan estos filtros
+    culminado = request.vars.culminado
+    evaluado = request.vars.evaluado
+    organizacion = request.vars.organizacion
+    #----
 
-    print idArea
-    # consulta = db.persona.nombre!='Alejandro'
-    #>>> consulta &= db.persona.id>3
-    #>>> consulta |= db.persona.nombre=='Juan'
-    print db(consulta).select()
-    return dict(proyectos=db(consulta).select())
+    consulta=db.t_proyecto_aprobado.f_proyecto== db.t_proyecto.id
+
+    #consulta&=db.t_proyecto.f_fechafin>=fecha_inicial
+    consulta&=(((db.t_proyecto.f_fechafin>=fecha_inicial)&(db.t_proyecto.f_fechafin<=fecha_final))|((db.t_proyecto.f_fechaini>=fecha_inicial)&(db.t_proyecto.f_fechaini<=fecha_final)))
+
+    if idArea!="All":
+        print "area"
+        consulta&= db.t_proyecto.f_area==long(idArea)
+    if codigo!="":
+        print "codigo"
+        consulta&= db.t_proyecto_aprobado.f_codigo==codigo  
+    if tipo!="All":
+        print "tipo"
+        if tipo=="Continuo":
+            consulta&= db.t_proyecto.f_continuacion==True   
+        else:
+            consulta&= db.t_proyecto.f_continuacion==False
+    if idComunidad!="All":
+        print "comunidad"
+        consulta&= db.t_proyecto.f_comunidad==long(idComunidad)   
+    if estado!="All":
+        print "estado"
+        consulta&= db.t_proyecto_aprobado.f_estado_proyecto==estado 
+
+    return dict(obtenerEstudiantesInscritos=obtenerEstudiantesInscritos,proyectos=db(consulta).select(),cambiarFormatoFecha=cambiarFormatoFecha)
+
+def buscar_estudiantes_reportes():
+    # Formateo Fecha Inicial
+    fecha_inicial = request.vars.fecha_inicial
+    fecha_inicial=fecha_inicial.split("/")
+    fecha_inicial=datetime.date(int(fecha_inicial[2]),int(fecha_inicial[1]),int(fecha_inicial[0]))
+    
+    # Formateo Fecha Final
+    fecha_final = request.vars.fecha_final
+    fecha_final=fecha_final.split("/")
+    fecha_final=datetime.date(int(fecha_final[2]),int(fecha_final[1]),int(fecha_final[0]))
+    
+    operacion = request.vars.operacion
+    carnet = request.vars.carnet
+    idCarrera = request.vars.idCarrera
+    sexo = request.vars.sexo
+
+    consulta=db.t_cursa.id== db.t_inscripcion.f_cursa
+    consulta&=db.t_cursa.f_estado!="Pendiente"
+    consulta&=db.t_cursa.f_proyecto==db.t_proyecto_aprobado.f_proyecto
+    consulta&=db.t_cursa.f_estudiante== db.t_estudiante.id
+    consulta&=db.t_estudiante.f_universitario==db.t_universitario.id
+    consulta&=db.t_universitario.f_usuario==db.auth_user.id
+
+    if (operacion=="All"):
+        print "all"
+        consulta&=(((db.t_cursa.f_fecha>=fecha_inicial)&(db.t_cursa.f_fecha<=fecha_final))|((db.t_inscripcion.created_on>=fecha_inicial)&(db.t_inscripcion.created_on<=fecha_final)))
+    else:
+        if (operacion=="Inscripciones"):
+            print "inscripciones"
+            consulta&=((db.t_inscripcion.created_on>=fecha_inicial)&(db.t_inscripcion.created_on<=fecha_final))
+        else:
+            print "no inscripciones"
+            consulta&=((db.t_cursa.f_fecha>=fecha_inicial)&(db.t_cursa.f_fecha<=fecha_final))
+            if (operacion=="Culminaciones"):
+                consulta&=db.t_cursa.f_estado=='Culminado'
+            if (operacion=="Retiros"):    
+                consulta&=db.t_cursa.f_estado=='Retirado' 
+
+    consulta&=db.t_cursa.f_actual==False
+    consulta&=db.t_inscripcion.f_actual==False
+
+    if idCarrera!="All":
+        print "idCarrera"
+        consulta&= db.t_estudiante.f_carrera==long(idCarrera)
+    if carnet!="":
+        print "carnet"
+        consulta&= db.t_universitario.f_usbid==carnet  
+    if sexo!="All":
+        print "sexo"
+        consulta&=db.auth_user.f_sexo==sexo
+
+
+    return dict(obtenerHorasConfirmadasDeEstudiante=obtenerHorasConfirmadasDeEstudiante,operacion=operacion,registros=db(consulta).select(),cambiarFormatoFecha=cambiarFormatoFecha)
+
+def buscar_tutores_reportes():
+    idUsuario=request.vars.idUsuario
+    consulta=db.t_proyecto_tutor.f_proyecto==db.t_proyecto.id
+    consulta&=db.t_proyecto.id==db.t_proyecto_aprobado.f_proyecto
+    consulta&=db.t_proyecto_tutor.f_tutor==db.auth_user.id
+    consulta&=db.t_universitario.f_usuario==db.auth_user.id
+    consulta&=db.t_universitario.id==db.t_docente.f_universitario
+
+    if idUsuario!="All":
+        consulta&=db.t_proyecto_tutor.f_tutor==idUsuario
+
+    return dict(obtenerEstudiantesInscritos=obtenerEstudiantesInscritos,registros=db(consulta).select(),cambiarFormatoFecha=cambiarFormatoFecha)
+
 
 # Coordinador
 def coordinador():
@@ -893,31 +989,31 @@ def coordinador():
 def home_coord():
     return dict() 
 
+def obtenerInscripcion(idCursa):
+    return db(db.t_inscripcion.f_cursa==idCursa).select().first()
+
 def coord_solicitud_inscripcion():
     estudianteCursa = db(db.t_cursa.f_actual==True).select()
-    return dict(estudianteCursa=estudianteCursa)
+    return dict(estudianteCursa=estudianteCursa,obtenerInscripcion=obtenerInscripcion,cambiarFormatoFecha=cambiarFormatoFecha)
 
 def coord_aprobar_solicitud_estudiante():
-    idProyecto = long(request.vars.idProyecto)
-    idEstudiante = long(request.vars.idEstudiante)
-    proyecto_cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto))
+    idCursa = long(request.vars.idCursa)
+    proyecto_cursa=db(db.t_cursa.id==idCursa)
     proyecto_cursa.update(f_valido='Valido')
     proyecto_cursa.update(f_estado='Aprobado')
-    proyecto_cursa.update(f_fecha=datetime.datetime.today())
     return "Si"
 
 def coord_retiros_estudiantes():
     estudianteCursa = db((db.t_cursa.f_actual==True)&(db.t_cursa.f_estado=='Retirado')).select()
-    return dict(estudianteCursa=estudianteCursa)
+    return dict(estudianteCursa=estudianteCursa,obtenerInscripcion=obtenerInscripcion,cambiarFormatoFecha=cambiarFormatoFecha)
 
 def coord_aprobar_retiro_estudiante():
-    idProyecto = long(request.vars.idProyecto)
-    idEstudiante = long(request.vars.idEstudiante)
-    proyecto_cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True))
+    idCursa = long(request.vars.idCursa)
+    proyecto_cursa=db(db.t_cursa.id==idCursa)
     proyecto_cursa.update(f_actual=False)
     proyecto_cursa.update(f_fecha=datetime.datetime.today())
     
-    inscripcion=db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_proyecto==idProyecto)&(db.t_inscripcion.f_actual==True))
+    inscripcion=db(db.t_inscripcion.f_cursa==idCursa)
     inscripcion.update(f_actual=False)
     return "Si"
 
@@ -931,22 +1027,21 @@ def obtenerHorasConfirmadasDeEstudiante(idCursa):
 
 def coord_culminaciones_estudiantes():
     estudianteCursa = db((db.t_cursa.f_actual==True)&(db.t_cursa.f_estado=='Culminado')).select()
-    return dict(estudianteCursa=estudianteCursa,obtenerHorasConfirmadasDeEstudiante=obtenerHorasConfirmadasDeEstudiante)
+    return dict(cambiarFormatoFecha=cambiarFormatoFecha,obtenerInscripcion=obtenerInscripcion,estudianteCursa=estudianteCursa,obtenerHorasConfirmadasDeEstudiante=obtenerHorasConfirmadasDeEstudiante)
 
 def coord_aprobar_culminacion_estudiante():
-    idProyecto = long(request.vars.idProyecto)
-    idEstudiante = long(request.vars.idEstudiante)
-    cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True)).select().first()
-    proyecto_cursa=db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True))
+    idCursa = long(request.vars.idCursa)
+    cursa=db(db.t_cursa.id==idCursa).select().first()
+    proyecto_cursa=db(db.t_cursa.id==idCursa)
     proyecto_cursa.update(f_actual=False)
     proyecto_cursa.update(f_fecha=datetime.datetime.today())
 
     # Agregar horas confirmadas
-    estudiante_actual=db(db.t_estudiante.id==idEstudiante).select().first()
-    estudiante=db(db.t_estudiante.id==idEstudiante)
+    estudiante_actual=db(db.t_estudiante.id==cursa.f_estudiante).select().first()
+    estudiante=db(db.t_estudiante.id==cursa.f_estudiante)
     estudiante.update(f_horas=obtenerHorasConfirmadasDeEstudiante(cursa.id)+int(estudiante_actual.f_horas))
 
-    inscripcion=db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_proyecto==idProyecto)&(db.t_inscripcion.f_actual==True))
+    inscripcion=db(db.t_inscripcion.f_cursa==idCursa)
     inscripcion.update(f_actual=False)
     return "Si"
 
@@ -1536,10 +1631,11 @@ def comunidadesEditar():
         return dict('La comunidad ha sido eliminada')
     return dict(form = form)
 '''
+def cambiarFormatoFecha(fecha):
+    return fecha.strftime("%d/%m/%Y")
 
 def actualizar_fechas_tope():
-    def cambiarFormatoFecha(fecha):
-        return fecha.strftime("%d/%m/%Y")
+
     fechas_tope=db().select(db.t_fechas_tope.ALL)
     return dict(fechas_tope=fechas_tope,cambiarFormatoFecha=cambiarFormatoFecha)
 
@@ -1711,7 +1807,7 @@ def retirar_proyecto():
         if form.vars.f_informe:
             print form.vars.f_informe
             db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).update(f_informe=form.vars.f_informe)
-            db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).update(f_estado="Retirado",f_fecha=datetime.datetime.today())
+            db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).update(f_estado='Retirado',f_fecha=datetime.datetime.today())
             return redirect(URL('retirar_proyecto',args=[x]))
         print('form accepted')
     elif form.errors:
@@ -1744,8 +1840,8 @@ def culminar_proyecto():
     form = SQLFORM.factory(Field('f_informe','upload',uploadfolder=request.folder+'static/pdfs',label=T('Informe'),requires = [IS_LENGTH(maxsize=2097152),IS_UPLOAD_FILENAME(extension='pdf')]))
     if form.process(session=None, formname='test').accepted:
         if form.vars.f_informe:
-            db(db.t_cursa.f_estudiante==usuario).update(f_informe=form.vars.f_informe)
-            db(db.t_cursa.f_estudiante==usuario).update(f_estado="Culminado",f_fecha=datetime.datetime.today())
+            db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).update(f_informe=form.vars.f_informe)
+            db((db.t_cursa.f_estudiante==usuario)&(db.t_cursa.f_proyecto==x)& (db.t_cursa.f_actual==True)).update(f_estado="Culminado",f_fecha=datetime.datetime.today())
             return redirect(URL('culminar_proyecto',args=[x]))
         print('form accepted')
     elif form.errors:
@@ -2848,7 +2944,7 @@ def validacionConstanciaInicioEstudiante():
     else:
         mensaje=("Falta aprobación de la Coordinación")
     return dict(bienvenida=hola, mensaje=mensaje)
-
+'''
 def solicitarValidacionEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
@@ -2863,7 +2959,7 @@ def solicitarValidacionEstudiante():
     else:
         mensaje = "No tiene algun proyecto inscrito. Volver al Menú"
     return dict(proyecto=idProyecto, mensaje=mensaje)
-
+'''
 def estudiante_plan_trabajo():
     #idProyecto = long(request.args[0])
     idEstudiante = long(request.args[0])
@@ -2924,8 +3020,9 @@ def registrarProyectoComoEstudiante():
     dropdown = request.args[2]
 
     db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_valido="Invalido")
+    cursa=db(db.t_cursa.f_estudiante==idEstudiante).select().last()
     mensaje = "Registro de proyecto exitoso. Volver al Menú"
-    db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown,f_actual=True)
+    db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown,f_actual=True,f_cursa=cursa.id)
 
     return dict(proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,dropdown=dropdown)
 '''
@@ -3026,7 +3123,7 @@ def estudianteInscribeProyectos():
     fechaTope1=db(db.t_fechas_tope.f_tipo=="Inscripción").select().first()
     fechaTope2=db(db.t_fechas_tope.f_tipo=="Inscripción Extemporánea").select().first()
     ahora=datetime.datetime.today().date()
-    return dict(ultimoProyectoCursado=ultimoProyectoCursado,noRespuestaProyecto=noRespuestaProyecto,ahora=ahora,fechaTope1=fechaTope1,fechaTope2=fechaTope2,estudiante=estudiante,proyectos=db().select(db.t_proyecto_aprobado.ALL),estudianteId=estudiante.id, mensaje=mensaje,bienvenida=msj)
+    return dict(ultimoProyectoCursado=ultimoProyectoCursado,noRespuestaProyecto=noRespuestaProyecto,ahora=ahora,fechaTope1=fechaTope1,fechaTope2=fechaTope2,estudiante=estudiante,proyectos=db(db.t_proyecto_aprobado.f_estado_proyecto=="Activo").select(),estudianteId=estudiante.id, mensaje=mensaje,bienvenida=msj)
 
 
 '''

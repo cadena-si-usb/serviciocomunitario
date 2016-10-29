@@ -31,7 +31,7 @@ $(document).ready(function() {
   // Iniciacion de tabla
   $('#coord-culminaciones').DataTable( {
       "language": idiomaEspañol,
-      "order": [[ 0, 'desc' ]],
+      "order": [[ 2, 'asc' ]],
       "columnDefs": [ {
         "targets"  : 'no-sort',
         "orderable": false,
@@ -47,18 +47,26 @@ $(document).ready(function() {
     	<table class="table table-condensed text-center" id="coord-culminaciones">
             <thead>
                 <tr>
-                    <th class="text-center">Nombre</th>
-                    <th class="text-center">Carné</th>
-                    <th class="text-center">Proyecto</th>
-                    <th class="text-center">Horas confirmadas</th>
-                    <th class="text-center no-sort">Informe</th>
-                    <th class="text-center no-sort">Aprobar</th>
+                  <th class="text-center">Inscripción</th>
+                  <th class="text-center">Culminación</th>
+                  <th class="text-center">Nombre completo</th>
+                  <th class="text-center">Carné</th>
+                  <th class="text-center">Proyecto</th>
+                  <th class="text-center">Horas</th>
+                  <th class="text-center no-sort">Informe</th>
+                  <th class="text-center no-sort">Aprobar</th>
     				<!--<th class="text-center">Rechazar</th>-->
                 </tr>
             </thead>
             <tbody>
                 {{ for ins in estudianteCursa: }}
-                  <tr id={{=ins.f_estudiante.id}}>
+                  <tr id={{=ins.id}}>
+                      <td>
+                          {{=cambiarFormatoFecha(obtenerInscripcion(ins.id).created_on)}}
+                      </td>
+                      <td>
+                          {{=cambiarFormatoFecha(ins.f_fecha)}}
+                      </td>
                       <td>
                           {{=ins.f_estudiante.f_universitario.f_usuario.first_name}} {{=ins.f_estudiante.f_universitario.f_usuario.last_name}}
                       </td>
@@ -75,7 +83,7 @@ $(document).ready(function() {
                       <a href="/SIGESC/static/pdfs/{{=ins.f_informe}}" target=_blank><i class="glyphicon glyphicon-list-alt text-center"></i></a>
                       </td>
                       <td class="text-center">
-                          <a class="enlace" onclick="aprobarCulminacionEstudiante('{{=ins.f_estudiante.id}}','{{=ins.f_proyecto.id}}')"><i class="glyphicon glyphicon-check text-center"></i></a>
+                          <a class="enlace" onclick="aprobarCulminacionEstudiante('{{=ins.id}}')"><i class="glyphicon glyphicon-check text-center"></i></a>
                       </td>
                   </tr>
                 {{ pass }}

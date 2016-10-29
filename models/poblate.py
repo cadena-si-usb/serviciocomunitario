@@ -105,12 +105,12 @@ if len(db().select(db.t_carrera.ALL)) == 0:
 if len(db().select(db.t_fechas_tope.ALL)) == 0:
     ahora=datetime.today()
     db.t_fechas_tope.insert(
-        f_tipo='I',
+        f_tipo='Inscripción',
         f_fecha_inicial=ahora -timedelta(days=24),
         f_fecha_final=ahora +timedelta(days=300),
     )
     db.t_fechas_tope.insert(
-        f_tipo='IE',
+        f_tipo='Inscripción Extemporánea',
         f_fecha_inicial=ahora -timedelta(days=24),
         f_fecha_final=ahora +timedelta(days=300),
     )

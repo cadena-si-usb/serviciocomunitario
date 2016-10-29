@@ -1,85 +1,84 @@
+<style type="text/css">
+  .datos{
+    margin-left: 0 px !important;
+    float: left;
+  }
+  .value{
+    display: inline-block;
+  }
+</style>
 
-        <div class="form-group">
-          <div class="col-md-12">
-            <label class="control-label">
-              <h4><strong>Usuario:</strong> {{=form.username}}</h4>
-            </label>
-          </div>
-        </div>  
+<div class="col-sm-4">
+  <img src="{{=picture}}" style="width:130px;height:130px;text-align:center" class="avatar img-circle img-thumbnail">
+</div>
+<div class="col-sm-4">
+  <div class="datos">
+      <strong class="control-strong">Usuario:</strong>
+      <span class="value">{{=form.username}}</span>
+  </div> 
+  <div class="datos">
+      <strong class=" control-strong">Tipo:</strong>
+      <span class="value">{{=form.f_tipo}}</span>
+  </div> 
+  <div class="datos">
+    <strong class=" control-strong">Sexo:</strong>
+    <span class="value">{{=form.f_sexo}}</span>
+  </div> 
+  <div class="datos" >
+    <strong class="control-strong">Nombre completo:</strong>
+    <span class="value">{{=form.first_name}} {{=form.last_name}}</span>
+  </div>
 
-        <div class="form-group">
-          <label class="col-lg-3 control-label">Nombres:</label>
-          <div class="col-lg-8">
-            {{=form.first_name}}
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-lg-3 control-label">Apellidos:</label>
-          <div class="col-lg-8">
-            {{=form.last_name}}
-          </div>
-        </div>
-        {{if form.f_cedula:}}
-        <div class="form-group">
-          <label class="col-lg-3 control-label">Cédula:</label>
-          <div class="col-lg-8">
-            {{=form.f_cedula}}
-          </div>
-        </div>
-        {{pass}}
-        <div class="form-group">
-          <label class="col-lg-3 control-label">Email:</label>
-          <div class="col-lg-8">
-            {{=form.email}}
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label">Tipo:</label>
-          <div class="col-md-8">
-            {{=form.f_tipo}}
-          </div>
-        </div>
-        {{if form.f_tipo == "Docente":}}
-        <div class="form-group">
-            <label class="col-md-3 control-label">Sede:</label>
-            <div class="col-md-8">
-              {{=sede}}
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-3 control-label">Departamento:</label>
-            <div class="col-md-8">
-              {{=dpto}}
-            </div>
-        </div>
-        {{pass}}
+  {{if form.f_cedula:}}
+  <div class="datos" >
+    <strong class="control-strong">Cédula:</strong>
+    <span class="value">{{=form.f_cedula}}</span>
+  </div>
+  {{pass}}
 
-        {{if form.f_tipo in ["Postgrado","Pregrado"]:}}
-        <div class="form-group">
-            <label class="col-md-3 control-label">Sede:</label>
-            <div class="col-md-8">
-              {{=sede}}
-            </div>
-        </div>
+  <div class="datos" >
+    <strong class=" control-strong">Teléfono:</strong>
+    <span class="value">{{=form.f_telefono}}</span>
+  </div>
 
-        <div class="form-group">
-            <label class="col-md-3 control-label">Carrera:</label>
-            <div class="col-md-8">
-              {{=carrera}}
-            </div>
-        </div>
-        {{pass}}
+  <div class="datos">
+    <strong class="control-strong">Email:</strong>
+    <span class="value">{{=form.email}}</span>
+  </div>
 
-        <div class="form-group">
-          <label class="col-md-3 control-label">Dirección:</label>
-          <div class="col-md-8">
-            {{=form.f_direccion}}
-          </div>
-        </div>
+</div>
+<div class="col-sm-4"> 
+  <div class="datos" >
+    <strong class=" control-strong">Estado:</strong>
+    <span class="value">{{=form.f_estado.f_nombre}}</span>
+  </div>
 
-        <div class="form-group">
-          <label class="col-md-3 control-label">Teléfono:</label>
-          <div class="col-md-8">
-            {{=form.f_telefono}}
-          </div>
-        </div>
+  <div class="datos" >
+    <strong class=" control-strong">Dirección:</strong>
+    <span class="value">{{=form.f_direccion}}</span>
+  </div>
+
+  {{if form.f_tipo == "Docente":}}
+  <div class="datos" >
+    <strong class="control-strong">Sede:</strong>
+    <span class="value">{{=sede}}</span>
+  </div>
+  <div class="datos" >
+    <strong class=" control-strong">Departamento:</strong>
+    <span class="value">{{=dpto}}</span>
+  </div>
+  {{pass}}
+
+  {{if form.f_tipo in ["Postgrado","Pregrado"]:}}
+  <div class="datos" >
+      <strong class=" control-strong">Sede:</strong>
+      <span class="value">{{=sede}}</span>
+  </div>
+
+  <div class="datos" >
+      <strong class=" control-strong">Carrera:</strong>
+      <span class="value">{{=carrera.f_nombre}}</span>
+  </div>
+  {{pass}}
+
+</div>

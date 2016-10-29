@@ -2,12 +2,23 @@
 {{ block contenido }}
 	<head>
 	  	<link rel="stylesheet" href="{{=URL('static', 'css/datepicker.css')}}">
-	  	<script type="text/javascript" src="{{=URL('static', 'js/bootstrap.js')}}"></script>
 	  	<link rel="stylesheet" href="{{=URL('static', 'css/administrador.css')}}">
 	  	<script type="text/javascript" src="{{=URL('static', 'js/jquery.js')}}"></script>
 	    <script type="text/javascript" src="{{=URL('static', 'js/reportes.js')}}"></script>
 	    <script type="text/javascript" src="{{=URL('static', 'js/web2py.js')}}"></script>  
 		<script type="text/javascript" src="{{=URL('static', 'js/bootstrap-datepicker.js')}}"></script>
+
+		<link href="{{=URL('static', 'css/jquery.dataTables.min.css')}}" rel="stylesheet">
+		<link href="{{=URL('static', 'css/buttons.dataTables.min.css')}}" rel="stylesheet">
+		<script type="text/javascript" src="{{=URL('static', 'js/jquery.dataTables.min.js')}}"></script>
+		<script type="text/javascript" src="{{=URL('static', 'js/dataTables.buttons.min.js')}}"></script>
+		<script type="text/javascript" src="{{=URL('static', 'js/buttons.colVis.min.js')}}"></script>
+		<script type="text/javascript" src="{{=URL('static', 'js/buttons.flash.min.js')}}"></script>
+		<script type="text/javascript" src="{{=URL('static', 'js/buttons.html5.min.js')}}"></script>
+		<script type="text/javascript" src="{{=URL('static', 'js/buttons.print.min.js')}}"></script>
+		<script type="text/javascript" src="{{=URL('static', 'js/jszip.min.js')}}"></script>
+		<script type="text/javascript" src="{{=URL('static', 'js/pdfmake.min.js')}}"></script>
+		<script type="text/javascript" src="{{=URL('static', 'js/vfs_fonts.js')}}"></script>
 	    <script type="text/javascript">
 			$(document).ready(function() {
 
@@ -43,7 +54,7 @@
 
 	   <div class="col-sm-12 principal">
 	   		<div class="row">
-		       	<div class="col-sm-4">
+		       	<div class="col-sm-3">
 					<div class="panel-group" id="accordion">
 					  <div class="panel panel-default">
 					    <div class="panel-heading">
@@ -71,16 +82,16 @@
 							  	<div class="form-group">
 							    	<label for="codigo">Tipo de Proyecto:</label>
 						    		<select class="form-control" name="estado" id="proyectos-tipo">
-						    			<option value=" ">Todos</option>
+						    			<option value="All">Todos</option>
 						    			<option value="Continuo">Continuo</option>
 						    			<option value="No continuo">No continuo</option>
 								  	</select>
 							  	</div>
 
-							  	<div class="form-group">
+							  	<!--<div class="form-group">
 							    	<label for="codigo">Culminado:</label>
 						    		<select class="form-control" name="estado" id="proyectos-culminado">
-						    			<option value=" ">Todos</option>
+						    			<option value="All">Todos</option>
 						    			<option value="Continuo">Continuo</option>
 						    			<option value="No continuo">No continuo</option>
 								  	</select>
@@ -88,7 +99,7 @@
 							  	<div class="form-group">
 							    	<label for="codigo">Evaluado:</label>
 						    		<select class="form-control" name="estado" id="proyectos-evaluado">
-						    			<option value=" "> Todas</option>
+						    			<option value="All"> Todas</option>
 							      	{{for comunidad in comunidades:}}
 							        	<option value={{=comunidad.id}}>{{=comunidad.f_nombre}}</option>
 							      	{{pass}}
@@ -97,16 +108,16 @@
 							  	<div class="form-group">
 							    	<label for="codigo">Organizacion:</label>
 						    		<select class="form-control" name="estado" id="proyectos-organizacion">
-						    			<option value=" "> Todas</option>
+						    			<option value="All"> Todas</option>
 							      	{{for comunidad in comunidades:}}
 							        	<option value={{=comunidad.id}}>{{=comunidad.f_nombre}}</option>
 							      	{{pass}}
 								  	</select>
-							  	</div>
+							  	</div>-->
 							  	<div class="form-group">
 							    	<label for="codigo">Comunidad:</label>
 						    		<select class="form-control" name="estado" id="proyectos-comunidad">
-						    			<option value=" "> Todas</option>
+						    			<option value="All"> Todas</option>
 							      	{{for comunidad in comunidades:}}
 							        	<option value={{=comunidad.id}}>{{=comunidad.f_nombre}}</option>
 							      	{{pass}}
@@ -115,7 +126,7 @@
 							  	<div class="form-group">
 							    	<label for="codigo">Area del Proyecto:</label>
 						    		<select class="form-control" name="estado" id="proyectos-area">
-						    			<option value=" ">Todas</option>
+						    			<option value="All">Todas</option>
 							      	{{for area in areas:}}
 							        	<option value={{=area.id}}>{{=area.f_nombre}}</option>
 							      	{{pass}}
@@ -124,7 +135,7 @@
 							  	<div class="form-group">
 							    	<label for="codigo">Estado:</label>
 						    		<select class="form-control" name="estado" id="proyectos-estado">
-						    			<option value=" ">Todos</option>
+						    			<option value="All">Todos</option>
 						    			<option value="Activo">Activo</option>
 						    			<option value="Inactivo">Inactivo</option>
 								  	</select>
@@ -142,29 +153,81 @@
 					      </h4>
 					    </div>
 					    <div id="collapse2" class="panel-collapse collapse">
-					      <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-					      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-					      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-					      commodo consequat.</div>
+					      <div class="panel-body">
+							<form class="form-horizontal">
+								<div class="form-group">
+							    	<label for="codigo">Operaciones:</label>
+						    		<select class="form-control" name="estado" id="estudiantes-operaciones">
+						    			<option value="All">Todas</option>
+						    			<option value="Inscripciones">Inscripciones</option>
+						    			<option value="Culminaciones">Culminaciones</option>
+						    			<option value="Retiros">Retiros</option>
+								  	</select>
+							  	</div>
+								<div class="form-group">
+									<label for="init">Fecha Inicial:</label>
+									<input type="text" class="form-control fecha input-sm" id="estudiantes-init">
+								</div>
+								<div class="form-group">
+									<label for="final">Fecha Final:</label>
+									<input type="text" class="form-control fecha input-sm" id="estudiantes-final">
+								</div>
+								<div class="form-group">
+							    	<label for="codigo">Carnet:</label>
+							    	<input type="text" class="form-control input-sm" id="estudiantes-carnet">
+							    	<p>Ejemplo: 11-10722.</p>
+							  	</div>
+
+							  	<div class="form-group">
+							    	<label for="codigo">Carrera:</label>
+						    		<select class="form-control" name="estado" id="estudiantes-carrera">
+						    			<option value="All"> Todas</option>
+							      	{{for carrera in carreras:}}
+							        	<option value={{=carrera.id}}>{{=carrera.f_nombre}}</option>
+							      	{{pass}}
+								  	</select>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="codigo">Sexo:</label>
+						    		<select class="form-control" name="estado" id="estudiantes-sexo">
+						    			<option value="All">Cualquiera</option>
+						    			<option value="Femenino">Femenino</option>
+						    			<option value="Masculino">Masculino</option>
+							      	{{pass}}
+								  	</select>
+							  	</div>
+						  	</form>
+						  	<a id="generar-estudiantes" class="btn btn-primary">Generar Reporte</a>	
+					      </div>
 					    </div>
 					  </div>
 					  <div class="panel panel-default">
 					    <div class="panel-heading">
 					      <h4 class="panel-title">
 					        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-					        Buscar por Tutores Academicos</a>
+					        Buscar por Tutores</a>
 					      </h4>
 					    </div>
 					    <div id="collapse3" class="panel-collapse collapse">
-					      <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-					      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-					      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-					      commodo consequat.</div>
+					      <div class="panel-body">
+					      	<form class="form-horizontal">
+					      		<div class="form-group">
+							    	<label for="codigo">Carnet:</label>
+						    		<select class="form-control" name="estado" id="tutores-id">
+						    			<option value="All"> Todos</option>
+							      	{{for docente in docentes:}}
+							        	<option value={{=docente.auth_user.id}}>{{=docente.t_universitario.f_usbid}}</option>
+							      	{{pass}}
+								  	</select>
+							  	</div>
+						  	</form>
+						  	<a id="generar-tutores" class="btn btn-primary">Generar Reporte</a>	
+					      </div>
 					    </div>
 					  </div>
 					</div>
 		       	</div>
-		       	<div id="vista-reportes" class="col-sm-8">
+		       	<div id="vista-reportes" class="col-sm-9">
 		       	</div>
 	       	</div>
 
@@ -172,6 +235,32 @@
 	    <div class="col-sm-12">
 	    	<hr>
 	    </div>
+
+<div class="row container">
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalReportes" role="dialog">
+
+    <div class="modal-dialog" >
+          <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Información</h4>
+        </div>
+        <div class="modal-body">
+          <div id="detalles-estudiantes" style="max-height: 500px;overflow-y:auto;    overflow-x: hidden;"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+	    
 	</body>
 {{ pass }}
 {{ end }}

@@ -1,0 +1,101 @@
+<script>
+$(document).ready(function() {
+
+  var idiomaEspañol={
+      "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  };
+
+  // Iniciacion de tabla
+  $('#estuds-estudiantes').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+      "language": idiomaEspañol,
+      "order": [[ 1, 'desc' ]],
+      "columnDefs": [ {
+        "targets"  : 'no-sort',
+        "orderable": false,
+      }]
+  });
+
+});
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="col-sm-6"><h2>Estudiantes</h2></div><div class="col-sm-6" style="padding-top: 25px;"></div>
+
+        <table class="table table-condensed" id="estuds-estudiantes">
+            <thead>
+                <tr>
+                    <th align="left">Inscripcion</th>
+                    <th align="left">Carnet</th>
+                    <th align="left">Proyecto</th>
+                    <th align="left">Retiro</th>
+                    <th align="left">Culminacion</th>
+                    <th align="left">Horas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for registro in registros:}}
+                <tr>
+                    <td>
+                      {{=cambiarFormatoFecha(registro.t_inscripcion.created_on)}}
+                    </td>
+                    <td>
+                      <a class="enlace" onclick="mostrarDetallesUsuario('{{=registro.auth_user.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.t_universitario.f_usbid}}</a>
+                    </td>
+                    <td>
+                      <a class="enlace" onclick="detallesProyecto('{{=registro.t_proyecto_aprobado.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.t_cursa.f_proyecto.f_nombre}}</a>
+                         
+                    </td>
+                    <td>
+                      {{if (registro.t_cursa.f_estado=="Retirado"):}}
+                        {{=cambiarFormatoFecha(registro.t_cursa.f_fecha)}} 
+                      {{else:}}
+                        N/A
+                      {{pass}}
+                    </td>
+                    <td>
+                      {{if (registro.t_cursa.f_estado=="Culminado"):}}
+                        {{=cambiarFormatoFecha(registro.t_cursa.f_fecha)}} 
+                      {{else:}}
+                        N/A
+                      {{pass}}
+                    </td>
+                    <td>
+                      {{if (registro.t_cursa.f_estado=="Culminado"):}}
+                       {{=obtenerHorasConfirmadasDeEstudiante(registro.t_cursa.id)}} 
+                      {{else:}}
+                        N/A
+                      {{pass}}
+                      
+                    </td>
+                </tr>
+                {{ pass }}
+          </tbody>
+        </table>
+    </div>
+</div>

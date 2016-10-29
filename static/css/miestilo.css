@@ -9,9 +9,9 @@ input[type=checkbox], input[type=radio] {
   padding: 0;
 }
 
-a:link   
+a:link,a:hover   
 {   
- text-decoration:none;   
+ text-decoration:none !important;   
 }   
 
 input {

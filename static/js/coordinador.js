@@ -15,19 +15,19 @@ jQuery(document).ready(function(){
 
 
   // Inscripciones de Estudiantes
-   jQuery('#inscripciones-coord').on('click', function (e) {
+  jQuery('#inscripciones-coord').on('click', function (e) {
     jQuery('#vista-coord').empty();
     jQuery('#vista-coord').html(miniloader);
     ajax('coord_solicitud_inscripcion', [], 'vista-coord');
   });
 
-  aprobarSolicitudEstudiante=function(idEstudiante,idProyecto){
+  aprobarSolicitudEstudiante=function(idCursa){
     confirmar=confirm("¿Seguro que desea aprobar la solicitud de inscripcion de este estudiante?"); 
     if (confirmar){
-      $.ajax('coord_aprobar_solicitud_estudiante?idEstudiante='+idEstudiante+"&idProyecto="+idProyecto).done(function(html) {
+      $.ajax('coord_aprobar_solicitud_estudiante?idCursa='+idCursa).done(function(html) {
           if (html=="Si"){
             var table=$('#coord-inscripcion').DataTable();
-            table.row($("#"+idEstudiante))
+            table.row($("#"+idCursa))
             .remove()
             .draw();
             alert('Se ha aprobado la solicitud de inscripcion del estudiante exitosamente.');
@@ -44,13 +44,13 @@ jQuery(document).ready(function(){
     ajax('coord_retiros_estudiantes', [], 'vista-coord');
   });
 
-  aprobarRetiroEstudiante=function(idEstudiante,idProyecto){
+  aprobarRetiroEstudiante=function(idCursa){
     confirmar=confirm("¿Seguro que desea aprobar la solicitud de retiro de este estudiante?"); 
     if (confirmar){
-      $.ajax('coord_aprobar_retiro_estudiante?idEstudiante='+idEstudiante+"&idProyecto="+idProyecto).done(function(html) {
+      $.ajax('coord_aprobar_retiro_estudiante?idCursa='+idCursa).done(function(html) {
           if (html=="Si"){
             var table=$('#coord-retiros').DataTable();
-            table.row($("#"+idEstudiante))
+            table.row($("#"+idCursa))
             .remove()
             .draw();
             alert('Se ha aprobado la solicitud de retiro del estudiante exitosamente.');
@@ -67,13 +67,13 @@ jQuery(document).ready(function(){
     ajax('coord_culminaciones_estudiantes', [], 'vista-coord');
   });
 
-  aprobarCulminacionEstudiante=function(idEstudiante,idProyecto){
+  aprobarCulminacionEstudiante=function(idCursa){
     confirmar=confirm("¿Seguro que desea aprobar la solicitud de culminacion de este estudiante?"); 
     if (confirmar){
-      $.ajax('coord_aprobar_culminacion_estudiante?idEstudiante='+idEstudiante+"&idProyecto="+idProyecto).done(function(html) {
+      $.ajax('coord_aprobar_culminacion_estudiante?idCursa='+idCursa).done(function(html) {
           if (html=="Si"){
             var table=$('#coord-culminaciones').DataTable();
-            table.row($("#"+idEstudiante))
+            table.row($("#"+idCursa))
             .remove()
             .draw();
             alert('Se ha aprobado la solicitud de culminacion del estudiante exitosamente.');

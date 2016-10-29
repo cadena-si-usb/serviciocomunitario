@@ -34,7 +34,7 @@ $(document).ready(function() {
             'copy', 'csv', 'excel', 'pdf', 'print'
         ],
       "language": idiomaEspañol,
-      "order": [[ 3, 'asc' ]],
+      "order": [[ 2, 'asc' ]],
       "columnDefs": [ {
         "targets"  : 'no-sort',
         "orderable": false,
@@ -46,26 +46,22 @@ $(document).ready(function() {
 
 <div class="row">
     <div class="col-md-12">
-        <div class="col-md-6"><h2>Proyectos</h2></div><div class="col-md-6" style="padding-top: 25px;"></div>
+        <div class="col-md-6"><h2>Tutores</h2></div><div class="col-md-6" style="padding-top: 25px;"></div>
 
         <table class="table table-condensed" id="estuds-proyectos">
             <thead>
                 <tr>
                     <th align="left">Inicio</i></th>
                     <th align="left">Final</i></th>
-                    <th align="left">Codigo</i></th>
-                    <th align="left">Nombre</th>
-                    <th align="left">Estado</th>
-                    <th align="left">Tipo</th>
+                    <th align="left">Carnet</th>
+                    <th align="left">Departamento</th>
+                    <th align="left">Proyecto</th>
                     <th align="left">Inscritos</th>
-                    <th align="left" class="no-sort"></th>
-                    <th align="left" class="no-sort"></th>
-
                 </tr>
             </thead>
             <tbody>
-                {{for registro in proyectos:}}
-                <tr id={{=registro.t_proyecto.id}}>
+                {{for registro in registros:}}
+                <tr>
                     <td>
                         {{=cambiarFormatoFecha(registro.t_proyecto.f_fechaini)}}
                     </td>
@@ -73,30 +69,16 @@ $(document).ready(function() {
                         {{=cambiarFormatoFecha(registro.t_proyecto.f_fechafin)}}
                     </td>
                     <td>
-                        {{=registro.t_proyecto_aprobado.f_codigo}}
+                    <a class="enlace" onclick="mostrarDetallesUsuario('{{=registro.auth_user.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.t_universitario.f_usbid}}</i></a>
                     </td>
                     <td>
-                        {{=registro.t_proyecto.f_nombre}} 
+                        {{=registro.t_docente.f_departamento}}
                     </td>
                     <td>
-                        {{=registro.t_proyecto_aprobado.f_estado_proyecto}} 
-                    </td>
-                    <td>
-                      {{if (registro.t_proyecto.f_continuacion):}}
-                        Continuo
-                      {{else:}}
-                        No continuo
-                      {{pass}}
+                      <a class="enlace" onclick="detallesProyecto('{{=registro.t_proyecto_aprobado.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.t_proyecto.f_nombre}}</a>
                     </td>
                     <td>
                       {{=obtenerEstudiantesInscritos(registro.t_proyecto.id)}}
-                    </td>
-                    
-                    <td>
-                      <a target="_blank" class="enlace" href="{{=URL(r=request,f='propuestasEditar',args=registro.t_proyecto.id)}}"><i class="glyphicon glyphicon-pencil "></i></a>
-                    </td>
-                    <td>
-                      <a target="_blank" class="enlace" href="{{=URL(r=request,f='propuestasDetalles',args=registro.t_proyecto.id)}}"><i class="glyphicon glyphicon-search"></i></a>
                     </td>
                 </tr>
                 {{ pass }}

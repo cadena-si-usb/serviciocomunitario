@@ -47,7 +47,7 @@ I512
 sg5
 I00
 sg6
-I11
+I12
 sg7
 S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  '
 p18
@@ -97,7 +97,7 @@ I512
 sg5
 I00
 sg6
-I7
+I8
 sg7
 S'CHAR(1)'
 p29
@@ -122,7 +122,7 @@ I01
 sg10
 S'reference t_estudiante'
 p33
-ssS'created_by'
+ssS'f_cursa'
 p34
 (dp35
 g4
@@ -130,34 +130,35 @@ I512
 sg5
 I00
 sg6
-I9
+I7
 sg7
-S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  '
+S'INTEGER REFERENCES t_cursa (id) ON DELETE CASCADE  NOT NULL '
 p36
 sg9
-I00
+I01
 sg10
-g19
-ssS'created_on'
+S'reference t_cursa'
 p37
-(dp38
+ssS'created_on'
+p38
+(dp39
 g4
 I512
 sg5
 I00
 sg6
-I8
+I9
 sg7
 S'TIMESTAMP'
-p39
+p40
 sg9
 I00
 sg10
 S'datetime'
-p40
-ssS'modified_on'
 p41
-(dp42
+ssS'created_by'
+p42
+(dp43
 g4
 I512
 sg5
@@ -165,15 +166,31 @@ I00
 sg6
 I10
 sg7
-S'TIMESTAMP'
-p43
+S'INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  '
+p44
 sg9
 I00
 sg10
-g40
+g19
+ssS'modified_on'
+p45
+(dp46
+g4
+I512
+sg5
+I00
+sg6
+I11
+sg7
+S'TIMESTAMP'
+p47
+sg9
+I00
+sg10
+g41
 ssS'id'
-p44
-(dp45
+p48
+(dp49
 g4
 I512
 sg5
@@ -182,9 +199,9 @@ sg6
 I1
 sg7
 S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p46
+p50
 sg9
 I00
 sg10
-g44
+g48
 ss.

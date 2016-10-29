@@ -257,7 +257,7 @@ db.define_table('t_cursa',
           label=T('Fecha')),#fecha en que retira o culmina el SC
 
     Field('f_informe','upload',label=T('Informe'), notnull=False),
-    Field('f_actual', type='boolean',     # el tutor comunitario confirma que se hizo la actividad
+    Field('f_actual', type='boolean',     
         notnull=True, default=True, writable=False,
         label=T('Actual')),
     auth.signature,
@@ -607,6 +607,8 @@ db.define_table('t_inscripcion',
           label=T('horas'), default=30),
     Field('f_actual', type='boolean',default=False, notnull=False,
           label=T('Actual')),
+    Field('f_cursa', type='reference t_cursa', notnull=True,
+          label=T('Cursa')),
     auth.signature,
     format='%(f_estudiante)s',
     migrate=settings.migrate)
@@ -614,7 +616,7 @@ db.define_table('t_inscripcion',
 db.define_table('t_inscripcion_archive',db.t_inscripcion,Field('current_record','reference t_inscripcion',readable=False,writable=False))
 
 db.define_table('t_fechas_tope',
-  Field('f_tipo',requires=IS_IN_SET(['Inscripción','Inscripción Extemporánea']), notnull=True, 
+  Field('f_tipo', type='string', notnull=True, 
     label=T('Tipo')),
   Field('f_fecha_inicial', type='date', requires=IS_DATE(format=('%d/%m/%Y')),notnull=True,
     label=T('Fecha Inicial')),
@@ -625,3 +627,4 @@ db.define_table('t_fechas_tope',
     migrate=settings.migrate)
 
 db.define_table('t_fechas_tope_archive',db.t_fechas_tope,Field('current_record','reference t_fechas_tope',readable=False,writable=False))
+
