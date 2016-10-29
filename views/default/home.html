@@ -69,21 +69,17 @@
                 {{if "Coordinador" in roles:}}
                 Coordinador
                 {{pass}}
-                </b><h4>
-                <!--{{if "Coordinador" in roles:}}
-                  
-                  <h4 ><b>Iniciado como: Tutor académico</b><h4>
-
-                {{pass}}-->
+                
                 {{if not(tipo_usuario in ["Pregrado","Postgrado"]):}}
                   {{if not("Administrador" in roles):}}
                     {{if not("Coordinador" in roles):}}
                       {{if not("Asistente" in roles):}}
-                        <h4 ><b>Iniciado como: Visitante</b><h4>
+                        Visitante
                       {{pass}}
                     {{pass}}
                   {{pass}}
                 {{pass}}
+                </b><h4>
                 
                 <a href="{{=URL('/editar_perfil')}}"><button class="btn btn-primary">Ver perfil</button></a>
                 
@@ -100,7 +96,6 @@
 
 <div class="row">
     <div class="col-sm-10">
-    
 
     <div class="row">
         <div class="col-md-4">
