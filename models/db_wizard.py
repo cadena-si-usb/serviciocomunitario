@@ -226,7 +226,7 @@ db.define_table('t_actividad',
           label=T('Requerimientos')),
     Field('f_recursos', type='text', default='',
           label=T('Recursos')),
-    Field('f_costo', type='float',
+    Field('f_costo', type='float',default=0.0,
           label=T('Costo')),
     Field('f_recursos_propios', type='text', default='',
           label=T('Recursos propios')),
@@ -234,7 +234,7 @@ db.define_table('t_actividad',
           label=T('Aportes de otros donantes')),
     Field('f_aportes_dex', type='text', default='',
           label=T('Aportes solicitados a DEx')),
-    Field('f_monto_total', type='float', default='',
+    Field('f_monto_total', type='float', default=0.0,
           label=T('Monto total')),
     auth.signature,
     format='%(f_nombre)s',
@@ -628,3 +628,13 @@ db.define_table('t_fechas_tope',
 
 db.define_table('t_fechas_tope_archive',db.t_fechas_tope,Field('current_record','reference t_fechas_tope',readable=False,writable=False))
 
+db.define_table('t_correo_envios',
+    Field('f_email', type='string', notnull=True,
+          label=T('Correo')),
+    Field('f_clave', type='password', notnull=True,
+          label=T('Clave'), default='Activo'),
+    auth.signature,
+    format='%(f_email)s',
+    migrate=settings.migrate)
+
+db.define_table('t_correo_envios_archive',db.t_correo_envios,Field('current_record','reference t_correo_envios',readable=False,writable=False))

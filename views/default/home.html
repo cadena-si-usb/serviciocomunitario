@@ -126,17 +126,18 @@
   {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
-      </div>
+          <a href="{{=URL('vista_estudiante')}}">
+            <img id="img_estudiante" class="img-responsive-1" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265" onmouseover="iluminar('img_estudiante')" onmouseleave="apagar('img_estudiante')" />
+            </a></div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Estudiante </h3>
+          <h3 onmouseover="iluminar('img_estudiante')" onmouseleave="apagar('img_estudiante')" style="color: #4682B4"><a class="mi_link" href="{{=URL('vista_estudiante')}}"> Estudiante</a> </h3>
           <p style="color: #808080">
              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-                <a href="{{=URL('vista_estudiante')}}">
+                <a href="{{=URL('vista_estudiante')}}" onmouseover="iluminar('img_estudiante')" onmouseleave="apagar('img_estudiante')" >
                   <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                     Ir a Estudiante >> </button>
                 </a>
@@ -149,10 +150,12 @@
 {{if "Administrador" in roles:}}
         <div class="row">
             <div class="col-md-4">
-                <img class="img-responsive" src="{{=URL('static', 'proponente.png')}}" height="155" width="265"/>
+              <a href="{{=URL('administrador')}}">
+                <img id="img_administrador" class="img-responsive-1" src="{{=URL('static', 'admin-2.jpg')}}" height="155" width="265" onmouseover="iluminar('img_administrador')" onmouseleave="apagar('img_administrador')"/>
+              </a>
             </div>
             <div class="col-md-4">
-                <h3> Administrador</h3>
+                <h3 onmouseover="iluminar('img_administrador')" onmouseleave="apagar('img_administrador')"> <a href="{{=URL('administrador')}}">Administrador</a></h3>
                  <p style="color: #808080">
                    Ver la lista de los usuarios internos
                    y externos del sistema.
@@ -160,7 +163,7 @@
             </div>
              <div class="col-md-3">
                 <div class="row">
-                      <a href="{{=URL('administrador')}}">
+                      <a href="{{=URL('administrador')}}" onmouseover="iluminar('img_administrador')" onmouseleave="apagar('img_administrador')">
                       <button  class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                           Ir a Administrador  >> </button>
                       </a>
@@ -220,10 +223,16 @@
 {{if esTutorAcademico:}}
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
+          <a href="{{=URL('solicitudes_tutor')}}">
+            <img id="img_solicitudes_tutor" class="img-responsive-1" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265" onmouseover="iluminar('img_solicitudes_tutor')" onmouseleave="apagar('img_solicitudes_tutor')"/>
+          </a>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Enviar Planes de Trabajo </h3>
+          <h3 style="color: #4682B4" onmouseover="iluminar('img_solicitudes_tutor')" onmouseleave="apagar('img_solicitudes_tutor')"> 
+            <a href="{{=URL('solicitudes_tutor')}}">
+              Enviar Planes de Trabajo 
+            </a>
+          </h3>
 
           <p style="color: #808080">
              Enviar planes de trabajo a estudiantes.
@@ -231,26 +240,32 @@
       </div>
       <div class="col-md-3">
           <div class="row">
-              <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('solicitudes_tutor')}}'" style="width: 250px; height:30px" margin-top="70px">Ir a Enviar Planes de Trabajo  >></button>
+          <a href="{{=URL('solicitudes_tutor')}}" onmouseover="iluminar('img_solicitudes_tutor')" onmouseleave="apagar('img_solicitudes_tutor')">
+              <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">Ir a Enviar Planes de Trabajo  >></button>
+              </a>
           </div>
       </div>
     </div>
     <hr>
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
+          <a href="{{=URL('proyectos_tutor_academico')}}">
+            <img id="img_proyectos_tutor_academico" class="img-responsive-1" src="{{=URL('static', 'tutor.png')}}" height="155" width="265" onmouseover="iluminar('img_proyectos_tutor_academico')" onmouseleave="apagar('img_proyectos_tutor_academico')"/>
+          </a>
+
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Tutor Academico</h3>
+          <h3 style="color: #4682B4" onmouseover="iluminar('img_proyectos_tutor_academico')" onmouseleave="apagar('img_proyectos_tutor_academico')"> <a href="{{=URL('proyectos_tutor_academico')}}">Tutor Academico</a></h3>
           <p style="color: #808080">
              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-              <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('proyectos_tutor_academico')}}'" style="width: 250px; height:30px" margin-top="70px">
+          <a href="{{=URL('proyectos_tutor_academico')}}" onmouseover="iluminar('img_proyectos_tutor_academico')" onmouseleave="apagar('img_proyectos_tutor_academico')"> 
+              <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                           Ir a Tutor Academico  >></button>
-
+          </a>
           </div>
       </div>
     </div>
@@ -260,18 +275,22 @@
 {{if esTutorComunitario:}}
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
-      </div>
+      <a href="{{=URL('proyectos_tutor_comunitario')}}">
+            <img id="img_proyectos_tutor_comunitario" class="img-responsive-1" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265" onmouseover="iluminar('img_proyectos_tutor_comunitario')" onmouseleave="apagar('img_proyectos_tutor_comunitario')"/>
+          </a>
+          </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Tutor Comunitario </h3>
+          <h3 style="color: #4682B4" onmouseover="iluminar('img_proyectos_tutor_comunitario')" onmouseleave="apagar('img_proyectos_tutor_comunitario')"> <a href="{{=URL('proyectos_tutor_comunitario')}}">Tutor Comunitario</a></h3>
           <p style="color: #808080">
              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-              <button class="btn btn-primary boton_link"  onclick="location.href='{{=URL('proyectos_tutor_comunitario')}}'" style="width: 250px; height:30px" margin-top="70px">
+          <a href="{{=URL('proyectos_tutor_comunitario')}}" onmouseover="iluminar('img_proyectos_tutor_comunitario')" onmouseleave="apagar('img_proyectos_tutor_comunitario')">
+              <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                           Ir a Tutor Comunitario  >></button>
+                          </a>
           </div>
       </div>
     </div>
@@ -281,17 +300,20 @@
 {{if "Coordinador" in roles:}}
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
-      </div>
+        <a href="{{=URL('coordinador')}}">
+            <img id="img_coordinador" class="img-responsive-1" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265" onmouseover="iluminar('img_coordinador')" onmouseleave="apagar('img_coordinador')"/>
+          </a></div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Coordinador </h3>
+          <h3 style="color: #4682B4" onmouseover="iluminar('img_coordinador')" onmouseleave="apagar('img_coordinador')"> 
+            <a href="{{=URL('coordinador')}}">
+          Coordinador</a> </h3>
           <p style="color: #808080">
              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-                <a href="{{=URL('coordinador')}}">
+                <a href="{{=URL('coordinador')}}" onmouseover="iluminar('img_coordinador')" onmouseleave="apagar('img_coordinador')">
                   <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                     Ir a Coordinador >> </button>
                 </a>
@@ -304,17 +326,19 @@
 {{if (("Coordinador" in roles)or("Administrador" in roles)):}}
     <div class="row">
       <div class="col-md-4">
-          <img class="img-responsive" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265"/>
+      <a href="{{=URL('reportes')}}">
+            <img id="img_reportes" class="img-responsive-1" src="{{=URL('static', 'estudiantes.png')}}" height="155" width="265" onmouseover="iluminar('img_reportes')" onmouseleave="apagar('img_reportes')"/>
+          </a>
       </div>
       <div class="col-md-4">
-          <h3 style="color: #4682B4"> Reportes </h3>
+          <h3 style="color: #4682B4" onmouseover="iluminar('img_reportes')" onmouseleave="apagar('img_reportes')"> <a href="{{=URL('reportes')}}">Reportes </a></h3>
           <p style="color: #808080">
              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam rem beatae fugiat dolorem, alias, deleniti
           </p>
       </div>
       <div class="col-md-3">
           <div class="row">
-                <a href="{{=URL('reportes')}}">
+                <a href="{{=URL('reportes')}}" onmouseover="iluminar('img_reportes')" onmouseleave="apagar('img_reportes')">
                   <button class="btn btn-primary boton_link" style="width: 250px; height:30px" margin-top="70px">
                     Ir a Reportes >> </button>
                 </a>

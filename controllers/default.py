@@ -24,20 +24,26 @@ from gluon.tools import web2py_uuid
 ### required - do no delete
 crud = Crud(db)
 
+# Actualizar el correo de envio de correos del sistema.
+correoEnvio=db().select(db.t_correo_envios.ALL)[0]
+mail.settings.server = 'smtp.gmail.com:587'
+mail.settings.sender = correoEnvio.f_email
+mail.settings.login = correoEnvio.f_email+":"+correoEnvio.f_clave
+
 def representsInt(s):
     try:
         sint = int(s)
         return True if sint > 0 else False
     except ValueError:
         return False
-
+'''
 class Actividad:
     def __init__(self,f_nombre,f_resumen,f_alumnos,f_requerimientos):
         self.f_nombre = f_nombre
         self.f_resumen = f_resumen
         self.f_alumnos = f_alumnos
         self.f_requerimientos = f_requerimientos
-
+'''
 # auth = Auth(db,cas_provider = 'https://secure.ds
 ###
 
@@ -65,7 +71,6 @@ def download():
 
 def call(): return service()
 
-### controlers
 def index():
     if auth.is_logged_in():
         redirect(URL("home"))
@@ -418,6 +423,7 @@ def editar_perfil():
 
 
     return dict(form=form,bienvenida=msj,picture=pictureUsuario(),contrasena=auth.change_password())
+
 '''
 def proponenteProyecto():
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
@@ -506,6 +512,7 @@ def eliminar_rol_admin():
     idRelacion=long(request.vars.idRelacion)
     db(db.auth_membership.id==idRelacion).delete()
     return "Si"
+
 '''
 def vista_proponente():
     def my_form_processing(form):
@@ -627,6 +634,7 @@ def validarProyectoEstudiante():
     db(db.t_cursa.id==idProyecto).update(f_state="2",f_valido="Valido")
     return dict(proyecto=idProyecto)
 '''
+'''
 def validacionProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_valido="Activo")
@@ -639,12 +647,14 @@ def solicitarValidacion():
 def solicitarValidacionEstudiante():
     idProyecto = long(request.args[0])
     return dict(proyecto=idProyecto)
-'''
+
+
 def rechazarProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_state="3")
     return dict(proyecto=idProyecto)
-'''
+
+
 def registrarProyectoEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
@@ -656,7 +666,7 @@ def registrarProyectoEstudiante():
         mensaje = "Usted ya tiene un proyecto inscrito. Volver a proyectos"
 
     return dict(proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje)
-
+'''
 """def registrarProyectoComoEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
@@ -1302,8 +1312,6 @@ def nueva_area_admin_modificada():
 
     return "Exito"
 
-
-
 def nueva_carrera_admin_modificada():
     idCarrera=int(request.vars.id)
     nombreCarrera=request.vars.nombre
@@ -1543,6 +1551,7 @@ def nueva_carrera_admin():
 
     carrera=db(db.t_carrera.f_nombre==nombre).select().first()
     return carrera.id
+
 '''
 def proponentesEditar():
     def my_form_processing(form):
@@ -1631,13 +1640,27 @@ def comunidadesEditar():
         return dict('La comunidad ha sido eliminada')
     return dict(form = form)
 '''
+
 def cambiarFormatoFecha(fecha):
     return fecha.strftime("%d/%m/%Y")
 
 def actualizar_fechas_tope():
-
     fechas_tope=db().select(db.t_fechas_tope.ALL)
     return dict(fechas_tope=fechas_tope,cambiarFormatoFecha=cambiarFormatoFecha)
+
+def actualizar_correo_de_envios():
+    correo=db().select(db.t_correo_envios.ALL)[0]
+    return dict(correo=correo)
+
+def cambiar_correo_de_envios():
+    idCorreo = long(request.vars.id)
+    email = request.vars.email
+    clave=request.vars.clave
+    correo=db(db.t_correo_envios.id==idCorreo)
+    correo.update(f_email=email,f_clave=clave)
+    mail.settings.sender = email
+    mail.settings.login = email+":"+clave
+    return "Si"
 
 def cambiar_fecha_tope():
     idFecha = long(request.vars.id)
@@ -1891,21 +1914,24 @@ def generarPdfConstanciaRetiro():
     proy  = db(db.t_proyecto.id==y).select().first()
     tutor = db(db.t_proyecto_tutor.f_proyecto==proy).select().first()
     tutor = tutor.f_tutor
-
+    comunidad_pr  = proy.f_comunidad.f_nombre
+    
+    retiro = db((db.t_cursa.f_estudiante == x) & (db.t_cursa.f_estado == 'Retirado')).select().last()
+    fechaRet = retiro.f_fecha
+    idCursa = retiro.id
+    
+    linea2 = '__________________________________'
     USBID     = est.f_universitario.f_usbid
     Nombre    = est.f_universitario.f_usuario.first_name
+    Correo = est.f_universitario.f_usuario.email
     Apellido  = est.f_universitario.f_usuario.last_name
-    Carrera   = est.f_carrera
-    codigo_pr = proy.id
+    Carrera   = est.f_carrera.f_nombre
+    proyectoAprobado=db(db.t_proyecto_aprobado.f_proyecto==proy.id).select().first()
+    codigo_pr = proyectoAprobado.f_codigo
     nombre_pr = proy.f_nombre
     descripcion_pr = proy.f_resumen
-    horas = 0
-    todas_actividades = db(db.t_actividad_estudiante.f_cursa==proy).select()
-    for acti in todas_actividades:
-        if acti.f_realizada:
-            horas += int(acti.f_horas)
-
-    comunidad_pr  = proy.f_comunidad
+    
+    horas_realizadas = obtenerHorasConfirmadasDeEstudiante(idCursa)       
 
     title = "CERTIFICACION DE RETIRO DE SERVICIO COMUNITARIO"
 
@@ -1917,23 +1943,38 @@ def generarPdfConstanciaRetiro():
     story = []
     story.append(NextPageTemplate('Culminacion'))
     story.append(Paragraph(escape(title),styles["titulo"]))
+    story.append(Paragraph(escape('FECHA DE RETIRO: ' + str(fechaRet)),styles["test"]))
     story.append(Paragraph(escape('APELLIDO Y NOMBRE DEL ESTUDIANTE: ' + str(Apellido) +', '+ str(Nombre)),styles["test"]))
     story.append(Paragraph(escape('CARNET: ' + str(USBID)),styles["test"]))
+    story.append(Paragraph(escape('CORREO ELECTRÓNICO: ' + str(Correo)),styles["test"]))
     story.append(Paragraph(escape('CARRERA: ' + str(Carrera)),styles["test"]))
     story.append(Paragraph(escape('TITULO DEL PROYECTO DE SERVICIO COMUNITARIO: ' + str(nombre_pr)),styles["test"]))
     story.append(Paragraph(escape('CÓDIGO: ' + str(codigo_pr)),styles["test"]))
     story.append(Paragraph(escape('COMUNIDAD BENEFICIADA: ' +str(comunidad_pr)),styles["test"]))
-    story.append(Paragraph(escape('APELLIDO Y NOMBRE DEL TUTOR ACADÉMICO: '+str(tutor.first_name)+', '+str(tutor.last_name)),styles["test"]))
-    story.append(Paragraph(escape('CÉDULA DE IDENTIDAD DEL TUTOR ACADÉMICO: '+str(tutor.f_cedula)),styles["test"]))
+    story.append(Paragraph(escape('TUTOR(ES) ACADÉMICO(S): '),styles["Heading4"]))
+    for proyectoTutorAca in db(db.t_proyecto_tutor).select():
+        if (proyectoTutorAca.f_proyecto==proy.id):
+            tutor = db(db.auth_user.id==proyectoTutorAca.f_tutor).select()[0]
+            tutor_pr_nombre = tutor.first_name
+            tutor_pr_apellido = tutor.last_name
+            cedulaAca = tutor.f_cedula
+            telefonoAca = tutor.f_telefono
+            correoAca = tutor.email
+            story.append(Paragraph(escape('NOMBRE Y APELLIDO: ' +str(tutor_pr_nombre) + ' ' + str(tutor_pr_apellido)),styles["test"]))
+            story.append(Paragraph(escape('CÉDULA DE IDENTIDAD: ' +str(cedulaAca)),styles["test"]))
+            story.append(Paragraph(escape('TELÉFONO: ' +str(telefonoAca)),styles["test"]))
+            story.append(Paragraph(escape('CORREO ELECTRÓNICO: ' +str(correoAca)),styles["test"]))
+            story.append(Paragraph(escape(str(linea2)),styles["test"]))
+    
     story.append(Paragraph(escape('CERTIFICO QUE EL ESTUDIANTE CUMPLIÓ CON LOS OBJETIVOS PLANTEADOS DURANTE EL \
-        DESARROLLO DEL PROYECTO DE SERVICIO COMUNITARIO POR UN LAPSO DE '+ str(horas)+' HORAS, COMO LO ESTABLECE EL \
+        DESARROLLO DEL PROYECTO DE SERVICIO COMUNITARIO POR UN LAPSO DE '+ str(horas_realizadas)+' HORAS, COMO LO ESTABLECE EL \
         REGLAMENTO DE FORMACIÓN COMPLEMENTARIA PROFESIONAL EN SU SECCIÓN 2 DEL SERVICIO COMUNITARIO EN SU ARTÍCULO 24 \
         PARÁGRAFO EVALUACIÓN.'),styles["test"]))
     story.append(Paragraph(escape('CONFORME:'),styles["test"]))
     story.append(Spacer(0,0.6*inch))
     t = Table([
         ['_'*30,'_'*30],
-        ['Firma del Tutor ACADÉMICO\n(Firma y Sello del Dpto. Adscripción)', 'Validación de CFGC o COORDEXT\n(Firma y Sello )']
+        ['Firma del Tutor ACADÉMICO\n(Firma y Sello del Dpto. Adscripción)', 'Validación de CFCG o COORDEXT\n(Firma y Sello )']
         ], colWidths=160, rowHeights=16)
     t2 = Table([
         ['FECHA DE LA CERTIFICACIÓN:  '+'_'*42],
@@ -1967,21 +2008,24 @@ def generarPdfConstanciaCulminacion():
     proy  = db(db.t_proyecto.id==y).select().first()
     tutor = db(db.t_proyecto_tutor.f_proyecto==proy).select().first()
     tutor = tutor.f_tutor
-
+    comunidad_pr  = proy.f_comunidad.f_nombre
+    
+    culminacion = db((db.t_cursa.f_estudiante == x) & (db.t_cursa.f_estado == 'Culminado')).select().last()
+    fechaCul = culminacion.f_fecha
+    idCursa = culminacion.id
+    
+    linea2 = '__________________________________'
     USBID     = est.f_universitario.f_usbid
     Nombre    = est.f_universitario.f_usuario.first_name
+    Correo = est.f_universitario.f_usuario.email
     Apellido  = est.f_universitario.f_usuario.last_name
-    Carrera = est.f_carrera.f_nombre
-    codigo_pr = '_____________________'
+    Carrera   = est.f_carrera.f_nombre
+    proyectoAprobado=db(db.t_proyecto_aprobado.f_proyecto==proy.id).select().first()
+    codigo_pr = proyectoAprobado.f_codigo
     nombre_pr = proy.f_nombre
     descripcion_pr = proy.f_resumen
-    horas = 0
-    todas_actividades = db(db.t_actividad_estudiante.f_cursa==proy).select()
-    for acti in todas_actividades:
-        if acti.f_realizada:
-            horas += int(acti.f_horas)
-
-    comunidad_pr = proy.f_comunidad.f_nombre
+    
+    horas_realizadas = obtenerHorasConfirmadasDeEstudiante(idCursa)
 
     title = "CERTIFICACION DE CUMPLIMIENTO DE SERVICIO COMUNITARIO"
 
@@ -1993,23 +2037,38 @@ def generarPdfConstanciaCulminacion():
     story = []
     story.append(NextPageTemplate('Culminacion'))
     story.append(Paragraph(escape(title),styles["titulo"]))
+    story.append(Paragraph(escape('FECHA DE CULMINACION: ' + str(fechaCul)),styles["test"]))
     story.append(Paragraph(escape('APELLIDO Y NOMBRE DEL ESTUDIANTE: ' + str(Apellido) +', '+ str(Nombre)),styles["test"]))
     story.append(Paragraph(escape('CARNET: ' + str(USBID)),styles["test"]))
+    story.append(Paragraph(escape('CORREO ELECTRÓNICO: ' + str(Correo)),styles["test"]))
     story.append(Paragraph(escape('CARRERA: ' + str(Carrera)),styles["test"]))
     story.append(Paragraph(escape('TITULO DEL PROYECTO DE SERVICIO COMUNITARIO: ' + str(nombre_pr)),styles["test"]))
     story.append(Paragraph(escape('CÓDIGO: ' + str(codigo_pr)),styles["test"]))
     story.append(Paragraph(escape('COMUNIDAD BENEFICIADA: ' +str(comunidad_pr)),styles["test"]))
-    story.append(Paragraph(escape('APELLIDO Y NOMBRE DEL TUTOR ACADÉMICO: '+str(tutor.first_name)+', '+str(tutor.last_name)),styles["test"]))
-    story.append(Paragraph(escape('CÉDULA DE IDENTIDAD DEL TUTOR ACADÉMICO: '+str(tutor.f_cedula)),styles["test"]))
+    story.append(Paragraph(escape('TUTOR(ES) ACADÉMICO(S): '),styles["Heading4"]))
+    for proyectoTutorAca in db(db.t_proyecto_tutor).select():
+        if (proyectoTutorAca.f_proyecto==proy.id):
+            tutor = db(db.auth_user.id==proyectoTutorAca.f_tutor).select()[0]
+            tutor_pr_nombre = tutor.first_name
+            tutor_pr_apellido = tutor.last_name
+            cedulaAca = tutor.f_cedula
+            telefonoAca = tutor.f_telefono
+            correoAca = tutor.email
+            story.append(Paragraph(escape('NOMBRE Y APELLIDO: ' +str(tutor_pr_nombre) + ' ' + str(tutor_pr_apellido)),styles["test"]))
+            story.append(Paragraph(escape('CÉDULA DE IDENTIDAD: ' +str(cedulaAca)),styles["test"]))
+            story.append(Paragraph(escape('TELÉFONO: ' +str(telefonoAca)),styles["test"]))
+            story.append(Paragraph(escape('CORREO ELECTRÓNICO: ' +str(correoAca)),styles["test"]))
+            story.append(Paragraph(escape(str(linea2)),styles["test"]))
+    
     story.append(Paragraph(escape('CERTIFICO QUE EL ESTUDIANTE CUMPLIÓ CON LOS OBJETIVOS PLANTEADOS DURANTE EL \
-        DESARROLLO DEL PROYECTO DE SERVICIO COMUNITARIO POR UN LAPSO DE '+ str(horas)+' HORAS, COMO LO ESTABLECE EL \
+        DESARROLLO DEL PROYECTO DE SERVICIO COMUNITARIO POR UN LAPSO DE '+ str(horas_realizadas)+' HORAS, COMO LO ESTABLECE EL \
         REGLAMENTO DE FORMACIÓN COMPLEMENTARIA PROFESIONAL EN SU SECCIÓN 2 DEL SERVICIO COMUNITARIO EN SU ARTÍCULO 24 \
         PARÁGRAFO EVALUACIÓN.'),styles["test"]))
     story.append(Paragraph(escape('CONFORME:'),styles["test"]))
     story.append(Spacer(0,0.6*inch))
     t = Table([
         ['_'*30,'_'*30],
-        ['Firma del Tutor ACADÉMICO\n(Firma y Sello del Dpto. Adscripción)', 'Validación de CFGC o COORDEXT\n(Firma y Sello )']
+        ['Firma del Tutor ACADÉMICO\n(Firma y Sello del Dpto. Adscripción)', 'Validación de CFCG o COORDEXT\n(Firma y Sello )']
         ], colWidths=160, rowHeights=16)
     t2 = Table([
         ['FECHA DE LA CERTIFICACIÓN:  '+'_'*42],
@@ -2068,14 +2127,14 @@ def solicitudes_tutor():
             listaEnviados += [ins]
     return dict(proyectos = listaProyectosTutores, bienvenida=msj,listaInscripcion=listaInscripcion,enviados=listaEnviados)
 
-
+'''
 def solicitud_constancia_coordinacion():
     estudianteCursa = db(db.t_cursa).select()
     #print '----> ', estudianteCursa
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
 
     return dict(bienvenida=msj,estudianteCursa=estudianteCursa)
-
+'''
 def solicitud_plan_de_trabajo():
     idEstudiante = request.args[1]
     idProyecto = request.args[0]
@@ -2193,7 +2252,7 @@ def propuestas():
                 'id': p.f_proyecto,
                 'nombre': db.t_proyecto(p.f_proyecto).f_nombre,
                 'estado': p.f_estado_propuesta
-            } for p in db(db.t_propuesta).select()
+            } for p in db().select(db.t_propuesta.ALL)
         ]
     else:
         propuestas = [
@@ -2920,7 +2979,7 @@ def validarProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_state="2",f_valido="Valido")
     return dict(proyecto=idProyecto)
-'''
+
 def validacionProyectoEstudiante():
     idProyecto = long(request.args[0])
     db(db.t_cursa.id==idProyecto).update(f_valido="Activo")
@@ -2944,7 +3003,7 @@ def validacionConstanciaInicioEstudiante():
     else:
         mensaje=("Falta aprobación de la Coordinación")
     return dict(bienvenida=hola, mensaje=mensaje)
-'''
+
 def solicitarValidacionEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
@@ -2976,7 +3035,7 @@ def rechazar_solicitud_tutor():
     estudiante = db(db.t_estudiante.id==idEstudiante).select().first()
     print '>>>>>> ', estudiante.f_universitario.f_usuario.first_name
     return dict(proyecto=db(db.t_proyecto.id==idProyecto).select()[0], estudiante=estudiante)
-
+'''
 def aprobar_solicitud_coordinacion():
     idProyecto = long(request.args[1])
     idEstudiante = long(request.args[0])
@@ -2987,7 +3046,7 @@ def aprobar_solicitud_coordinacion():
 
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
     return dict(bienvenida=msj)
-
+'''
 def eliminar_inscripcion():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
@@ -3345,12 +3404,18 @@ def generarPdfConstanciaInicio():
     Cedula = userest.f_cedula
     tlf = userest.f_telefono
     direccion = userest.f_direccion
+    Correo = userest.email
 
     Carrera = est.f_carrera.f_nombre
 
     Sexo = userest.f_sexo
 
-    codigo_pr = '_____________________'
+    inscripcion = db(db.t_inscripcion.f_estudiante == x).select().last()
+    fechaIn = inscripcion.created_on
+    fechaIn = str(fechaIn)[:-9]
+    
+    proyectoAprobado=db(db.t_proyecto_aprobado.f_proyecto==proyecto.id).select().first()
+    codigo_pr = proyectoAprobado.f_codigo
 
     nombre_pr = proyecto.f_nombre
     descripcion_pr = proyecto.f_resumen
@@ -3369,7 +3434,6 @@ def generarPdfConstanciaInicio():
         picture = URL('static', 'img/user.png')
         foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".." + picture[7:])
 
-    print "LAFOTOOOOOOOO " + picture
     tutor_pr_nombre = tutor.first_name
     tutor_pr_apellido = tutor.last_name
 
@@ -3428,7 +3492,7 @@ def generarPdfConstanciaInicio():
         #story.append(Paragraph(linea,styles["Normal"]))
         story.append(Spacer(1,2*u))
 
-        story.append(Paragraph(escape('Período:___________________________________ Año: ______________'),styles["Normal"]))
+        story.append(Paragraph(escape('Fecha de Inicio: ' + str(fechaIn)),styles["Normal"]))
         story.append(Paragraph(escape(heading),styles["Heading2"]))
         story.append(Paragraph(escape('Carné: ' + str(USBID)),styles["Normal"]))
         story.append(Paragraph(escape('Carrera: ' + str(Carrera)),styles["Normal"]))
@@ -3439,6 +3503,7 @@ def generarPdfConstanciaInicio():
         story.append(Paragraph(escape('Dirección: ' + str(direccion)),styles["Normal"]))
         story.append(Paragraph(escape('Sede: ' + str(Sede)),styles["Normal"]))
         story.append(Paragraph(escape('Sexo: ' + str(Sexo)),styles["Normal"]))
+        story.append(Paragraph(escape('Correo Electrónico: ' + str(Correo)),styles["Normal"]))
 
         story.append(Paragraph(salto,styles["Normal"]))
         story.append(Paragraph(escape('Información del proyecto: '),styles["Heading2"]))
@@ -3450,7 +3515,7 @@ def generarPdfConstanciaInicio():
         story.append(Paragraph(salto,styles["Normal"]))
         story.append(Paragraph(escape('Validación: '),styles["Heading2"]))
         story.append(Paragraph(escape('Fecha: ' + str(linea3)),styles["Normal"]))
-        story.append(Paragraph(escape('Nombre del responsable: ' + str(linea3)),styles["Normal"]))
+        story.append(Paragraph(escape('Nombre del responsable: ' + str(linea2)),styles["Normal"]))
         story.append(Paragraph(escape('Firma y sello de la dependencia: '),styles["Normal"]))
 
 
@@ -3463,6 +3528,7 @@ def generarPdfConstanciaInicio():
     else:
         redirect(URL(f='validacionConstanciaInicioEstudiante', args=[x,y]))
         return mensaje
+
 
 def myFirstPage(canvas, doc):
  canvas.saveState()
@@ -3488,15 +3554,19 @@ def generarPdfConstanciaInscripcion():
     userest = db(db.auth_user.id==universitario.f_usuario).select()[0]
     proyecto = db(db.t_proyecto.id==y).select()[0]
     
-    proyectotutor = db(db.t_proyecto_tutor.f_proyecto==proyecto.id).select()[0]
-    tutor = db(db.auth_user.id==proyectotutor.f_tutor).select()[0]
+    inscripcion = db(db.t_inscripcion.f_estudiante == x).select().last()
+    fechaIn = inscripcion.created_on
+    fechaIn = str(fechaIn)[:-9]
     
-    proyectotutorCom = db(db.t_proyecto_tutor_comunitario.f_proyecto==proyecto.id).select()[0]
-    tutorCom = db(db.auth_user.id==proyectotutorCom.f_tutor).select()[0]
+    proyectoAprobado=db(db.t_proyecto_aprobado.f_proyecto==proyecto.id).select().first()
+    codigo_pr = proyectoAprobado.f_codigo
+    
    
     USBID = universitario.f_usbid
-    Sede = universitario.f_sede.f_nombre
     Nombre = userest.first_name
+    
+    Sede = universitario.f_sede.f_nombre
+    
     Apellido = userest.last_name
     Cedula = userest.f_cedula
     tlf = userest.f_telefono
@@ -3506,9 +3576,6 @@ def generarPdfConstanciaInscripcion():
 
     Sexo = userest.f_sexo
     Correo = userest.email
-    
-
-    codigo_pr = '_____________________'
 
     nombre_pr = proyecto.f_nombre
     objetivo_pr = proyecto.f_obj_generales
@@ -3527,20 +3594,6 @@ def generarPdfConstanciaInscripcion():
     else:
         picture = URL('static', 'img/user.png')
         foto = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".." + picture[7:])
-
-    tutor_pr_nombre = tutor.first_name
-    tutor_pr_apellido = tutor.last_name
-    cedulaAca = tutor.f_cedula
-    telefonoAca = tutor.f_telefono
-    direccionAca = tutor.f_direccion
-    correoAca = tutor.email
-    
-    tutorCom_pr_nombre = tutorCom.first_name
-    tutorCom_pr_apellido = tutorCom.last_name
-    cedulaCom = tutorCom.f_cedula
-    telefonoCom = tutorCom.f_telefono
-    direccionCom = tutorCom.f_direccion
-    correoCom = tutorCom.email
 
     comunidad_pr = proyecto.f_comunidad.f_nombre
     PAGE_HEIGHT=defaultPageSize[1]; PAGE_WIDTH=defaultPageSize[0]
@@ -3594,7 +3647,8 @@ def generarPdfConstanciaInscripcion():
     #story.append(Paragraph(linea,styles["Normal"]))
     story.append(Spacer(1,2*u))
 
-    story.append(Paragraph(escape('Período:___________________________________ Año: ______________'),styles["Normal"]))
+    story.append(Paragraph(escape('Fecha de Inscripcion: ' + str(fechaIn)),styles["Normal"]))
+    #story.append(Paragraph(escape('Período:___________________________________ Año: ______________'),styles["Normal"]))
     story.append(Paragraph(escape(heading),styles["Heading2"]))
     story.append(Paragraph(escape('Carné: ' + str(USBID)),styles["Normal"]))
     story.append(Paragraph(escape('Carrera: ' + str(Carrera)),styles["Normal"]))
@@ -3613,22 +3667,40 @@ def generarPdfConstanciaInscripcion():
     story.append(Paragraph(escape('Código del proyecto: ' + str(codigo_pr)),styles["Normal"]))
     story.append(Paragraph(escape('Comunidad beneficiada: ' + str(comunidad_pr)),styles["Normal"]))
     
+    story.append(Paragraph(escape('Tutor(es) Comunitario(s): '),styles["Heading4"]))
+    for proyectoTutorCom in db(db.t_proyecto_tutor_comunitario).select():
+        if (proyectoTutorCom.f_proyecto==proyecto.id):
+            tutorCom = db(db.auth_user.id==proyectoTutorCom.f_tutor).select()[0]
+            tutorCom_pr_nombre = tutorCom.first_name
+            tutorCom_pr_apellido = tutorCom.last_name
+            cedulaCom = tutorCom.f_cedula
+            telefonoCom = tutorCom.f_telefono
+            direccionCom = tutorCom.f_direccion
+            correoCom = tutorCom.email
+            story.append(Paragraph(escape('Nombre y Apellido: ' +str(tutorCom_pr_nombre) + ' ' + str(tutorCom_pr_apellido)),styles["Normal"]))
+            story.append(Paragraph(escape('Cédula de identidad: ' +str(cedulaCom)),styles["Normal"]))
+            story.append(Paragraph(escape('Dirección: ' +str(direccionCom)),styles["Normal"]))
+            story.append(Paragraph(escape('Teléfono: ' +str(telefonoCom)),styles["Normal"]))
+            story.append(Paragraph(escape('Correo Electrónico: ' +str(correoCom)),styles["Normal"]))
+            story.append(Paragraph(escape(str(linea2)),styles["Normal"]))
     
-    story.append(Paragraph(escape('Tutor Comunitario: '),styles["Heading4"]))
-    story.append(Paragraph(escape('Nombre y Apellido: ' +str(tutorCom_pr_nombre) + ' ' + str(tutorCom_pr_apellido)),styles["Normal"]))
-    story.append(Paragraph(escape('Cédula de identidad: ' +str(cedulaCom)),styles["Normal"]))
-    story.append(Paragraph(escape('Dirección: ' +str(direccionCom)),styles["Normal"]))
-    story.append(Paragraph(escape('Teléfono: ' +str(telefonoCom)),styles["Normal"]))
-    story.append(Paragraph(escape('Correo Electrónico: ' +str(correoCom)),styles["Normal"]))
     
-    
-    story.append(Paragraph(escape('Tutor Académico: '),styles["Heading4"]))
-    story.append(Paragraph(escape('Nombre y Apellido: ' +str(tutor_pr_nombre) + ' ' + str(tutor_pr_apellido)),styles["Normal"]))
-    story.append(Paragraph(escape('Cédula de identidad: ' +str(cedulaAca)),styles["Normal"]))
-    story.append(Paragraph(escape('Dependencia: ' +str(linea3)),styles["Normal"]))
-    story.append(Paragraph(escape('Teléfono: ' +str(telefonoAca)),styles["Normal"]))
-    story.append(Paragraph(escape('Correo Electrónico: ' +str(correoAca)),styles["Normal"]))
-    
+    story.append(Paragraph(escape('Tutor(es) Académico(s): '),styles["Heading4"]))
+    for proyectoTutorAca in db(db.t_proyecto_tutor).select():
+        if (proyectoTutorAca.f_proyecto==proyecto.id):
+            tutor = db(db.auth_user.id==proyectoTutorAca.f_tutor).select()[0]
+            tutor_pr_nombre = tutor.first_name
+            tutor_pr_apellido = tutor.last_name
+            cedulaAca = tutor.f_cedula
+            telefonoAca = tutor.f_telefono
+            direccionAca = tutor.f_direccion
+            correoAca = tutor.email
+            story.append(Paragraph(escape('Nombre y Apellido: ' +str(tutor_pr_nombre) + ' ' + str(tutor_pr_apellido)),styles["Normal"]))
+            story.append(Paragraph(escape('Cédula de identidad: ' +str(cedulaAca)),styles["Normal"]))
+            story.append(Paragraph(escape('Dependencia: ' +str(linea3)),styles["Normal"]))
+            story.append(Paragraph(escape('Teléfono: ' +str(telefonoAca)),styles["Normal"]))
+            story.append(Paragraph(escape('Correo Electrónico: ' +str(correoAca)),styles["Normal"]))
+            story.append(Paragraph(escape(str(linea2)),styles["Normal"]))
 
     story.append(Paragraph(escape('Organización de Desarrollo Social que promueve el proyecto ( en caso de que aplique): '),styles["Heading4"]))
     story.append(Paragraph(escape('Direccion: ' + str(linea1)),styles["Normal"]))
@@ -3641,10 +3713,15 @@ def generarPdfConstanciaInscripcion():
 
     story.append(Paragraph(escape('Actividades del proyecto: '),styles["Heading4"]))
     
+    tbl_data = [
+        [Paragraph("Nombre de la Actividad", styles["Heading5"]),espaciadorDeTabla, Paragraph("Resumen", styles["Heading5"])]
+    ]
+    tbl = Table(tbl_data)
+    story.append(tbl)
+    
     for actividad in db(db.t_actividad).select():
         if (actividad.f_proyecto == proyecto.id):
             tbl_data = [
-                [Paragraph("Nombre de la Actividad", styles["Heading5"]),espaciadorDeTabla, Paragraph("Resumen", styles["Heading5"])],
                 [Paragraph('* ' + str(actividad.f_nombre), styles["Normal"]),espaciadorDeTabla, Paragraph('* ' + str(actividad.f_resumen), styles["Normal"])],
                 [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla]
             ]
@@ -3655,8 +3732,10 @@ def generarPdfConstanciaInscripcion():
         [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla],
         [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla],
         [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla],
+        [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla],
+        [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla],
         [Paragraph(linea3, styles["Heading5"]),Paragraph(linea3, styles["Heading5"]), Paragraph('_________'+linea3, styles["Heading5"])],
-        [Paragraph('Firma Estudiante', styles["Normal"]),Paragraph('Firma Tutor (a)', styles["Normal"]), Paragraph('Firma CFGC-CEXT Litoral', styles["Normal"])],
+        [Paragraph('Firma Estudiante', styles["Normal"]),Paragraph('Firma Tutor (a)', styles["Normal"]), Paragraph('Firma CFCG-CEXT', styles["Normal"])],
         [espaciadorDeTabla,espaciadorDeTabla,espaciadorDeTabla]
     ]
     tbl = Table(tbl_data)

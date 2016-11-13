@@ -68,13 +68,19 @@ $(document).ready(function() {
 	
 	$('body').on("click", "#agregar_act", function(){
 		actividad_tmp = $(".form-actividades").serializeObject();
+
 		actividad = {};
 		for (key in actividad_tmp) {
 			k = key.replace("_act","");
 			k = "f_" + k;
 			actividad[k] = actividad_tmp[key];
 		}
-		if (actividad.f_nombre) {
+		//console.log(actividad);
+		if (actividad.f_nombre && actividad.f_alumnos
+			&& actividad.f_aportes_dex && actividad.f_aportes_otros
+			&& actividad.f_costo && actividad.f_monto_total
+			&& actividad.f_recursos && actividad.f_recursos_propios
+			&& actividad.f_resumen) {
 
 			actividades.push(actividad);
 			nro_actividad = actividades.length-1;
@@ -85,6 +91,8 @@ $(document).ready(function() {
 			$(".form-actividades").each(function(i,e) {
 				$(this).val("");
 			})
+		}else{
+			alert("Para agregar una actividad hace falta llenar todos los campos correspondientes.");
 		}
 	})
 
@@ -148,7 +156,10 @@ $(document).ready(function() {
 		fila = $(".form-plan").serializeObject();
 		actividad = $("select[name='f_actividad'] option[value='"+fila.f_actividad+"']").html();
 		obj = $("select[name='f_objetivo'] option[value='"+fila.f_objetivo+"']").html();
-		if (fila.f_actividad && fila.f_objetivo) {
+		console.log(fila);
+		if (fila.f_actividad && fila.f_objetivo && fila.f_meta
+			 && fila.f_recursos && fila.f_responsable
+			 && fila.f_resultados_esperados && fila.f_tiempo) {
 
 			filas.push(fila);
 			nro_fila = filas.length-1;
@@ -160,6 +171,8 @@ $(document).ready(function() {
 			$(".form-plan").each(function(i,e) {
 				$(this).val("");
 			})
+		}else{
+			alert("Para añadir una fila al plan operativo, debe llenar todos los campos correspondientes.");
 		}
 	})
 
@@ -367,15 +380,23 @@ $(document).ready(function() {
 	// Validaciones numericas
 	$('body').on("keydown", "[name='f_num_requeridos'],[name='f_tiempo'],[name='f_incorporacion_profesores'],[name='f_incorporacion_estudiantes'],[name='f_incorporacion_empleados'],[name='f_incorporacion_obreros'],[name='alumnos_act'],[name='costo_act'],[name='monto_total_act']", function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
              // Allow: Ctrl+A, Command+A
             (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
              // Allow: home, end, left, right, down, up
             (e.keyCode >= 35 && e.keyCode <= 40)) {
                  // let it happen, don't do anything
+
                  return;
         }
+        
+        // Evitar puntos decimales
+        if (e.keyCode===190){
+        	e.preventDefault();
+        }
+
         // Ensure that it is a number and stop the keypress
+
         if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
             e.preventDefault();
         }
@@ -426,5 +447,18 @@ $(document).ready(function() {
 	      
 	    });
   	};
+
+  	var estado_propuesta_actual=jQuery("#no_table_f_estado_propuesta").val();
+  	jQuery("#no_table_f_estado_propuesta").on("change",function(data){
+  		confirmar=confirm("¿Seguro que desea cambiar el estado de esta propuesta?"); 
+  		var estado_propuesta_despues=jQuery("#no_table_f_estado_propuesta").val();
+	    if (confirmar){
+	    	estado_propuesta_actual=estado_propuesta_despues;
+	    }else{
+	    	jQuery("#no_table_f_estado_propuesta").val(estado_propuesta_actual);		   
+	    }
+
+  	})
+
 
 })

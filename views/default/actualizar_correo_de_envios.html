@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="col-sm-12">
+		<h3>Actualizar Cuenta de Envio de Correos</h3>
+	</div>
+	<div class="col-sm-12">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-6" style="margin-bottom:15px">
+			<div class="form-group">
+	            <label> Correo Gmail:</label> 
+	            <input id="correo" class="form-control" name="coreo" type="text" value={{=correo.f_email}}> 
+	        </div>
+			<div class="form-group">
+	            <label> Clave:</label> 
+	            <input id="clave" class="form-control" name="clave" type="password" value={{=correo.f_clave}}>
+	        </div>
+	        <div class="form-group">
+	            <input id="mostrar" onclick="mostrarClave()" class="form-control" name="clave" type="checkbox">
+	            <label> Mostrar clave</label> 
+	        </div>
+
+	        <a onclick="actualizarCorreo('{{=correo.id}}')" style="width:50%" class="btn btn-primary">Actualizar</a>
+
+        </div>	
+        <div class="col-sm-5"></div>
+	</div>
+
+</div>

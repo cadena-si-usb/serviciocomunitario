@@ -632,3 +632,30 @@ CREATE TABLE t_fechas_tope_archive(
     current_record INTEGER REFERENCES t_fechas_tope (id) ON DELETE CASCADE  
 );
 success!
+timestamp: 2016-10-31T22:39:50.359995
+CREATE TABLE t_correo_envios(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    f_email CHAR(512) NOT NULL,
+    f_clave CHAR(512) NOT NULL DEFAULT 'Activo',
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-10-31T22:40:37.342072
+CREATE TABLE t_correo_envios_archive(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    f_email CHAR(512) NOT NULL,
+    f_clave CHAR(512) NOT NULL DEFAULT 'Activo',
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    current_record INTEGER REFERENCES t_correo_envios (id) ON DELETE CASCADE  
+);
+success!
+success!
+success!

@@ -83,7 +83,7 @@ jQuery(document).ready(function(){
 
   };
 
-  // Fechas topoe
+  // Actualizar Fechas tope
   jQuery('#fechas-tope-coord').on('click', function (e) {
     jQuery('#vista-coord').empty();
     jQuery('#vista-coord').html(miniloader);
@@ -98,6 +98,31 @@ jQuery(document).ready(function(){
           alert('Se ha cambiado la fecha exitosamente.');
         }
     });
+  }
+
+  // Actualizar cuenta de envio de correos
+  jQuery('#cuenta-correo-coord').on('click', function (e) {
+    jQuery('#vista-coord').empty();
+    jQuery('#vista-coord').html(miniloader);
+    ajax('actualizar_correo_de_envios', [], 'vista-coord');
+  });
+
+  actualizarCorreo=function(idCorreo){
+    var email=jQuery("#correo").val();
+    var clave=jQuery("#clave").val();
+    $.ajax('cambiar_correo_de_envios?id='+idCorreo+"&email="+email+"&clave="+clave).done(function(html) {
+        if (html=="Si"){
+          alert('Se ha cambiado la cuenta exitosamente.');
+        }
+    });
+  }
+
+  mostrarClave=function(){
+    if (jQuery("#mostrar").prop("checked")){
+      $("#clave").attr("type","text")
+    }else{
+      $("#clave").attr("type","password") 
+    }
   }
 
 });

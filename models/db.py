@@ -108,9 +108,8 @@ db.auth_user.password.requires = [IS_NOT_EMPTY(error_message='No puede estar vac
 
 from gluon.tools import Mail
 mail = Mail()
-mail.settings.server = 'smtp.gmail.com:587'
-mail.settings.sender = 'rivasjoel004@gmail.com'
-mail.settings.login = 'rivasjoel004@gmail.com:gabyv18730196'
+
+
 auth.settings.mailer = mail
 ## configure auth policy
 auth.settings.registration_requires_verification = False
