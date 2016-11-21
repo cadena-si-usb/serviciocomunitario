@@ -100,7 +100,7 @@ db.auth_user.first_name.requires = [IS_MATCH('^[a-z\.A-Z_áéíóúñ\s]*$',erro
 db.auth_user.last_name.requires  = [IS_MATCH('^[a-z\.A-Z_áéíóúñ\s]*$',error_message='Solo letras'),IS_NOT_EMPTY(error_message='No puede estar vacio.'),IS_LENGTH(minsize=2,maxsize=20,error_message='Al menos 2 caracteres y maximo 20 caracteres.')]
 db.auth_user.f_direccion.requires   = [IS_NOT_EMPTY(error_message='No puede estar vacio.'),IS_LENGTH(120,error_message='No puede tener mas de 120 caracteres.')]
 db.auth_user.f_cedula.requires   = [IS_NOT_EMPTY(error_message='No puede estar vacio.'),IS_MATCH('^[0-9]{7,8}$',error_message='Solo numeros, Ejemplo:13730196.'),IS_NOT_IN_DB(db, db.auth_user.f_cedula,error_message='Cedula ya existe en el sistema.')]
-db.auth_user.f_telefono.requires = [IS_NOT_EMPTY(error_message='No puede estar vacio.'),IS_MATCH('^0[1-9]{3}-[1-9]{7}$',error_message='Formato no reconocido, Ejemplos: 0239-2388765 , 0426-2329724.')]
+db.auth_user.f_telefono.requires = [IS_NOT_EMPTY(error_message='No puede estar vacio.'),IS_MATCH('^0[1-9]{3}-[0-9]{7}$',error_message='Formato no reconocido, Ejemplos: 0239-2388765 , 0426-2329724.')]
 db.auth_user.email.requires      = [IS_NOT_EMPTY(error_message='No puede estar vacio.'),IS_MATCH('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$',error_message='Formato de correo no reconocido, Ejemplo: example@example.com')]
 db.auth_group.description.requires = [IS_LENGTH(160,error_message='No puede tener mas de 160 caracteres.')]
 db.auth_group.role.requires = [IS_LENGTH(20,error_message='No puede tener mas de 20 caracteres.')]

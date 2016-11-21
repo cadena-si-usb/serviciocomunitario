@@ -12,26 +12,24 @@
 
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
     <link rel="stylesheet" href="{{=URL('static', 'css/font-awesome.min.css')}}">
-    <link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">
+    <!--<link rel="stylesheet" href="{{=URL('static', 'css/bootstrap.min.css')}}">-->
     <link rel="stylesheet" href="{{=URL('static', 'css/Estudiante.css')}}">
     <link rel="stylesheet" href="{{=URL('static', 'css/miestilo.css')}}">
     <link rel="shortcut icon" href="http://www.usb.ve/favicon.ico" />
 
     <!--<link rel="icon" href="{{=URL('static', 'logoUsb.png')}}">-->
 
-    <!-- Bootstrap core CSS -->
-    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">
+    <!-- Bootstrap core CSS 
+    <link href="{{=URL('static', 'css/bootstrap.css')}}" rel="stylesheet">-->
     <!-- Bootstrap theme -->
     <link href="{{=URL('static', 'css/bootstrap-theme.css')}}" rel="stylesheet">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
 
-    <script type="text/javascript" src="{{=URL('static', 'js/bootstrap.js')}}'"></script>
 
     <!-- Custom styles for this template -->
 
     <link href="{{=URL('static', 'css/theme.css')}}" rel="stylesheet">
     <link href="{{=URL('static', 'css/miestilo.css')}}" rel="stylesheet">
-    <link href="{{=URL('static', 'js/bootstrap.js')}}" rel="stylesheet">
 
   </head>
 
@@ -48,45 +46,28 @@
     <div class="col-sm-12">
 
         <div class="row">
-            <div style="text-align:center" class="col-md-2">
+            <div style="text-align:center" class="col-sm-2">
                 <img src="{{=picture}}" class="avatar img-circle" width="130"/>
             </div>
-            <div class="col-md-8" style="color:#4682B4">
+            <div class="col-sm-9" style="color:#4682B4">
 
                 <h4 > SIGESC / <b>Home</b> </h4>
 
                 <h4 >{{=bienvenida}}</h4>
                 <h4><b>Iniciado como: 
-                {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
-                  Estudiante
-                {{pass}}
-                {{if "Administrador" in roles:}}
-                Administrador
-                {{pass}}
-                {{if "Asistente" in roles:}}
-                Asistente
-                {{pass}}
-                {{if "Coordinador" in roles:}}
-                Coordinador
-                {{pass}}
-                
-                {{if not(tipo_usuario in ["Pregrado","Postgrado"]):}}
-                  {{if not("Administrador" in roles):}}
-                    {{if not("Coordinador" in roles):}}
-                      {{if not("Asistente" in roles):}}
-                        Visitante
-                      {{pass}}
-                    {{pass}}
-                  {{pass}}
+                {{if rolesUsuario:}}
+                  {{=" , ".join(rolesUsuario)}}
+                {{else:}}
+                  Visitante
                 {{pass}}
                 </b><h4>
                 
                 <a href="{{=URL('/editar_perfil')}}"><button class="btn btn-primary">Ver perfil</button></a>
                 
             </div>
-            <div class="col-md-2" align="right">
+            <div class="col-sm-1" align="right">
                 <a href="#" id="myBtn">
-                  <spam style="color:#d80000"class="glyphicon glyphicon-log-out">Salir</spam>
+                  <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
                 </a>
             </div>
 
@@ -123,7 +104,7 @@
 
     <hr>      
   
-  {{if tipo_usuario in ["Pregrado","Postgrado"]:}}
+  {{if "Estudiante" in rolesUsuario:}}
     <div class="row">
       <div class="col-md-4">
           <a href="{{=URL('vista_estudiante')}}">
@@ -147,7 +128,7 @@
     <hr>
   {{pass}}
 
-{{if "Administrador" in roles:}}
+{{if "Administrador" in rolesUsuario:}}
         <div class="row">
             <div class="col-md-4">
               <a href="{{=URL('administrador')}}">
@@ -174,7 +155,7 @@
 
 {{pass}}
 <!--
-{{if ("Asistente" in roles) or ("Coordinador" in roles):}}
+{{if ("Asistente" in rolesUsuario) or ("Coordinador" in rolesUsuario):}}
         <div class="row">
             <div class="col-md-4">
                 <img class="img-responsive" src="{{=URL('static', 'tutor.png')}}" height="155" width="265"/>
@@ -196,7 +177,7 @@
         <hr>
 {{pass}}-->
 
-{{if "Administrador Dex" in roles:}}
+{{if "Administrador Dex" in rolesUsuario:}}
         <div class="row">
 
             <div class="col-md-4">
@@ -220,7 +201,7 @@
 
 {{pass}}
 
-{{if esTutorAcademico:}}
+{{if "Tutor Academico" in rolesUsuario:}}
     <div class="row">
       <div class="col-md-4">
           <a href="{{=URL('solicitudes_tutor')}}">
@@ -272,7 +253,7 @@
     <hr>
 {{pass}}
 
-{{if esTutorComunitario:}}
+{{if "Tutor Comunitario" in rolesUsuario:}}
     <div class="row">
       <div class="col-md-4">
       <a href="{{=URL('proyectos_tutor_comunitario')}}">
@@ -297,7 +278,7 @@
     <hr>
 {{pass}}
 
-{{if "Coordinador" in roles:}}
+{{if "Coordinador" in rolesUsuario:}}
     <div class="row">
       <div class="col-md-4">
         <a href="{{=URL('coordinador')}}">
@@ -323,7 +304,7 @@
     <hr>
 {{pass}}
 
-{{if (("Coordinador" in roles)or("Administrador" in roles)):}}
+{{if (("Coordinador" in rolesUsuario)or("Administrador" in rolesUsuario)):}}
     <div class="row">
       <div class="col-md-4">
       <a href="{{=URL('reportes')}}">

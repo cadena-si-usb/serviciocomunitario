@@ -212,11 +212,20 @@
 					      <div class="panel-body">
 					      	<form class="form-horizontal">
 					      		<div class="form-group">
-							    	<label for="codigo">Carnet:</label>
+							    	<label for="codigo">USBID:</label>
 						    		<select class="form-control" name="estado" id="tutores-id">
 						    			<option value="All"> Todos</option>
 							      	{{for docente in docentes:}}
 							        	<option value={{=docente.auth_user.id}}>{{=docente.t_universitario.f_usbid}}</option>
+							      	{{pass}}
+								  	</select>
+							  	</div>
+							  	<div class="form-group">
+							    	<label for="codigo">Departamento:</label>
+						    		<select class="form-control" name="estado" id="tutores-departamento">
+						    			<option value="All"> Todos</option>
+							      	{{for docente in docentes:}}
+							        	<option value={{=docente.t_docente.id}}>{{=docente.t_docente.f_departamento}}</option>
 							      	{{pass}}
 								  	</select>
 							  	</div>

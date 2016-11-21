@@ -65,7 +65,7 @@
   </div>
 
 </div>
-<body onload="inicializar()">
+<body>
 
 	<header>
 		<div align="center">
@@ -84,13 +84,45 @@
 			      <a class="navbar-brand"  href="."><span class="glyphicon glyphicon-home"></span></a>
 			    </div>
 			    <div class="collapse navbar-collapse" id="myNavbar">
-			      <ul class="nav navbar-nav">
-			        <li><a href="#">¿Quiénes somos?</a></li>
-			        <li><a href="#">Formatos SC</a></li>
-			        <li><a href="#">Reglamentos SC</a></li>
-			        <li><a href="#">Decanato de extensión</a></li>
-			        <li><a href="#">Proyectos</a></li>
-			      </ul>
+			      	<ul class="nav navbar-nav">
+				    {{if rolesUsuario:}}
+				    	{{if db.auth_user(auth.user_id).f_confirmado:}}
+				    		<li><a href="{{=URL('editar_perfil')}}"> Ver perfil</a></li>
+				        	<li><a href="{{=URL('propuestas')}}"> Propuestas</a></li>
+						  	{{if "Estudiante" in rolesUsuario:}}
+						    	<li><a href="{{=URL('vista_estudiante')}}">Estudiante</a></li>
+						  	{{pass}}
+						  	
+							{{if "Coordinador" in rolesUsuario:}}
+							    <li><a href="{{=URL('coordinador')}}">Coordinador</a></li>
+							{{pass}}
+
+							{{if "Administrador" in rolesUsuario:}}
+							    <li><a href="{{=URL('administrador')}}">Administrador</a></li>
+							{{pass}}
+
+							{{if "Tutor Academico" in rolesUsuario:}}
+								<li><a href="{{=URL('proyectos_tutor_academico')}}">Tutor Academico</a></li>
+								<li><a href="{{=URL('solicitudes_tutor')}}">Planes de Trabajo</a></li>
+							{{pass}}
+
+							{{if "Tutor Comunitario" in rolesUsuario:}}
+							      <li><a href="{{=URL('proyectos_tutor_comunitario')}}">Tutor Comunitario</a></li>
+							{{pass}}
+
+							{{if (("Coordinador" in rolesUsuario)or("Administrador" in rolesUsuario)):}}
+							      <li><a href="{{=URL('reportes')}}">Reportes</a></li>
+							{{pass}}
+
+				        {{pass}}
+				    {{else:}}
+				        <li><a href="#">¿Quiénes somos?</a></li>
+				        <li><a href="#">Formatos SC</a></li>
+				        <li><a href="#">Reglamentos SC</a></li>
+				        <li><a href="#">Decanato de extensión</a></li>
+				        <li><a href="#">Proyectos</a></li>
+				    {{pass}}
+			    	</ul>
 			    </div>
 			  </div>
 			</nav>
@@ -115,8 +147,7 @@
 
 		<td valign="bottom">
 		<a href="https://www.usb.ve/estudios/calendario.html" target="_blank">Calendario </a>|<a href="https://www.usb.ve/telefonico/telefonico.php?tipo=personal" target="_blank"> Directorio USB </a>|<a href="https://asignaturas.usb.ve/" target="_blank"> Aula Virtual USB</a> |<a href="https://webmail.usb.ve/" target="_blank"> Webmail</a>|<a href="https://www.usb.ve/buscador.php" target="_blank"> Buscador</a><br>
-		Sartenejas, Baruta, Edo. Miranda - Apartado 89000 - Cable Unibolivar - Caracas Venezuela. Telefono +58 0212-9063111<br>
-		Disenada y desarrollada por la Direccion de Servicios Multimedia <a href="mailto:webmaster@usb.ve">webmaster@usb.ve</a></td>
+		Sartenejas, Baruta, Edo. Miranda - Apartado 89000 - Cable Unibolivar - Caracas Venezuela. Telefono +58 0212-9063111.</td>
 		</tr></tbody></table><p>
 		&nbsp;</p>
 	</div>

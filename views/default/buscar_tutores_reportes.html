@@ -47,16 +47,23 @@ $(document).ready(function() {
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-6"><h2>Tutores</h2></div><div class="col-md-6" style="padding-top: 25px;"></div>
-
+        <div class="col-md-12">
+        <p>
+          #I = Numero de estudiantes que inscribieron el proyecto. <br>
+          #R = Numero de estudiantes que retiraron el proyecto. <br>
+          #C = Numero de estudiantes que culminaron el proyecto. <br>
+        </p>
+        </div>
         <table class="table table-condensed" id="estuds-proyectos">
             <thead>
                 <tr>
                     <th align="left">Inicio</i></th>
                     <th align="left">Final</i></th>
-                    <th align="left">Carnet</th>
-                    <th align="left">Departamento</th>
+                    <th align="center"> USBID </th>
                     <th align="left">Proyecto</th>
-                    <th align="left">Inscritos</th>
+                    <th align="left">#I</th>
+                    <th align="left">#R</th>
+                    <th align="left">#C</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,13 +79,16 @@ $(document).ready(function() {
                     <a class="enlace" onclick="mostrarDetallesUsuario('{{=registro.auth_user.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.t_universitario.f_usbid}}</i></a>
                     </td>
                     <td>
-                        {{=registro.t_docente.f_departamento}}
-                    </td>
-                    <td>
                       <a class="enlace" onclick="detallesProyecto('{{=registro.t_proyecto_aprobado.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.t_proyecto.f_nombre}}</a>
                     </td>
                     <td>
                       {{=obtenerEstudiantesInscritos(registro.t_proyecto.id)}}
+                    </td>
+                    <td>
+                      {{=obtenerEstudiantesRetirados(registro.t_proyecto.id)}}
+                    </td>
+                    <td>
+                      {{=obtenerEstudiantesCulminados(registro.t_proyecto.id)}}
                     </td>
                 </tr>
                 {{ pass }}

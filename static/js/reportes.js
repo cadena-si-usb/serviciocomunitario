@@ -76,6 +76,7 @@ jQuery(document).ready(function(){
     jQuery('#vista-reportes').empty();
     jQuery('#vista-reportes').html(miniloader);
     ajax('buscar_tutores_reportes?idUsuario='+jQuery('#tutores-id').val()
+      +"&departamento="+jQuery('#tutores-departamento').val()
       , [], 'vista-reportes');
   });
 
