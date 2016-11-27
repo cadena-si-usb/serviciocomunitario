@@ -76,7 +76,7 @@ $(document).ready(function() {
                         {{=cambiarFormatoFecha(registro.t_proyecto.f_fechafin)}}
                     </td>
                     <td>
-                    <a class="enlace" onclick="mostrarDetallesUsuario('{{=registro.auth_user.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.t_universitario.f_usbid}}</i></a>
+                    <a class="enlace" onclick="mostrarDetallesUsuario('{{=registro.auth_user.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.auth_user.username}}</i></a>
                     </td>
                     <td>
                       <a class="enlace" onclick="detallesProyecto('{{=registro.t_proyecto_aprobado.id}}')" data-toggle="modal" data-target="#modalReportes">{{=registro.t_proyecto.f_nombre}}</a>

@@ -125,5 +125,35 @@ jQuery(document).ready(function(){
     }
   }
 
+  // Otorgar permisos Tutor
+  jQuery('#permiso-tutor-coord').on('click', function (e) {
+    jQuery('#vista-coord').empty();
+    jQuery('#vista-coord').html(miniloader);
+    ajax('otorgar_permisos_tutor', [], 'vista-coord');
+  });
+
+  mostrarDetallesUsuario=function(idUsuario){ 
+    jQuery('#detalles-usuario').empty();
+    jQuery('#detalles-usuario').html(miniloader);
+    ajax('admin_usuarios_detalles?id='+idUsuario, [], 'detalles-usuario'); 
+  };
+
+  otorgarPermiso=function(idUsuario,idPermisoTutor){ 
+    console.log(idUsuario);
+    $.ajax('agregar_permiso?idUsuario='+idUsuario+"&idRol="+idPermisoTutor).done(function(respuesta) {
+      console.log(respuesta);
+      jQuery("tr#"+idUsuario+" td.permiso").html(respuesta);
+      if (respuesta==="Otorgado"){
+        jQuery("tr#"+idUsuario+" td a.iconoPermiso").html('<i class="glyphicon glyphicon-remove"></i>');
+      }else{
+        jQuery("tr#"+idUsuario+" td a.iconoPermiso").html('<i class="glyphicon glyphicon-ok"></i>');
+      }
+      
+    }); 
+  }
+   
+
+
+
 });
   

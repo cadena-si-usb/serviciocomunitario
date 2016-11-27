@@ -72,33 +72,29 @@
   <body role="document">
     <!-- Fixed navbar -->
 
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="col-md-2">
-                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+      <div class="col-sm-12">
+          <div class="row">
+              <div class="col-sm-2">
+                  <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+              </div>
+              <div class="col-sm-9" align="left">
+                 <h4 style="color:#4682B4">SIGESC / <a href="{{=URL('home')}}">Home</a> / <a href="{{=URL('vista_estudiante')}}">Estudiante </a> / <a href="{{=URL(r=request,f='estudianteInscribeProyectos',args=estudianteId)}}">Inscribir Proyectos </a>
+                 / <b>{{=proyecto.f_proyecto.f_nombre}}</b></h4>
+                 <h4 style="color:#4682B4">{{=msj}}</h4>
+
+              </div>
+            <div class="col-sm-1" align="right">
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
             </div>
-            <div class="col-md-6" align="left">
-            <h4 style="color:#4682B4"><a href="."> Home</a> | <a href="{{=URL('vista_estudiante')}}">Estudiante</a>  | {{=proyecto.f_proyecto.f_nombre}} </h4>
-            
-            </div>
-            <div class="col-md-4" align="right">
-                <a href="{{=URL('default', 'user', args='logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
-            </div>
-        
-        
-        </div>
-        <hr>
-    </div>
+          </div>
+          <hr>
+      </div>
 
    <div class="col-sm-12">
        <div class="col-md-3">
-           <h4 style="color:#337AB7"><i class="glyphicon glyphicon-briefcase"></i> Menú</h4>
-            <hr>
-             <ul class="nav nav-stacked">
-             </ul>
        </div>
-        {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
-        {{else:}}
         <div class="col-md-5">
             <div class="row">
                 <div class="panel panel-primary">
@@ -111,7 +107,6 @@
                             
                             <tr><td><b>Código:</b> {{=proyecto.f_codigo}}</td></tr>
                             <tr><td><b>Nombre:</b> {{=proyecto.f_proyecto.f_nombre}}</td></tr>
-                            <tr><td><b>Descripción:</b> {{=proyecto.f_proyecto.f_resumen}}</td></tr>
                             <tr><td><b>Área:</b> {{=proyecto.f_proyecto.f_area.f_nombre}}</td></tr>
                             <tr><td><b>Estado:</b> {{=proyecto.f_estado_proyecto}}</td></tr>
                             <tr><td><b>Fecha de Inicio:</b> {{=proyecto.f_proyecto.f_fechaini}}</td></tr>
@@ -121,22 +116,22 @@
                               <li>{{=sede.f_sede.f_nombre}}</li>
                             {{pass}}
                             </td></tr>
-                            <tr><td><b>Comunidad:</b> {{=proyecto.f_proyecto.f_comunidad}}</td></tr>
+                            <tr><td><b>Comunidad:</b> {{=proyecto.f_proyecto.f_comunidad.f_nombre}}</td></tr>
                           
 
                         </table>
                     </div>
                 </div>
             </div>
-            <div id="" class="col-md-7" align="left" >
+            <div id="" class="col-md-12" align="center" >
                 <td><tr><b> Horas a inscribir </b></tr></td><br><br>
-            </div>
-            <input type="number" id="Hora" min="{{=horasDeber}}" max="120" value="{{=horasDeber}}">
-            <button id="btn-prueba" class="btn btn-success" style="width: 240px;" align="right">
+                <input type="number" id="Hora" min="{{=horasDeber}}" max="120" value="{{=horasDeber}}">
+            <button id="btn-prueba" class="btn btn-primary" style="width: 240px;margin-top:10px;text-align:center" align="right">
                  <i class="glyphicon glyphicon-plus-sign"></i> <b>Inscribir este proyecto</b>
             </button>
+            </div>
+
         </div>
 
       </div>
-  {{ pass }}
 {{ end }}

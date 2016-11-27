@@ -17,6 +17,10 @@ if len(db().select(db.auth_group.ALL)) == 0:
         role='Administrador',
         description='Administrador',
     )
+    db.auth_group.insert(
+        role='Permiso Tutor',
+        description='Permiso que le otorga el Coordinador a cualquier usuario para ser Tutor Academico.',
+    )
 
 if len(db().select(db.t_sede.ALL)) == 0:
     db.t_sede.insert(

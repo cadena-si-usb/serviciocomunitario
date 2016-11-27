@@ -1,32 +1,78 @@
 {{ extend 'base.html' }}
 {{ block contenido }}
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="col-md-2">
-                <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+
+<link href="{{=URL('static', 'css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<script type="text/javascript" src="{{=URL('static', 'js/jquery.dataTables.min.js')}}"></script>
+
+<script>
+$(document).ready(function() {
+
+  var idiomaEspañol={
+      "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  };
+
+  // Iniciacion de tabla
+  $('#estudsAux').DataTable({
+      "language": idiomaEspañol,
+      "order": [[ 0, 'asc' ]],
+      "columnDefs": [ {
+        "targets"  : 'no-sort',
+        "orderable": false,
+      }]
+  });
+});
+</script>
+
+      <div class="col-sm-12">
+          <div class="row">
+              <div class="col-sm-2">
+                  <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
+              </div>
+              <div class="col-sm-9" align="left">
+                 <h4 style="color:#4682B4">SIGESC / <a href="{{=URL('home')}}">Home</a> / <b>Solicitudes de planes de trabajo</b></h4>
+                 <h4 style="color:#4682B4">{{=msj}}</h4>
+
+              </div>
+            <div class="col-sm-1" align="right">
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
             </div>
-            <div class="col-md-6" align="left" style="color:#4682B4">
-               <h4 >SIGESC / <a href=".">Home</a> / Tutor Académico</h4>
-               <h4 >{{=bienvenida}}</h4>
-            </div>
-            <div class="col-md-4" align="right">
-                <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
-            </div>
-        </div>
-        <hr>
-    </div>
+          </div>
+          <hr>
+      </div>
 
 <div class="col-md-10" style="margin-left: 6%;">
-	<h2 class="detalles"><b>Solicitudes pendientes</b></h2>
-	<table class="table table-condensed text-center" id="estuds">
+	<h2 class="detalles"><b>Solicitudes de planes de trabajo pendientes.</b></h2>
+	<table class="table table-condensed text-center" id="estudsAux">
         <thead>
             <tr>
                 <th class="text-center">Nombre</i></th>
                 <th class="text-center">Carné</th>
                 <th class="text-center">Proyecto</th>
-				<th class="text-center">Trimestre</th>
-                <th class="text-center">Plan de Trabajo</th>
-				<th class="text-center">Rechazar</th>
+                <th class="text-center no-sort">Plan de Trabajo</th>
+				<th class="text-center no-sort">Rechazar</th>
             </tr>
         </thead>
         <tbody>
@@ -39,17 +85,7 @@
                         <td>
                             {{=ins.f_estudiante.f_universitario.f_usbid}}
                         </td>
-                        <td>
-                            <a href="{{=URL(r=request,f='proyectosDetalles',args=ins.f_proyecto.id)}}">{{=ins.f_proyecto.f_nombre}}</a>
-                        </td>
-                        <td>
-                            {{ if 1 <= ins.created_on.month <= 3:}}
-                                Abril-Julio {{=ins.created_on.year}}
-                            {{ elif 4 <= ins.created_on.month <= 8:}}
-                                Septiembre-Diciembre {{=ins.created_on.year}}
-                            {{ else:}}
-                                Enero-Marzo {{=ins.created_on.year+1}}
-                            {{ pass }}
+                        <td>{{=ins.f_proyecto.f_nombre}}
                         </td>
                         {{ if ins in enviados:}}
                             <td class="text-center">

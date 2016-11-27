@@ -72,11 +72,14 @@ jQuery(document).ready(function(){
   }; 
   
   // Buscar por Tutores
+  //var docentes={{=XML(docentes)}};
+  console.log(docentes);
+
   jQuery('#generar-tutores').on('click', function (e) {
     jQuery('#vista-reportes').empty();
     jQuery('#vista-reportes').html(miniloader);
-    ajax('buscar_tutores_reportes?idUsuario='+jQuery('#tutores-id').val()
-      +"&departamento="+jQuery('#tutores-departamento').val()
+    ajax('buscar_tutores_reportes?username='+jQuery("#tags").val()
+      +"&departamento=All"
       , [], 'vista-reportes');
   });
 
@@ -85,6 +88,15 @@ jQuery(document).ready(function(){
     jQuery('#detalles-estudiantes').html(miniloader);
     ajax('admin_proyectos_detalles?id='+idProyectoAprobado, [], 'detalles-estudiantes'); 
   }; 
+
+  var aux=[]
+  for (var i in docentes){
+    aux.push(docentes[i]["usbid"]);
+  }
+
+  $( "#tags" ).autocomplete({
+    source: aux
+  });
 
 });
   

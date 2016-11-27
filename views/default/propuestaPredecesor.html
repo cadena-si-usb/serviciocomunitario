@@ -32,20 +32,22 @@
     <!-- Contenido -->
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-md-2">
-                <img src="{{=URL('static', 'proyects2.png')}}" class="img-responsive" width="150" height="110"/>
+            <div class="col-sm-2">
+                <img src="{{=URL('static', 'proponente.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
-            <div class="col-md-4" align="left">
-                <h4 style="color:#4682B4"><a href=".">Home</a> /<a href="{{=URL('vista_admin')}}"> Admin </a> / <a href="#">Propuestas </a> </h4>
+            <div class="col-sm-6" align="left">
+                <h4 style="color:#4682B4">SIGESC / <a href="{{=URL('home')}}">Home</a> / <a href="{{=URL('propuestas')}}">Propuestas</a> / <b>Crear Propuesta</b> </h4>
+                <h4>{{=msj}}</h4>
+
             </div>
-            <div class="col-md-6" align="right">
-                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            <div class="col-sm-4" align="right">
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
             </div>
         </div>
         <hr>
     </div>
-    {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
-    {{else:}}
         
     <div class="col-sm-12">
       <form action="" method="POST">
@@ -56,10 +58,11 @@
             {{pass}}
           </select>
         </div>
-        <input type="submit" class="btn btn-default" value="Hacer propuesta en base a este proyecto">
+        <div style="text-align:center">
+        <input type="submit" class="btn btn-primary" value="Hacer propuesta en base a este proyecto">
         <span>ó</span>
-        <a href="{{=URL('propuestasCrear')}}" class="btn btn-default">Crear una nueva propuesta</a>
+        <a href="{{=URL('propuestasCrear')}}" class="btn btn-primary">Crear una nueva propuesta</a>
+        </div>
       </form>
     </div>
-    {{ pass }}
 {{ end }}

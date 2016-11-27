@@ -5,13 +5,15 @@
             <div class="col-sm-2">
                 <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
-            <div class="col-sm-6" align="left">
-               <h4 style="color:#4682B4">SIGESC /<a href="."> Home</a> /<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> / Culminar Proyecto</h4>
+            <div class="col-sm-9" align="left">
+               <h4 style="color:#4682B4">SIGESC /<a href="."> Home</a> /<a href="{{=URL('vista_estudiante')}}"> Estudiante </a> / <b>Culminar Proyecto</b></h4>
                <h4 style="color:#4682B4">{{=bienvenida}}</h4>
 
             </div>
-            <div class="col-sm-4" align="right">
-                <a href="{{=URL('default', 'logout')}}"> Salir <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            <div class="col-sm-1" align="right">
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
             </div>
         </div>
         <hr>
@@ -91,7 +93,11 @@
 
           {{ pass }}
           </div>
-  </div>
+      </div>
+        <div class="col-sm-12">
+          <hr>
+        </div>
+      </div>
   {{ pass }}
 
 {{ end }}

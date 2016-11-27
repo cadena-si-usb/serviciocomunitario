@@ -47,20 +47,22 @@
     <!-- Contenido -->
     <div class="col-sm-12">
         <div class="row">
-            <div class="col-md-2">
-                <img src="{{=URL('static', 'proyects2.png')}}" class="img-responsive" width="150" height="110"/>
+            <div class="col-sm-2">
+                <img src="{{=URL('static', 'proponente.png')}}" class="img-responsive" width="150" height="110"/>
             </div>
-            <div class="col-md-4" align="left">
-                <h4 style="color:#4682B4"><a href="{{=URL('home')}}"> Home </a> / <a href="{{=URL('propuestas')}}">Propuestas </a> / <a href="#">Propuesta</a> </h4>
+            <div class="col-sm-6" align="left">
+                <h4 style="color:#4682B4">SIGESC / <a href="{{=URL('home')}}">Home</a> / <a href="{{=URL('propuestas')}}">Propuestas</a> / <b>Crear Propuesta</b> </h4>
+                <h4>{{=msj}}</h4>
+
             </div>
-            <div class="col-md-6" align="right">
-                <a href=".">Salida <img src="{{=URL('static', 'img/salida_icon.png')}}"/></a>
+            <div class="col-sm-4" align="right">
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
             </div>
         </div>
         <hr>
     </div>
-    {{if globals().get('msj', False):}} <p><strong>{{=msj}}</strong></p>
-    {{else:}}
         
     <div class="col-sm-12">
       
@@ -253,7 +255,6 @@
               {{elif pag == 5:}}
               <div class="form-group">               
                 <div class="secc_actividades">
-                
                   <table class="table table-striped tbl tbl_actividades">
                     <thead><th>Actividades:</th></thead>
                     <tbody>
@@ -264,7 +265,7 @@
                       	    <span>{{=actividad['f_nombre']}}</span>
                       	    <a href='#' class='act_remove glyphicon glyphicon-remove pull-right' data-id='{{=i}}'></a>
                             <a href='#' class='act_edit glyphicon glyphicon-pencil pull-right' data-id='{{=i}}'></a>
-                      	   </td>
+                      	</td>
                       </tr>
                       {{pass}}
                     </tbody>
@@ -308,7 +309,6 @@
                   <button type="button" id="agregar_act" class="btn btn-default btn-block">Agregar actividad</button>
                 </div>
               </div> <!--cerrando form-group-->
-              
               {{elif pag == 6:}}
               <div class="form-group">               
                 <div class="secc_plan">
@@ -417,7 +417,6 @@
     </div>
       <input type="text" id="mensaje" value="{{=message}}" style="display:none">
 
-    {{ pass }}
 <div class="row container">
 
   <!-- Modal -->

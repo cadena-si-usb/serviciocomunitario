@@ -157,6 +157,10 @@ def esRIF(usuario):
 
     return False
 
+def bienvenida():
+    usuario = db.auth_user(auth.user_id)
+    return'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
+
 @auth.requires_login()
 def logout():
     es_interno = db.auth_user(auth.user_id)['f_tipo'] != 'Externo'
@@ -268,7 +272,8 @@ def obtenerListaRolesUsuario():
     for rol in db(db.auth_membership.user_id==auth.user_id).select():
         rolesUsuario.append(db(db.auth_group.id==rol.group_id).select()[0].role)
 
-    esTutorAcademico= db(db.t_proyecto_tutor.f_tutor==auth.user_id).select().first() !=None
+    idRolPermisoTutor=db(db.auth_group.role=="Permiso Tutor").select().first().id
+    esTutorAcademico= ((db(db.t_proyecto_tutor.f_tutor==auth.user_id).select().first() !=None) or (db((db.auth_membership.user_id==auth.user_id)&(db.auth_membership.group_id==idRolPermisoTutor)).select().first() !=None))
 
     esTutorComunitario = db(db.t_proyecto_tutor_comunitario.f_tutor==auth.user_id).select().first() !=None
 
@@ -869,14 +874,39 @@ def sedesEditar():
 '''
 
 # Reportes
+@auth.requires_membership('Coordinador','Administrador')
 def reportes():
+
+    idRolPermisoTutor=db(db.auth_group.role=="Permiso Tutor").select().first().id
+    tutores_con_permiso=db(db.auth_membership.group_id==idRolPermisoTutor).select()
+
+    lista_tutores = db((db.auth_user.f_tipo == 'Docente')|(db.auth_user.f_tipo == 'Interno')|(db.auth_user.f_tipo == 'Empleado')|(db.auth_user.f_tipo == 'Administrativo')).select()
+    
+    tutores = [
+            {
+                'id': int(p.id),
+                'usbid': p.username
+            } for p in lista_tutores
+        ]
+
+    tutores2 = [
+            {
+                'id': int(p.user_id),
+                'usbid': p.user_id.username
+            } for p in tutores_con_permiso
+        ]   
+
+    docentes=tutores+tutores2
+
+
     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
-    return dict(rolesUsuario=obtenerListaRolesUsuario(),
+    return dict(
+        rolesUsuario=obtenerListaRolesUsuario(),
         msj = msj,
         comunidades=db().select(db.t_comunidad.ALL),
         areas=db().select(db.t_area.ALL),
         carreras=db().select(db.t_carrera.ALL),
-        docentes=db((db.auth_user.f_tipo=="Docente")&(db.auth_user.id==db.t_universitario.f_usuario)&(db.t_docente.f_universitario==db.t_universitario.id)).select()
+        docentes=docentes
         )
 
 def home_reportes():
@@ -995,12 +1025,14 @@ def buscar_estudiantes_reportes():
     return dict(obtenerHorasConfirmadasDeEstudiante=obtenerHorasConfirmadasDeEstudiante,operacion=operacion,registros=db(consulta).select(),cambiarFormatoFecha=cambiarFormatoFecha)
 
 def buscar_tutores_reportes():
-    idUsuario=request.vars.idUsuario
+    username=request.vars.username
+    if username=="":
+        idUsuario="All"
+    else:
+        idUsuario=db(db.auth_user.username==username).select().first().id
     consulta=db.t_proyecto_tutor.f_proyecto==db.t_proyecto.id
     consulta&=db.t_proyecto.id==db.t_proyecto_aprobado.f_proyecto
     consulta&=db.t_proyecto_tutor.f_tutor==db.auth_user.id
-    consulta&=db.t_universitario.f_usuario==db.auth_user.id
-    consulta&=db.t_universitario.id==db.t_docente.f_universitario
 
     if idUsuario!="All":
         consulta&=db.t_proyecto_tutor.f_tutor==idUsuario
@@ -1017,6 +1049,7 @@ def buscar_tutores_reportes():
 
 
 # Coordinador
+@auth.requires_membership('Coordinador')
 def coordinador():
     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
     return dict(rolesUsuario=obtenerListaRolesUsuario(),msj = msj)
@@ -1080,7 +1113,28 @@ def coord_aprobar_culminacion_estudiante():
     inscripcion.update(f_actual=False)
     return "Si"
 
+def otorgar_permisos_tutor():
+    idRolPermisoTutor=db(db.auth_group.role=="Permiso Tutor").select().first().id
+
+    return dict(
+        idRolPermisoTutor=idRolPermisoTutor,
+        registrados=db((db.auth_user.f_tipo != 'Docente')&(db.auth_user.f_tipo != 'Interno')&(db.auth_user.f_tipo != 'Empleado')&(db.auth_user.f_tipo != 'Administrativo')).select())
+
+def agregar_permiso():
+    idUsuario=long(request.vars.idUsuario)
+    idPermiso = long(request.vars.idRol)
+
+    permiso=db((db.auth_membership.user_id==idUsuario)&(db.auth_membership.group_id==idPermiso)).select().first()
+    print permiso
+    if permiso:
+        db((db.auth_membership.user_id==idUsuario)&(db.auth_membership.group_id==idPermiso)).delete()
+        return "No otorgado"
+    else:
+        db.auth_membership.insert(user_id=idUsuario,group_id=idPermiso)
+        return "Otorgado"
+
 # Administrador
+@auth.requires_membership('Administrador')
 def administrador():
     msj= 'Bienvenid@ %s %s' % (auth.user.first_name,auth.user.last_name)
     return dict(rolesUsuario=obtenerListaRolesUsuario(),msj = msj)
@@ -1702,14 +1756,14 @@ def proyectos_tutor_comunitario():
     tutor     = db.auth_user(auth.user_id)
     msj       = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     proyectos = db(db.t_proyecto_tutor_comunitario.f_tutor==tutor).select()
-    return dict(bienvenida=msj,proyectos=proyectos)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),bienvenida=msj,proyectos=proyectos)
 
 def proyectos_tutor_academico():
     tutor     = db.auth_user(auth.user_id)
 
     msj       = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     proyectos = db(db.t_proyecto_tutor.f_tutor==tutor).select()
-    return dict(bienvenida=msj,proyectos=proyectos)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),bienvenida=msj,proyectos=proyectos)
 
 def proyecto_tutor_academico():
     tutor       = db.auth_user(auth.user_id)
@@ -1717,7 +1771,7 @@ def proyecto_tutor_academico():
     proyecto    = db(db.t_proyecto.id==id_proy).select().first()
     msj         = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     estudiantes = db((db.t_estudiante.id==db.t_cursa.f_estudiante)&(db.t_cursa.f_proyecto==id_proy)&(db.t_cursa.f_actual==True)).select()
-    return dict(estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
 
 def proyecto_tutor_comunitario():
     tutor       = db.auth_user(auth.user_id)
@@ -1725,7 +1779,7 @@ def proyecto_tutor_comunitario():
     proyecto    = db(db.t_proyecto.id==id_proy).select().first()
     msj         = 'Bienvenid@ %s %s' % (tutor.first_name,tutor.last_name)
     estudiantes = db((db.t_estudiante.id==db.t_cursa.f_estudiante)&(db.t_cursa.f_proyecto==id_proy)&(db.t_cursa.f_actual==True)).select()
-    return dict(estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),estudiantes=estudiantes,bienvenida=msj,proyecto=proyecto)
 
 #AJAX confirmacion de actividad
 def confirmar_actividad():
@@ -1740,7 +1794,7 @@ def bitacora_de_estudiante():
     estudiante = db(db.t_estudiante.id==id_est).select().first()
     bitacora   = db((db.t_actividad_estudiante.f_cursa==proyecto) & (db.t_actividad_estudiante.f_realizada==True)).select()
     print bitacora
-    return dict(bienvenida=msj,bitacora=bitacora,estudiante=estudiante,proyecto=proyecto)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),bienvenida=msj,bitacora=bitacora,estudiante=estudiante,proyecto=proyecto)
 
 #AJAX completar actividad
 def completar_actividad():
@@ -1786,7 +1840,7 @@ def estado_estudiante():
             response.flash = 'form has errors'
         else:
             response.flash = 'please fill out the form'
-    return dict(rows=usuario, bienvenida=msj,estudianteId=estudiante.id, tutores=tutores,
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),rows=usuario, bienvenida=msj,estudianteId=estudiante.id, tutores=tutores,
                 proyecto=proyecto, actividades=actividades, planoperativo=planoperativo,
                 horas_realizadas=horas_realizadas, tutores_comunitarios=tutores_comunitarios)
 
@@ -1829,14 +1883,17 @@ def vista_estudiante():
     if proyectoInscrito:
         pInscrito = 'proyecto inscrito'
         tutor = db(db.t_inscripcion.f_estudiante==estudiante).select().last()
+        print "---"
         aprob_tutor = tutor.f_estado
+        print aprob_tutor
+        print pActividad
         aprob_coord = cursa.f_valido
     else:
         aprob_tutor = 'tutorVacio'
         aprob_coord = 'coordVacio'
     print pActividad
     estudianteId = estudiante.id
-    return dict(usuario=usuario,estudianteId=estudianteId,horas_confirmadas=horas_realizadas,estudiante=estudiante,
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),usuario=usuario,estudianteId=estudianteId,horas_confirmadas=horas_realizadas,estudiante=estudiante,
                 bienvenida=msj,proyecto=proyecto,pInscrito=pInscrito,pActividad=pActividad,
                 aprob_tutor=aprob_tutor,aprob_coord=aprob_coord,cursa=cursa,tutor=tutor,estt=estt)
 
@@ -1864,7 +1921,7 @@ def retirar_proyecto():
     else:
         print('please fill the form')
 
-    return dict(estudiante=usuario, bienvenida=msj,proyecto=proyecto)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),estudiante=usuario, bienvenida=msj,proyecto=proyecto)
 
 '''def retiro():
     x = long(request.args[1])
@@ -1910,7 +1967,7 @@ def culminar_proyecto():
         horasDeber=30
     else:
         horasDeber=40
-    return dict(horasDeber=horasDeber,horas=horas_realizadas,error=error, estudiante=usuario, bienvenida=msj,proyecto=proyecto)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),horasDeber=horasDeber,horas=horas_realizadas,error=error, estudiante=usuario, bienvenida=msj,proyecto=proyecto)
 
 
 ############# PDF
@@ -2150,7 +2207,9 @@ def solicitudes_tutor():
         act += db(db.t_actividad_estudiante.f_cursa==cursa.id).select()
         if act:
             listaEnviados += [ins]
-    return dict(proyectos = listaProyectosTutores, bienvenida=msj,listaInscripcion=listaInscripcion,enviados=listaEnviados)
+    return dict(
+        rolesUsuario=obtenerListaRolesUsuario(),
+        msj=bienvenida(),proyectos = listaProyectosTutores, bienvenida=msj,listaInscripcion=listaInscripcion,enviados=listaEnviados)
 
 '''
 def solicitud_constancia_coordinacion():
@@ -2179,7 +2238,9 @@ def solicitud_plan_de_trabajo():
     for celda in listaActividades:
         listaStringActividades += (str((celda.id))) + '/'
 
-    return dict(proyectos = listaProyectosTutores,bienvenida=msj,listaInscripcion=listaInscripcion,
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),
+        msj=bienvenida(),
+        proyectos = listaProyectosTutores,bienvenida=msj,listaInscripcion=listaInscripcion,
                 estudiante=estudiante[0],proyecto=proyecto[0],listaActividades=listaActividades,
                 inscripcion=inscripcion,idProyecto=idProyecto,estudianteID=idEstudiante,
                 listaStringActividades=listaStringActividades)
@@ -2203,7 +2264,8 @@ def enviarPlanTrabajo():
             #idActividad = db(db.t_actividad.id==j).select()
             db.t_actividad_estudiante.insert(f_cursa=idCursa,f_actividad=long(lista[j]),f_horas=int(listaHoras[j]))
 
-    return dict(idProyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,bienvenida=msj,lista=lista)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),
+        msj=bienvenida(),idProyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,bienvenida=msj,lista=lista)
 
 '''
 @auth.requires_membership('Administrador')
@@ -2264,6 +2326,7 @@ def proyectos():
         response.flash = 'Llene el formulario'
     return dict(form=form, proyectos=db(db.t_project.f_estado_del=="Activo").select(),message=T(response.flash))
 '''
+
 #@auth.requires(auth.has_membership(role='Administrador') or auth.has_membership(role='Proponentes'))
 def propuestas():
     es_adm = 'Coordinador' in auth.user_groups.values()
@@ -2280,14 +2343,48 @@ def propuestas():
             } for p in db().select(db.t_propuesta.ALL)
         ]
     else:
-        propuestas = [
+        propuestasProponente=db(db.t_propuesta.f_proponente==auth.user_id).select()
+        propuestasTutor=db(db.t_proyecto_tutor.f_tutor==auth.user_id).select()
+        propuestasTutorComunitario=db(db.t_proyecto_tutor_comunitario.f_tutor==auth.user_id).select()
+
+        propuestasAux = [
             {
                 'id': p.f_proyecto,
                 'nombre': db.t_proyecto(p.f_proyecto).f_nombre,
                 'estado': p.f_estado_propuesta
-            } for p in db(db.t_propuesta.f_proponente==auth.user.id).select()
+            } for p in propuestasProponente
         ]
-    return dict(rolesUsuario=obtenerListaRolesUsuario(),es_adm = es_adm,propuestas=propuestas,message=T(response.flash))
+
+        propuestasAux2= [
+            {
+                'id': p.f_proyecto,
+                'nombre': db.t_proyecto(p.f_proyecto).f_nombre,
+                'estado': db(db.t_propuesta.f_proyecto==p.f_proyecto).select().first().f_estado_propuesta
+            } for p in propuestasTutor
+        ]
+
+        propuestasAux3=[
+            {
+                'id': p.f_proyecto,
+                'nombre': db.t_proyecto(p.f_proyecto).f_nombre,
+                'estado': db(db.t_propuesta.f_proyecto==p.f_proyecto).select().first().f_estado_propuesta
+            } for p in propuestasTutorComunitario
+        ]
+
+        props=propuestasAux+propuestasAux2+propuestasAux3
+
+        seen = set()
+        propuestas = []
+        for d in props:
+            t = tuple(d.items())
+            if t not in seen:
+                seen.add(t)
+                propuestas.append(d)
+
+    usuario = db.auth_user(auth.user_id)
+    msj= 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
+
+    return dict(msj=msj,rolesUsuario=obtenerListaRolesUsuario(),es_adm = es_adm,propuestas=propuestas,message=T(response.flash))
 
 def fixJSON(json,arrayNames):
     for arrayName in arrayNames:
@@ -2349,7 +2446,8 @@ def propuestasDetalles():
         objetivos = objetivos,
         plan_operativo = plan_operativo,
         tutores = tutores,
-        tutores_comunitarios = tutores_comunitarios
+        tutores_comunitarios = tutores_comunitarios,
+        msj=bienvenida()
     )
 
 def verProyectoEstudiante():
@@ -2374,7 +2472,8 @@ def verProyectoEstudiante():
         objetivos = objetivos,
         plan_operativo = plan_operativo,
         tutores = tutores,
-        tutores_comunitarios = tutores_comunitarios
+        tutores_comunitarios = tutores_comunitarios,
+        msj=bienvenida()
     )
 
 def propuestasEditar():
@@ -2399,7 +2498,10 @@ def propuestaPredecesor():
         db.t_propuesta.insert(f_proyecto=proyecto_id)
         redirect(URL('propuestasCrear',vars=dict(proyecto_id=proyecto_id)))
 
-    return dict(rolesUsuario=obtenerListaRolesUsuario(),proyectos=proyectos)
+    usuario = db.auth_user(auth.user_id)
+    msj= 'Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name)
+
+    return dict(msj=msj,rolesUsuario=obtenerListaRolesUsuario(),proyectos=proyectos)
 
 
 def propuestasCrear():
@@ -2602,6 +2704,7 @@ def propuestasCrear():
             tutores_comunitarios=tutores_comunitarios,
             proyecto_id = proyecto_id,
             propuesta_id = propuesta_id,
+            msj=bienvenida()
         )
 
     #fix arrays
@@ -2631,7 +2734,11 @@ def propuestasCrear():
 
 
     # Obtener lista de todos los tutores
+    idRolPermisoTutor=db(db.auth_group.role=="Permiso Tutor").select().first().id
+    tutores_con_permiso=[(tutor.user_id, '{} {}'.format(tutor.user_id.first_name,tutor.user_id.last_name)) for tutor in db(db.auth_membership.group_id==idRolPermisoTutor).select()]
+
     lista_tutores = [(tutor.id, '{} {}'.format(tutor.first_name,tutor.last_name)) for tutor in db((db.auth_user.f_tipo == 'Docente')|(db.auth_user.f_tipo == 'Interno')|(db.auth_user.f_tipo == 'Empleado')|(db.auth_user.f_tipo == 'Administrativo')).select()]
+    lista_tutores=lista_tutores + tutores_con_permiso
     lista_tutores_comunitarios = [(tutor.id, '{} {}'.format(tutor.first_name,tutor.last_name)) for tutor in db(db.auth_user).select()]
 
     # Obtener lista de sedes
@@ -2745,7 +2852,8 @@ def propuestasCrear():
         actividades_js = "[]",
         obj_especificos_js = "[]",
         plan_operativo_js = "[]",
-        estado_propuesta = ""
+        estado_propuesta = "",
+        msj=bienvenida()
     )
     def soft_validation(form):
         print("Validación suave")
@@ -2980,7 +3088,7 @@ def estudianteCursa():
     else:
         horasDeber=40
         
-    return dict(horasDeber=horasDeber,sedes=sedes,proyecto=db(db.t_proyecto_aprobado.f_proyecto==idProyecto).select()[0],estudianteId=idEstudiante,idProyecto=idProyecto)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),msj=bienvenida(),horasDeber=horasDeber,sedes=sedes,proyecto=db(db.t_proyecto_aprobado.f_proyecto==idProyecto).select()[0],estudianteId=idEstudiante,idProyecto=idProyecto)
 '''
 def cursa():
     idProyecto = long(request.args[0])
@@ -3054,7 +3162,8 @@ def estudiante_plan_trabajo():
     print cursa
     listaActividades = db(db.t_actividad_estudiante.f_cursa==cursa).select()
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
-    return dict(listaActividades=listaActividades,bienvenida=msj,idEstudiante=idEstudiante)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),
+        msj=bienvenida(),listaActividades=listaActividades,bienvenida=msj,idEstudiante=idEstudiante)
 
 def rechazar_solicitud_tutor():
     idProyecto = long(request.args[0])
@@ -3092,8 +3201,10 @@ def aceptarPlanTrabajo():
         mensaje="Se ha rechazado el plan de trabajo. Volver."
         cursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_actual==True)).select().last()
         db(db.t_actividad_estudiante.f_cursa==cursa).delete()
+        db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_actual==True)).update(f_estado='Pendiente')
 
-    return dict( mensaje=mensaje,estado=estado)
+    return dict( rolesUsuario=obtenerListaRolesUsuario(),
+        msj=bienvenida(),mensaje=mensaje,estado=estado)
 
 """def rechazarProyectoEstudiante():
     idProyecto = long(request.args[0])
@@ -3104,13 +3215,15 @@ def registrarProyectoComoEstudiante():
     idProyecto = long(request.args[0])
     idEstudiante = long(request.args[1])
     dropdown = request.args[2]
+    cursa=db((db.t_cursa.f_estudiante==idEstudiante) & (db.t_cursa.f_estado=="Pendiente")).select().first()
+    if not(cursa):
+        db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_valido="Invalido")
+        cursa=db(db.t_cursa.f_estudiante==idEstudiante).select().last()
+        mensaje = "Registro de proyecto exitoso. Volver al Menú"
+        db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown,f_actual=True,f_cursa=cursa.id)
 
-    db.t_cursa.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_valido="Invalido")
-    cursa=db(db.t_cursa.f_estudiante==idEstudiante).select().last()
-    mensaje = "Registro de proyecto exitoso. Volver al Menú"
-    db.t_inscripcion.insert(f_estudiante=idEstudiante,f_proyecto=idProyecto,f_estado="Pendiente",f_horas = dropdown,f_actual=True,f_cursa=cursa.id)
-
-    return dict(proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,dropdown=dropdown)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),
+        msj=bienvenida(),proyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,dropdown=dropdown)
 '''
 @auth.requires_membership('Administrador')
 def sede_manage():
@@ -3209,7 +3322,7 @@ def estudianteInscribeProyectos():
     fechaTope1=db(db.t_fechas_tope.f_tipo=="Inscripción").select().first()
     fechaTope2=db(db.t_fechas_tope.f_tipo=="Inscripción Extemporánea").select().first()
     ahora=datetime.datetime.today().date()
-    return dict(ultimoProyectoCursado=ultimoProyectoCursado,noRespuestaProyecto=noRespuestaProyecto,ahora=ahora,fechaTope1=fechaTope1,fechaTope2=fechaTope2,estudiante=estudiante,proyectos=db(db.t_proyecto_aprobado.f_estado_proyecto=="Activo").select(),estudianteId=estudiante.id, mensaje=mensaje,bienvenida=msj)
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),ultimoProyectoCursado=ultimoProyectoCursado,noRespuestaProyecto=noRespuestaProyecto,ahora=ahora,fechaTope1=fechaTope1,fechaTope2=fechaTope2,estudiante=estudiante,proyectos=db(db.t_proyecto_aprobado.f_estado_proyecto=="Activo").select(),estudianteId=estudiante.id, mensaje=mensaje,bienvenida=msj)
 
 
 '''

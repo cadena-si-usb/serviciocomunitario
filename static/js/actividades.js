@@ -147,8 +147,58 @@ $(document).ready(function() {
 		fila.remove();
 	})
 
-	editing = false;
-	$('body').on('click', '.act_edit', function(e) {
+	$('body').on('click', '.tbl_objetivos .act_edit', function(e) {
+		e.preventDefault();
+		nro_act = $(this).data('id');
+		fila = $(this).parent().parent();
+		obj=objetivos[nro_act];
+		
+		//console.log(obj);
+
+		// LLenamos el formulario para que se pueda modificar.
+		jQuery(".secc_objetivos .objetivo_obj").val(obj["f_objetivo"]);
+
+		// Borramos la actividad
+		objetivos.splice(nro_act, 1);
+		$('.tbl_objetivos .act_remove').each(function(i,e) {
+			curId = $(e).data('id');
+			if (curId >= nro_act) {
+				$(e).data('id',curId-1);
+			}
+		}) 
+		fila.remove();
+	})
+
+	editing = true;
+	$('body').on('click', '.tbl_actividades .act_edit', function(e) {
+		e.preventDefault();
+		nro_act = $(this).data('id');
+		fila = $(this).parent().parent();
+		var act=actividades[nro_act];
+
+		//console.log(act);
+
+		// LLenamos el formulario para que se pueda modificar.
+		jQuery(".secc_actividades .nombre_act").val(act["f_nombre"]);
+		jQuery(".secc_actividades .resumen_act").val(act["f_resumen"]);
+		jQuery(".secc_actividades .alumnos_act").val(act["f_alumnos"]);
+		jQuery(".secc_actividades .recursos_act").val(act["f_recursos"]);
+		jQuery(".secc_actividades .costo_act").val(act["f_costo"]);
+		jQuery(".secc_actividades .recursos_propios_act").val(act["f_recursos_propios"]);
+		jQuery(".secc_actividades .aportes_otros_act").val(act["f_aportes_otros"]);
+		jQuery(".secc_actividades .aportes_dex_act").val(act["f_aportes_dex"]);
+		jQuery(".secc_actividades .monto_total_act").val(act["f_monto_total"]);
+
+
+		// Borramos la actividad
+		actividades.splice(nro_act, 1);
+		$('.tbl_actividades .act_remove').each(function(i,e) {
+			curId = $(e).data('id');
+			if (curId >= nro_act) {
+				$(e).data('id',curId-1);
+			}
+		}) 
+		fila.remove();
 		
 	})
 
@@ -180,6 +230,35 @@ $(document).ready(function() {
 		e.preventDefault();
 		nro_act = $(this).data('id');
 		fila = $(this).parent().parent();
+		filas.splice(nro_act, 1);
+		$('.tbl_filas .act_remove').each(function(i,e) {
+			curId = $(e).data('id');
+			if (curId >= nro_act) {
+				$(e).data('id',curId-1);
+			}
+		}) 
+		fila.remove();
+	})
+
+	$('body').on('click', '.tbl_filas .act_edit', function(e) {
+		e.preventDefault();
+		nro_act = $(this).data('id');
+		fila = $(this).parent().parent();
+
+		plan=filas[nro_act];
+		console.log(filas[nro_act]);
+
+		// LLenamos el formulario para que se pueda modificar.
+		jQuery(".secc_plan #no_table_f_actividad").val(plan.f_actividad);
+		jQuery(".secc_plan #no_table_f_objetivo").val(plan.f_objetivo);
+		jQuery(".secc_plan #no_table_f_meta").val(plan.f_meta);
+		jQuery(".secc_plan #no_table_f_recursos").val(plan.f_recursos);
+		jQuery(".secc_plan #no_table_f_responsable").val(plan.f_responsable);
+		jQuery(".secc_plan #no_table_f_resultados_esperados").val(plan.f_resultados_esperados);
+		jQuery(".secc_plan #no_table_f_tiempo").val(plan.f_tiempo);
+
+
+		// Borramos la fila del plan
 		filas.splice(nro_act, 1);
 		$('.tbl_filas .act_remove').each(function(i,e) {
 			curId = $(e).data('id');

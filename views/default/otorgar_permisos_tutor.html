@@ -1,0 +1,131 @@
+<link href="{{=URL('static', 'css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<script type="text/javascript" src="{{=URL('static', 'js/jquery.dataTables.min.js')}}"></script>
+<script>
+$(document).ready(function() {
+
+  var idiomaEspañol={
+      "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  };
+
+  // Iniciacion de tabla
+  $('#estuds').DataTable( {
+      "language": idiomaEspañol,
+      "order": [[ 0, 'desc' ]],
+      "columnDefs": [ {
+        "targets"  : 'no-sort',
+        "orderable": false,
+      }]
+  } );
+
+});
+  
+
+</script>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Usuarios</h2>
+        <table class="table table-condensed" id="estuds">
+            <thead>
+                <tr>
+                    <th> Usuario</i></th>
+                    <th align="right">Identificacion</th>
+                    <th align="right">Email</th>
+                    <th align="right">Tipo</th>
+                    <th align="right">Permiso</th>
+                    <th align="right" class="no-sort"></th>
+                    <th align="right" class="no-sort"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{for usuario in registrados:}}
+
+                <tr id={{=usuario.id}}>
+                    <td>
+                        {{=usuario.username}}
+                    </td>
+                    <td>
+                        {{=usuario.first_name}} {{=usuario.last_name}}
+                    </td>
+                    <td>
+                        {{=usuario.email}}
+                    </td>
+                    <td>
+                        {{=usuario.f_tipo}}
+                    </td>
+
+                    <td class="permiso">
+                      {{if (db((db.auth_membership.user_id==usuario.id)&(db.auth_membership.group_id==idRolPermisoTutor)).select().first()):}}
+                        Otorgado
+                      {{else:}}
+                        No otorgado
+                      {{pass}}
+                    </td>
+                    <td>
+                    <a class="enlace" onclick="mostrarDetallesUsuario('{{=usuario.id}}')" data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-search"></i></a>
+                    </td>
+                    <td align="center">
+                    <div style="display:none" >
+                    <input name="idusuario" value={{=usuario.id}} /></div>
+                    <a class="enlace iconoPermiso" onclick="otorgarPermiso('{{=usuario.id}}','{{=idRolPermisoTutor}}')">
+                      {{if (db((db.auth_membership.user_id==usuario.id)&(db.auth_membership.group_id==idRolPermisoTutor)).select().first()):}}
+                        <i class="glyphicon glyphicon-remove"></i>
+                      {{else:}}
+                        <i class="glyphicon glyphicon-ok"></i>
+                      {{pass}}
+                    </a>
+                    </td>
+                </tr>
+                {{ pass }}
+          </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row container">
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Información Usuario</h4>
+        </div>
+        <div class="modal-body">
+          <div id="detalles-usuario"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+

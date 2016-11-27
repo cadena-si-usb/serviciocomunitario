@@ -3,7 +3,14 @@
 	<head>
 	  	<link rel="stylesheet" href="{{=URL('static', 'css/datepicker.css')}}">
 	  	<link rel="stylesheet" href="{{=URL('static', 'css/administrador.css')}}">
+	  	<link rel="stylesheet" href="{{=URL('static', 'css/jquery-ui.css')}}">
 	  	<script type="text/javascript" src="{{=URL('static', 'js/jquery.js')}}"></script>
+	  	<script type="text/javascript" src="{{=URL('static', 'js/jquery-ui.js')}}"></script>
+
+		<script type="text/javascript">
+      		var docentes = {{=XML(docentes)}};
+      	</script>
+
 	    <script type="text/javascript" src="{{=URL('static', 'js/reportes.js')}}"></script>
 	    <script type="text/javascript" src="{{=URL('static', 'js/web2py.js')}}"></script>  
 		<script type="text/javascript" src="{{=URL('static', 'js/bootstrap-datepicker.js')}}"></script>
@@ -32,8 +39,7 @@
 			        }
 
 			});
-		</script>
-	</head>
+		</script>	</head>
 	<body class="row" >
 	   <div class="col-sm-12">
 	    	<div class="row">
@@ -41,13 +47,15 @@
 		            <img src="{{=URL('static', 'estudiantes.png')}}" class="img-responsive" width="150" height="110"/>
 		        </div>
 		        <div class="col-md-6" align="left">
-		           <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / Reportes </a> </h4>
+		           <h4 style="color:#4682B4">SIGESC / <a href=".">Home</a> / <b>Reportes</b> </a> </h4>
 		           <h4 style="color:#4682B4">{{=msj}}</h4>
 
 		        </div>
 		        <div class="col-md-4" align="right">
-		            <a href="{{=URL('default', 'logout')}}"><spam class="glyphicon glyphicon-log-out">Salir</spam></a>
-		        </div>
+                <a href="#"  id="myBtn">
+                    <spam style="color:#d80000" class="glyphicon glyphicon-log-out">Salir</spam>
+                </a><br><br>
+            </div>
 	    	</div>
 	    	<hr>
 		</div>
@@ -211,24 +219,19 @@
 					    <div id="collapse3" class="panel-collapse collapse">
 					      <div class="panel-body">
 					      	<form class="form-horizontal">
-					      		<div class="form-group">
+					      		<!--<div class="form-group">
 							    	<label for="codigo">USBID:</label>
 						    		<select class="form-control" name="estado" id="tutores-id">
 						    			<option value="All"> Todos</option>
 							      	{{for docente in docentes:}}
-							        	<option value={{=docente.auth_user.id}}>{{=docente.t_universitario.f_usbid}}</option>
+							        	<option value={{=docente["id"]}}>{{=docente["usbid"]}}</option>
 							      	{{pass}}
 								  	</select>
-							  	</div>
-							  	<div class="form-group">
-							    	<label for="codigo">Departamento:</label>
-						    		<select class="form-control" name="estado" id="tutores-departamento">
-						    			<option value="All"> Todos</option>
-							      	{{for docente in docentes:}}
-							        	<option value={{=docente.t_docente.id}}>{{=docente.t_docente.f_departamento}}</option>
-							      	{{pass}}
-								  	</select>
-							  	</div>
+							  	</div>-->
+							  	<div class="form-group ui-widget">
+								  <label for="tags">USBID: </label>
+								  <input id="tags" placeholder="Todos">
+								</div>
 						  	</form>
 						  	<a id="generar-tutores" class="btn btn-primary">Generar Reporte</a>	
 					      </div>
