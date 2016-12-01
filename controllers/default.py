@@ -63,6 +63,56 @@ class Actividad:
 #    form=auth()
 #    return dict(form=form)
 
+
+# Envios de correos del sistema.
+def enviarCorreo(usuario,sujeto,mensaje):
+    correoEnviado=mail.send(to=usuario.email, subject=sujeto, \
+    message='Estimado ' +usuario.first_name+" "+usuario.last_name+","  +'\n\n' + \
+                mensaje+'\n\n' + \
+    'Programa de Servicio Comunitario\nCoordinación de Formación Complementaria General\n'+ \
+    'http://cfcg.dex.usb.ve\nUniversidad Simón Bolívar\n'+ \
+    'Edif. Ciencias Básicas I (CB1), 1er Piso, Tel. +58-212-906-3363\n')
+
+    return correoEnviado
+
+def enviarCorreoVarios(correos,saludo,sujeto,mensaje):
+    correoEnviado=mail.send(to=correos, subject=sujeto, \
+    message=saludo  +'\n\n' + \
+                mensaje+'\n\n' + \
+    'Programa de Servicio Comunitario\nCoordinación de Formación Complementaria General\n'+ \
+    'http://cfcg.dex.usb.ve\nUniversidad Simón Bolívar\n'+ \
+    'Edif. Ciencias Básicas I (CB1), 1er Piso, Tel. +58-212-906-3363\n')
+
+    return correoEnviado
+
+def enviarCorreoInteresadosProyecto(idProyecto,estado):
+    tproyecto=db.t_proyecto(idProyecto)
+
+    tutores_academicos=db(db.t_proyecto_tutor.f_proyecto==idProyecto).select()
+    correos_tutores_academicos=[db.auth_user(tutor.f_tutor).email for tutor in tutores_academicos]
+
+    tutores_comunitarios=db(db.t_proyecto_tutor_comunitario.f_proyecto==idProyecto).select()
+    correos_tutores_comunitarios=[db.auth_user(tutor.f_tutor).email for tutor in tutores_comunitarios]
+
+    idRolCoordinador=db(db.auth_group.role=="Coordinador").select().first().id
+    usuarios_coordinadores=db(db.auth_membership.group_id==idRolCoordinador).select()
+    correos_coordinadores=[coordinador.user_id.email for coordinador in usuarios_coordinadores]
+
+    correos=correos_tutores_comunitarios+correos_tutores_academicos+correos_coordinadores
+
+    tpropuesta=db(db.t_propuesta.f_proyecto==idProyecto).select().first()
+    correos.append(tpropuesta.f_proponente.email)
+
+    saludo="Saludos cordiales,"
+    sujeto="Estado de Proyecto de Servicio Comunitario"
+
+    mensaje="Proyecto de Servicio Comunitario: " + tproyecto.f_nombre+"\n" \
+            +"Estado: "+ estado\
+            + ".\n"
+
+    return enviarCorreoVarios(correos, saludo, sujeto, mensaje) 
+
+
 def verificar(form):
     return dict(form=form)
 
@@ -87,12 +137,13 @@ def verificarCorreo():
 
     db(db.auth_user.id == usuario.id).update(registration_key="",f_confirmado=True)
 
-    return dict(picture=pictureUsuario(),msj="Se ha verificado su correo exitosamente.",bienvenida='Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name))
+    return dict(rolesUsuario=obtenerListaRolesUsuario(),picture=pictureUsuario(),msj="Se ha verificado su correo exitosamente.",bienvenida='Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name))
 
 
 def verifiqueCorreo():
     usuario = db.auth_user(auth.user_id)
-    return dict(picture=pictureUsuario(),bienvenida='Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name),msj="Se le ha enviado un correo para verificar su registro.")
+    return dict(
+        rolesUsuario=obtenerListaRolesUsuario(),picture=pictureUsuario(),bienvenida='Bienvenid@ %s %s' % (usuario.first_name,usuario.last_name),msj="Se le ha enviado un correo para verificar su registro.")
 
 def recuperarCuenta():
     return dict()
@@ -112,10 +163,10 @@ def buscarCuenta():
     registration_key = web2py_uuid()
     db(db.auth_user.id == usuario.id).update(reset_password_key=registration_key)
 
-    mail.send(to=usuario.email, subject='Cambiar contraseña', \
-    message='Hola %s,\n\n' %usuario.first_name + \
-    'Para cambiar su contraseña, por favor click al siguiente enlace:\n' + \
-    '%s\n\n' %URL('default', 'cambiarClave/%s' %registration_key, host=request.env.http_host))
+    mensaje='Para cambiar su contraseña, por favor click al siguiente enlace:\n' + \
+    '%s\n\n' %URL('default', 'cambiarClave/%s' %registration_key, host=request.env.http_host)
+    
+    enviarCorreo(usuario, 'Cambiar contraseña', mensaje)
 
     return "Si"  
 
@@ -294,10 +345,10 @@ def home():
         registration_key = web2py_uuid()
         db(db.auth_user.id == auth.user_id).update(registration_key=registration_key)
         
-        mail.send(to=usuario.email, subject='Confirma tu registro', \
-          message='Hola %s, Bienvenido al Sistema de Gestion de Servicio Comunitario!\n\n' %usuario.first_name + \
-            'Para finalizar su registro, por favor click al siguiente enlace:\n' + \
-            '%s\n\n' %URL('default', 'verificarCorreo/%s' %registration_key, host=request.env.http_host))
+        mensaje='Para finalizar su confirmación de correo, por favor click al siguiente enlace:\n' + \
+            '%s\n\n' %URL('default', 'verificarCorreo/%s' %registration_key, host=request.env.http_host)
+
+        enviarCorreo(usuario,'Confirmación de correo',mensaje)
 
         redirect(URL("verifiqueCorreo"))
     
@@ -1069,6 +1120,31 @@ def coord_aprobar_solicitud_estudiante():
     proyecto_cursa=db(db.t_cursa.id==idCursa)
     proyecto_cursa.update(f_valido='Valido')
     proyecto_cursa.update(f_estado='Aprobado')
+
+    tcursa=db.t_cursa(idCursa)
+    testudiante=db.t_estudiante(tcursa.f_estudiante)
+    tuniversitario=db.t_universitario(testudiante.f_universitario)
+    usuario=db.auth_user(tuniversitario.f_usuario)
+
+    sujeto="Solicitud de inscripción de Proyecto de Servicio Comunitario"
+    mensaje="Se ha aprobado su solicitud de inscripción de Proyecto de Servicio Comunitario."
+
+    enviarCorreo(usuario, sujeto, mensaje)
+
+    tproyecto=db.t_proyecto(tcursa.f_proyecto)
+    tutores_academicos=db(db.t_proyecto_tutor.f_proyecto==tcursa.f_proyecto).select()
+
+    correos=[db.auth_user(tutor.f_tutor).email for tutor in tutores_academicos]
+
+    saludo="Estimados Tutores Academicos,"
+    sujeto="Inscripción de Estudiante"
+
+    mensaje="Proyecto de Servicio Comunitario: " + tproyecto.f_nombre+"\n" \
+            +"El estudiante "+ usuario.first_name +" "+ usuario.last_name\
+            + " se ha inscrito en este proyecto.\n"
+
+    enviarCorreoVarios(correos, saludo, sujeto, mensaje)  
+
     return "Si"
 
 def coord_retiros_estudiantes():
@@ -1083,6 +1159,17 @@ def coord_aprobar_retiro_estudiante():
     
     inscripcion=db(db.t_inscripcion.f_cursa==idCursa)
     inscripcion.update(f_actual=False)
+
+    tcursa=db.t_cursa(idCursa)
+    testudiante=db.t_estudiante(tcursa.f_estudiante)
+    tuniversitario=db.t_universitario(testudiante.f_universitario)
+    usuario=db.auth_user(tuniversitario.f_usuario)
+
+    sujeto="Solicitud de retiro de Proyecto de Servicio Comunitario"
+    mensaje="Se ha aprobado su solicitud de retiro de Proyecto de Servicio Comunitario."
+
+    enviarCorreo(usuario, sujeto, mensaje)
+
     return "Si"
 
 def obtenerHorasConfirmadasDeEstudiante(idCursa):
@@ -1111,6 +1198,17 @@ def coord_aprobar_culminacion_estudiante():
 
     inscripcion=db(db.t_inscripcion.f_cursa==idCursa)
     inscripcion.update(f_actual=False)
+    
+    tcursa=db.t_cursa(idCursa)
+    testudiante=db.t_estudiante(tcursa.f_estudiante)
+    tuniversitario=db.t_universitario(testudiante.f_universitario)
+    usuario=db.auth_user(tuniversitario.f_usuario)
+
+    sujeto="Solicitud de culminación de Proyecto de Servicio Comunitario"
+    mensaje="Se ha aprobado su solicitud de culminación de Proyecto de Servicio Comunitario."
+
+    enviarCorreo(usuario, sujeto, mensaje)
+
     return "Si"
 
 def otorgar_permisos_tutor():
@@ -1784,6 +1882,17 @@ def proyecto_tutor_comunitario():
 #AJAX confirmacion de actividad
 def confirmar_actividad():
     actividad = db(db.t_actividad_estudiante.id==request.vars.id).update(f_confirmada=True)
+    actividad = db(db.t_actividad_estudiante.id==request.vars.id).select().first()
+    tcursa=db.t_cursa(actividad.f_cursa)
+    testudiante=db.t_estudiante(tcursa.f_estudiante)
+    tuniversitario=db.t_universitario(testudiante.f_universitario)
+    usuario=db.auth_user(tuniversitario.f_usuario)
+
+    sujeto="Bitacora de Estudiante de Proyecto de Servicio Comunitario"
+    mensaje="Se ha editado su bitacora."
+
+    enviarCorreo(usuario, sujeto, mensaje)
+
     return ""
 
 def bitacora_de_estudiante():
@@ -1799,6 +1908,27 @@ def bitacora_de_estudiante():
 #AJAX completar actividad
 def completar_actividad():
     actividad = db(db.t_actividad_estudiante.id==request.vars.id).update(f_realizada=True)
+    actividad = db(db.t_actividad_estudiante.id==request.vars.id).select().first()
+    tcursa=db.t_cursa(actividad.f_cursa)
+    tproyecto=db.t_proyecto(tcursa.f_proyecto)
+    tutores_comunitarios=db(db.t_proyecto_tutor_comunitario.f_proyecto==tcursa.f_proyecto).select()
+
+    correos=[db.auth_user(tutor.f_tutor).email for tutor in tutores_comunitarios]
+
+    print correos
+
+    testudiante=db.t_estudiante(tcursa.f_estudiante)
+    tuniversitario=db.t_universitario(testudiante.f_universitario)
+    usuario=db.auth_user(tuniversitario.f_usuario)
+
+    saludo="Estimados Tutores Comunitarios,"
+    sujeto="Bitacora de Estudiante de Proyecto de Servicio Comunitario"
+    mensaje="Proyecto de Servicio Comunitario: " + tproyecto.f_nombre+"\n" \
+            +"El estudiante "+ usuario.first_name +" "+ usuario.last_name\
+            + " a actualizado su bitacora.\n"
+
+    enviarCorreoVarios(correos, saludo, sujeto, mensaje)
+
     return ""
 
 #@auth.requires_membership('Estudiantes')
@@ -2256,13 +2386,23 @@ def enviarPlanTrabajo():
             lista.append(request.args[i+2])
             listaHoras.append(request.args[i+2+1+tope*2])
     msj = 'Bienvenid@ %s %s' % (auth.user.first_name, auth.user.last_name)
-    mensaje = 'Plan de Trabajo enviado'
     idCursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_proyecto==idProyecto)&(db.t_cursa.f_actual==True)).select().last()
     noExisteCursa=db(db.t_actividad_estudiante.f_cursa==idCursa).select().first()==None
     if noExisteCursa:
         for j in range(len(lista)):
             #idActividad = db(db.t_actividad.id==j).select()
             db.t_actividad_estudiante.insert(f_cursa=idCursa,f_actividad=long(lista[j]),f_horas=int(listaHoras[j]))
+        
+        testudiante=db.t_estudiante(idEstudiante)
+        tuniversitario=db.t_universitario(testudiante.f_universitario)
+        usuario=db.auth_user(tuniversitario.f_usuario)
+
+        sujeto="Proyecto de Servicio Comunitario"
+        mensaje="Tutor Academico ha enviado el plan de trabajo."
+
+        enviarCorreo(usuario, sujeto, mensaje)
+
+    mensaje = 'Plan de Trabajo enviado'
 
     return dict(rolesUsuario=obtenerListaRolesUsuario(),
         msj=bienvenida(),idProyecto=idProyecto,estudianteID=idEstudiante,mensaje=mensaje,bienvenida=msj,lista=lista)
@@ -2692,6 +2832,7 @@ def propuestasCrear():
                 f_codigo=codigo,
                 f_estado_proyecto='Activo'
             )
+            enviarCorreoInteresadosProyecto(proyecto_id, propuesta.f_estado_propuesta)
         else:
             r = db(db.t_proyecto_aprobado.f_proyecto==proyecto_id).select()
             print(r)
@@ -2952,8 +3093,10 @@ def propuestasCrear():
                     f_estado_propuesta = 'En espera de revision'
                 )
                 res['estado_propuesta'] = 'En espera de revision'
+                enviarCorreoInteresadosProyecto(proyecto_id, 'En espera de revision')
             else:
-                res['estado_propuesta'] = propuesta.f_estado_propuesta 
+                res['estado_propuesta'] = propuesta.f_estado_propuesta
+                enviarCorreoInteresadosProyecto(proyecto_id, propuesta.f_estado_propuesta) 
             response.flash = '1'
     else:
         print("Fallo la validacion", form.errors)
@@ -3170,7 +3313,7 @@ def rechazar_solicitud_tutor():
     idEstudiante = long(request.args[1])
     estudiante = db(db.t_estudiante.id==idEstudiante).select().first()
     print '>>>>>> ', estudiante.f_universitario.f_usuario.first_name
-    return dict(proyecto=db(db.t_proyecto.id==idProyecto).select()[0], estudiante=estudiante)
+    return dict(msj=bienvenida(),rolesUsuario=obtenerListaRolesUsuario(),proyecto=db(db.t_proyecto.id==idProyecto).select()[0], estudiante=estudiante)
 '''
 def aprobar_solicitud_coordinacion():
     idProyecto = long(request.args[1])
@@ -3188,23 +3331,54 @@ def eliminar_inscripcion():
     idEstudiante = long(request.args[1])
     db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_actual==True)).delete()
     db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_actual==True)).delete()
+    
+
+    testudiante=db.t_estudiante(idEstudiante)
+    tuniversitario=db.t_universitario(testudiante.f_universitario)
+    usuario=db.auth_user(tuniversitario.f_usuario)
+
+    sujeto="Solicitud de inscripción de Proyecto de Servicio Comunitario"
+    mensaje="Tutor Academico ha eliminado su inscripción de Proyecto de Servicio Comunitario"
+
+    enviarCorreo(usuario, sujeto, mensaje)
+
     mensaje="Solicitud rechazada. Volver a solicitudes."
-    return dict(proyecto=idProyecto, mensaje=mensaje)
+
+    return dict(msj=bienvenida(),rolesUsuario=obtenerListaRolesUsuario(),proyecto=idProyecto, mensaje=mensaje)
 
 def aceptarPlanTrabajo():
     estado = request.args[0]
     idEstudiante = long(request.args[1])
+    cursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_actual==True)).select().last()
+
     if estado == 'aceptado':
-        mensaje="Plan de trabajo aceptado con éxito. Volver."
+        mensaje2="Plan de trabajo aceptado con éxito. Volver."
         db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_actual==True)).update(f_estado='Aprobado')
     else:
-        mensaje="Se ha rechazado el plan de trabajo. Volver."
-        cursa = db((db.t_cursa.f_estudiante==idEstudiante)&(db.t_cursa.f_actual==True)).select().last()
+        mensaje2="Se ha rechazado el plan de trabajo. Volver."
         db(db.t_actividad_estudiante.f_cursa==cursa).delete()
         db((db.t_inscripcion.f_estudiante==idEstudiante)&(db.t_inscripcion.f_actual==True)).update(f_estado='Pendiente')
 
+    testudiante=db.t_estudiante(idEstudiante)
+    tuniversitario=db.t_universitario(testudiante.f_universitario)
+    usuario=db.auth_user(tuniversitario.f_usuario)
+
+    tproyecto=db.t_proyecto(cursa.f_proyecto)
+    tutores_academicos=db(db.t_proyecto_tutor.f_proyecto==cursa.f_proyecto).select()
+
+    correos=[db.auth_user(tutor.f_tutor).email for tutor in tutores_academicos]
+
+    saludo="Estimados Tutores Academicos,"
+    sujeto="Plan de trabajo"
+
+    mensaje="Proyecto de Servicio Comunitario: " + tproyecto.f_nombre+"\n" \
+            +"El estudiante "+ usuario.first_name +" "+ usuario.last_name\
+            + " a "+ estado +" el plan de trabajo.\n"
+
+    enviarCorreoVarios(correos, saludo, sujeto, mensaje)  
+
     return dict( rolesUsuario=obtenerListaRolesUsuario(),
-        msj=bienvenida(),mensaje=mensaje,estado=estado)
+        msj=bienvenida(),mensaje=mensaje2,estado=estado)
 
 """def rechazarProyectoEstudiante():
     idProyecto = long(request.args[0])
